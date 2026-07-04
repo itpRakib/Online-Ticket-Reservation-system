@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { Ticket, Mail, Lock, AlertCircle, RefreshCw } from 'lucide-react';
 
-export default function Login() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
@@ -119,5 +119,17 @@ export default function Login() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-[80vh] items-center justify-center">
+        <div className="h-8 w-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { api } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
@@ -9,7 +9,7 @@ import {
   MapPin, Ticket, ShieldCheck, Printer, LogOut, Check, X
 } from 'lucide-react';
 
-export default function Dashboard() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const { user, refreshProfile, logout, language } = useAuth();
   const t = (en: string, bn: string) => (language === 'bn' ? bn : en);
@@ -98,8 +98,8 @@ export default function Dashboard() {
       setCancelSuccess(res.message || 'Ticket cancelled successfully.');
       
       // Update local state of the ticket list
-      setBookings(prev => prev.map(b => b.id === selectedTicket.id ? { ...b, status: 'CANCELLED' } : b));
-      setSelectedTicket(prev => prev ? { ...prev, status: 'CANCELLED' } : null);
+      setBookings((prev: any[]) => prev.map(b => b.id === selectedTicket.id ? { ...b, status: 'CANCELLED' } : b));
+      setSelectedTicket((prev: any) => prev ? { ...prev, status: 'CANCELLED' } : null);
       
       // Close modal after delay
       setTimeout(() => {
@@ -545,4 +545,17 @@ function formatTime(dtStr: string) {
   } catch (e) {
     return dtStr;
   }
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
+        <div className="h-10 w-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        <span className="text-slate-400 font-medium">Loading passenger dashboard...</span>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
+  );
 }

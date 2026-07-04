@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { api } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
@@ -9,7 +9,7 @@ import {
   ArrowRight, UserCheck, Armchair, ShoppingBag, ShieldAlert 
 } from 'lucide-react';
 
-export default function BookTrip() {
+function BookTripContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -511,5 +511,18 @@ export default function BookTrip() {
 
       </div>
     </div>
+  );
+}
+
+export default function BookTrip() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
+        <div className="h-10 w-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        <span className="text-slate-400 font-medium">Loading booking details...</span>
+      </div>
+    }>
+      <BookTripContent />
+    </Suspense>
   );
 }

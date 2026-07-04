@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { api } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
@@ -10,7 +10,7 @@ import {
   MapPin, Calendar, Clock, AlertTriangle, ArrowRight, CheckCircle2, Lock 
 } from 'lucide-react';
 
-export default function SearchResults() {
+function SearchResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { user, loading: authLoading, language } = useAuth();
@@ -471,5 +471,18 @@ function RefreshCwIcon(props: React.SVGProps<SVGSVGElement>) {
       <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
       <path d="M3 21v-5h5" />
     </svg>
+  );
+}
+
+export default function SearchResults() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
+        <div className="h-10 w-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        <span className="text-slate-400 font-medium">Loading search results...</span>
+      </div>
+    }>
+      <SearchResultsContent />
+    </Suspense>
   );
 }
