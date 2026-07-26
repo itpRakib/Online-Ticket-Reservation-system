@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 
 export interface User {
   id: number;
@@ -26,15 +26,29 @@ export const api = {
     return null;
   },
 
+  getRefreshToken(): string | null {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('refresh_token');
+    }
+    return null;
+  },
+
   setAuthToken(token: string) {
     if (typeof window !== 'undefined') {
       localStorage.setItem('token', token);
     }
   },
 
+  setRefreshToken(token: string) {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('refresh_token', token);
+    }
+  },
+
   clearAuthToken() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
+      localStorage.removeItem('refresh_token');
     }
   },
 
@@ -62,10 +76,37 @@ export const api = {
     const response = await fetch(url, mergedOptions);
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || errorData.detail || 'Something went wrong');
+      const message = errorData.error || errorData.detail || errorData.message || 'Something went wrong';
+      throw new Error(message);
     }
 
     return response.json() as Promise<T>;
+  },
+
+  // Attempt to refresh the access token using the stored refresh token
+  async refreshAccessToken(): Promise<string | null> {
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) return null;
+
+    try {
+      const response = await fetch(`${BASE_URL}/auth/token/refresh/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh: refreshToken }),
+      });
+
+      if (!response.ok) {
+        this.clearAuthToken();
+        return null;
+      }
+
+      const data = await response.json();
+      this.setAuthToken(data.access);
+      return data.access;
+    } catch {
+      this.clearAuthToken();
+      return null;
+    }
   },
 
   // Auth APIs

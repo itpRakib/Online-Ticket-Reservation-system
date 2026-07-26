@@ -241,9 +241,6 @@ export default function Register() {
 
   return (
     <div className="flex min-h-[90vh] flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 h-96 w-96 rounded-full bg-emerald-500/5 blur-[100px] pointer-events-none" />
-
       {/* Simulated OTP Notification Banner */}
       {toastMessage && (
         <div className="fixed top-20 right-4 z-50 max-w-md rounded-2xl bg-slate-900 border border-slate-800 p-4 shadow-2xl transition-all duration-300 text-slate-100 flex items-start space-x-3">
@@ -257,7 +254,7 @@ export default function Register() {
               {toastMessage.includes('Gmail') ? 'Gmail Server Delivery' : 'SIM SMS Gateway'}
             </h4>
             <p className="text-xs font-mono mt-1 text-slate-200">{toastMessage}</p>
-            <p className="text-[10px] text-slate-400 mt-2">This mocks a real SMS/Email API payload.</p>
+            <p className="text-xs text-slate-400 mt-2">This mocks a real SMS/Email API payload.</p>
           </div>
           <button onClick={() => setToastMessage('')} className="text-xs text-slate-500 hover:text-white font-bold ml-auto cursor-pointer">✕</button>
         </div>
@@ -268,7 +265,7 @@ export default function Register() {
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
             <Ticket className="h-6 w-6 rotate-12" />
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight">Create an Account</h2>
+          <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Create an Account</h2>
           <p className="mt-2 text-sm text-slate-400">
             Verify SIM, Gmail, and NID to secure your reservation capability.
           </p>
@@ -293,7 +290,7 @@ export default function Register() {
                   }`}>
                     {s.num}
                   </div>
-                  <span className="text-[10px] font-semibold text-slate-500 tracking-wider hidden sm:inline">{s.label}</span>
+                  <span className="text-xs font-semibold text-slate-500 tracking-wider hidden sm:inline">{s.label}</span>
                 </div>
                 {s.num < 5 && (
                   <div className={`flex-1 h-0.5 mx-2 transition-all ${
@@ -419,7 +416,7 @@ export default function Register() {
                   placeholder="017XXXXXXXX"
                 />
               </div>
-              <p className="text-[10px] text-slate-500 mt-1">Accepts any 11-digit mobile number starting with 013, 014, 015, 016, 017, 018, 019.</p>
+              <p className="text-xs text-slate-500 mt-1">Accepts any 11-digit mobile number starting with 013, 014, 015, 016, 017, 018, 019.</p>
             </div>
 
             {!simOtpSent ? (
@@ -449,7 +446,7 @@ export default function Register() {
                       placeholder="XXXXXX"
                     />
                   </div>
-                  <div className="flex justify-between items-center text-[10px] mt-1.5">
+                  <div className="flex justify-between items-center text-xs mt-1.5">
                     <span className="text-slate-500">Code expires in: <span className={`font-bold ${simTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(simTimer / 60)}:{(simTimer % 60).toString().padStart(2, '0')}</span></span>
                     <span className="text-emerald-400">Tip: Check simulated notification.</span>
                   </div>
@@ -458,7 +455,7 @@ export default function Register() {
                       type="button"
                       disabled={loading || (simTimer > 90)}
                       onClick={handleSendSimOtp}
-                      className="text-xs font-semibold text-emerald-400 hover:text-emerald-350 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
+                      className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
                     >
                       {simTimer > 90 ? `Resend OTP in ${simTimer - 90}s` : 'Resend SMS Verification Code'}
                     </button>
@@ -469,7 +466,7 @@ export default function Register() {
                   <button
                     type="button"
                     onClick={() => setSimOtpSent(false)}
-                    className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-300 transition-all cursor-pointer"
+                    className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-400 transition-all cursor-pointer"
                   >
                     Back / Re-enter
                   </button>
@@ -531,7 +528,7 @@ export default function Register() {
                       placeholder="XXXXXX"
                     />
                   </div>
-                  <div className="flex justify-between items-center text-[10px] mt-1.5">
+                  <div className="flex justify-between items-center text-xs mt-1.5">
                     <span className="text-slate-500">Code expires in: <span className={`font-bold ${emailTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(emailTimer / 60)}:{(emailTimer % 60).toString().padStart(2, '0')}</span></span>
                     <span className="text-emerald-400">Tip: Check simulated notification.</span>
                   </div>
@@ -540,7 +537,7 @@ export default function Register() {
                       type="button"
                       disabled={loading || (emailTimer > 90)}
                       onClick={handleSendEmailOtp}
-                      className="text-xs font-semibold text-emerald-400 hover:text-emerald-350 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
+                      className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
                     >
                       {emailTimer > 90 ? `Resend OTP in ${emailTimer - 90}s` : 'Resend Email Verification Code'}
                     </button>
@@ -551,7 +548,7 @@ export default function Register() {
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-300 transition-all cursor-pointer"
+                    className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-400 transition-all cursor-pointer"
                   >
                     Back to SIM Step
                   </button>
@@ -577,7 +574,7 @@ export default function Register() {
                 <span>Election Commission (EC) Registry Demo Data</span>
               </h4>
               <p className="text-slate-400">Use one of these registered Bangladeshi citizen credentials to verify successfully:</p>
-              <ul className="space-y-1.5 text-[10px] text-slate-300">
+              <ul className="space-y-1.5 text-xs text-slate-400">
                 {[
                   { nid: "1234567890", dob: "1995-06-15", name: "Rakibul Islam" },
                   { nid: "9876543210", dob: "1998-10-20", name: "Ayesha Siddiqua" },
@@ -591,7 +588,7 @@ export default function Register() {
                         setNidNumber(item.nid);
                         setDob(item.dob);
                       }}
-                      className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 transition-colors font-bold text-[9px] cursor-pointer"
+                      className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 transition-colors font-bold text-xs cursor-pointer"
                     >
                       Autofill
                     </button>
@@ -647,7 +644,7 @@ export default function Register() {
                   <div><span className="text-slate-500">Full Name:</span> <span className="text-slate-200">{nidData.full_name}</span></div>
                   <div><span className="text-slate-500">Father Name:</span> <span className="text-slate-200">{nidData.father_name}</span></div>
                   <div className="col-span-2"><span className="text-slate-500">Mother Name:</span> <span className="text-slate-200">{nidData.mother_name}</span></div>
-                  <div className="col-span-2"><span className="text-slate-500">Official Address:</span> <span className="text-slate-300">{nidData.address}</span></div>
+                  <div className="col-span-2"><span className="text-slate-500">Official Address:</span> <span className="text-slate-400">{nidData.address}</span></div>
                 </div>
               </div>
             )}
@@ -657,7 +654,7 @@ export default function Register() {
                 type="button"
                 onClick={handleVerifyNID}
                 disabled={loading}
-                className="w-full rounded-xl bg-slate-850 hover:bg-slate-800 py-3.5 font-bold text-emerald-400 border border-emerald-500/20 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                className="w-full rounded-xl bg-slate-800 hover:bg-slate-800 py-3.5 font-bold text-emerald-400 border border-emerald-500/20 flex items-center justify-center space-x-2 transition-all cursor-pointer"
               >
                 {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
                 <span>Query National EC Database</span>

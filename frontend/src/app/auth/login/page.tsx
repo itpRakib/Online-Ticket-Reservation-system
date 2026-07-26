@@ -4,7 +4,7 @@ import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import { Ticket, Mail, Lock, AlertCircle, RefreshCw } from 'lucide-react';
+import { Ticket, User as UserIcon, Lock, AlertCircle, RefreshCw, Eye, EyeOff } from 'lucide-react';
 
 function LoginForm() {
   const router = useRouter();
@@ -13,6 +13,7 @@ function LoginForm() {
   
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -39,15 +40,12 @@ function LoginForm() {
 
   return (
     <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative">
-      {/* Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 h-72 w-72 rounded-full bg-emerald-500/10 blur-[80px] pointer-events-none" />
-
       <div className="w-full max-w-md space-y-8 glass-panel p-8 rounded-3xl shadow-2xl relative">
         <div className="text-center">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
             <Ticket className="h-6 w-6 rotate-12" />
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight">Login to Your Account</h2>
+          <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Login to Your Account</h2>
           <p className="mt-2 text-sm text-slate-400">
             Or{' '}
             <Link href="/auth/register" className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
@@ -69,7 +67,7 @@ function LoginForm() {
               <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Username</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-500">
-                  <Mail className="h-4 w-4" />
+                  <UserIcon className="h-4 w-4" />
                 </div>
                 <input
                   type="text"
@@ -89,13 +87,20 @@ function LoginForm() {
                   <Lock className="h-4 w-4" />
                 </div>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-emerald-500 focus:outline-none transition-colors"
+                  className="block w-full pl-10 pr-10 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-emerald-500 focus:outline-none transition-colors"
                   placeholder="••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-500 hover:text-slate-300 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
             </div>
           </div>

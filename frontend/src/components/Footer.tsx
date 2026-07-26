@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-white">
                 <Ticket className="h-4 w-4" />
               </div>
-              <span className="text-lg font-bold text-white">BD GoTicket</span>
+              <span className="text-lg font-bold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>BD GoTicket</span>
             </div>
             <p className="text-sm max-w-sm">
               Bangladesh's leading multi-modal online ticketing platform. Book your Bus, Train, and Plane tickets seamlessly with instant Bangladeshi mobile banking and NID verification.

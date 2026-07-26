@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { 
   Bus, Train, Plane, Search, Sparkles, SlidersHorizontal, 
-  MapPin, Calendar, Clock, AlertTriangle, ArrowRight, CheckCircle2, Lock 
+  MapPin, Calendar, Clock, AlertTriangle, ArrowRight, CheckCircle2, Lock, RefreshCw
 } from 'lucide-react';
 
 function SearchResultsContent() {
@@ -159,7 +159,7 @@ function SearchResultsContent() {
           </div>
           
           <div className="space-y-2">
-            <h2 className="text-2xl font-black text-white">{t("Unlock Live Transport Routes", "লাইভ যাতায়াত রুটগুলি আনলক করুন")}</h2>
+            <h2 className="text-2xl font-black text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>{t("Unlock Live Transport Routes", "লাইভ যাতায়াত রুটগুলি আনলক করুন")}</h2>
             <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
               {t("Due to seat reservation policies and anti-scalping measures, you must be logged in with a verified NID & SIM account to view routes, timetables, prices, and capability comparisons.", "টিকিট কালোবাজারি প্রতিরোধে এবং আসন সংরক্ষণ নীতিমালার কারণে, সময়সূচী, ভাড়া এবং বুকিং করার পূর্বে অবশ্যই জাতীয় পরিচয়পত্র ও মোবাইল সিম দিয়ে লগইন করতে হবে।")}
             </p>
@@ -174,7 +174,7 @@ function SearchResultsContent() {
             </Link>
             <Link
               href="/auth/register"
-              className="flex-1 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-850 py-3.5 font-bold text-slate-350 text-center transition-all"
+              className="flex-1 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-800 py-3.5 font-bold text-slate-400 text-center transition-all"
             >
               {t("Sign Up", "নিবন্ধন করুন")}
             </Link>
@@ -186,7 +186,7 @@ function SearchResultsContent() {
       <div className="glass-panel rounded-3xl p-6 border-emerald-500/20 bg-emerald-950/10 space-y-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center space-x-2">
+            <h2 className="text-lg font-bold text-white flex items-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
               <Sparkles className="h-5 w-5 text-emerald-400" />
               <span>{t("Smart Capability-Based Comparison Engine", "স্মার্ট সামর্থ্য-ভিত্তিক তুলনা ইঞ্জিন")}</span>
             </h2>
@@ -195,7 +195,7 @@ function SearchResultsContent() {
             </p>
           </div>
           
-          <div className="flex bg-slate-900/80 p-1 rounded-xl border border-slate-850 self-stretch md:self-auto justify-between sm:justify-start">
+          <div className="flex bg-slate-900/80 p-1 rounded-xl border border-slate-800 self-stretch md:self-auto justify-between sm:justify-start">
             {[
               { id: 'balanced', label: t('Balanced', 'ভারসাম্য') },
               { id: 'budget', label: t('Budget/Cheap', 'বাজেট (সস্তা)') },
@@ -225,12 +225,12 @@ function SearchResultsContent() {
         <div className="lg:col-span-1 glass-panel rounded-2xl p-6 h-fit space-y-6">
           <div className="flex justify-between items-center border-b border-slate-800 pb-3">
             <h3 className="font-bold text-white text-sm uppercase tracking-wider flex items-center space-x-2">
-              <SlidersHorizontal className="h-4 w-4 text-slate-450" />
+              <SlidersHorizontal className="h-4 w-4 text-slate-400" />
               <span>{t("Filters", "ফিল্টারসমূহ")}</span>
             </h3>
             <button 
               onClick={() => { setSelectedOperator('ALL'); setMaxPrice(15000); }} 
-              className="text-[10px] text-slate-500 hover:text-emerald-400 font-bold uppercase transition-colors cursor-pointer"
+              className="text-xs text-slate-500 hover:text-emerald-400 font-bold uppercase transition-colors cursor-pointer"
             >
               {t("Reset", "রিসেট")}
             </button>
@@ -301,7 +301,7 @@ function SearchResultsContent() {
           
           {loading && (
             <div className="flex flex-col items-center justify-center py-20 space-y-4">
-              <RefreshCwIcon className="h-10 w-10 text-emerald-500 animate-spin" />
+              <RefreshCw className="h-10 w-10 text-emerald-500 animate-spin" />
               <span className="text-sm text-slate-400 font-medium">Comparing and ranking transport options...</span>
             </div>
           )}
@@ -353,21 +353,21 @@ function SearchResultsContent() {
 
                     {/* Match Index circular badge */}
                     {comp && (
-                      <div className="absolute top-2 right-2 flex items-center space-x-1.5 bg-slate-950 border border-slate-850 px-2.5 py-1 rounded-full">
+                      <div className="absolute top-2 right-2 flex items-center space-x-1.5 bg-slate-950 border border-slate-800 px-2.5 py-1 rounded-full">
                         <Sparkles className="h-3 w-3 text-emerald-400" />
-                        <span className="text-[10px] font-extrabold text-emerald-400">{comp.match_percentage}% Match</span>
+                        <span className="text-xs font-extrabold text-emerald-400">{comp.match_percentage}% Match</span>
                       </div>
                     )}
 
                     {/* Operator info */}
                     <div className="flex items-center space-x-4 self-start md:self-auto">
-                      <div className="h-14 w-14 rounded-xl bg-slate-900 border border-slate-850 flex items-center justify-center text-slate-300">
+                      <div className="h-14 w-14 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300">
                         <TransportIcon className="h-6 w-6 text-emerald-400" />
                       </div>
                       <div>
                         <div className="flex items-center space-x-2">
                           <h4 className="font-bold text-white text-base leading-tight">{trip.operator_name}</h4>
-                          <span className="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded uppercase">{trip.transport_type}</span>
+                          <span className="text-xs bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded uppercase">{trip.transport_type}</span>
                         </div>
                         <p className="text-xs text-slate-500 mt-1">ID: {trip.transport_identifier} • Seats: {trip.available_seats}/{trip.total_seats} left</p>
                       </div>
@@ -377,38 +377,38 @@ function SearchResultsContent() {
                     <div className="flex items-center space-x-6">
                       <div className="text-center">
                         <span className="block font-bold text-white text-base">{formatTime(trip.departure_time)}</span>
-                        <span className="text-[10px] text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.source.name.split(' ')[0]}</span>
+                        <span className="text-xs text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.source.name.split(' ')[0]}</span>
                       </div>
                       
                       <div className="flex flex-col items-center justify-center space-y-1">
-                        <span className="text-[10px] font-mono text-slate-500">{trip.duration_hours}h</span>
+                        <span className="text-xs font-mono text-slate-500">{trip.duration_hours}h</span>
                         <div className="relative flex items-center justify-center w-20">
                           <div className="h-[1px] w-full bg-slate-800" />
                           <div className="absolute h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-glow" />
                         </div>
-                        <span className="text-[9px] text-slate-600 font-bold uppercase">Direct</span>
+                        <span className="text-xs text-slate-600 font-bold uppercase">Direct</span>
                       </div>
 
                       <div className="text-center">
                         <span className="block font-bold text-white text-base">{formatTime(trip.arrival_time)}</span>
-                        <span className="text-[10px] text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.destination.name.split(' ')[0]}</span>
+                        <span className="text-xs text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.destination.name.split(' ')[0]}</span>
                       </div>
                     </div>
 
                     {/* Score comparison details (small HUD) */}
                     {comp && (
                       <div className="hidden md:flex flex-col space-y-1 bg-slate-900/30 p-2.5 rounded-xl border border-slate-900/80 w-36">
-                        <div className="flex justify-between items-center text-[10px]">
+                        <div className="flex justify-between items-center text-xs">
                           <span className="text-slate-500">💰 Budget:</span>
-                          <span className={`font-bold ${comp.budget_score > 7 ? 'text-emerald-400' : 'text-slate-350'}`}>{comp.budget_score}/10</span>
+                          <span className={`font-bold ${comp.budget_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.budget_score}/10</span>
                         </div>
-                        <div className="flex justify-between items-center text-[10px]">
+                        <div className="flex justify-between items-center text-xs">
                           <span className="text-slate-500">⚡ Speed:</span>
-                          <span className={`font-bold ${comp.speed_score > 7 ? 'text-emerald-400' : 'text-slate-350'}`}>{comp.speed_score}/10</span>
+                          <span className={`font-bold ${comp.speed_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.speed_score}/10</span>
                         </div>
-                        <div className="flex justify-between items-center text-[10px]">
+                        <div className="flex justify-between items-center text-xs">
                           <span className="text-slate-500">🛌 Comfort:</span>
-                          <span className={`font-bold ${comp.comfort_score > 7 ? 'text-emerald-400' : 'text-slate-350'}`}>{comp.comfort_score}/10</span>
+                          <span className={`font-bold ${comp.comfort_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.comfort_score}/10</span>
                         </div>
                       </div>
                     )}
@@ -416,7 +416,7 @@ function SearchResultsContent() {
                     {/* Booking Price & Redirect */}
                     <div className="flex items-center justify-between md:flex-col md:items-end self-stretch md:self-auto border-t border-slate-900 pt-4 md:pt-0 md:border-0">
                       <div>
-                        <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">Fare Starts at</span>
+                        <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Fare Starts at</span>
                         <span className="text-xl font-extrabold text-emerald-400 leading-tight">৳{parseFloat(trip.fare_economy).toLocaleString()}</span>
                       </div>
 
@@ -449,29 +449,6 @@ function formatTime(dtStr: string) {
   } catch (e) {
     return dtStr;
   }
-}
-
-// RefreshCwIcon component helper
-function RefreshCwIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-      <path d="M21 3v5h-5" />
-      <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-      <path d="M3 21v-5h5" />
-    </svg>
-  );
 }
 
 export default function SearchResults() {

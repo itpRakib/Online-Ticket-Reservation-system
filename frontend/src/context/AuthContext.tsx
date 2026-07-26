@@ -39,9 +39,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const profile = await api.getProfile();
           setUser(profile);
         } catch (error) {
-          console.error("Failed to load profile, token might be expired:", error);
-          api.clearAuthToken();
-          setUser(null);
+          console.warn("Access token expired, attempting refresh...");
+          // Try to refresh the token
+          const newToken = await api.refreshAccessToken();
+          if (newToken) {
+            try {
+              const profile = await api.getProfile();
+              setUser(profile);
+            } catch {
+              console.error("Profile fetch failed after token refresh");
+              api.clearAuthToken();
+              setUser(null);
+            }
+          } else {
+            api.clearAuthToken();
+            setUser(null);
+          }
         }
       }
       setLoading(false);
@@ -55,6 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.login(username, password);
       api.setAuthToken(res.access);
+      api.setRefreshToken(res.refresh);
       setUser(res.user);
     } catch (error) {
       setLoading(false);

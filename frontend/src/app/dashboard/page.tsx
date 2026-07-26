@@ -155,7 +155,7 @@ function DashboardContent() {
             {user.username.substring(0, 2)}
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">{user.first_name} {user.last_name}</h2>
+            <h2 className="text-xl font-extrabold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>{user.first_name} {user.last_name}</h2>
             <p className="text-xs text-slate-400 mt-1">Username: {user.username} • Email: {user.email}</p>
           </div>
         </div>
@@ -163,19 +163,19 @@ function DashboardContent() {
         {/* Verification Badges Group */}
         <div className="flex flex-wrap gap-2.5 items-center">
           {user.profile?.phone_verified && (
-            <span className="flex items-center space-x-1 text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full">
+            <span className="flex items-center space-x-1 text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
               <span>SIM Verified</span>
             </span>
           )}
           {user.profile?.email_verified && (
-            <span className="flex items-center space-x-1 text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full">
+            <span className="flex items-center space-x-1 text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
               <span>Gmail Verified</span>
             </span>
           )}
           {user.profile?.nid_verified && (
-            <span className="flex items-center space-x-1 text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full" title={user.profile.nid_name}>
+            <span className="flex items-center space-x-1 text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full" title={user.profile.nid_name}>
               <Check className="h-3 w-3" />
               <span>NID: {user.profile.nid} ({user.profile.nid_name})</span>
             </span>
@@ -208,12 +208,12 @@ function DashboardContent() {
                     className={`w-full rounded-xl p-3.5 text-left border transition-all cursor-pointer ${
                       isSelected 
                         ? 'border-emerald-500 bg-emerald-500/5' 
-                        : 'border-slate-850 bg-slate-900/20 hover:bg-slate-900/50'
+                        : 'border-slate-800 bg-slate-900/20 hover:bg-slate-900/50'
                     }`}
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <span className="text-[9px] font-mono bg-slate-800 text-slate-350 px-1.5 py-0.5 rounded font-bold uppercase">{b.pnr_number}</span>
-                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                      <span className="text-xs font-mono bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold uppercase">{b.pnr_number}</span>
+                      <span className={`text-xs font-bold px-1.5 py-0.5 rounded uppercase ${
                         b.status === 'PAID' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-yellow-500/10 text-yellow-400'
                       }`}>
                         {b.status}
@@ -226,7 +226,7 @@ function DashboardContent() {
                       <span>{b.trip.destination.name.split(' ')[0]}</span>
                     </h4>
                     
-                    <p className="text-[10px] text-slate-550 flex items-center space-x-1.5">
+                    <p className="text-xs text-slate-500 flex items-center space-x-1.5">
                       <Calendar className="h-3 w-3 text-slate-500" />
                       <span>{b.travel_date}</span>
                     </p>
@@ -264,7 +264,7 @@ function DashboardContent() {
                   )}
                   <button
                     onClick={handlePrint}
-                    className="rounded-xl border border-slate-850 bg-slate-900 hover:bg-slate-850 px-4 py-2 text-xs font-bold text-slate-300 flex items-center space-x-2 transition-colors cursor-pointer"
+                    className="rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 px-4 py-2 text-xs font-bold text-slate-300 flex items-center space-x-2 transition-colors cursor-pointer"
                   >
                     <Printer className="h-4 w-4 text-emerald-400" />
                     <span>Print / Save PDF</span>
@@ -275,9 +275,6 @@ function DashboardContent() {
               {/* High-Fidelity e-Ticket design */}
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden shadow-2xl print:border-2 print:border-black print:text-black print:bg-white print:rounded-none">
                 
-                {/* Security background glow effect */}
-                <div className="absolute top-0 right-0 h-40 w-40 rounded-full bg-emerald-500/5 blur-[50px] pointer-events-none print:hidden" />
-                
                 {/* Border punched-out stub ticket effects */}
                 <div className="absolute top-1/2 -left-3 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-950 border-r border-slate-800 print:hidden" />
                 <div className="absolute top-1/2 -right-3 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-950 border-l border-slate-800 print:hidden" />
@@ -285,8 +282,8 @@ function DashboardContent() {
                 {/* Ticket Header */}
                 <div className="flex justify-between items-start border-b border-slate-800 pb-5 print:border-black">
                   <div>
-                    <h3 className="text-emerald-450 font-black text-xl italic tracking-tight print:text-black">BD GoTicket</h3>
-                    <span className="text-[9px] text-slate-400 uppercase tracking-widest font-bold block mt-0.5 print:text-slate-650">{t("Ministry of Transport & ICT", "যাতায়াত ও আইসিটি মন্ত্রণালয়")}</span>
+                    <h3 className="text-emerald-400 font-black text-xl italic tracking-tight print:text-black" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>BD GoTicket</h3>
+                    <span className="text-xs text-slate-400 uppercase tracking-widest font-bold block mt-0.5 print:text-slate-600">{t("Ministry of Transport & ICT", "যাতায়াত ও আইসিটি মন্ত্রণালয়")}</span>
                   </div>
                   
                   <div className="text-right">
@@ -303,50 +300,50 @@ function DashboardContent() {
                           ? t('CANCELLED', 'বাতিল ও ফেরতকৃত') 
                           : t('PENDING', 'পেন্ডিং')}
                     </span>
-                    <span className="text-[10px] text-slate-500 block mt-2 print:text-slate-650">PNR: <span className="font-mono font-bold text-white print:text-black">{selectedTicket.pnr_number}</span></span>
+                    <span className="text-xs text-slate-500 block mt-2 print:text-slate-600">PNR: <span className="font-mono font-bold text-white print:text-black">{selectedTicket.pnr_number}</span></span>
                   </div>
                 </div>
 
                 {/* Routing info */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center text-center sm:text-left">
                   <div>
-                    <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">{t("Departure Station", "যাত্রার স্টেশন")}</span>
+                    <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">{t("Departure Station", "যাত্রার স্টেশন")}</span>
                     <h4 className="font-extrabold text-white text-lg mt-1 print:text-black">{selectedTicket.trip.source.name}</h4>
                     <span className="text-xs text-slate-400">Code: {selectedTicket.trip.source.code}</span>
                   </div>
                   
                   <div className="flex flex-col items-center justify-center space-y-1 print:text-black">
-                    <span className="text-[10px] font-mono text-slate-400">{selectedTicket.trip.duration_hours} {t("Hrs Journey", "ঘণ্টার যাত্রা")}</span>
+                    <span className="text-xs font-mono text-slate-400">{selectedTicket.trip.duration_hours} {t("Hrs Journey", "ঘণ্টার যাত্রা")}</span>
                     <div className="relative flex items-center justify-center w-24">
                       <div className="h-[1px] w-full bg-slate-800 print:bg-black" />
                       <div className="absolute h-2 w-2 rounded-full bg-emerald-500" />
                     </div>
-                    <span className="text-[9px] text-slate-550 font-bold uppercase">{selectedTicket.trip.transport_type} {t("Class", "শ্রেণী")}</span>
+                    <span className="text-xs text-slate-500 font-bold uppercase">{selectedTicket.trip.transport_type} {t("Class", "শ্রেণী")}</span>
                   </div>
 
                   <div className="text-center sm:text-right">
-                    <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">{t("Arrival Station", "গন্তব্য স্টেশন")}</span>
+                    <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">{t("Arrival Station", "গন্তব্য স্টেশন")}</span>
                     <h4 className="font-extrabold text-white text-lg mt-1 print:text-black">{selectedTicket.trip.destination.name}</h4>
                     <span className="text-xs text-slate-400">Code: {selectedTicket.trip.destination.code}</span>
                   </div>
                 </div>
 
                 {/* Grid details */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-slate-950/40 p-5 rounded-2xl border border-slate-850 print:bg-slate-100 print:border-black print:text-black">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-slate-950/40 p-5 rounded-2xl border border-slate-800 print:bg-slate-100 print:border-black print:text-black">
                   <div>
-                    <span className="block text-[9px] text-slate-500 uppercase tracking-widest font-bold">{t("Travel Date", "ভ্রমণের তারিখ")}</span>
+                    <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">{t("Travel Date", "ভ্রমণের তারিখ")}</span>
                     <span className="font-bold text-slate-200 text-xs mt-1 block print:text-black">{selectedTicket.travel_date}</span>
                   </div>
                   <div>
-                    <span className="block text-[9px] text-slate-500 uppercase tracking-widest font-bold">Departure Time</span>
+                    <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Departure Time</span>
                     <span className="font-bold text-slate-200 text-xs mt-1 block print:text-black">{formatTime(selectedTicket.trip.departure_time)}</span>
                   </div>
                   <div>
-                    <span className="block text-[9px] text-slate-500 uppercase tracking-widest font-bold">Operator / Coach</span>
+                    <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Operator / Coach</span>
                     <span className="font-bold text-slate-200 text-xs mt-1 block print:text-black truncate">{selectedTicket.trip.operator_name}</span>
                   </div>
                   <div>
-                    <span className="block text-[9px] text-slate-500 uppercase tracking-widest font-bold">Seat Numbers</span>
+                    <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Seat Numbers</span>
                     <span className="font-extrabold text-emerald-400 text-xs mt-1 block print:text-black">
                       {selectedTicket.passengers.map((p: any) => p.seat_number).join(', ')}
                     </span>
@@ -355,13 +352,13 @@ function DashboardContent() {
 
                 {/* Passenger list details */}
                 <div className="space-y-3">
-                  <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-800 pb-2 print:border-black print:text-black">
+                  <h5 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-800 pb-2 print:border-black print:text-black">
                     Passenger Breakdown
                   </h5>
                   <div className="space-y-2">
                     {selectedTicket.passengers.map((p: any, index: number) => (
                       <div key={p.id} className="flex justify-between items-center text-xs">
-                        <div className="flex space-x-2 text-slate-350 print:text-black">
+                        <div className="flex space-x-2 text-slate-400 print:text-black">
                           <span>{index + 1}.</span>
                           <span className="font-bold text-white print:text-black">{p.name}</span>
                           <span className="text-slate-500">({p.gender}, {p.age} yrs)</span>
@@ -373,11 +370,11 @@ function DashboardContent() {
                 </div>
 
                 {/* Security details & QR Code */}
-                <div className="border-t border-dashed border-slate-850 pt-6 flex flex-col sm:flex-row justify-between items-center gap-6 print:border-black">
+                <div className="border-t border-dashed border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-6 print:border-black">
                   <div className="space-y-1 text-center sm:text-left">
-                    <span className="text-[10px] text-slate-500 block print:text-slate-650">Verification Security Hash</span>
-                    <span className="font-mono text-[9px] text-slate-400 block print:text-slate-650">TRX: {selectedTicket.trx_id || 'DEMO-TXID'}</span>
-                    <span className="text-[10px] text-emerald-450 block font-semibold print:text-black">Verified against NID Registry</span>
+                    <span className="text-xs text-slate-500 block print:text-slate-600">Verification Security Hash</span>
+                    <span className="font-mono text-xs text-slate-400 block print:text-slate-600">TRX: {selectedTicket.trx_id || 'DEMO-TXID'}</span>
+                    <span className="text-xs text-emerald-400 block font-semibold print:text-black">Verified against NID Registry</span>
                   </div>
                   
                   {/* Mock Barcode & QR Code styling using HTML */}
@@ -389,7 +386,7 @@ function DashboardContent() {
                           <div key={i} className={`h-full bg-slate-950 ${i % 3 === 0 ? 'w-1.5' : i % 2 === 0 ? 'w-0.5' : 'w-1'}`} />
                         ))}
                       </div>
-                      <span className="text-[8px] font-mono text-center text-slate-500">PNR-{selectedTicket.pnr_number}</span>
+                      <span className="text-xs font-mono text-center text-slate-500">PNR-{selectedTicket.pnr_number}</span>
                     </div>
 
                     {/* QR Code representation */}
@@ -454,11 +451,11 @@ function DashboardContent() {
             ) : (
               <form onSubmit={handleCancelSubmit} className="space-y-4">
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  To securely process your refund of <span className="text-emerald-450 font-bold font-mono">৳{selectedTicket.total_fare} BDT</span> for PNR <span className="font-mono font-bold text-white">{selectedTicket.pnr_number}</span>, please verify your credentials.
+                  To securely process your refund of <span className="text-emerald-400 font-bold font-mono">৳{selectedTicket.total_fare} BDT</span> for PNR <span className="font-mono font-bold text-white">{selectedTicket.pnr_number}</span>, please verify your credentials.
                 </p>
 
                 {cancelError && (
-                  <div className="rounded-xl bg-red-500/15 border border-red-500/30 p-3 text-[11px] text-red-400 flex items-center space-x-2">
+                  <div className="rounded-xl bg-red-500/15 border border-red-500/30 p-3 text-xs text-red-400 flex items-center space-x-2">
                     <AlertCircle className="h-4 w-4 shrink-0 text-red-400" />
                     <span>{cancelError}</span>
                   </div>
@@ -466,7 +463,7 @@ function DashboardContent() {
 
                 {/* Refund Wallet Input */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Refund Mobile Wallet (bKash/Nagad)</label>
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Refund Mobile Wallet (bKash/Nagad)</label>
                   <input
                     type="text"
                     required
@@ -479,7 +476,7 @@ function DashboardContent() {
 
                 {/* Account Password Input */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Account Password (for verification)</label>
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Account Password (for verification)</label>
                   <input
                     type="password"
                     required
@@ -492,7 +489,7 @@ function DashboardContent() {
 
                 {/* Reason Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Reason for Cancellation</label>
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Reason for Cancellation</label>
                   <select
                     value={cancelReason}
                     onChange={(e) => setCancelReason(e.target.value)}

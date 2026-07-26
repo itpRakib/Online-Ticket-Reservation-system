@@ -154,7 +154,7 @@ function BookTripContent() {
     return (
       <div className="mx-auto max-w-xl px-4 py-20 text-center space-y-4">
         <AlertCircle className="h-12 w-12 text-red-400 mx-auto" />
-        <h2 className="text-xl font-bold text-white">Error Loading Seating Plan</h2>
+        <h2 className="text-xl font-bold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Error Loading Seating Plan</h2>
         <p className="text-slate-400">{error}</p>
       </div>
     );
@@ -177,7 +177,7 @@ function BookTripContent() {
       <div className="glass-panel rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <span className="text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">{tType}</span>
-          <h2 className="text-xl font-extrabold text-white mt-2 flex items-center space-x-2">
+          <h2 className="text-xl font-extrabold text-white mt-2 flex items-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
             <span>{trip.source.name}</span>
             <ArrowRight className="h-4 w-4 text-slate-500" />
             <span>{trip.destination.name}</span>
@@ -189,12 +189,12 @@ function BookTripContent() {
 
         <div className="flex items-center space-x-4">
           <div className="text-right">
-            <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">Base Fare</span>
+            <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Base Fare</span>
             <span className="text-2xl font-extrabold text-emerald-400">৳{getFare().toLocaleString()}</span>
           </div>
           {trip.fare_business && (
             <div className="space-y-1">
-              <label className="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">Class</label>
+              <label className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Class</label>
               <select
                 value={classType}
                 onChange={(e) => { setClassType(e.target.value); setSelectedSeats([]); setPassengers([]); }}
@@ -223,9 +223,9 @@ function BookTripContent() {
             {tType === 'BUS' && (
               <div className="space-y-4">
                 {/* Front indicator (Steering wheel mock) */}
-                <div className="flex justify-between items-center border-b border-slate-900 pb-3 mb-2 text-[10px] text-slate-500 font-bold uppercase tracking-wider">
+                <div className="flex justify-between items-center border-b border-slate-900 pb-3 mb-2 text-xs text-slate-500 font-bold uppercase tracking-wider">
                   <span>Driver</span>
-                  <div className="h-6 w-6 rounded-full border-4 border-dashed border-slate-850 animate-spin" style={{ animationDuration: '40s' }} />
+                  <div className="h-6 w-6 rounded-full border-4 border-dashed border-slate-800 animate-spin" style={{ animationDuration: '40s' }} />
                   <span>Gate</span>
                 </div>
 
@@ -245,7 +245,7 @@ function BookTripContent() {
                             type="button"
                             onClick={() => handleSeatClick(seat, isAvail)}
                             disabled={!isAvail}
-                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-[10px] font-bold transition-all relative cursor-pointer ${
+                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail 
                                 ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
                                 : isSel
@@ -269,7 +269,7 @@ function BookTripContent() {
             {/* Train Coach Seating (Shovon/Snigdha 2x2 layout) */}
             {tType === 'TRAIN' && (
               <div className="space-y-4">
-                <div className="text-center text-[10px] text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900 pb-2 mb-2">
+                <div className="text-center text-xs text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900 pb-2 mb-2">
                   Coach Compartment View
                 </div>
                 <div className="grid grid-cols-4 gap-2.5 max-h-[450px] overflow-y-auto pr-1">
@@ -287,7 +287,7 @@ function BookTripContent() {
                             type="button"
                             onClick={() => handleSeatClick(seatNum, isAvail)}
                             disabled={!isAvail}
-                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-[9px] font-bold transition-all relative cursor-pointer ${
+                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail
                                 ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
                                 : isSel
@@ -310,7 +310,7 @@ function BookTripContent() {
             {/* Flight Layout View (3x3 grid) */}
             {tType === 'PLANE' && (
               <div className="space-y-4">
-                <div className="text-center text-[10px] text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900 pb-2 mb-2">
+                <div className="text-center text-xs text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900 pb-2 mb-2">
                   Cabin Seating (3 + 3)
                 </div>
                 <div className="grid grid-cols-6 gap-2 max-h-[450px] overflow-y-auto pr-1">
@@ -328,7 +328,7 @@ function BookTripContent() {
                             type="button"
                             onClick={() => handleSeatClick(seat, isAvail)}
                             disabled={!isAvail}
-                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-[9px] font-bold transition-all relative cursor-pointer ${
+                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail
                                 ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
                                 : isSel
@@ -352,7 +352,7 @@ function BookTripContent() {
           {/* Seating color code guide */}
           <div className="flex space-x-6 mt-6 text-xs font-semibold">
             <div className="flex items-center space-x-1.5">
-              <div className="h-3 w-3 bg-slate-900 border border-slate-850 rounded" />
+              <div className="h-3 w-3 bg-slate-900 border border-slate-800 rounded" />
               <span className="text-slate-400">Available</span>
             </div>
             <div className="flex items-center space-x-1.5">
@@ -397,7 +397,7 @@ function BookTripContent() {
                 <div className="space-y-6">
                   {passengers.map((p, idx) => (
                     <div key={p.seat_number} className="bg-slate-900/30 border border-slate-900 rounded-2xl p-5 space-y-4">
-                      <div className="flex justify-between items-center border-b border-slate-850 pb-2">
+                      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
                         <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Passenger {idx + 1}</span>
                         <span className="text-xs bg-slate-800 text-slate-200 px-2 py-0.5 rounded font-bold">Seat: {p.seat_number}</span>
                       </div>
@@ -405,7 +405,7 @@ function BookTripContent() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Name */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
+                          <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
                           <input
                             type="text"
                             required
@@ -418,7 +418,7 @@ function BookTripContent() {
 
                         {/* Age */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Age</label>
+                          <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Age</label>
                           <input
                             type="number"
                             required
@@ -432,7 +432,7 @@ function BookTripContent() {
 
                         {/* Gender */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gender</label>
+                          <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gender</label>
                           <select
                             value={p.gender}
                             onChange={(e) => handlePassengerChange(p.seat_number, 'gender', e.target.value)}
@@ -447,9 +447,9 @@ function BookTripContent() {
 
                       {/* NID / Passport (Required for Flights in real life, recommended for train) */}
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex justify-between">
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex justify-between">
                           <span>NID / Passport Number</span>
-                          {tType === 'PLANE' && <span className="text-[9px] text-red-400 font-bold uppercase tracking-wider">Required for Flights</span>}
+                          {tType === 'PLANE' && <span className="text-xs text-red-400 font-bold uppercase tracking-wider">Required for Flights</span>}
                         </label>
                         <input
                           type="text"
@@ -488,7 +488,7 @@ function BookTripContent() {
                 </div>
 
                 {!user && (
-                  <div className="p-3.5 bg-indigo-500/5 border border-indigo-500/20 rounded-2xl flex items-start space-x-2 text-[10px] text-indigo-400">
+                  <div className="p-3.5 bg-indigo-500/5 border border-indigo-500/20 rounded-2xl flex items-start space-x-2 text-xs text-indigo-400">
                     <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5" />
                     <span>You are not logged in. Confirming will redirect you to the login screen to verify identity.</span>
                   </div>
