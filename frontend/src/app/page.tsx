@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { api } from '@/utils/api';
+import { api, ALL_BANGLADESH_STATIONS } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ScrollReveal';
@@ -23,9 +23,9 @@ export default function Home() {
   const { user, logout, language } = useAuth();
   const t = (en: string, bn: string) => (language === 'bn' ? bn : en);
   
-  // Data State
-  const [stations, setStations] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Data State initialized with full Bangladesh stations database
+  const [stations, setStations] = useState<any[]>(ALL_BANGLADESH_STATIONS);
+  const [loading, setLoading] = useState(false);
 
   // Dynamic Date Constraint (Never allow past dates)
   const [todayStr, setTodayStr] = useState('');
@@ -175,23 +175,29 @@ export default function Home() {
   };
 
   const getStationLabel = (code: string) => {
-    const s = stations.find(item => item.code === code);
-    return s ? `${s.name.split(' ')[0]} (${s.code})` : 'Select Location';
+    const safeStations = Array.isArray(stations) && stations.length > 0 ? stations : ALL_BANGLADESH_STATIONS;
+    const s = safeStations.find(item => item.code === code);
+    return s ? `${s.name.split(' ')[0]} (${s.code})` : (code || 'Select Location');
   };
 
   const getStationDetail = (code: string) => {
-    const s = stations.find(item => item.code === code);
-    return s ? s.name : 'Choose where you travel from';
+    const safeStations = Array.isArray(stations) && stations.length > 0 ? stations : ALL_BANGLADESH_STATIONS;
+    const s = safeStations.find(item => item.code === code);
+    return s ? s.name : 'Choose location';
   };
 
   // Group stations by type for dropdown rendering
   const filterAndGroupStations = (keyword: string, excludeCode?: string) => {
-    const filtered = stations.filter(st => {
-      const matchesSearch = st.name.toLowerCase().includes(keyword.toLowerCase()) || 
-                            st.code.toLowerCase().includes(keyword.toLowerCase()) ||
-                            st.district.toLowerCase().includes(keyword.toLowerCase());
+    const safeStations = Array.isArray(stations) && stations.length > 0 ? stations : ALL_BANGLADESH_STATIONS;
+    const kw = (keyword || '').toLowerCase().trim();
+
+    const filtered = safeStations.filter(st => {
+      const nameMatch = (st.name || '').toLowerCase().includes(kw);
+      const codeMatch = (st.code || '').toLowerCase().includes(kw);
+      const cityMatch = (st.city || '').toLowerCase().includes(kw);
+      const districtMatch = (st.district || '').toLowerCase().includes(kw);
       const isNotExcluded = st.code !== excludeCode;
-      return matchesSearch && isNotExcluded;
+      return (nameMatch || codeMatch || cityMatch || districtMatch) && isNotExcluded;
     });
 
     return {
