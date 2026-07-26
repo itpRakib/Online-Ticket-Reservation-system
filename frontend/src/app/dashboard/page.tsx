@@ -8,6 +8,8 @@ import {
   User, CheckCircle2, AlertCircle, RefreshCw, Calendar, 
   MapPin, Ticket, ShieldCheck, Printer, LogOut, Check, X
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -149,6 +151,7 @@ function DashboardContent() {
       )}
 
       {/* Profile Details & Verification Badges */}
+      <ScrollReveal>
       <div className="glass-panel rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row justify-between gap-6 print:hidden">
         <div className="flex items-center space-x-4">
           <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-slate-950 font-black text-2xl uppercase shadow-lg">
@@ -182,10 +185,12 @@ function DashboardContent() {
           )}
         </div>
       </div>
+      </ScrollReveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Left Column: Bookings List */}
+        <ScrollReveal>
         <div className="lg:col-span-1 glass-panel rounded-3xl p-6 space-y-4 print:hidden">
           <h3 className="font-bold text-white text-sm uppercase tracking-wider border-b border-slate-800 pb-3">
             Travel History ({bookings.length})
@@ -202,7 +207,8 @@ function DashboardContent() {
               {bookings.map((b) => {
                 const isSelected = selectedTicket?.id === b.id;
                 return (
-                  <button
+                  <motion.button
+                    whileHover={{ x: 4 }}
                     key={b.id}
                     onClick={() => setSelectedTicket(b)}
                     className={`w-full rounded-xl p-3.5 text-left border transition-all cursor-pointer ${
@@ -230,14 +236,16 @@ function DashboardContent() {
                       <Calendar className="h-3 w-3 text-slate-500" />
                       <span>{b.travel_date}</span>
                     </p>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
           )}
         </div>
+        </ScrollReveal>
 
         {/* Right Column: Selected Ticket detailed view (e-Ticket print) */}
+        <ScrollReveal>
         <div className="lg:col-span-2 space-y-4 print:col-span-3">
           
           {selectedTicket ? (
@@ -424,6 +432,7 @@ function DashboardContent() {
           )}
 
         </div>
+        </ScrollReveal>
 
       </div>
 

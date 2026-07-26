@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { Ticket, User as UserIcon, Lock, AlertCircle, RefreshCw, Eye, EyeOff } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function LoginForm() {
   const router = useRouter();
@@ -40,7 +41,12 @@ function LoginForm() {
 
   return (
     <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative">
-      <div className="w-full max-w-md space-y-8 glass-panel p-8 rounded-3xl shadow-2xl relative">
+      <motion.div 
+        initial={{ opacity: 0, y: 20, scale: 0.95 }} 
+        animate={{ opacity: 1, y: 0, scale: 1 }} 
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md space-y-8 glass-panel p-8 rounded-3xl shadow-2xl relative"
+      >
         <div className="text-center">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
             <Ticket className="h-6 w-6 rotate-12" />
@@ -54,12 +60,19 @@ function LoginForm() {
           </p>
         </div>
 
-        {error && (
-          <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2">
-            <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
-            <span>{error}</span>
-          </div>
-        )}
+        <AnimatePresence>
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+              animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+              className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2 overflow-hidden"
+            >
+              <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4 rounded-md shadow-sm">
@@ -106,10 +119,12 @@ function LoginForm() {
           </div>
 
           <div>
-            <button
+            <motion.button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all hover:scale-[1.01] shadow-lg shadow-emerald-500/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-emerald-500/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
@@ -119,10 +134,10 @@ function LoginForm() {
               ) : (
                 <span>Login</span>
               )}
-            </button>
+            </motion.button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 }

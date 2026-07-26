@@ -9,6 +9,7 @@ import {
   Bus, Train, Plane, Search, Sparkles, SlidersHorizontal, 
   MapPin, Calendar, Clock, AlertTriangle, ArrowRight, CheckCircle2, Lock, RefreshCw
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function SearchResultsContent() {
   const searchParams = useSearchParams();
@@ -334,7 +335,8 @@ function SearchResultsContent() {
                 <span>Sorted by Match %</span>
               </div>
 
-              {filteredTrips.map((trip) => {
+              <AnimatePresence>
+              {filteredTrips.map((trip, index) => {
                 const comp = trip.comparison;
                 const matchesMinPrice = parseFloat(trip.fare_economy);
                 
@@ -344,7 +346,10 @@ function SearchResultsContent() {
                 if (trip.transport_type === 'PLANE') TransportIcon = Plane;
 
                 return (
-                  <div 
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
                     key={trip.id} 
                     className="glass-panel hover:bg-slate-900/30 rounded-2xl p-5 border border-slate-900 hover:border-emerald-500/20 transition-all duration-200 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden group"
                   >
@@ -420,16 +425,19 @@ function SearchResultsContent() {
                         <span className="text-xl font-extrabold text-emerald-400 leading-tight">৳{parseFloat(trip.fare_economy).toLocaleString()}</span>
                       </div>
 
-                      <button
+                      <motion.button
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                         onClick={() => router.push(`/book/${trip.id}?date=${queryDate}`)}
-                        className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all hover:scale-[1.03] shadow-md shadow-emerald-500/10 cursor-pointer"
+                        className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-emerald-500/10 cursor-pointer"
                       >
                         Book Now
-                      </button>
+                      </motion.button>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
+              </AnimatePresence>
             </div>
           )}
 

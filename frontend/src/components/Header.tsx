@@ -1,14 +1,26 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Ticket, LogOut } from 'lucide-react';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 
 export const Header: React.FC = () => {
   const { user, logout, language, toggleLanguage } = useAuth();
   const pathname = usePathname();
+  const [hidden, setHidden] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0;
+    if (latest > 100 && latest > previous) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
 
   const isActive = (path: string) => pathname === path;
 
@@ -16,7 +28,15 @@ export const Header: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[var(--background)]/80 backdrop-blur-xl">
+    <motion.header
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" }
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[var(--background)]/80 backdrop-blur-xl"
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2.5 group">
@@ -107,6 +127,6 @@ export const Header: React.FC = () => {
           )}
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };

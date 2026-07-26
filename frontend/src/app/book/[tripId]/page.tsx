@@ -8,6 +8,7 @@ import {
   Bus, Train, Plane, RefreshCw, AlertCircle, 
   ArrowRight, UserCheck, Armchair, ShoppingBag, ShieldAlert 
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 function BookTripContent() {
   const params = useParams();
@@ -211,7 +212,11 @@ function BookTripContent() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Left Column: Visual Seat Selector */}
-        <div className="lg:col-span-1 glass-panel rounded-3xl p-6 sm:p-8 flex flex-col items-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="lg:col-span-1 glass-panel rounded-3xl p-6 sm:p-8 flex flex-col items-center"
+        >
           <h3 className="font-bold text-white text-sm uppercase tracking-wider border-b border-slate-800 pb-3 w-full text-center mb-6">
             Choose Seating Layout
           </h3>
@@ -364,10 +369,15 @@ function BookTripContent() {
               <span className="text-red-500">Booked</span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Column: Passenger details & summary */}
-        <div className="lg:col-span-2 space-y-6">
+        <motion.div 
+          layout
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="lg:col-span-2 space-y-6"
+        >
           
           {error && (
             <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2">
@@ -507,7 +517,7 @@ function BookTripContent() {
             </form>
           )}
 
-        </div>
+        </motion.div>
 
       </div>
     </div>

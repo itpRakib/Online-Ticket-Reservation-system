@@ -8,6 +8,7 @@ import {
   Ticket, User, Mail, Lock, Phone, CreditCard, 
   CheckCircle2, AlertCircle, RefreshCw, Smartphone, KeyRound, Calendar 
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Register() {
   const router = useRouter();
@@ -260,7 +261,13 @@ export default function Register() {
         </div>
       )}
 
-      <div className="w-full max-w-xl space-y-8 glass-panel p-8 sm:p-10 rounded-3xl shadow-2xl relative">
+      <motion.div 
+        layout
+        initial={{ opacity: 0, y: 20, scale: 0.95 }} 
+        animate={{ opacity: 1, y: 0, scale: 1 }} 
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-xl space-y-8 glass-panel p-8 sm:p-10 rounded-3xl shadow-2xl relative"
+      >
         <div className="text-center">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
             <Ticket className="h-6 w-6 rotate-12" />
@@ -293,23 +300,45 @@ export default function Register() {
                   <span className="text-xs font-semibold text-slate-500 tracking-wider hidden sm:inline">{s.label}</span>
                 </div>
                 {s.num < 5 && (
-                  <div className={`flex-1 h-0.5 mx-2 transition-all ${
-                    step > s.num ? 'bg-emerald-500' : 'bg-slate-800'
-                  }`} />
+                  <div className="flex-1 h-0.5 mx-2 bg-slate-800 relative">
+                    {step > s.num && (
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: '100%' }}
+                        transition={{ duration: 0.4 }}
+                        className="absolute top-0 left-0 h-full bg-emerald-500" 
+                      />
+                    )}
+                  </div>
                 )}
               </React.Fragment>
             ))}
           </div>
         )}
 
-        {error && (
-          <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2">
-            <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
-            <span>{error}</span>
-          </div>
-        )}
+        <AnimatePresence>
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+              animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+              className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2 overflow-hidden mb-6"
+            >
+              <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* --- STEP 1: Account details --- */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* --- STEP 1: Account details --- */}
         {step === 1 && (
           <form onSubmit={handleAccountSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -388,12 +417,14 @@ export default function Register() {
               </div>
             </div>
 
-            <button
+            <motion.button
               type="submit"
-              className="w-full mt-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 cursor-pointer hover:scale-[1.01] transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full mt-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 cursor-pointer transition-all"
             >
               Proceed to SIM Verification
-            </button>
+            </motion.button>
           </form>
         )}
 
@@ -470,13 +501,15 @@ export default function Register() {
                   >
                     Back / Re-enter
                   </button>
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleVerifySimOtp}
                     className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
                   >
                     Verify SIM
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             )}
@@ -552,13 +585,15 @@ export default function Register() {
                   >
                     Back to SIM Step
                   </button>
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleVerifyEmailOtp}
                     className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
                   >
                     Verify Gmail
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             )}
@@ -660,13 +695,15 @@ export default function Register() {
                 <span>Query National EC Database</span>
               </button>
             ) : (
-              <button
+              <motion.button
                 type="button"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleNIDProceed}
                 className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 flex items-center justify-center space-x-2 transition-all cursor-pointer"
               >
                 <span>Proceed to Finish</span>
-              </button>
+              </motion.button>
             )}
           </div>
         )}
@@ -686,15 +723,17 @@ export default function Register() {
               </div>
             </div>
 
-            <button
+            <motion.button
               type="button"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={handleFinalRegister}
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all hover:scale-[1.01] shadow-lg shadow-emerald-500/10 cursor-pointer"
+              className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-emerald-500/10 cursor-pointer"
             >
               {loading ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
               <span>Create Account</span>
-            </button>
+            </motion.button>
           </div>
         )}
 
@@ -719,7 +758,9 @@ export default function Register() {
             </Link>
           </div>
         )}
-      </div>
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 }

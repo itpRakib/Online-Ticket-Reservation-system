@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
+import { ScrollReveal } from '@/components/ScrollReveal';
+import { NumberTicker } from '@/components/NumberTicker';
 import { 
   Bus, Train, Plane, Search, ArrowLeftRight, CheckCircle2, 
   ShieldCheck, CreditCard, Sparkles, Flame, Percent, MapPin, 
@@ -253,51 +256,59 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Left Hero Column */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <motion.div 
+            initial="hidden" 
+            animate="visible" 
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } }
+            }}
+            className="lg:col-span-7 space-y-6 text-center lg:text-left"
+          >
             {user ? (
               <>
-                <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-1.5 text-xs text-emerald-400 shadow-inner">
+                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-1.5 text-xs text-emerald-400 shadow-inner">
                   <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
                   <span>{t("Assalam-o-Alaikum, ", "আসসালামু আলাইকুম, ") + (user.first_name || user.username) + "!"}</span>
-                </div>
+                </motion.div>
                 
-                <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("Ready to Plan ", "আপনার পরবর্তী ভ্রমণের ")} <br className="hidden sm:inline" />
                   <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("Your Next Journey?", "পরিকল্পনা প্রস্তুত তো?")}
                   </span>
-                </h1>
+                </motion.h1>
                 
-                <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
                   {t("Welcome back to your verified traveler profile. Search, compare, and secure tickets instantly across Bangladesh using NID-protected records and instant bKash checkout.", "আপনার যাচাইকৃত প্রোফাইলে স্বাগতম। জাতীয় পরিচয়পত্র (NID) সুরক্ষায় এবং বিকাশ পেমেন্টের মাধ্যমে বাংলাদেশ জুড়ে তাৎক্ষণিকভাবে টিকিট বুকিং করুন।")}
-                </p>
+                </motion.p>
               </>
             ) : (
               <>
-                <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-1.5 text-xs text-emerald-400 shadow-inner">
+                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-1.5 text-xs text-emerald-400 shadow-inner">
                   <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
                   <span>{t("Unified Transport Hub of Bangladesh", "বাংলাদেশের সমন্বিত যাতায়াত পোর্টাল")}</span>
-                </div>
+                </motion.div>
                 
-                <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("Book Bus, Train & Flight Tickets ", "বাস, ট্রেন এবং বিমানের টিকিট বুকিং ")} <br className="hidden sm:inline" />
                   <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("Safely & Instantly Online", "নিরাপদে ও তাৎক্ষণিকভাবে অনলাইনে")}
                   </span>
-                </h1>
+                </motion.h1>
                 
-                <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
                   {t("The ultimate verified online ticket booking system. Compare options side-by-side depending on your capability (Budget, Speed, Comfort) with verified NID database protection.", "সবচেয়ে নির্ভরযোগ্য ও যাচাইকৃত টিকিট বুকিং পোর্টাল। বাজেট, গতি এবং সুবিধার উপর ভিত্তি করে বাস, ট্রেন ও ফ্লাইটের তুলনা করুন।")}
-                </p>
+                </motion.p>
               </>
             )}
 
-            <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-xs font-semibold text-slate-400">
+            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-xs font-semibold text-slate-400">
               <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> <span>{t("NID Verified", "এনআইডি যাচাইকৃত")}</span></span>
               <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> <span>{t("SIM SMS OTP", "সিম ওটিপি")}</span></span>
               <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> <span>{t("bKash/Nagad checkout", "বিকাশ/নগদ পেমেন্ট")}</span></span>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Hero Column: Premium Interactive generated banner */}
           {user ? (
@@ -349,20 +360,25 @@ export default function Home() {
 
                 {/* Quick Actions */}
                 <div className="grid grid-cols-2 gap-3 pt-2">
-                  <Link
-                    href="/dashboard"
-                    className="rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 p-3 text-center text-xs font-bold text-slate-200 transition-all duration-200 flex items-center justify-center space-x-1.5 cursor-pointer hover:-translate-y-0.5"
-                  >
-                    <span>{t("My Dashboard", "আমার ড্যাশবোর্ড")}</span>
-                    <ArrowRight className="h-3.5 w-3.5 text-emerald-400" />
+                  <Link href="/dashboard" passHref legacyBehavior>
+                    <motion.a
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 p-3 text-center text-xs font-bold text-slate-200 transition-all duration-200 flex items-center justify-center space-x-1.5 cursor-pointer hover:-translate-y-0.5"
+                    >
+                      <span>{t("My Dashboard", "আমার ড্যাশবোর্ড")}</span>
+                      <ArrowRight className="h-3.5 w-3.5 text-emerald-400" />
+                    </motion.a>
                   </Link>
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     type="button"
                     onClick={logout}
                     className="rounded-xl border border-red-500/10 bg-red-500/5 hover:bg-red-500/10 p-3 text-center text-xs font-bold text-red-400 transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
                   >
                     {t("Sign Out", "লগ আউট")}
-                  </button>
+                  </motion.button>
                 </div>
 
               </div>
@@ -390,26 +406,36 @@ export default function Home() {
       </section>
 
       {/* Platform Statistics Live Metrics */}
-      <section className="mx-auto max-w-5xl px-4 pb-8 -mt-2">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
-          <div className="text-center space-y-1">
-            <span className="block text-2xl font-bold text-emerald-400 font-mono">2,640+</span>
-            <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Active Daily Trips</span>
+      <ScrollReveal delay={0.1}>
+        <section className="mx-auto max-w-5xl px-4 pb-8 -mt-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
+            <div className="text-center space-y-1">
+              <span className="block text-2xl font-bold text-emerald-400 font-mono">
+                <NumberTicker value={2640} suffix="+" />
+              </span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Active Daily Trips</span>
+            </div>
+            <div className="text-center space-y-1 sm:border-l sm:border-slate-800">
+              <span className="block text-2xl font-bold text-teal-400 font-mono">
+                <NumberTicker value={26} />
+              </span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide font-sans">Stations Seeding</span>
+            </div>
+            <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
+              <span className="block text-2xl font-bold text-indigo-400 font-mono">
+                <NumberTicker value={15200} decimals={1} suffix="K" />
+              </span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Verified Citizens</span>
+            </div>
+            <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
+              <span className="block text-2xl font-bold text-emerald-400 font-mono">
+                <NumberTicker value={99.9} decimals={1} suffix="%" />
+              </span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Payment Success Rate</span>
+            </div>
           </div>
-          <div className="text-center space-y-1 sm:border-l sm:border-slate-800">
-            <span className="block text-2xl font-bold text-teal-400 font-mono">26</span>
-            <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide font-sans">Stations Seeding</span>
-          </div>
-          <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
-            <span className="block text-2xl font-bold text-indigo-400 font-mono">15.2K</span>
-            <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Verified Citizens</span>
-          </div>
-          <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
-            <span className="block text-2xl font-bold text-emerald-400 font-mono">99.9%</span>
-            <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Payment Success Rate</span>
-          </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
 
       {/* Professional Search Widget Section */}
       <section id="search-form-container" className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8 relative scroll-mt-24">
@@ -753,86 +779,96 @@ export default function Home() {
             </div>
 
             {/* Search Button */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
               className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 p-4 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
               <Search className="h-5 w-5" />
               <span>SEARCH AVAILABLE TRANSPORT</span>
-            </button>
+            </motion.button>
           </form>
         </div>
       </section>
 
       {/* Promotional Offers Row */}
-      <section className="mx-auto max-w-5xl px-4 pb-16">
-        <h2 className="text-2xl font-bold text-white text-center mb-6 flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-          <Percent className="h-6 w-6 text-emerald-400" />
-          <span>Exclusive Travel Offers</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {promos.map((promo, idx) => (
-            <div 
-              key={idx} 
-              className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 relative overflow-hidden group hover:border-emerald-500/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-            >
-              <span className="absolute top-2 right-2 text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
-                {promo.badge}
-              </span>
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">Promo Code</div>
-              <div className="text-lg font-bold text-emerald-400 mt-1 flex items-center space-x-1.5">
-                <span className="font-mono">{promo.code}</span>
-              </div>
-              <p className="text-xs text-slate-400 mt-2 leading-relaxed">{promo.desc}</p>
-              <div className="text-xs text-slate-500 mt-4 font-semibold">{promo.expiry}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ScrollReveal delay={0.1}>
+        <section className="mx-auto max-w-5xl px-4 pb-16">
+          <h2 className="text-2xl font-bold text-white text-center mb-6 flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+            <Percent className="h-6 w-6 text-emerald-400" />
+            <span>Exclusive Travel Offers</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {promos.map((promo, idx) => (
+              <motion.div 
+                key={idx} 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 relative overflow-hidden group hover:border-emerald-500/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+              >
+                <span className="absolute top-2 right-2 text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
+                  {promo.badge}
+                </span>
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">Promo Code</div>
+                <div className="text-lg font-bold text-emerald-400 mt-1 flex items-center space-x-1.5">
+                  <span className="font-mono">{promo.code}</span>
+                </div>
+                <p className="text-xs text-slate-400 mt-2 leading-relaxed">{promo.desc}</p>
+                <div className="text-xs text-slate-500 mt-4 font-semibold">{promo.expiry}</div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* Premium Top Destinations Cards (Direct Links) */}
-      <section className="mx-auto max-w-5xl px-4 pb-20">
-        <div className="text-center space-y-2 mb-10">
-          <h2 className="text-2xl font-bold text-white flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-            <Flame className="h-6 w-6 text-orange-500" />
-            <span>Trending Destinations In Bangladesh</span>
-          </h2>
-          <p className="text-xs text-slate-400">Click any destination card below to immediately select that route in the booking form</p>
-        </div>
+      <ScrollReveal delay={0.1}>
+        <section className="mx-auto max-w-5xl px-4 pb-20">
+          <div className="text-center space-y-2 mb-10">
+            <h2 className="text-2xl font-bold text-white flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+              <Flame className="h-6 w-6 text-orange-500" />
+              <span>Trending Destinations In Bangladesh</span>
+            </h2>
+            <p className="text-xs text-slate-400">Click any destination card below to immediately select that route in the booking form</p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {topDestinations.map((dest, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleQuickBookSelect(dest.fromCode, dest.toCode, dest.type)}
-              className="w-full text-left rounded-3xl overflow-hidden glass-panel border border-slate-800 hover:border-emerald-500/50 transition-all hover:-translate-y-0.5 duration-200 flex flex-col cursor-pointer relative group h-48"
-            >
-              {/* Background gradient design mimicking a scenic image container */}
-              <div className={`absolute inset-0 bg-gradient-to-tr ${dest.bgGradient} -z-10 group-hover:scale-105 transition-transform duration-500`} />
-              
-              {/* Top status bar */}
-              <div className="p-5 w-full flex justify-between items-start">
-                <span className="text-xs bg-slate-950/80 text-slate-300 border border-slate-800 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
-                  {dest.type} Mode
-                </span>
-                <div className="text-right">
-                  <span className="text-xs text-slate-300 uppercase tracking-wide block font-bold">Fare From</span>
-                  <span className="text-sm font-bold text-emerald-400">{dest.basePrice}</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {topDestinations.map((dest, idx) => (
+              <motion.button
+                key={idx}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => handleQuickBookSelect(dest.fromCode, dest.toCode, dest.type)}
+                className="w-full text-left rounded-3xl overflow-hidden glass-panel border border-slate-800 hover:border-emerald-500/50 transition-all hover:-translate-y-0.5 duration-200 flex flex-col cursor-pointer relative group h-48"
+              >
+                {/* Background gradient design mimicking a scenic image container */}
+                <div className={`absolute inset-0 bg-gradient-to-tr ${dest.bgGradient} -z-10 group-hover:scale-105 transition-transform duration-500`} />
+                
+                {/* Top status bar */}
+                <div className="p-5 w-full flex justify-between items-start">
+                  <span className="text-xs bg-slate-950/80 text-slate-300 border border-slate-800 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
+                    {dest.type} Mode
+                  </span>
+                  <div className="text-right">
+                    <span className="text-xs text-slate-300 uppercase tracking-wide block font-bold">Fare From</span>
+                    <span className="text-sm font-bold text-emerald-400">{dest.basePrice}</span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Bottom Details */}
-              <div className="mt-auto p-5 w-full bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent">
-                <h4 className="text-lg font-bold text-white flex items-center space-x-1.5">
-                  <span>{dest.name}</span>
-                  <ArrowRight className="h-4 w-4 text-emerald-400 transform translate-x-0 group-hover:translate-x-1 transition-transform" />
-                </h4>
-                <p className="text-xs text-slate-400 mt-1">{dest.tagline}</p>
-              </div>
-            </button>
-          ))}
-        </div>
-      </section>
+                {/* Bottom Details */}
+                <div className="mt-auto p-5 w-full bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent">
+                  <h4 className="text-lg font-bold text-white flex items-center space-x-1.5">
+                    <span>{dest.name}</span>
+                    <ArrowRight className="h-4 w-4 text-emerald-400 transform translate-x-0 group-hover:translate-x-1 transition-transform" />
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-1">{dest.tagline}</p>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* Interactive Match Score Engine Simulator */}
       <section className="mx-auto max-w-5xl px-4 pb-20">
@@ -990,21 +1026,23 @@ export default function Home() {
       </section>
 
       {/* Frequently Asked Questions */}
-      <section className="mx-auto max-w-3xl px-4 py-20 space-y-10">
-        <h2 className="text-2xl font-bold text-white text-center flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-          <HelpCircle className="h-6 w-6 text-slate-500" />
-          <span>Frequently Asked Questions</span>
-        </h2>
-        
-        <div className="space-y-4">
-          {faqs.map((faq, idx) => (
-            <div key={idx} className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2 hover:border-slate-700 transition-colors">
-              <h4 className="font-bold text-white text-sm">{faq.q}</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">{faq.a}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ScrollReveal delay={0.1}>
+        <section className="mx-auto max-w-3xl px-4 py-20 space-y-10">
+          <h2 className="text-2xl font-bold text-white text-center flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+            <HelpCircle className="h-6 w-6 text-slate-500" />
+            <span>Frequently Asked Questions</span>
+          </h2>
+          
+          <div className="space-y-4">
+            {faqs.map((faq, idx) => (
+              <div key={idx} className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2 hover:border-slate-700 transition-colors">
+                <h4 className="font-bold text-white text-sm">{faq.q}</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </ScrollReveal>
 
     </div>
   );
