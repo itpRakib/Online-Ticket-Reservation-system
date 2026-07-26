@@ -1,17 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  /* Backgrounds — rich midnight charcoal */
+  /* ─── Light Mode Defaults ─── */
+  --bg-deep: #F8FAFC;
+  --bg-base: #F1F5F9;
+  --bg-raised: #FFFFFF;
+  --bg-elevated: #F8FAFC;
+  --foreground: #0F172A;
+
+  /* Accent — Vibrant Cobalt & Teal */
+  --accent: #2563EB;
+  --accent-dim: #1D4ED8;
+  --accent-hover: #3B82F6;
+  --accent-glow: rgba(37, 99, 235, 0.08);
+  --accent-subtle: rgba(37, 99, 235, 0.04);
+
+  --secondary: #0D9488;
+  --secondary-glow: rgba(13, 148, 136, 0.08);
+  --amber-accent: #D97706;
+
+  /* Text hierarchy */
+  --text-bright: #0F172A;
+  --text-primary: #334155;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+
+  /* Borders */
+  --border: rgba(37, 99, 235, 0.08);
+  --border-subtle: rgba(37, 99, 235, 0.04);
+  --border-hover: rgba(37, 99, 235, 0.2);
+}
+
+.dark {
+  /* ─── Dark Mode Overrides (Default) ─── */
   --bg-deep: #0B0F17;
   --bg-base: #0F172A;
   --bg-raised: #111827;
   --bg-elevated: #1F2937;
-
-  /* Legacy aliases for compatibility */
-  --background: #0B0F17;
   --foreground: #F9FAFB;
-  --surface: #111827;
-  --surface-raised: #1F2937;
 
   /* Accent — Electric Cyan & Deep Radiant Violet */
   --accent: #00F0FF;
@@ -52,6 +78,16 @@ body {
   overflow-x: hidden;
 }
 
+/* ─── Global Smooth Theme Transitions ─── */
+body, header, footer, main, div, section, article, nav, button, a, input, select, textarea, span, p, h1, h2, h3, h4, h5, h6 {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Disable color transition on canvas to avoid stutter during paint loops */
+canvas {
+  transition: none !important;
+}
+
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
@@ -68,10 +104,14 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  background: #4B5563;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
   background: #374151;
 }
 
-/* ─── Glass Surfaces (70% opacity, 12px blur) ─── */
+/* ─── Glass Surfaces ─── */
 .glass-panel {
   background: rgba(17, 24, 39, 0.7);
   backdrop-filter: blur(12px) saturate(1.2);
@@ -80,13 +120,23 @@ body {
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.02);
 }
 
+:root:not(.dark) .glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
 .glass-card {
   background: rgba(17, 24, 39, 0.45);
   backdrop-filter: blur(12px) saturate(1.1);
   -webkit-backdrop-filter: blur(12px) saturate(1.1);
   border: 1px solid var(--border);
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.01);
-  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:root:not(.dark) .glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(37, 99, 235, 0.08);
 }
 
 .glass-card:hover {
@@ -97,6 +147,12 @@ body {
     0 0 20px rgba(0, 240, 255, 0.04);
 }
 
+:root:not(.dark) .glass-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.06);
+}
+
 /* Accessible focus ring */
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -104,15 +160,14 @@ body {
   border-radius: 4px;
 }
 
-/* Smooth transitions */
-button, a, input, select, textarea {
-  transition: all 0.2s ease;
-}
-
 /* Input Focus Glow */
 input:focus, select:focus, textarea:focus {
   border-color: var(--accent) !important;
   box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1), 0 0 12px rgba(0, 240, 255, 0.05);
+}
+
+:root:not(.dark) input:focus, :root:not(.dark) select:focus, :root:not(.dark) textarea:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 0 12px rgba(37, 99, 235, 0.05);
 }
 
 /* Animations */
@@ -202,6 +257,11 @@ input:focus, select:focus, textarea:focus {
   color: var(--text-bright);
 }
 
+:root:not(.dark) ::selection {
+  background-color: rgba(37, 99, 235, 0.2);
+  color: var(--text-bright);
+}
+
 /* ────────────────────────────────────────────────────────
    3D BOX ANIMATION LOGO STYLES (Uiverse.io by Nawsome)
    ──────────────────────────────────────────────────────── */
@@ -247,7 +307,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .boxes .box > div {
-  --background: #00F0FF; /* Electric Cyan */
+  --background: var(--accent); /* Theme-adaptive main color */
   --top: auto;
   --right: auto;
   --bottom: auto;
@@ -272,21 +332,29 @@ input:focus, select:focus, textarea:focus {
 }
 
 .boxes .box > div:nth-child(2) {
-  --background: #8A2BE2; /* Neon Purple */
+  --background: var(--secondary); /* Theme-adaptive side color */
   --right: 0;
   --rotateY: 90deg;
 }
 
 .boxes .box > div:nth-child(3) {
-  --background: #581C87; /* Dark Purple shadow */
+  --background: #581C87; /* Shadow */
   --rotateX: -90deg;
 }
 
+:root:not(.dark) .boxes .box > div:nth-child(3) {
+  --background: #0F766E; /* Teal shadow in light mode */
+}
+
 .boxes .box > div:nth-child(4) {
-  --background: #1E293B; /* Dark slate top cap */
+  --background: #1E293B; /* Top Cap */
   --top: 0;
   --left: 0;
   --translateZ: calc(var(--size) * 3 * -1);
+}
+
+:root:not(.dark) .boxes .box > div:nth-child(4) {
+  --background: #E2E8F0; /* Top slate cap in light mode */
 }
 
 @keyframes box1 {

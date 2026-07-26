@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PlexusBackground } from "@/components/PlexusBackground";
@@ -29,16 +30,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased dark">
+    <html lang="en" className="h-full antialiased">
       <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans min-h-full flex flex-col bg-[var(--bg-deep)] text-[var(--text-primary)] relative overflow-x-hidden`}>
-        <AuthProvider>
-          <PlexusBackground />
-          <Header />
-          <main className="flex-grow flex flex-col">
-            {children}
-          </main>
-          <Footer />
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <PlexusBackground />
+            <Header />
+            <main className="flex-grow flex flex-col">
+              {children}
+            </main>
+            <Footer />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

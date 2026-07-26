@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Ticket, LogOut } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
+import { Ticket, LogOut, Sun, Moon } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 
 export const Header: React.FC = () => {
   const { user, logout, language, toggleLanguage } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const [hidden, setHidden] = useState(false);
   const { scrollY } = useScroll();
@@ -113,6 +115,28 @@ export const Header: React.FC = () => {
             <span className={language === 'en' ? 'text-cyan-400 font-bold' : ''}>EN</span>
             <span className="text-slate-600">|</span>
             <span className={language === 'bn' ? 'text-cyan-400 font-bold' : ''}>বাংলা</span>
+          </button>
+
+          {/* Theme Toggler Button */}
+          <button
+            onClick={toggleTheme}
+            className="rounded-lg p-2 text-slate-400 hover:text-cyan-400 hover:bg-slate-900/40 border border-slate-800 bg-slate-900/60 dark:bg-slate-900/20 transition-all cursor-pointer flex items-center justify-center print:hidden h-8 w-8"
+            title={theme === 'dark' ? 'Activate Light Mode' : 'Activate Dark Mode'}
+          >
+            <motion.div
+              key={theme}
+              initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="flex items-center justify-center"
+            >
+              {theme === 'dark' ? (
+                <Sun className="h-4 w-4 text-yellow-500" />
+              ) : (
+                <Moon className="h-4 w-4 text-indigo-600" />
+              )}
+            </motion.div>
           </button>
 
           {user ? (

@@ -2,10 +2,18 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import { useTheme } from '@/context/ThemeContext';
 
 export const PlexusBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const { theme } = useTheme();
+
+  // Create a ref for theme so that requestAnimationFrame draws can access it instantly without rebuilding the canvas context
+  const themeRef = useRef(theme);
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -35,12 +43,9 @@ export const PlexusBackground: React.FC = () => {
       y: number;
       vx: number;
       vy: number;
-      ox: number; // original relative coords for resize scaling
-      oy: number;
     }
 
     const particles: Node[] = [];
-    // Number of particles based on screen width
     const particleCount = Math.min(80, Math.floor((window.innerWidth * window.innerHeight) / 18000));
 
     const canvasWidth = canvas.offsetWidth;
@@ -50,10 +55,8 @@ export const PlexusBackground: React.FC = () => {
       particles.push({
         x: Math.random() * canvasWidth,
         y: Math.random() * canvasHeight,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        ox: Math.random(),
-        oy: Math.random()
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3
       });
     }
 
@@ -77,6 +80,19 @@ export const PlexusBackground: React.FC = () => {
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
+      const currentTheme = themeRef.current;
+
+      // Theme-adaptive drawing configurations
+      const nodeColor = currentTheme === 'dark' 
+        ? 'rgba(0, 240, 255, 0.15)'   // Dark: Neon Cyan
+        : 'rgba(37, 99, 235, 0.12)';  // Light: Cobalt Blue
+
+      const lineStrokeTemplate = currentTheme === 'dark'
+        ? 'rgba(0, 240, 255, ALPHA)'  // Dark: Neon Cyan line
+        : 'rgba(37, 99, 235, ALPHA)'; // Light: Cobalt Blue line
+
+      const maxOpacity = currentTheme === 'dark' ? 0.08 : 0.05;
+
       // Draw all nodes
       particles.forEach((p) => {
         // Move particle
@@ -87,7 +103,6 @@ export const PlexusBackground: React.FC = () => {
         if (p.x < 0 || p.x > w) p.vx *= -1;
         if (p.y < 0 || p.y > h) p.vy *= -1;
 
-        // Keep inside bounds
         p.x = Math.max(0, Math.min(w, p.x));
         p.y = Math.max(0, Math.min(h, p.y));
 
@@ -101,14 +116,13 @@ export const PlexusBackground: React.FC = () => {
           if (dist < repelRadius) {
             const force = (repelRadius - dist) / repelRadius;
             const angle = Math.atan2(dy, dx);
-            // Push away gently
             p.x += Math.cos(angle) * force * 1.5;
             p.y += Math.sin(angle) * force * 1.5;
           }
         }
 
         // Draw particle dot
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.15)'; // Cyan
+        ctx.fillStyle = nodeColor;
         ctx.beginPath();
         ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
         ctx.fill();
@@ -128,8 +142,8 @@ export const PlexusBackground: React.FC = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            const alpha = (1 - dist / connectionDist) * 0.08;
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            const alpha = (1 - dist / connectionDist) * maxOpacity;
+            ctx.strokeStyle = lineStrokeTemplate.replace('ALPHA', String(alpha));
             ctx.beginPath();
             ctx.moveTo(pA.x, pA.y);
             ctx.lineTo(pB.x, pB.y);
@@ -152,7 +166,6 @@ export const PlexusBackground: React.FC = () => {
   }, [shouldReduceMotion]);
 
   if (shouldReduceMotion) {
-    // Show a static decorative background glow instead of animated canvas
     return (
       <div className="fixed inset-0 pointer-events-none -z-50 bg-[var(--bg-deep)]">
         <div className="absolute inset-0 bg-gradient-to-tr from-cyan-950/5 via-transparent to-purple-950/5 opacity-60" />
@@ -163,9 +176,9 @@ export const PlexusBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 pointer-events-none -z-50 w-full h-full overflow-hidden bg-[var(--bg-deep)]">
       <canvas ref={canvasRef} className="w-full h-full block" />
-      {/* Light leak radial masks to add depth to grid constellations */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(0,240,255,0.02)_0%,transparent_70%)] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[55vw] h-[55vw] rounded-full bg-[radial-gradient(circle,rgba(138,43,226,0.02)_0%,transparent_70%)] pointer-events-none" />
+      {/* Light leak radial masks with theme-aware variations */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,var(--accent-glow)_0%,transparent_70%)] pointer-events-none transition-all duration-500" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[55vw] h-[55vw] rounded-full bg-[radial-gradient(circle,var(--secondary-glow)_0%,transparent_70%)] pointer-events-none transition-all duration-500" />
     </div>
   );
 };
