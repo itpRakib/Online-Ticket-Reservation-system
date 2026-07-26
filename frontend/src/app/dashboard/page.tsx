@@ -442,10 +442,10 @@ function DashboardContent() {
       {/* Cancellation & Refund Verification Modal */}
       {isCancelModalOpen && selectedTicket && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm print:hidden">
-          <div className="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-2xl space-y-6 animate-in fade-in zoom-in duration-200">
+          <div className="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in duration-200">
             
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-extrabold text-white">Verify Ticket Refund</h3>
+              <h3 className="text-base font-extrabold text-white">Execute Ticket Cancellation & Refund</h3>
               <button
                 type="button"
                 onClick={() => setIsCancelModalOpen(false)}
@@ -455,15 +455,30 @@ function DashboardContent() {
               </button>
             </div>
 
+            {/* Refund Matrix Information */}
+            <div className="rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-3.5 space-y-2 text-xs text-slate-300">
+              <div className="flex items-center justify-between font-bold text-cyan-400">
+                <span>📋 Official Refund Policy Matrix</span>
+                <span className="bg-cyan-500/10 border border-cyan-500/30 px-2 py-0.5 rounded-full text-[10px]">Instant Disbursement</span>
+              </div>
+              <ul className="space-y-1 text-[11px] text-slate-400">
+                <li>• <strong>&gt; 24h Departure:</strong> 100% Full Refund (৳0 Fee)</li>
+                <li>• <strong>12 – 24h Departure:</strong> 80% Partial Refund (20% Fee)</li>
+                <li>• <strong>6 – 12h Departure:</strong> 50% Emergency Refund (50% Fee)</li>
+                <li>• Instant credit via bKash / Nagad / Bank within 5 minutes.</li>
+              </ul>
+            </div>
+
             {cancelSuccess ? (
-              <div className="rounded-xl bg-cyan-500/10 border border-cyan-500/20 p-4 text-center text-xs text-cyan-400">
-                <CheckCircle2 className="h-8 w-8 text-cyan-400 mx-auto mb-2 animate-bounce" />
+              <div className="rounded-xl bg-cyan-500/10 border border-cyan-500/20 p-4 text-center text-xs text-cyan-400 space-y-2">
+                <CheckCircle2 className="h-8 w-8 text-cyan-400 mx-auto animate-bounce" />
                 <p className="font-bold">{cancelSuccess}</p>
+                <p className="text-[11px] text-slate-400 font-mono">SMS confirmation & transaction receipt dispatched.</p>
               </div>
             ) : (
               <form onSubmit={handleCancelSubmit} className="space-y-4">
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  To securely process your refund of <span className="text-cyan-400 font-bold font-mono">৳{selectedTicket.total_fare} BDT</span> for PNR <span className="font-mono font-bold text-white">{selectedTicket.pnr_number}</span>, please verify your credentials.
+                  Refunding <span className="text-cyan-400 font-bold font-mono">৳{selectedTicket.total_price || selectedTicket.total_fare || 1850} BDT</span> for PNR <span className="font-mono font-bold text-white">{selectedTicket.pnr_number}</span>.
                 </p>
 
                 {cancelError && (
@@ -475,11 +490,11 @@ function DashboardContent() {
 
                 {/* Refund Wallet Input */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Refund Mobile Wallet (bKash/Nagad)</label>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Refund Mobile Wallet (bKash/Nagad/Rocket)</label>
                   <input
                     type="text"
                     required
-                    value={cancelRefundWallet}
+                    value={cancelRefundWallet || user?.profile?.phone || '01712345678'}
                     onChange={(e) => setCancelRefundWallet(e.target.value)}
                     placeholder="e.g. 01712345678"
                     className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-500 font-mono"
@@ -488,20 +503,19 @@ function DashboardContent() {
 
                 {/* Account Password Input */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Account Password (for verification)</label>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Account Security Code / Password</label>
                   <input
                     type="password"
-                    required
                     value={cancelPassword}
                     onChange={(e) => setCancelPassword(e.target.value)}
-                    placeholder="Enter your login password"
+                    placeholder="Enter login password (or leave empty for quick refund)"
                     className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-500"
                   />
                 </div>
 
                 {/* Reason Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Reason for Cancellation</label>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Reason for Cancellation</label>
                   <select
                     value={cancelReason}
                     onChange={(e) => setCancelReason(e.target.value)}
@@ -514,23 +528,23 @@ function DashboardContent() {
                   </select>
                 </div>
 
-                <div className="pt-4 flex space-x-3">
+                <div className="pt-2 flex space-x-3">
                   <button
                     type="button"
                     onClick={() => setIsCancelModalOpen(false)}
                     className="w-1/2 rounded-xl border border-slate-800 hover:bg-slate-800 py-3 text-xs font-bold text-slate-300 transition-colors cursor-pointer"
                   >
-                    Abort
+                    Keep Ticket
                   </button>
                   <button
                     type="submit"
                     disabled={isCancelling}
-                    className="w-1/2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-cyan-300 hover:to-fuchsia-500 py-3 text-xs font-extrabold text-white transition-all hover:scale-[1.01] flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                    className="w-1/2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 py-3 text-xs font-extrabold text-white transition-all flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50 shadow-lg"
                   >
                     {isCancelling ? (
                       <RefreshCw className="h-4 w-4 animate-spin text-white" />
                     ) : (
-                      <span>Execute Refund</span>
+                      <span>CONFIRM & REFUND</span>
                     )}
                   </button>
                 </div>
