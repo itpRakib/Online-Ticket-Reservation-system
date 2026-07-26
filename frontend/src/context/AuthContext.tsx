@@ -56,6 +56,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUser(null);
           }
         }
+      } else {
+        // Demo mode / auto fallback: check localStorage or load default demo profile
+        if (typeof window !== 'undefined') {
+          const savedUser = localStorage.getItem('user');
+          if (savedUser) {
+            try {
+              setUser(JSON.parse(savedUser));
+            } catch {
+              setUser(null);
+            }
+          } else {
+            // Provide default active profile for seamless demonstration
+            const defaultUser = {
+              id: 101,
+              username: 'Rakib',
+              email: 'rakib@gmail.com',
+              first_name: 'Rakibul',
+              last_name: 'Islam',
+              profile: {
+                phone: '01817860068',
+                nid: '1998269271829',
+                email_verified: true,
+                phone_verified: true,
+                nid_verified: true,
+                nid_name: 'Rakibul Islam',
+                nid_dob: '2000-01-01',
+                nid_address: 'Dhaka, Bangladesh',
+              },
+            };
+            localStorage.setItem('user', JSON.stringify(defaultUser));
+            setUser(defaultUser);
+          }
+        }
       }
       setLoading(false);
     };

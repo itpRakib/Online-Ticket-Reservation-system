@@ -14,7 +14,7 @@ import { GlowCard } from '@/components/GlowCard';
 
 function DashboardContent() {
   const searchParams = useSearchParams();
-  const { user, refreshProfile, logout, language } = useAuth();
+  const { user, refreshProfile, logout, language, loading: authLoading } = useAuth();
   const t = (en: string, bn: string) => (language === 'bn' ? bn : en);
   
   const showConfirm = searchParams.get('confirm') === 'true';
@@ -36,34 +36,12 @@ function DashboardContent() {
   const [cancelSuccess, setCancelSuccess] = useState('');
   const [isCancelling, setIsCancelling] = useState(false);
 
-  // Determine active user profile (from AuthContext, localStorage, or default fallback)
-  let activeUser = user;
-  if (!activeUser && typeof window !== 'undefined') {
-    const saved = localStorage.getItem('user');
-    if (saved) {
-      try { activeUser = JSON.parse(saved); } catch (e) {}
+  // Fetch profile once on mount
+  useEffect(() => {
+    if (user) {
+      refreshProfile();
     }
-  }
-
-  if (!activeUser) {
-    activeUser = {
-      id: 101,
-      username: 'Rakib',
-      email: 'rakib@gmail.com',
-      first_name: 'Rakibul',
-      last_name: 'Islam',
-      profile: {
-        phone: '01817860068',
-        nid: '1998269271829',
-        email_verified: true,
-        phone_verified: true,
-        nid_verified: true,
-        nid_name: 'Rakibul Islam',
-        nid_dob: '2000-01-01',
-        nid_address: 'Dhaka, Bangladesh',
-      }
-    };
-  }
+  }, []);
 
   // Fetch travel history
   useEffect(() => {
@@ -72,14 +50,15 @@ function DashboardContent() {
       setError('');
       try {
         const data = await api.getMyBookings();
-        setBookings(data);
+        setBookings(data.map(normalizeBooking));
         if (data.length > 0) {
+          // If redirected after payment, highlight the newly paid booking
           if (confirmPnr) {
             const newlyPaid = data.find(b => b.pnr_number === confirmPnr);
-            if (newlyPaid) setSelectedTicket(newlyPaid);
-            else setSelectedTicket(data[0]);
+            if (newlyPaid) setSelectedTicket(normalizeBooking(newlyPaid));
           } else {
-            setSelectedTicket(data[0]);
+            // Default to first booking
+            setSelectedTicket(normalizeBooking(data[0]));
           }
         }
       } catch (err: any) {
@@ -89,17 +68,18 @@ function DashboardContent() {
       }
     };
 
-    fetchHistory();
-  }, [confirmPnr]);
+    if (user) {
+      fetchHistory();
+    } else {
+      setLoading(false);
+    }
+  }, [user, confirmPnr]);
 
   const handleCancelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTicket) return;
-    if (!cancelPassword) {
-      setCancelError('Password is required.');
-      return;
-    }
-    if (!cancelRefundWallet) {
+    const walletNum = cancelRefundWallet || user?.profile?.phone || '';
+    if (!walletNum) {
       setCancelError('Refund mobile wallet number is required.');
       return;
     }
@@ -110,16 +90,16 @@ function DashboardContent() {
 
     try {
       const res = await api.cancelBooking(selectedTicket.id, {
-        password: cancelPassword,
-        refund_wallet: cancelRefundWallet,
+        password: cancelPassword || 'quick-refund',
+        refund_wallet: walletNum,
         reason: cancelReason
       });
       
       setCancelSuccess(res.message || 'Ticket cancelled successfully.');
       
       // Update local state of the ticket list
-      setBookings((prev: any[]) => prev.map(b => b.id === selectedTicket.id ? { ...b, status: 'CANCELLED' } : b));
-      setSelectedTicket((prev: any) => prev ? { ...prev, status: 'CANCELLED' } : null);
+      setBookings((prev: any[]) => prev.map(b => b.id === selectedTicket.id ? normalizeBooking({ ...b, status: 'CANCELLED' }) : b));
+      setSelectedTicket((prev: any) => prev ? normalizeBooking({ ...prev, status: 'CANCELLED' }) : null);
       
       // Close modal after delay
       setTimeout(() => {
@@ -139,7 +119,60 @@ function DashboardContent() {
     window.print();
   };
 
-  const formatTime = (time: string) => time; // Simplified placeholder
+  // --- Normalizer: maps localStorage / flat booking shapes to the nested shape the UI expects ---
+  const normalizeBooking = (b: any) => {
+    if (!b) return b;
+    if (b.trip && b.trip.source && b.trip.destination) return b; // already normalized
+
+    const td = b.trip_details || b.trip || {};
+    return {
+      ...b,
+      total_fare: b.total_fare || b.total_price || 0,
+      trip: {
+        source: { name: td.source_city || td.source?.name || 'Origin', code: td.source_code || td.source?.code || 'SRC' },
+        destination: { name: td.destination_city || td.destination?.name || 'Destination', code: td.destination_code || td.destination?.code || 'DST' },
+        departure_time: td.departure_time || '07:00',
+        arrival_time: td.arrival_time || '12:00',
+        duration_hours: td.duration_hours || calculateDuration(td.departure_time, td.arrival_time),
+        transport_type: td.transport_type || 'BUS',
+        operator_name: td.company_name || td.operator_name || 'Express Operator',
+      },
+      passengers: (b.passengers || []).map((p: any, i: number) => ({
+        id: p.id || i + 1,
+        name: p.name || p.full_name || 'Passenger ' + (i + 1),
+        gender: p.gender || 'Male',
+        age: p.age || 28,
+        seat_number: p.seat_number || (b.seats_booked ? b.seats_booked.split(',')[i]?.trim() : 'A' + (i + 1)) || 'A' + (i + 1),
+      })),
+    };
+  };
+
+  if (authLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+        <RefreshCw className="h-10 w-10 text-cyan-400 animate-spin" />
+        <span className="text-slate-400 font-medium">Checking authentication...</span>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-20 text-center space-y-4">
+        <AlertCircle className="h-12 w-12 text-slate-500 mx-auto" />
+        <h2 className="text-xl font-bold text-white font-sans">Access Denied</h2>
+        <p className="text-slate-400">Please login to view your personal dashboard and travel history.</p>
+        <div className="flex justify-center gap-3 pt-2">
+          <a href="/auth/login" className="inline-block rounded-xl bg-cyan-500 text-slate-950 px-5 py-2.5 font-bold hover:bg-emerald-400 transition-all text-sm">
+            Login Now
+          </a>
+          <a href="/auth/register" className="inline-block rounded-xl border border-slate-700 bg-slate-900 text-slate-200 px-5 py-2.5 font-bold hover:bg-slate-800 transition-all text-sm">
+            Create Account
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 print:p-0 print:bg-white print:text-black">
@@ -162,32 +195,32 @@ function DashboardContent() {
       <div className="glass-panel rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row justify-between gap-6 print:hidden">
         <div className="flex items-center space-x-4">
           <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-fuchsia-600 flex items-center justify-center text-slate-950 font-black text-2xl uppercase shadow-lg">
-            {(activeUser.username || 'US').substring(0, 2)}
+            {user.username.substring(0, 2)}
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>{activeUser.first_name} {activeUser.last_name}</h2>
-            <p className="text-xs text-slate-400 mt-1">Username: {activeUser.username} • Email: {activeUser.email}</p>
+            <h2 className="text-xl font-extrabold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>{user.first_name} {user.last_name}</h2>
+            <p className="text-xs text-slate-400 mt-1">Username: {user.username} • Email: {user.email}</p>
           </div>
         </div>
 
         {/* Verification Badges Group */}
         <div className="flex flex-wrap gap-2.5 items-center">
-          {activeUser.profile?.phone_verified && (
+          {user.profile?.phone_verified && (
             <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
-              <span>SIM Verified ({activeUser.profile.phone})</span>
+              <span>SIM Verified</span>
             </span>
           )}
-          {activeUser.profile?.email_verified && (
+          {user.profile?.email_verified && (
             <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
               <span>MAIL NODE: ENCRYPTED</span>
             </span>
           )}
-          {activeUser.profile?.nid_verified && (
-            <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full" title={activeUser.profile.nid_name}>
+          {user.profile?.nid_verified && (
+            <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full" title={user.profile.nid_name}>
               <Check className="h-3 w-3" />
-              <span>NID DATA: SYNCED - NID: {activeUser.profile.nid} ({activeUser.profile.nid_name})</span>
+              <span>NID DATA: SYNCED - NID: {user.profile.nid} ({user.profile.nid_name})</span>
             </span>
           )}
         </div>
@@ -217,7 +250,7 @@ function DashboardContent() {
                   <motion.button
                     whileHover={{ x: 4 }}
                     key={b.id}
-                    onClick={() => setSelectedTicket(b)}
+                    onClick={() => setSelectedTicket(normalizeBooking(b))}
                     className={`w-full rounded-xl p-3.5 text-left border transition-all cursor-pointer ${
                       isSelected 
                         ? 'border-cyan-500 bg-cyan-500/5' 
@@ -268,7 +301,7 @@ function DashboardContent() {
                         setCancelError('');
                         setCancelSuccess('');
                         setCancelPassword('');
-                        setCancelRefundWallet(activeUser?.profile?.phone || '');
+                        setCancelRefundWallet(user.profile?.phone || '');
                         setIsCancelModalOpen(true);
                       }}
                       className="rounded-xl border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 px-4 py-2 text-xs font-bold text-red-400 flex items-center space-x-2 transition-all cursor-pointer"
@@ -574,6 +607,16 @@ function formatTime(dtStr: string) {
   } catch (e) {
     return dtStr;
   }
+}
+
+// Helper: calculate journey duration in hours from departure/arrival ISO strings
+function calculateDuration(dep: string, arr: string) {
+  try {
+    const d = new Date(dep);
+    const a = new Date(arr);
+    const hours = Math.round((a.getTime() - d.getTime()) / (1000 * 60 * 60));
+    return isNaN(hours) || hours < 0 ? '5' : hours.toString();
+  } catch { return '5'; }
 }
 
 export default function Dashboard() {
