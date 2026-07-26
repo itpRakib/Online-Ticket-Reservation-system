@@ -295,7 +295,16 @@ function DashboardContent() {
               <div className="flex justify-between items-center print:hidden">
                 <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Official Ticket Stub</span><div className="h-12 border-l-2 border-dotted border-cyan-500 my-2"></div>
                 <div className="flex items-center space-x-2">
-                  {selectedTicket.status === 'PAID' && (
+                  {selectedTicket.status === 'PENDING' && (
+                    <a
+                      href={`/payment/${selectedTicket.id}`}
+                      className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 px-4 py-2 text-xs font-bold text-cyan-400 flex items-center space-x-2 transition-all cursor-pointer"
+                    >
+                      <CreditCard className="h-4 w-4 text-cyan-400" />
+                      <span>Complete Payment</span>
+                    </a>
+                  )}
+                  {selectedTicket.status !== 'CANCELLED' && (
                     <button
                       onClick={() => {
                         setCancelError('');
@@ -307,7 +316,7 @@ function DashboardContent() {
                       className="rounded-xl border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 px-4 py-2 text-xs font-bold text-red-400 flex items-center space-x-2 transition-all cursor-pointer"
                     >
                       <X className="h-4 w-4 text-red-400" />
-                      <span>Cancel & Refund Ticket</span>
+                      <span>{selectedTicket.status === 'PENDING' ? 'Cancel Booking' : 'Cancel & Refund Ticket'}</span>
                     </button>
                   )}
                   <button
