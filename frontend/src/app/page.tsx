@@ -16,6 +16,7 @@ import {
 import { FuturisticHUD } from '@/components/FuturisticHUD';
 import { TiltCard } from '@/components/TiltCard';
 import { GlowCard } from '@/components/GlowCard';
+import { RetroGrid } from '@/components/RetroGrid';
 
 export default function Home() {
   const router = useRouter();
@@ -1030,6 +1031,7 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
+      <RetroGrid />
     </div>
   );
 }
