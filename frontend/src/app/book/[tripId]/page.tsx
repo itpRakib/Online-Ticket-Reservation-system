@@ -123,8 +123,12 @@ function BookTripContent() {
     };
 
     try {
-      const res = await api.createBooking(payload);
-      router.push(`/payment/${res.booking.id}`);
+      const res: any = await api.createBooking(payload);
+      const bookingId = res?.id || res?.booking?.id || res?.booking_id || res?.pnr_number;
+      if (!bookingId) {
+        throw new Error('Could not resolve created booking ID.');
+      }
+      router.push(`/payment/${bookingId}`);
     } catch (err: any) {
       setError(err.message || 'Failed to create booking.');
       setSubmitting(false);
