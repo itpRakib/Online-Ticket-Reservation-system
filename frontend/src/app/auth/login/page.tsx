@@ -3,6 +3,7 @@
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { isValidBDPhone, isValidGmail } from '@/utils/api';
 import Link from 'next/link';
 import { Ticket, User as UserIcon, Lock, AlertCircle, RefreshCw, Eye, EyeOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -27,14 +28,32 @@ function LoginForm() {
       setError('Please fill in all fields.');
       return;
     }
+
+    const input = username.trim();
+
+    // Validation checks for Email & Phone login attempts
+    if (input.includes('@')) {
+      if (!isValidGmail(input)) {
+        setError('Login requires a valid Gmail address (ending in @gmail.com).');
+        return;
+      }
+    }
+
+    if (/^\+?\d+$/.test(input.replace(/[- ]/g, ''))) {
+      if (!isValidBDPhone(input)) {
+        setError('Login requires a valid 11-digit Bangladesh phone number starting with 01 (e.g. 017XXXXXXXX).');
+        return;
+      }
+    }
+
     setError('');
     setLoading(true);
 
     try {
-      await login(username, password);
+      await login(input, password);
       router.push(redirectUrl);
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please check your username and password.');
+      setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }

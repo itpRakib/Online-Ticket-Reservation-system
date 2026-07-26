@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/utils/api';
+import { api, isValidBDPhone, isValidGmail } from '@/utils/api';
 import Link from 'next/link';
 import { 
   Ticket, User, Mail, Lock, Phone, CreditCard, 
@@ -89,18 +89,22 @@ export default function Register() {
     setToastMessage(msg);
     setTimeout(() => {
       setToastMessage('');
-    }, 15000); // Leave visible so the user can read the simulated OTP code
+    }, 15000);
   };
 
   // --- Step 1: Submit Account Info ---
   const handleAccountSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !email || !firstName || !lastName || !password) {
-      setError('Please fill in all fields.');
+      setError('Please fill in all account fields.');
       return;
     }
-    if (!email.includes('@gmail.com')) {
-      setError('A valid Gmail address (@gmail.com) is required.');
+    if (!isValidGmail(email)) {
+      setError('Registration strictly requires a valid Gmail address (ending in @gmail.com).');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
       return;
     }
     setError('');
@@ -109,8 +113,8 @@ export default function Register() {
 
   // --- Step 2: SIM OTP Send & Verify ---
   const handleSendSimOtp = async () => {
-    if (!phone || phone.length < 11) {
-      setError('Please enter a valid Bangladeshi mobile number (e.g., 017XXXXXXXX).');
+    if (!isValidBDPhone(phone)) {
+      setError('Please enter a valid 11-digit Bangladesh phone number starting with 01 (e.g. 01712345678).');
       return;
     }
     setError('');
@@ -144,8 +148,8 @@ export default function Register() {
   };
 
   const handleQuickAutoVerifySim = () => {
-    if (!phone || phone.length < 11) {
-      setError('Please enter a valid Bangladeshi mobile number (e.g., 017XXXXXXXX).');
+    if (!isValidBDPhone(phone)) {
+      setError('Please enter a valid 11-digit Bangladesh phone number starting with 01 (e.g. 01712345678).');
       return;
     }
     setError('');
@@ -172,6 +176,10 @@ export default function Register() {
 
   // --- Step 3: Gmail OTP Send & Verify ---
   const handleSendEmailOtp = async () => {
+    if (!isValidGmail(email)) {
+      setError('A valid Gmail address (@gmail.com) is required.');
+      return;
+    }
     setLoading(true);
     try {
       const res = await api.sendOTP(email, 'email');
@@ -195,6 +203,10 @@ export default function Register() {
   };
 
   const handleQuickAutoVerifyEmail = () => {
+    if (!isValidGmail(email)) {
+      setError('A valid Gmail address (@gmail.com) is required.');
+      return;
+    }
     setError('');
     const mockOtp = Math.floor(100000 + Math.random() * 900000).toString();
     setEmailOtpActual(mockOtp);
@@ -257,6 +269,26 @@ export default function Register() {
 
   // --- Step 5: Final Submission ---
   const handleFinalRegister = async () => {
+    if (!isValidBDPhone(phone)) {
+      setError('Registration Blocked: A valid 11-digit Bangladesh phone number is strictly required.');
+      setStep(2);
+      return;
+    }
+    if (!isValidGmail(email)) {
+      setError('Registration Blocked: A valid Gmail address (@gmail.com) is strictly required.');
+      setStep(3);
+      return;
+    }
+    if (!simVerified) {
+      setError('Registration Blocked: SIM SMS OTP verification must be completed.');
+      setStep(2);
+      return;
+    }
+    if (!emailVerified) {
+      setError('Registration Blocked: Gmail OTP verification must be completed.');
+      setStep(3);
+      return;
+    }
     setLoading(true);
     setError('');
     

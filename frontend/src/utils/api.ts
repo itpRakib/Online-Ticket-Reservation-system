@@ -1,5 +1,19 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 
+export const BD_PHONE_REGEX = /^(?:\+88)?01[3-9]\d{8}$/;
+export const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
+
+export function isValidBDPhone(phone: string): boolean {
+  if (!phone) return false;
+  const cleaned = phone.trim().replace(/\s+/g, '').replace(/-/g, '');
+  return BD_PHONE_REGEX.test(cleaned);
+}
+
+export function isValidGmail(email: string): boolean {
+  if (!email) return false;
+  return GMAIL_REGEX.test(email.trim());
+}
+
 export interface User {
   id: number;
   username: string;
@@ -111,6 +125,16 @@ export const api = {
 
   // Auth APIs
   async login(username: string, password: string): Promise<{ access: string; refresh: string; user: User }> {
+    const input = (username || '').trim();
+    if (input.includes('@') && !isValidGmail(input)) {
+      throw new Error('Access Denied: Only valid Gmail addresses (@gmail.com) are authorized.');
+    }
+    if (/^\+?\d+$/.test(input.replace(/[- ]/g, ''))) {
+      if (!isValidBDPhone(input)) {
+        throw new Error('Access Denied: Please enter a valid 11-digit Bangladesh phone number starting with 01 (e.g. 017XXXXXXXX).');
+      }
+    }
+
     try {
       return await this.request('/auth/login/', {
         method: 'POST',
@@ -118,19 +142,37 @@ export const api = {
       });
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
-        const mockUser: User = {
+        let storedUser: User | null = null;
+        if (typeof window !== 'undefined') {
+          const storedStr = localStorage.getItem(`registered_user_${input.toLowerCase()}`) || localStorage.getItem('user');
+          if (storedStr) {
+            try { storedUser = JSON.parse(storedStr); } catch (e) { storedUser = null; }
+          }
+        }
+
+        const targetEmail = storedUser?.email || (input.includes('@') ? input : `${input.toLowerCase()}@gmail.com`);
+        const targetPhone = storedUser?.profile?.phone || '01712345678';
+
+        if (!isValidGmail(targetEmail)) {
+          throw new Error('Login Blocked: Valid verified Gmail address (@gmail.com) is required to authenticate.');
+        }
+        if (!isValidBDPhone(targetPhone)) {
+          throw new Error('Login Blocked: Valid verified 11-digit Bangladesh phone number is required to authenticate.');
+        }
+
+        const mockUser: User = storedUser || {
           id: 101,
-          username,
-          email: `${username}@gmail.com`,
-          first_name: username,
+          username: input,
+          email: targetEmail,
+          first_name: input,
           last_name: 'User',
           profile: {
-            phone: '01817860068',
+            phone: targetPhone,
             nid: '1998269271829',
             email_verified: true,
             phone_verified: true,
             nid_verified: true,
-            nid_name: username,
+            nid_name: input,
             nid_dob: '2000-01-01',
             nid_address: 'Dhaka, Bangladesh',
           },
@@ -149,6 +191,13 @@ export const api = {
   },
 
   async register(data: any): Promise<{ message: string; user: User }> {
+    if (!isValidGmail(data.email)) {
+      throw new Error('Registration Denied: A valid Gmail address (@gmail.com) is strictly required.');
+    }
+    if (!isValidBDPhone(data.phone)) {
+      throw new Error('Registration Denied: A valid 11-digit Bangladesh mobile phone number (01XXXXXXXXX) is strictly required.');
+    }
+
     try {
       return await this.request('/auth/register/', {
         method: 'POST',
@@ -177,11 +226,12 @@ export const api = {
         this.setRefreshToken('mock-refresh-token-' + Date.now());
         if (typeof window !== 'undefined') {
           localStorage.setItem('user', JSON.stringify(mockUser));
+          localStorage.setItem(`registered_user_${data.username.toLowerCase()}`, JSON.stringify(mockUser));
+          if (data.email) {
+            localStorage.setItem(`registered_user_${data.email.toLowerCase()}`, JSON.stringify(mockUser));
+          }
         }
-        return {
-          message: 'User registered successfully',
-          user: mockUser,
-        };
+        return { message: 'Registration successful!', user: mockUser };
       }
       throw err;
     }
