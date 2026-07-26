@@ -8,13 +8,13 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500 text-white">
                 <Ticket className="h-4 w-4" />
               </div>
               <span className="text-lg font-bold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>BD GoTicket</span>
             </div>
             <p className="text-sm max-w-sm">
-              Bangladesh's leading multi-modal online ticketing platform. Book your Bus, Train, and Plane tickets seamlessly with instant Bangladeshi mobile banking and NID verification.
+              Bangladesh's next-gen multi-modal transit matrix reservation hub. Book your Bus, Train, and Plane tickets seamlessly with instant Bangladeshi mobile banking and NID verification.
             </p>
           </div>
           
@@ -33,15 +33,15 @@ export const Footer: React.FC = () => {
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Contact & Support</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 text-emerald-400" />
+                <Phone className="h-4 w-4 text-cyan-400" />
                 <span>+880 1234 567890</span>
               </li>
               <li className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-emerald-400" />
-                <span>support@bdgoticket.com.bd</span>
+                <Mail className="h-4 w-4 text-cyan-400" />
+                <span>sysadmin@matrix-transit.bd</span>
               </li>
               <li className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4 text-emerald-400" />
+                <MapPin className="h-4 w-4 text-cyan-400" />
                 <span>Karwan Bazar, Dhaka, Bangladesh</span>
               </li>
             </ul>
@@ -51,9 +51,9 @@ export const Footer: React.FC = () => {
         <div className="border-t border-white/[0.03] pt-8 flex flex-col sm:flex-row items-center justify-between text-xs">
           <p>&copy; {new Date().getFullYear()} BD GoTicket. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 sm:mt-0">
-            <a href="#" className="hover:text-emerald-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-emerald-400 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-emerald-400 transition-colors">Refund Policy</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">Refund Policy</a>
           </div>
         </div>
       </div>

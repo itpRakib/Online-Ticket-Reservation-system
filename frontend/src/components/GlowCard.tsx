@@ -3,7 +3,7 @@
 import React, { ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
-type GlowColor = 'emerald' | 'amber' | 'indigo' | 'none';
+type GlowColor = 'emerald' | 'amber' | 'indigo' | 'cyan' | 'purple' | 'none';
 
 interface GlowCardProps {
   children: ReactNode;
@@ -17,6 +17,8 @@ const glowColors: Record<GlowColor, string> = {
   emerald: 'rgba(52, 211, 153, VAR)',
   amber: 'rgba(245, 158, 11, VAR)',
   indigo: 'rgba(99, 102, 241, VAR)',
+  cyan: 'rgba(0, 240, 255, VAR)',
+  purple: 'rgba(138, 43, 226, VAR)',
   none: 'transparent',
 };
 

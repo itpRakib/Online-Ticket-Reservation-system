@@ -247,12 +247,12 @@ export default function Register() {
       {toastMessage && (
         <div className="fixed top-20 right-4 z-50 max-w-md rounded-2xl bg-slate-900 border border-slate-800 p-4 shadow-2xl transition-all duration-300 text-slate-100 flex items-start space-x-3">
           {toastMessage.includes('Gmail') ? (
-            <Mail className="h-6 w-6 text-emerald-400 shrink-0 animate-bounce" />
+            <Mail className="h-6 w-6 text-cyan-400 shrink-0 animate-bounce" />
           ) : (
-            <Smartphone className="h-6 w-6 text-emerald-400 shrink-0 animate-bounce" />
+            <Smartphone className="h-6 w-6 text-cyan-400 shrink-0 animate-bounce" />
           )}
           <div>
-            <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-widest">
+            <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-widest">
               {toastMessage.includes('Gmail') ? 'Gmail Server Delivery' : 'SIM SMS Gateway'}
             </h4>
             <p className="text-xs font-mono mt-1 text-slate-200">{toastMessage}</p>
@@ -262,7 +262,7 @@ export default function Register() {
         </div>
       )}
 
-      <GlowCard glowColor="emerald" intensity="low">
+      <GlowCard glowColor="cyan" intensity="low">
         <motion.div 
           layout
           initial={{ opacity: 0, y: 20, scale: 0.95 }} 
@@ -271,7 +271,7 @@ export default function Register() {
           className="w-full max-w-xl space-y-8 glass-panel p-8 sm:p-10 rounded-3xl shadow-2xl relative"
         >
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-400 to-purple-600 text-white shadow-lg">
               <Ticket className="h-6 w-6 rotate-12" />
             </div>
             <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Create an Account</h2>
@@ -284,17 +284,17 @@ export default function Register() {
           {step <= 5 && (
             <div className="flex items-center justify-between px-2 mb-6">
               {[
-                { num: 1, label: 'Profile' },
-                { num: 2, label: 'SIM OTP' },
-                { num: 3, label: 'Gmail OTP' },
-                { num: 4, label: 'NID EC' },
-                { num: 5, label: 'Finish' }
+                { num: 1, label: 'Security Clearance' },
+                { num: 2, label: 'SIM Matrix Link' },
+                { num: 3, label: 'Gmail Node Link' },
+                { num: 4, label: 'NID Database Sync' },
+                { num: 5, label: 'Summary Authorization' }
               ].map(s => (
                 <React.Fragment key={s.num}>
                   <div className="flex flex-col items-center space-y-1">
                     <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                       step >= s.num 
-                        ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20' 
+                        ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20' 
                         : 'bg-slate-800 text-slate-400'
                     }`}>
                       {s.num}
@@ -308,7 +308,7 @@ export default function Register() {
                           initial={{ width: 0 }}
                           animate={{ width: '100%' }}
                           transition={{ duration: 0.4 }}
-                          className="absolute top-0 left-0 h-full bg-emerald-500" 
+                          className="absolute top-0 left-0 h-full bg-cyan-500" 
                         />
                       )}
                     </div>
@@ -351,7 +351,7 @@ export default function Register() {
                     required
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                     placeholder="E.g., John"
                   />
                 </div>
@@ -362,7 +362,7 @@ export default function Register() {
                     required
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                     placeholder="E.g., Doe"
                   />
                 </div>
@@ -379,7 +379,7 @@ export default function Register() {
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                     placeholder="E.g., johndoe123"
                   />
                 </div>
@@ -396,7 +396,7 @@ export default function Register() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                     placeholder="E.g., johndoe@gmail.com"
                   />
                 </div>
@@ -413,7 +413,7 @@ export default function Register() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                     placeholder="••••••••"
                   />
                 </div>
@@ -423,7 +423,7 @@ export default function Register() {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full mt-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 cursor-pointer transition-all"
+                className="w-full mt-6 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 py-3.5 font-bold text-slate-950 shadow-lg shadow-cyan-500/10 cursor-pointer transition-all"
               >
                 Proceed to SIM Verification
               </motion.button>
@@ -445,7 +445,7 @@ export default function Register() {
                     disabled={simVerified}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                     placeholder="017XXXXXXXX"
                   />
                 </div>
@@ -475,20 +475,20 @@ export default function Register() {
                         maxLength={6}
                         value={simOtpInput}
                         onChange={(e) => setSimOtpInput(e.target.value)}
-                        className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-emerald-500 focus:outline-none transition-colors"
+                        className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-cyan-500 focus:outline-none transition-colors"
                         placeholder="XXXXXX"
                       />
                     </div>
                     <div className="flex justify-between items-center text-xs mt-1.5">
-                      <span className="text-slate-500">Code expires in: <span className={`font-bold ${simTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(simTimer / 60)}:{(simTimer % 60).toString().padStart(2, '0')}</span></span>
-                      <span className="text-emerald-400">Tip: Check simulated notification.</span>
+                      <span className="text-slate-500">Code expires in: <span className={`font-bold ${simTimer < 30 ? 'text-red-400' : 'text-cyan-400'}`}>{Math.floor(simTimer / 60)}:{(simTimer % 60).toString().padStart(2, '0')}</span></span>
+                      <span className="text-cyan-400">Tip: Check simulated notification.</span>
                     </div>
                     <div className="text-center pt-2">
                       <button
                         type="button"
                         disabled={loading || (simTimer > 90)}
                         onClick={handleSendSimOtp}
-                        className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
+                        className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
                       >
                         {simTimer > 90 ? `Resend OTP in ${simTimer - 90}s` : 'Resend SMS Verification Code'}
                       </button>
@@ -508,7 +508,7 @@ export default function Register() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleVerifySimOtp}
-                      className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
+                      className="rounded-xl bg-cyan-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-cyan-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
                     >
                       Verify SIM
                     </motion.button>
@@ -559,20 +559,20 @@ export default function Register() {
                         maxLength={6}
                         value={emailOtpInput}
                         onChange={(e) => setEmailOtpInput(e.target.value)}
-                        className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-emerald-500 focus:outline-none transition-colors"
+                        className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-cyan-500 focus:outline-none transition-colors"
                         placeholder="XXXXXX"
                       />
                     </div>
                     <div className="flex justify-between items-center text-xs mt-1.5">
-                      <span className="text-slate-500">Code expires in: <span className={`font-bold ${emailTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(emailTimer / 60)}:{(emailTimer % 60).toString().padStart(2, '0')}</span></span>
-                      <span className="text-emerald-400">Tip: Check simulated notification.</span>
+                      <span className="text-slate-500">Code expires in: <span className={`font-bold ${emailTimer < 30 ? 'text-red-400' : 'text-cyan-400'}`}>{Math.floor(emailTimer / 60)}:{(emailTimer % 60).toString().padStart(2, '0')}</span></span>
+                      <span className="text-cyan-400">Tip: Check simulated notification.</span>
                     </div>
                     <div className="text-center pt-2">
                       <button
                         type="button"
                         disabled={loading || (emailTimer > 90)}
                         onClick={handleSendEmailOtp}
-                        className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
+                        className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
                       >
                         {emailTimer > 90 ? `Resend OTP in ${emailTimer - 90}s` : 'Resend Email Verification Code'}
                       </button>
@@ -592,7 +592,7 @@ export default function Register() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleVerifyEmailOtp}
-                      className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
+                      className="rounded-xl bg-cyan-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-cyan-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
                     >
                       Verify Gmail
                     </motion.button>
@@ -607,7 +607,7 @@ export default function Register() {
             <div className="space-y-6">
               {/* Guide Help block listing mock NID records */}
               <div className="p-4 bg-slate-900/40 border border-slate-900 rounded-2xl text-xs space-y-2">
-                <h4 className="font-bold text-emerald-400 flex items-center space-x-1">
+                <h4 className="font-bold text-cyan-400 flex items-center space-x-1">
                   <span>Election Commission (EC) Registry Demo Data</span>
                 </h4>
                 <p className="text-slate-400">Use one of these registered Bangladeshi citizen credentials to verify successfully:</p>
@@ -618,14 +618,14 @@ export default function Register() {
                     { nid: "1122334455", dob: "1990-12-01", name: "Naimur Rahman" }
                   ].map(item => (
                     <li key={item.nid} className="flex justify-between items-center py-1 border-b border-slate-900 last:border-b-0">
-                      <span className="font-mono">NID: <span className="text-emerald-400 font-bold">{item.nid}</span> | DOB: <span className="text-teal-400">{item.dob}</span> ({item.name})</span>
+                      <span className="font-mono">NID: <span className="text-cyan-400 font-bold">{item.nid}</span> | DOB: <span className="text-teal-400">{item.dob}</span> ({item.name})</span>
                       <button
                         type="button"
                         onClick={() => {
                           setNidNumber(item.nid);
                           setDob(item.dob);
                         }}
-                        className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 transition-colors font-bold text-xs cursor-pointer"
+                        className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500 hover:text-slate-950 transition-colors font-bold text-xs cursor-pointer"
                       >
                         Autofill
                       </button>
@@ -647,7 +647,7 @@ export default function Register() {
                       disabled={nidVerified}
                       value={nidNumber}
                       onChange={(e) => setNidNumber(e.target.value)}
-                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                       placeholder="E.g., 1234567890"
                     />
                   </div>
@@ -665,15 +665,15 @@ export default function Register() {
                       disabled={nidVerified}
                       value={dob}
                       onChange={(e) => setDob(e.target.value)}
-                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-cyan-500 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
               </div>
 
               {nidVerified && nidData && (
-                <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl space-y-2">
-                  <h4 className="text-xs font-bold text-emerald-400 flex items-center space-x-1">
+                <div className="p-4 bg-cyan-500/5 border border-cyan-500/20 rounded-2xl space-y-2">
+                  <h4 className="text-xs font-bold text-cyan-400 flex items-center space-x-1">
                     <CheckCircle2 className="h-4 w-4" />
                     <span>Citizen Details Verified Successfully</span>
                   </h4>
@@ -691,7 +691,7 @@ export default function Register() {
                   type="button"
                   onClick={handleVerifyNID}
                   disabled={loading}
-                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-800 py-3.5 font-bold text-emerald-400 border border-emerald-500/20 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-800 py-3.5 font-bold text-cyan-400 border border-cyan-500/20 flex items-center justify-center space-x-2 transition-all cursor-pointer"
                 >
                   {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
                   <span>Query National EC Database</span>
@@ -702,7 +702,7 @@ export default function Register() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleNIDProceed}
-                  className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                  className="w-full rounded-xl bg-cyan-500 hover:bg-emerald-400 py-3.5 font-bold text-slate-950 shadow-lg shadow-cyan-500/10 flex items-center justify-center space-x-2 transition-all cursor-pointer"
                 >
                   <span>Proceed to Finish</span>
                 </motion.button>
@@ -721,7 +721,7 @@ export default function Register() {
                   <div className="flex justify-between"><span className="text-slate-500">Gmail:</span> <span className="text-slate-200">{email} (Verified)</span></div>
                   <div className="flex justify-between"><span className="text-slate-500">Mobile SIM:</span> <span className="text-slate-200">{phone} (Verified)</span></div>
                   <div className="flex justify-between"><span className="text-slate-500">NID:</span> <span className="text-slate-200">{nidNumber} (Verified)</span></div>
-                  <div className="flex justify-between"><span className="text-slate-500">NID Holder:</span> <span className="text-emerald-400 font-bold">{nidData?.full_name}</span></div>
+                  <div className="flex justify-between"><span className="text-slate-500">NID Holder:</span> <span className="text-cyan-400 font-bold">{nidData?.full_name}</span></div>
                 </div>
               </div>
 
@@ -731,7 +731,7 @@ export default function Register() {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleFinalRegister}
                 disabled={loading}
-                className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-emerald-500/10 cursor-pointer"
+                className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-cyan-500/10 cursor-pointer"
               >
                 {loading ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
                 <span>Create Account</span>
@@ -742,7 +742,7 @@ export default function Register() {
           {/* --- STEP 6: Success Screen --- */}
           {step === 6 && (
             <div className="text-center space-y-6 py-4">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 border-2 border-emerald-500/30">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-cyan-500/10 text-cyan-400 border-2 border-cyan-500/30">
                 <CheckCircle2 className="h-10 w-10 animate-bounce" />
               </div>
               <div className="space-y-2">
@@ -754,7 +754,7 @@ export default function Register() {
               
               <Link
                 href="/auth/login"
-                className="inline-block w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 hover:from-emerald-400 hover:to-teal-400 transition-all text-center"
+                className="inline-block w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 py-3.5 font-bold text-slate-950 shadow-lg shadow-cyan-500/10 hover:from-emerald-400 hover:to-teal-400 transition-all text-center"
               >
                 Login Now
               </Link>

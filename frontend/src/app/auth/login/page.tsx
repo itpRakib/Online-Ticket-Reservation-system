@@ -42,7 +42,7 @@ function LoginForm() {
 
   return (
     <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative">
-      <GlowCard glowColor="emerald" intensity="low">
+      <GlowCard glowColor="cyan" intensity="low">
         <motion.div 
           initial={{ opacity: 0, y: 20, scale: 0.95 }} 
           animate={{ opacity: 1, y: 0, scale: 1 }} 
@@ -50,13 +50,14 @@ function LoginForm() {
           className="w-full max-w-md space-y-8 glass-panel p-8 rounded-3xl shadow-2xl relative"
         >
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-400 to-purple-600 text-white shadow-lg">
               <Ticket className="h-6 w-6 rotate-12" />
             </div>
-            <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Login to Your Account</h2>
+            <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>AUTHORIZE TRAVEL IDENTITY</h2>
             <p className="mt-2 text-sm text-slate-400">
+              Authenticate using your registered node credentials.<br/>
               Or{' '}
-              <Link href="/auth/register" className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+              <Link href="/auth/register" className="font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
                 create a new account
               </Link>
             </p>
@@ -89,8 +90,8 @@ function LoginForm() {
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="block w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-emerald-500 focus:outline-none transition-colors"
-                    placeholder="Enter your username"
+                    className="block w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                    placeholder="Enter user node identity"
                   />
                 </div>
               </div>
@@ -106,8 +107,8 @@ function LoginForm() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-10 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-emerald-500 focus:outline-none transition-colors"
-                    placeholder="••••••••"
+                    className="block w-full pl-10 pr-10 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                    placeholder="Enter secure access code"
                   />
                   <button
                     type="button"
@@ -126,7 +127,7 @@ function LoginForm() {
                 disabled={loading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-emerald-500/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-cyan-500/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <>

@@ -134,20 +134,20 @@ function SearchResultsContent() {
       <div className="glass-panel rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex flex-wrap items-center gap-2 sm:gap-6 text-sm text-slate-300">
           <div className="flex items-center space-x-2">
-            <MapPin className="h-4 w-4 text-emerald-400" />
+            <MapPin className="h-4 w-4 text-cyan-400" />
             <span className="font-bold text-white">{getStationName(querySource)}</span>
             <ArrowRight className="h-3 w-3 text-slate-500" />
             <span className="font-bold text-white">{getStationName(queryDest)}</span>
           </div>
           <div className="h-4 w-[1px] bg-slate-800 hidden sm:block" />
           <div className="flex items-center space-x-2">
-            <Calendar className="h-4 w-4 text-emerald-400" />
+            <Calendar className="h-4 w-4 text-cyan-400" />
             <span className="font-semibold">{queryDate}</span>
           </div>
         </div>
         <Link 
           href="/" 
-          className="text-xs font-bold text-emerald-400 hover:text-emerald-300 border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+          className="text-xs font-bold text-cyan-400 hover:text-emerald-300 border border-cyan-500/20 bg-cyan-500/5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
         >
           {t("Modify Search", "অনুসন্ধান পরিবর্তন করুন")}
         </Link>
@@ -156,8 +156,8 @@ function SearchResultsContent() {
       {!user ? (
         <div className="glass-panel rounded-3xl p-8 sm:p-12 text-center space-y-6 max-w-2xl mx-auto border border-emerald-500/10 shadow-2xl flex flex-col items-center justify-center my-10 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-500" />
-          <div className="h-16 w-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-lg animate-pulse">
-            <Lock className="h-8 w-8 text-emerald-400" />
+          <div className="h-16 w-16 rounded-2xl bg-cyan-500/10 border border-emerald-500/30 flex items-center justify-center text-cyan-400 shadow-lg animate-pulse">
+            <Lock className="h-8 w-8 text-cyan-400" />
           </div>
           
           <div className="space-y-2">
@@ -170,7 +170,7 @@ function SearchResultsContent() {
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm pt-4">
             <Link
               href={`/auth/login?redirect=/search?source=${querySource}&destination=${queryDest}&date=${queryDate}&transport_type=${transportType}&priority=${priority}`}
-              className="flex-1 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-3.5 font-bold text-slate-950 text-center transition-all hover:scale-[1.01] shadow-lg shadow-emerald-500/10"
+              className="flex-1 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 py-3.5 font-bold text-slate-950 text-center transition-all hover:scale-[1.01] shadow-lg shadow-emerald-500/10"
             >
               {t("Log In", "লগইন করুন")}
             </Link>
@@ -185,11 +185,11 @@ function SearchResultsContent() {
       ) : (
         <>
           {/* Dynamic Recommendation Panel (Capability matching) */}
-      <div className="glass-panel rounded-3xl p-6 border-emerald-500/20 bg-emerald-950/10 space-y-4">
+      <div className="glass-panel rounded-3xl p-6 border-cyan-500/20 bg-emerald-950/10 space-y-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h2 className="text-lg font-bold text-white flex items-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-              <Sparkles className="h-5 w-5 text-emerald-400" />
+              <Sparkles className="h-5 w-5 text-cyan-400" />
               <span>{t("Smart Capability-Based Comparison Engine", "স্মার্ট সামর্থ্য-ভিত্তিক তুলনা ইঞ্জিন")}</span>
             </h2>
             <p className="text-xs text-slate-400 max-w-xl mt-1">
@@ -209,7 +209,7 @@ function SearchResultsContent() {
                 onClick={() => handlePriorityChange(p.id)}
                 className={`text-xs font-semibold px-3 py-2 rounded-lg transition-all cursor-pointer ${
                   priority === p.id 
-                    ? 'bg-emerald-500 text-slate-950 shadow-md font-bold' 
+                    ? 'bg-cyan-500 text-slate-950 shadow-md font-bold' 
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -232,7 +232,7 @@ function SearchResultsContent() {
             </h3>
             <button 
               onClick={() => { setSelectedOperator('ALL'); setMaxPrice(15000); }} 
-              className="text-xs text-slate-500 hover:text-emerald-400 font-bold uppercase transition-colors cursor-pointer"
+              className="text-xs text-slate-500 hover:text-cyan-400 font-bold uppercase transition-colors cursor-pointer"
             >
               {t("Reset", "রিসেট")}
             </button>
@@ -253,7 +253,7 @@ function SearchResultsContent() {
                   onClick={() => handleTypeChange(t.id)}
                   className={`text-xs p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
                     transportType === t.id
-                      ? 'border-emerald-500/40 bg-emerald-500/5 text-emerald-400 font-bold'
+                      ? 'border-emerald-500/40 bg-cyan-500/5 text-cyan-400 font-bold'
                       : 'border-slate-800 bg-slate-900/30 text-slate-400 hover:text-slate-200'
                   }`}
                 >
@@ -267,7 +267,7 @@ function SearchResultsContent() {
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Max Budget</label>
-              <span className="text-xs font-bold text-emerald-400">৳{maxPrice.toLocaleString()}</span>
+              <span className="text-xs font-bold text-cyan-400">৳{maxPrice.toLocaleString()}</span>
             </div>
             <input
               type="range"
@@ -313,7 +313,7 @@ function SearchResultsContent() {
               <AlertTriangle className="h-12 w-12 text-red-400 mx-auto" />
               <h3 className="text-lg font-bold text-white">Oops, an error occurred</h3>
               <p className="text-sm text-slate-400 max-w-md mx-auto">{error}</p>
-              <Link href="/" className="inline-block rounded-xl bg-emerald-500 text-slate-950 px-4 py-2 font-bold hover:bg-emerald-400 transition-all text-xs">
+              <Link href="/" className="inline-block rounded-xl bg-cyan-500 text-slate-950 px-4 py-2 font-bold hover:bg-emerald-400 transition-all text-xs">
                 Back to Home
               </Link>
             </div>
@@ -352,7 +352,7 @@ function SearchResultsContent() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="glass-panel hover:bg-slate-900/30 rounded-2xl p-5 border border-slate-900 hover:border-emerald-500/20 transition-all duration-200 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden group"
+                      className="glass-panel hover:bg-slate-900/30 rounded-2xl p-5 border border-slate-900 hover:border-cyan-500/20 transition-all duration-200 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden group"
                     >
                       {/* Top Glow on hover */}
                       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -360,15 +360,15 @@ function SearchResultsContent() {
                       {/* Match Index circular badge */}
                       {comp && (
                         <div className="absolute top-2 right-2 flex items-center space-x-1.5 bg-slate-950 border border-slate-800 px-2.5 py-1 rounded-full">
-                          <Sparkles className="h-3 w-3 text-emerald-400" />
-                          <span className="text-xs font-extrabold text-emerald-400">{comp.match_percentage}% Match</span>
+                          <Sparkles className="h-3 w-3 text-cyan-400" />
+                          <span className="text-xs font-extrabold text-cyan-400">{comp.match_percentage}% Match</span>
                         </div>
                       )}
 
                       {/* Operator info */}
                       <div className="flex items-center space-x-4 self-start md:self-auto">
                         <div className="h-14 w-14 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300">
-                          <TransportIcon className="h-6 w-6 text-emerald-400" />
+                          <TransportIcon className="h-6 w-6 text-cyan-400" />
                         </div>
                         <div>
                           <div className="flex items-center space-x-2">
@@ -390,7 +390,7 @@ function SearchResultsContent() {
                           <span className="text-xs font-mono text-slate-500">{trip.duration_hours}h</span>
                           <div className="relative flex items-center justify-center w-20">
                             <div className="h-[1px] w-full bg-slate-800" />
-                            <div className="absolute h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-glow" />
+                            <div className="absolute h-1.5 w-1.5 rounded-full bg-cyan-500 shadow-glow" />
                           </div>
                           <span className="text-xs text-slate-600 font-bold uppercase">Direct</span>
                         </div>
@@ -406,15 +406,15 @@ function SearchResultsContent() {
                         <div className="hidden md:flex flex-col space-y-1 bg-slate-900/30 p-2.5 rounded-xl border border-slate-900/80 w-36">
                           <div className="flex justify-between items-center text-xs">
                             <span className="text-slate-500">💰 Budget:</span>
-                            <span className={`font-bold ${comp.budget_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.budget_score}/10</span>
+                            <span className={`font-bold ${comp.budget_score > 7 ? 'text-cyan-400' : 'text-slate-400'}`}>{comp.budget_score}/10</span>
                           </div>
                           <div className="flex justify-between items-center text-xs">
                             <span className="text-slate-500">⚡ Speed:</span>
-                            <span className={`font-bold ${comp.speed_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.speed_score}/10</span>
+                            <span className={`font-bold ${comp.speed_score > 7 ? 'text-cyan-400' : 'text-slate-400'}`}>{comp.speed_score}/10</span>
                           </div>
                           <div className="flex justify-between items-center text-xs">
                             <span className="text-slate-500">🛌 Comfort:</span>
-                            <span className={`font-bold ${comp.comfort_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.comfort_score}/10</span>
+                            <span className={`font-bold ${comp.comfort_score > 7 ? 'text-cyan-400' : 'text-slate-400'}`}>{comp.comfort_score}/10</span>
                           </div>
                         </div>
                       )}
@@ -423,16 +423,16 @@ function SearchResultsContent() {
                       <div className="flex items-center justify-between md:flex-col md:items-end self-stretch md:self-auto border-t border-slate-900 pt-4 md:pt-0 md:border-0">
                         <div>
                           <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Fare Starts at</span>
-                          <span className="text-xl font-extrabold text-emerald-400 leading-tight">৳{parseFloat(trip.fare_economy).toLocaleString()}</span>
+                          <span className="text-xl font-extrabold text-cyan-400 leading-tight">৳{parseFloat(trip.fare_economy).toLocaleString()}</span>
                         </div>
 
                         <motion.button
                           whileHover={{ scale: 1.03 }}
                           whileTap={{ scale: 0.97 }}
                           onClick={() => router.push(`/book/${trip.id}?date=${queryDate}`)}
-                          className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-emerald-500/10 cursor-pointer"
+                          className="rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-emerald-500/10 cursor-pointer"
                         >
-                          Book Now
+                          RESERVE PASSAGE
                         </motion.button>
                       </div>
                     </motion.div>

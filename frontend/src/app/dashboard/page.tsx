@@ -128,7 +128,7 @@ function DashboardContent() {
         <AlertCircle className="h-12 w-12 text-slate-500 mx-auto" />
         <h2 className="text-xl font-bold text-white font-sans">Access Denied</h2>
         <p className="text-slate-400">Please login to view your personal dashboard and travel history.</p>
-        <a href="/auth/login" className="inline-block rounded-xl bg-emerald-500 text-slate-950 px-5 py-2.5 font-bold hover:bg-emerald-400 transition-all text-sm">
+        <a href="/auth/login" className="inline-block rounded-xl bg-cyan-500 text-slate-950 px-5 py-2.5 font-bold hover:bg-emerald-400 transition-all text-sm">
           Login Now
         </a>
       </div>
@@ -140,12 +140,12 @@ function DashboardContent() {
       
       {/* Confirmation Success Header */}
       {showConfirm && confirmPnr && (
-        <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 p-5 text-sm text-emerald-400 flex items-start space-x-3 shadow-lg print:hidden">
-          <CheckCircle2 className="h-6 w-6 shrink-0 text-emerald-400 animate-bounce" />
+        <div className="rounded-2xl bg-cyan-500/10 border border-cyan-500/20 p-5 text-sm text-cyan-400 flex items-start space-x-3 shadow-lg print:hidden">
+          <CheckCircle2 className="h-6 w-6 shrink-0 text-cyan-400 animate-bounce" />
           <div>
             <h4 className="font-bold text-white text-base">Payment Confirmed Successfully!</h4>
             <p className="text-slate-300 mt-1">
-              Your booking under PNR <span className="font-mono font-bold text-emerald-400">{confirmPnr}</span> has been confirmed. Below is your official e-Ticket.
+              Your booking under PNR <span className="font-mono font-bold text-cyan-400">{confirmPnr}</span> has been confirmed. Below is your official e-Ticket.
             </p>
           </div>
         </div>
@@ -155,7 +155,7 @@ function DashboardContent() {
       <ScrollReveal>
       <div className="glass-panel rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row justify-between gap-6 print:hidden">
         <div className="flex items-center space-x-4">
-          <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-slate-950 font-black text-2xl uppercase shadow-lg">
+          <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-slate-950 font-black text-2xl uppercase shadow-lg">
             {user.username.substring(0, 2)}
           </div>
           <div>
@@ -167,21 +167,21 @@ function DashboardContent() {
         {/* Verification Badges Group */}
         <div className="flex flex-wrap gap-2.5 items-center">
           {user.profile?.phone_verified && (
-            <span className="flex items-center space-x-1 text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full">
+            <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
               <span>SIM Verified</span>
             </span>
           )}
           {user.profile?.email_verified && (
-            <span className="flex items-center space-x-1 text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full">
+            <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
-              <span>Gmail Verified</span>
+              <span>MAIL NODE: ENCRYPTED</span>
             </span>
           )}
           {user.profile?.nid_verified && (
-            <span className="flex items-center space-x-1 text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full" title={user.profile.nid_name}>
+            <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full" title={user.profile.nid_name}>
               <Check className="h-3 w-3" />
-              <span>NID: {user.profile.nid} ({user.profile.nid_name})</span>
+              <span>NID DATA: SYNCED - NID: {user.profile.nid} ({user.profile.nid_name})</span>
             </span>
           )}
         </div>
@@ -214,14 +214,14 @@ function DashboardContent() {
                     onClick={() => setSelectedTicket(b)}
                     className={`w-full rounded-xl p-3.5 text-left border transition-all cursor-pointer ${
                       isSelected 
-                        ? 'border-emerald-500 bg-emerald-500/5' 
+                        ? 'border-cyan-500 bg-cyan-500/5' 
                         : 'border-slate-800 bg-slate-900/20 hover:bg-slate-900/50'
                     }`}
                   >
                     <div className="flex justify-between items-start mb-2">
                       <span className="text-xs font-mono bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold uppercase">{b.pnr_number}</span>
                       <span className={`text-xs font-bold px-1.5 py-0.5 rounded uppercase ${
-                        b.status === 'PAID' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-yellow-500/10 text-yellow-400'
+                        b.status === 'PAID' ? 'bg-cyan-500/10 text-cyan-400' : 'bg-yellow-500/10 text-yellow-400'
                       }`}>
                         {b.status}
                       </span>
@@ -254,7 +254,7 @@ function DashboardContent() {
               
               {/* Ticket stub controls */}
               <div className="flex justify-between items-center print:hidden">
-                <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Official Ticket Stub</span>
+                <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Official Ticket Stub</span><div className="h-12 border-l-2 border-dotted border-cyan-500 my-2"></div>
                 <div className="flex items-center space-x-2">
                   {selectedTicket.status === 'PAID' && (
                     <button
@@ -275,7 +275,7 @@ function DashboardContent() {
                     onClick={handlePrint}
                     className="rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 px-4 py-2 text-xs font-bold text-slate-300 flex items-center space-x-2 transition-colors cursor-pointer"
                   >
-                    <Printer className="h-4 w-4 text-emerald-400" />
+                    <Printer className="h-4 w-4 text-cyan-400" />
                     <span>Print / Save PDF</span>
                   </button>
                 </div>
@@ -292,14 +292,14 @@ function DashboardContent() {
                 {/* Ticket Header */}
                 <div className="flex justify-between items-start border-b border-slate-800 pb-5 print:border-black">
                   <div>
-                    <h3 className="text-emerald-400 font-black text-xl italic tracking-tight print:text-black" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>BD GoTicket</h3>
+                    <h3 className="text-cyan-400 font-black text-xl italic tracking-tight print:text-black" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>BD GoTicket</h3>
                     <span className="text-xs text-slate-400 uppercase tracking-widest font-bold block mt-0.5 print:text-slate-600">{t("Ministry of Transport & ICT", "যাতায়াত ও আইসিটি মন্ত্রণালয়")}</span>
                   </div>
                   
                   <div className="text-right">
                     <span className={`text-xs border font-extrabold px-3 py-1 rounded-full uppercase tracking-wider print:border-black print:text-black ${
                       selectedTicket.status === 'PAID' 
-                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
+                        ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400' 
                         : selectedTicket.status === 'CANCELLED'
                           ? 'bg-red-500/10 border-red-500/20 text-red-400'
                           : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
@@ -326,7 +326,7 @@ function DashboardContent() {
                     <span className="text-xs font-mono text-slate-400">{selectedTicket.trip.duration_hours} {t("Hrs Journey", "ঘণ্টার যাত্রা")}</span>
                     <div className="relative flex items-center justify-center w-24">
                       <div className="h-[1px] w-full bg-slate-800 print:bg-black" />
-                      <div className="absolute h-2 w-2 rounded-full bg-emerald-500" />
+                      <div className="absolute h-2 w-2 rounded-full bg-cyan-500" />
                     </div>
                     <span className="text-xs text-slate-500 font-bold uppercase">{selectedTicket.trip.transport_type} {t("Class", "শ্রেণী")}</span>
                   </div>
@@ -354,7 +354,7 @@ function DashboardContent() {
                   </div>
                   <div>
                     <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Seat Numbers</span>
-                    <span className="font-extrabold text-emerald-400 text-xs mt-1 block print:text-black">
+                    <span className="font-extrabold text-cyan-400 text-xs mt-1 block print:text-black">
                       {selectedTicket.passengers.map((p: any) => p.seat_number).join(', ')}
                     </span>
                   </div>
@@ -384,7 +384,7 @@ function DashboardContent() {
                   <div className="space-y-1 text-center sm:text-left">
                     <span className="text-xs text-slate-500 block print:text-slate-600">Verification Security Hash</span>
                     <span className="font-mono text-xs text-slate-400 block print:text-slate-600">TRX: {selectedTicket.trx_id || 'DEMO-TXID'}</span>
-                    <span className="text-xs text-emerald-400 block font-semibold print:text-black">Verified against NID Registry</span>
+                    <span className="text-xs text-cyan-400 block font-semibold print:text-black">Verified against NID Registry</span>
                   </div>
                   
                   {/* Mock Barcode & QR Code styling using HTML */}
@@ -456,14 +456,14 @@ function DashboardContent() {
             </div>
 
             {cancelSuccess ? (
-              <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-4 text-center text-xs text-emerald-400">
-                <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto mb-2 animate-bounce" />
+              <div className="rounded-xl bg-cyan-500/10 border border-cyan-500/20 p-4 text-center text-xs text-cyan-400">
+                <CheckCircle2 className="h-8 w-8 text-cyan-400 mx-auto mb-2 animate-bounce" />
                 <p className="font-bold">{cancelSuccess}</p>
               </div>
             ) : (
               <form onSubmit={handleCancelSubmit} className="space-y-4">
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  To securely process your refund of <span className="text-emerald-400 font-bold font-mono">৳{selectedTicket.total_fare} BDT</span> for PNR <span className="font-mono font-bold text-white">{selectedTicket.pnr_number}</span>, please verify your credentials.
+                  To securely process your refund of <span className="text-cyan-400 font-bold font-mono">৳{selectedTicket.total_fare} BDT</span> for PNR <span className="font-mono font-bold text-white">{selectedTicket.pnr_number}</span>, please verify your credentials.
                 </p>
 
                 {cancelError && (
@@ -482,7 +482,7 @@ function DashboardContent() {
                     value={cancelRefundWallet}
                     onChange={(e) => setCancelRefundWallet(e.target.value)}
                     placeholder="e.g. 01712345678"
-                    className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-500 font-mono"
                   />
                 </div>
 
@@ -495,7 +495,7 @@ function DashboardContent() {
                     value={cancelPassword}
                     onChange={(e) => setCancelPassword(e.target.value)}
                     placeholder="Enter your login password"
-                    className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-500"
                   />
                 </div>
 
@@ -505,7 +505,7 @@ function DashboardContent() {
                   <select
                     value={cancelReason}
                     onChange={(e) => setCancelReason(e.target.value)}
-                    className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-500"
                   >
                     <option value="Change of Travel Plans">Change of Travel Plans</option>
                     <option value="Booked Wrong Date/Transport">Booked Wrong Date/Transport</option>
@@ -520,17 +520,17 @@ function DashboardContent() {
                     onClick={() => setIsCancelModalOpen(false)}
                     className="w-1/2 rounded-xl border border-slate-800 hover:bg-slate-800 py-3 text-xs font-bold text-slate-300 transition-colors cursor-pointer"
                   >
-                    Close
+                    Abort
                   </button>
                   <button
                     type="submit"
                     disabled={isCancelling}
-                    className="w-1/2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 py-3 text-xs font-extrabold text-white transition-all hover:scale-[1.01] flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                    className="w-1/2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-cyan-300 hover:to-purple-500 py-3 text-xs font-extrabold text-white transition-all hover:scale-[1.01] flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
                   >
                     {isCancelling ? (
                       <RefreshCw className="h-4 w-4 animate-spin text-white" />
                     ) : (
-                      <span>Confirm Refund</span>
+                      <span>Execute Refund</span>
                     )}
                   </button>
                 </div>
@@ -560,7 +560,7 @@ export default function Dashboard() {
   return (
     <Suspense fallback={
       <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
-        <div className="h-10 w-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        <div className="h-10 w-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
         <span className="text-slate-400 font-medium">Loading passenger dashboard...</span>
       </div>
     }>

@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2.5 group">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm transition-transform group-hover:scale-105">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 text-white shadow-sm transition-transform group-hover:scale-105">
             <Ticket className="h-4 w-4" />
           </div>
           <span className="hidden text-lg font-bold text-white tracking-tight sm:block" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
           <Link
             href="/"
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              isActive('/') ? 'text-emerald-400 bg-emerald-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
+              isActive('/') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
             }`}
           >
             Home
@@ -62,16 +62,16 @@ export const Header: React.FC = () => {
             href={`/search?source=DAC-BUS-G&destination=CGP-BUS-D&date=${today}`}
             className="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
           >
-            Explore Routes
+            Transit Matrix
           </Link>
           {user && (
             <Link
               href="/dashboard"
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive('/dashboard') ? 'text-emerald-400 bg-emerald-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
+                isActive('/dashboard') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              My Bookings
+              My Telemetry
             </Link>
           )}
         </nav>
@@ -85,9 +85,9 @@ export const Header: React.FC = () => {
             className="flex items-center space-x-1.5 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs font-semibold transition-all text-slate-400 hover:text-white hover:border-slate-700 cursor-pointer print:hidden"
           >
             <span>🌐</span>
-            <span className={language === 'en' ? 'text-emerald-400 font-bold' : ''}>EN</span>
+            <span className={language === 'en' ? 'text-cyan-400 font-bold' : ''}>EN</span>
             <span className="text-slate-600">|</span>
-            <span className={language === 'bn' ? 'text-emerald-400 font-bold' : ''}>বাংলা</span>
+            <span className={language === 'bn' ? 'text-cyan-400 font-bold' : ''}>বাংলা</span>
           </button>
 
           {user ? (
@@ -96,7 +96,7 @@ export const Header: React.FC = () => {
                 href="/dashboard"
                 className="flex items-center space-x-2 rounded-full bg-slate-900 border border-slate-800 py-1.5 px-3 text-sm text-slate-200 hover:bg-slate-800 transition-colors"
               >
-                <div className="h-6 w-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[11px] uppercase">
+                <div className="h-6 w-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-[11px] uppercase">
                   {user.username.substring(0, 2)}
                 </div>
                 <span className="hidden sm:inline font-medium max-w-[120px] truncate">{user.first_name || user.username}</span>
@@ -119,7 +119,7 @@ export const Header: React.FC = () => {
               </Link>
               <Link
                 href="/auth/register"
-                className="rounded-lg bg-emerald-500 hover:bg-emerald-400 px-4 py-2 text-sm font-semibold text-white transition-all hover:scale-[1.02]"
+                className="rounded-lg bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 px-4 py-2 text-sm font-bold text-slate-950 transition-all hover:scale-[1.02]"
               >
                 Sign Up
               </Link>
@@ -127,7 +127,7 @@ export const Header: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
     </motion.header>
   );
 };

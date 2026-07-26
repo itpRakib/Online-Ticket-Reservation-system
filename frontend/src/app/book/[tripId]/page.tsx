@@ -252,9 +252,9 @@ function BookTripContent() {
                             disabled={!isAvail}
                             className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail 
-                                ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
+                                ? 'bg-gradient-to-br from-purple-900 to-red-900 border border-red-500/50 text-red-400 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 animate-seat-pulse'
+                                ? 'bg-[#00F0FF] border-[#00F0FF] text-slate-950 shadow-[0_0_15px_#00F0FF] animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700 hover:text-white'
                             }`}
                             title={isAvail ? `Seat ${seat} (Available)` : `Seat ${seat} (Booked)`}
@@ -294,9 +294,9 @@ function BookTripContent() {
                             disabled={!isAvail}
                             className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail
-                                ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
+                                ? 'bg-gradient-to-br from-purple-900 to-red-900 border border-red-500/50 text-red-400 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 animate-seat-pulse'
+                                ? 'bg-[#00F0FF] border-[#00F0FF] text-slate-950 shadow-[0_0_15px_#00F0FF] animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700'
                             }`}
                             title={seatNum}
@@ -335,9 +335,9 @@ function BookTripContent() {
                             disabled={!isAvail}
                             className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail
-                                ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
+                                ? 'bg-gradient-to-br from-purple-900 to-red-900 border border-red-500/50 text-red-400 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 animate-seat-pulse'
+                                ? 'bg-[#00F0FF] border-[#00F0FF] text-slate-950 shadow-[0_0_15px_#00F0FF] animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700'
                             }`}
                           >
@@ -401,7 +401,7 @@ function BookTripContent() {
               <div className="glass-panel rounded-3xl p-6 sm:p-8 space-y-6">
                 <h3 className="font-bold text-white text-sm uppercase tracking-wider border-b border-slate-800 pb-3 flex items-center space-x-2">
                   <UserCheck className="h-4 w-4 text-emerald-400" />
-                  <span>Passenger Details</span>
+                  <span>Traveler Node ID Name</span>
                 </h3>
 
                 <div className="space-y-6">
@@ -458,7 +458,7 @@ function BookTripContent() {
                       {/* NID / Passport (Required for Flights in real life, recommended for train) */}
                       <div className="space-y-1">
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex justify-between">
-                          <span>NID / Passport Number</span>
+                          <span>Passport / NID Database Key</span>
                           {tType === 'PLANE' && <span className="text-xs text-red-400 font-bold uppercase tracking-wider">Required for Flights</span>}
                         </label>
                         <input
@@ -507,10 +507,10 @@ function BookTripContent() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-emerald-500/10 hover:scale-[1.01] transition-all disabled:opacity-50"
+                  className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-emerald-500/10 hover:scale-[1.01] transition-all disabled:opacity-50"
                 >
                   {submitting ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
-                  <span>Confirm and Proceed to Payment</span>
+                  <span>CONFIRM TRAVEL PASSAGE</span>
                 </button>
               </div>
 

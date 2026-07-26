@@ -13,6 +13,7 @@ import {
   ShieldCheck, CreditCard, Sparkles, Flame, Percent, MapPin, 
   Calendar, Clock, UserCheck, HelpCircle, ChevronDown, Check, ArrowRight, X, AlertCircle, SlidersHorizontal
 } from 'lucide-react';
+import { FuturisticHUD } from '@/components/FuturisticHUD';
 import { TiltCard } from '@/components/TiltCard';
 import { GlowCard } from '@/components/GlowCard';
 
@@ -242,9 +243,9 @@ export default function Home() {
 
   // FAQ list
   const faqs = [
-    { q: 'Is National ID (NID) verification mandatory?', a: 'Yes, for safety and to prevent ticket scalping/black-marketing, we verify your NID details against our mock EC database during registration.' },
-    { q: 'How does the Smart Transport Comparison system work?', a: 'You can choose your capability priority (Budget, Speed, or Comfort). The engine automatically scores the transport listings using real-time price rates and travel durations, sorting the best-fit options to the top.' },
-    { q: 'Which payment options are supported?', a: 'We support all major Bangladeshi payment methods: bKash, Nagad, Rocket, and local debit/credit cards (Visa/Mastercard).' }
+    { q: 'Is Identity Matrix (NID) synchronization required?', a: 'Affirmative. To ensure node integrity and prevent unauthorized entity access, all pilot profiles are cross-referenced with the central Identity Matrix upon initialization.' },
+    { q: 'How does the Quantum Route Optimizer function?', a: 'By calibrating your telemetry parameters (Credit Efficiency, Velocity Index, Comfort Factor), the optimizer cross-references real-time transit databases to prioritize the most efficient routing nodes.' },
+    { q: 'What credit transfer protocols are accepted?', a: 'Our gateways seamlessly integrate with primary temporal credit networks including bKash, Nagad, Rocket, and standard orbital charge nodes (Visa/Mastercard).' }
   ];
 
   return (
@@ -275,14 +276,14 @@ export default function Home() {
                 </motion.div>
                 
                 <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-                  {t("Ready to Plan ", "আপনার পরবর্তী ভ্রমণের ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
-                    {t("Your Next Journey?", "পরিকল্পনা প্রস্তুত তো?")}
+                  {t("PLAN YOUR NEXT ", "আপনার পরবর্তী ")} <br className="hidden sm:inline" />
+                  <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                    {t("TRANSIT ROUTE", "ট্রানজিট রুট পরিকল্পনা")}
                   </span>
                 </motion.h1>
                 
                 <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  {t("Welcome back to your verified traveler profile. Search, compare, and secure tickets instantly across Bangladesh using NID-protected records and instant bKash checkout.", "আপনার যাচাইকৃত প্রোফাইলে স্বাগতম। জাতীয় পরিচয়পত্র (NID) সুরক্ষায় এবং বিকাশ পেমেন্টের মাধ্যমে বাংলাদেশ জুড়ে তাৎক্ষণিকভাবে টিকিট বুকিং করুন।")}
+                  {t("Search, compare, and secure transport node passages instantly using your verified credentials.", "আপনার যাচাইকৃত প্রোফাইল ব্যবহার করে তাৎক্ষণিকভাবে ট্রান্সপোর্ট নোড প্যাসেজ অনুসন্ধান, তুলনা এবং সুরক্ষিত করুন।")}
                 </motion.p>
               </>
             ) : (
@@ -293,14 +294,14 @@ export default function Home() {
                 </motion.div>
                 
                 <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-                  {t("Book Bus, Train & Flight Tickets ", "বাস, ট্রেন এবং বিমানের টিকিট বুকিং ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
-                    {t("Safely & Instantly Online", "নিরাপদে ও তাৎক্ষণিকভাবে অনলাইনে")}
+                  {t("HYPER-VELOCITY ", "হাইপার-ভেলোসিটি ")} <br className="hidden sm:inline" />
+                  <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                    {t("TRANSIT GATEWAY", "ট্রানজিট গেটওয়ে")}
                   </span>
                 </motion.h1>
                 
                 <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  {t("The ultimate verified online ticket booking system. Compare options side-by-side depending on your capability (Budget, Speed, Comfort) with verified NID database protection.", "সবচেয়ে নির্ভরযোগ্য ও যাচাইকৃত টিকিট বুকিং পোর্টাল। বাজেট, গতি এবং সুবিধার উপর ভিত্তি করে বাস, ট্রেন ও ফ্লাইটের তুলনা করুন।")}
+                  {t("Book bus, rail, and aero transits instantly across Bangladesh. Secured by NID identity verification and real-time checkout telemetry.", "বাস, রেল এবং অ্যারো ট্রানজিট বুক করুন তাৎক্ষণিকভাবে বাংলাদেশ জুড়ে। এনআইডি যাচাইকরণ এবং রিয়েল-টাইম চেকআউট টেলিমেট্রি দ্বারা সুরক্ষিত।")}
                 </motion.p>
               </>
             )}
@@ -387,20 +388,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="lg:col-span-5 relative group">
-              <div className="relative rounded-3xl overflow-hidden border border-white/15 bg-slate-900 p-2 shadow-2xl">
-                <img 
-                  src="/hero.png" 
-                  alt="Bangladesh Transportation Banner" 
-                  className="w-full h-auto object-cover rounded-2xl group-hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                />
-                <div className="absolute bottom-4 left-4 right-4 bg-slate-950/80 backdrop-blur-md border border-white/5 rounded-xl p-3 text-xs flex justify-between items-center text-slate-400">
-                  <div>
-                    <span className="block font-bold text-white leading-tight">BD GoTicket Digital Hub</span>
-                    <span className="block text-xs text-slate-500 mt-0.5">Connecting all 64 districts</span>
-                  </div>
-                  <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/25">Live 24/7 Portal</span>
-                </div>
-              </div>
+              <FuturisticHUD />
             </div>
           )}
 
@@ -415,25 +403,25 @@ export default function Home() {
               <span className="block text-2xl font-bold text-emerald-400 font-mono">
                 <NumberTicker value={2640} suffix="+" />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Active Daily Trips</span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">DAILY TRANSITS</span>
             </div>
             <div className="text-center space-y-1 sm:border-l sm:border-slate-800">
               <span className="block text-2xl font-bold text-teal-400 font-mono">
                 <NumberTicker value={26} />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide font-sans">Stations Seeding</span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide font-sans">ORBITAL NODES</span>
             </div>
             <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
               <span className="block text-2xl font-bold text-indigo-400 font-mono">
                 <NumberTicker value={15200} decimals={1} suffix="K" />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Verified Citizens</span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">ENROLLED PILOTS</span>
             </div>
             <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
               <span className="block text-2xl font-bold text-emerald-400 font-mono">
                 <NumberTicker value={99.9} decimals={1} suffix="%" />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">Payment Success Rate</span>
+              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">TELEMETRY SYNC</span>
             </div>
           </div>
         </section>
@@ -460,10 +448,10 @@ export default function Home() {
               {/* Transport Tabs */}
               <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 max-w-fit">
                 {[
-                  { id: 'ALL', label: 'All Modes', icon: Sparkles },
-                  { id: 'BUS', label: 'Bus', icon: Bus },
-                  { id: 'TRAIN', label: 'Train', icon: Train },
-                  { id: 'PLANE', label: 'Flights', icon: Plane }
+                  { id: 'ALL', label: 'All Nodes', icon: Sparkles },
+                  { id: 'BUS', label: 'Ground', icon: Bus },
+                  { id: 'TRAIN', label: 'Rail', icon: Train },
+                  { id: 'PLANE', label: 'Aero', icon: Plane }
                 ].map(tab => (
                   <button
                     key={tab.id}
@@ -513,7 +501,7 @@ export default function Home() {
               
               {/* FROM Dropdown */}
               <div ref={sourceRef} className="md:col-span-3 space-y-1.5 relative">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide block">From (Source)</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide block">Origin Node</label>
                 <button
                   type="button"
                   onClick={() => { setSourceOpen(!sourceOpen); setDestOpen(false); }}
@@ -633,7 +621,7 @@ export default function Home() {
 
               {/* TO Dropdown */}
               <div ref={destRef} className="md:col-span-3 space-y-1.5 relative">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide block">To (Destination)</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide block">Destination Node</label>
                 <button
                   type="button"
                   onClick={() => { setDestOpen(!destOpen); setSourceOpen(false); }}
@@ -772,10 +760,10 @@ export default function Home() {
                   onChange={(e) => setPriority(e.target.value)}
                   className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-sm text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors cursor-pointer"
                 >
-                  <option value="balanced">Balanced Options (Recommended)</option>
-                  <option value="budget">Cheapest Budget (Sort by Price)</option>
-                  <option value="speed">Fastest Duration (Sort by Time)</option>
-                  <option value="comfort">Highest Comfort (Sort by Quality)</option>
+                  <option value="balanced">BALANCED</option>
+                  <option value="budget">BUDGET CONTROL</option>
+                  <option value="speed">VELOCITY DRIVE</option>
+                  <option value="comfort">MAX COMFORT</option>
                 </select>
               </div>
 
@@ -786,10 +774,10 @@ export default function Home() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 p-4 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+              className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 p-4 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all duration-200"
             >
               <Search className="h-5 w-5" />
-              <span>SEARCH AVAILABLE TRANSPORT</span>
+              <span>EXECUTE ROUTE SCAN</span>
             </motion.button>
           </form>
         </div>
@@ -800,17 +788,17 @@ export default function Home() {
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-16">
           <h2 className="text-2xl font-bold text-white text-center mb-6 flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-            <Percent className="h-6 w-6 text-emerald-400" />
-            <span>Exclusive Travel Offers</span>
+            <Percent className="h-6 w-6 text-cyan-400" />
+            <span>QUANTUM TRAVEL PROTOCOLS</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {promos.map((promo, idx) => (
               <TiltCard key={idx} className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 relative overflow-hidden">
-                <span className="absolute top-2 right-2 text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
+                <span className="absolute top-2 right-2 text-xs bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
                   {promo.badge}
                 </span>
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">Promo Code</div>
-                <div className="text-lg font-bold text-emerald-400 mt-1 flex items-center space-x-1.5">
+                <div className="text-lg font-bold text-cyan-400 mt-1 flex items-center space-x-1.5">
                   <span className="font-mono">{promo.code}</span>
                 </div>
                 <p className="text-xs text-slate-400 mt-2 leading-relaxed">{promo.desc}</p>
@@ -826,8 +814,8 @@ export default function Home() {
         <section className="mx-auto max-w-5xl px-4 pb-20">
           <div className="text-center space-y-2 mb-10">
             <h2 className="text-2xl font-bold text-white flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-              <Flame className="h-6 w-6 text-orange-500" />
-              <span>Trending Destinations In Bangladesh</span>
+              <Flame className="h-6 w-6 text-cyan-500" />
+              <span>POPULAR DESTINATION NODES</span>
             </h2>
             <p className="text-xs text-slate-400">Click any destination card below to immediately select that route in the booking form</p>
           </div>
@@ -874,8 +862,8 @@ export default function Home() {
           <div className="text-center md:text-left md:flex justify-between items-center mb-8 border-b border-slate-800 pb-6">
             <div className="space-y-1">
               <h2 className="text-2xl font-bold text-white flex items-center justify-center md:justify-start space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-                <SlidersHorizontal className="h-6 w-6 text-emerald-400" />
-                <span>How the Smart Recommendation Algorithm Works</span>
+                <SlidersHorizontal className="h-6 w-6 text-cyan-400" />
+                <span>ROUTE MATRIX OPTIMIZER</span>
               </h2>
             </div>
             
@@ -951,27 +939,27 @@ export default function Home() {
                   <div className="space-y-2.5 pt-2 border-t border-slate-800">
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-bold text-slate-400">
-                        <span>Budget (Fare Cost)</span>
+                        <span>Credit Efficiency</span>
                         <span className="font-mono">{item.budget}/10</span>
                       </div>
                       <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 transition-all duration-500" style={{ width: `${item.budget * 10}%` }} />
+                        <div className="h-full bg-cyan-500 transition-all duration-500" style={{ width: `${item.budget * 10}%` }} />
                       </div>
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-bold text-slate-400">
-                        <span>Comfort Level</span>
+                        <span>Comfort Factor</span>
                         <span className="font-mono">{item.comfort}/10</span>
                       </div>
                       <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
-                        <div className="h-full bg-teal-500 transition-all duration-500" style={{ width: `${item.comfort * 10}%` }} />
+                        <div className="h-full bg-purple-500 transition-all duration-500" style={{ width: `${item.comfort * 10}%` }} />
                       </div>
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-bold text-slate-400">
-                        <span>Arrival Speed</span>
+                        <span>Velocity Index</span>
                         <span className="font-mono">{item.speed}/10</span>
                       </div>
                       <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
