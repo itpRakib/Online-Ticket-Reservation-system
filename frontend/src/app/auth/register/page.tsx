@@ -116,7 +116,6 @@ export default function Register() {
     setError('');
     setLoading(true);
     try {
-      // Format phone number to Bangladeshi format (+8801XXXXXXXXX)
       let formattedPhone = phone.trim();
       if (formattedPhone.startsWith('0')) {
         formattedPhone = '+88' + formattedPhone;
@@ -142,6 +141,21 @@ export default function Register() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleQuickAutoVerifySim = () => {
+    if (!phone || phone.length < 11) {
+      setError('Please enter a valid Bangladeshi mobile number (e.g., 017XXXXXXXX).');
+      return;
+    }
+    setError('');
+    const mockOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    setSimOtpActual(mockOtp);
+    setSimOtpInput(mockOtp);
+    setSimVerified(true);
+    setSimTimerActive(false);
+    showToast(`⚡ [Auto SIM Verification] Mobile number ${phone} verified!`);
+    setStep(3);
   };
 
   const handleVerifySimOtp = () => {
@@ -178,6 +192,17 @@ export default function Register() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleQuickAutoVerifyEmail = () => {
+    setError('');
+    const mockOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    setEmailOtpActual(mockOtp);
+    setEmailOtpInput(mockOtp);
+    setEmailVerified(true);
+    setEmailTimerActive(false);
+    showToast(`⚡ [Auto Gmail Verification] Email ${email} verified!`);
+    setStep(4);
   };
 
   const handleVerifyEmailOtp = () => {
@@ -477,17 +502,63 @@ export default function Register() {
               </div>
 
               {!simOtpSent ? (
-                <button
-                  type="button"
-                  onClick={handleSendSimOtp}
-                  disabled={loading}
-                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
-                >
-                  {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
-                  <span>Send SMS Verification Code</span>
-                </button>
+                <div className="space-y-3">
+                  <button
+                    type="button"
+                    onClick={handleSendSimOtp}
+                    disabled={loading}
+                    className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
+                  >
+                    {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
+                    <span>Send SMS Verification Code</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleQuickAutoVerifySim}
+                    className="w-full rounded-xl bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 py-3 font-bold text-slate-950 shadow-lg shadow-cyan-500/20 cursor-pointer flex items-center justify-center space-x-2 transition-all"
+                  >
+                    <span>⚡ Quick Auto-Verify SIM (1-Click)</span>
+                  </button>
+                </div>
               ) : (
                 <div className="space-y-4 bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
+                  {/* Website Notification Card showing Verification Code */}
+                  {simOtpActual && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-xl bg-cyan-950/60 border border-cyan-500/40 space-y-2.5 shadow-lg shadow-cyan-500/10"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2 text-cyan-400">
+                          <Smartphone className="h-4 w-4 animate-bounce" />
+                          <span className="text-xs font-bold uppercase tracking-wider">SMS Gateway Notification</span>
+                        </div>
+                        <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-mono font-bold">WEBSITE SIM</span>
+                      </div>
+                      <div className="text-xs text-slate-300">
+                        Verification code for <span className="font-mono text-cyan-300 font-bold">{phone || 'SIM'}</span>:
+                        <span className="text-xl font-black text-cyan-400 font-mono block mt-1 tracking-widest">{simOtpActual}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSimOtpInput(simOtpActual);
+                          setSimVerified(true);
+                          setSimTimerActive(false);
+                          setError('');
+                          showToast('Bangladeshi SIM verified successfully!');
+                          setStep(3);
+                        }}
+                        className="w-full py-2.5 px-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer shadow-md shadow-cyan-500/20"
+                      >
+                        <CheckCircle2 className="h-4 w-4" />
+                        <span>Auto-Fill & Verify Code ({simOtpActual})</span>
+                      </button>
+                    </motion.div>
+                  )}
+
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Enter 6-Digit SMS OTP</label>
                     <div className="relative">
@@ -505,7 +576,7 @@ export default function Register() {
                     </div>
                     <div className="flex justify-between items-center text-xs mt-1.5">
                       <span className="text-slate-500">Code expires in: <span className={`font-bold ${simTimer < 30 ? 'text-red-400' : 'text-cyan-400'}`}>{Math.floor(simTimer / 60)}:{(simTimer % 60).toString().padStart(2, '0')}</span></span>
-                      <span className="text-cyan-400">Tip: Check simulated notification.</span>
+                      <span className="text-cyan-400">Code shown above</span>
                     </div>
                     <div className="text-center pt-2">
                       <button
@@ -561,17 +632,63 @@ export default function Register() {
               </div>
 
               {!emailOtpSent ? (
-                <button
-                  type="button"
-                  onClick={handleSendEmailOtp}
-                  disabled={loading}
-                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
-                >
-                  {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
-                  <span>Send Email Verification Code</span>
-                </button>
+                <div className="space-y-3">
+                  <button
+                    type="button"
+                    onClick={handleSendEmailOtp}
+                    disabled={loading}
+                    className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
+                  >
+                    {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
+                    <span>Send Email Verification Code</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleQuickAutoVerifyEmail}
+                    className="w-full rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-400 hover:to-pink-400 py-3 font-bold text-slate-950 shadow-lg shadow-fuchsia-500/20 cursor-pointer flex items-center justify-center space-x-2 transition-all"
+                  >
+                    <span>⚡ Quick Auto-Verify Gmail (1-Click)</span>
+                  </button>
+                </div>
               ) : (
                 <div className="space-y-4 bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
+                  {/* Website Notification Card showing Email Code */}
+                  {emailOtpActual && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-xl bg-fuchsia-950/60 border border-fuchsia-500/40 space-y-2.5 shadow-lg shadow-fuchsia-500/10"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2 text-fuchsia-400">
+                          <Mail className="h-4 w-4 animate-bounce" />
+                          <span className="text-xs font-bold uppercase tracking-wider">Gmail Server Notification</span>
+                        </div>
+                        <span className="text-[10px] bg-fuchsia-500/20 text-fuchsia-300 px-2 py-0.5 rounded font-mono font-bold">WEBSITE GMAIL</span>
+                      </div>
+                      <div className="text-xs text-slate-300">
+                        Verification code for <span className="font-mono text-fuchsia-300 font-bold">{email}</span>:
+                        <span className="text-xl font-black text-fuchsia-400 font-mono block mt-1 tracking-widest">{emailOtpActual}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmailOtpInput(emailOtpActual);
+                          setEmailVerified(true);
+                          setEmailTimerActive(false);
+                          setError('');
+                          showToast('Gmail verified successfully!');
+                          setStep(4);
+                        }}
+                        className="w-full py-2.5 px-3 rounded-lg bg-fuchsia-500 hover:bg-fuchsia-400 text-slate-950 text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer shadow-md shadow-fuchsia-500/20"
+                      >
+                        <CheckCircle2 className="h-4 w-4" />
+                        <span>Auto-Fill & Verify Code ({emailOtpActual})</span>
+                      </button>
+                    </motion.div>
+                  )}
+
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Enter 6-Digit Email OTP</label>
                     <div className="relative">
