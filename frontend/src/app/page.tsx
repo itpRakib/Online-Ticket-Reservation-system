@@ -284,7 +284,7 @@ export default function Home() {
                 </motion.h1>
                 
                 <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  {t("Search, compare, and secure transport node passages instantly using your verified credentials.", "আপনার যাচাইকৃত প্রোফাইল ব্যবহার করে তাৎক্ষণিকভাবে ট্রান্সপোর্ট নোড প্যাসেজ অনুসন্ধান, তুলনা এবং সুরক্ষিত করুন।")}
+                  {t("Search, compare, and secure transport node passages instantly using your verified credentials.", "আপনাদের যাচাইকৃত প্রোফাইল ব্যবহার করে তাৎক্ষণিকভাবে ট্রান্সপোর্ট নোড প্যাসেজ অনুসন্ধান, তুলনা এবং সুরক্ষিত করুন।")}
                 </motion.p>
               </>
             ) : (
@@ -317,48 +317,48 @@ export default function Home() {
           {/* Right Hero Column: Premium Interactive generated banner */}
           {user ? (
             <div className="lg:col-span-5 relative group">
-              <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900/60 backdrop-blur-md p-6 shadow-2xl flex flex-col space-y-6">
+              <div className="relative rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--bg-raised)]/60 backdrop-blur-md p-6 shadow-2xl flex flex-col space-y-6">
                 <div className="flex items-center space-x-4">
                   <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-slate-950 font-bold text-xl flex items-center justify-center uppercase shadow-md">
                     {user.username.substring(0, 2)}
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white uppercase tracking-wide">{user.first_name || user.username}</h4>
-                    <p className="text-xs text-slate-500 font-mono mt-0.5">{t("Account ID:", "অ্যাকাউন্ট আইডি:")} #00{user.id}00</p>
+                    <h4 className="text-sm font-bold text-[var(--text-bright)] uppercase tracking-wide">{user.first_name || user.username}</h4>
+                    <p className="text-xs text-[var(--text-muted)] font-mono mt-0.5">{t("Account ID:", "অ্যাকাউন্ট আইডি:")} #00{user.id}00</p>
                   </div>
                 </div>
 
                 {/* Verified Badges */}
                 <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-slate-950/40 border border-slate-900 p-2.5 rounded-xl space-y-1">
-                    <span className="block text-xs uppercase tracking-wide text-slate-500 font-bold">{t("NID Card", "এনআইডি")}</span>
+                  <div className="bg-[var(--bg-deep)]/40 border border-[var(--border)] p-2.5 rounded-xl space-y-1">
+                    <span className="block text-xs uppercase tracking-wide text-[var(--text-muted)] font-bold">{t("NID Card", "এনআইডি")}</span>
                     <span className="block text-xs font-bold text-emerald-400">{t("Verified ✅", "যাচাইকৃত ✅")}</span>
                   </div>
-                  <div className="bg-slate-950/40 border border-slate-900 p-2.5 rounded-xl space-y-1">
-                    <span className="block text-xs uppercase tracking-wide text-slate-500 font-bold">{t("Mobile", "মোবাইল")}</span>
+                  <div className="bg-[var(--bg-deep)]/40 border border-[var(--border)] p-2.5 rounded-xl space-y-1">
+                    <span className="block text-xs uppercase tracking-wide text-[var(--text-muted)] font-bold">{t("Mobile", "মোবাইল")}</span>
                     <span className="block text-xs font-bold text-emerald-400">{t("Verified ✅", "যাচাইকৃত ✅")}</span>
                   </div>
-                  <div className="bg-slate-950/40 border border-slate-900 p-2.5 rounded-xl space-y-1">
-                    <span className="block text-xs uppercase tracking-wide text-slate-500 font-bold">{t("Gmail", "জিমেইল")}</span>
+                  <div className="bg-[var(--bg-deep)]/40 border border-[var(--border)] p-2.5 rounded-xl space-y-1">
+                    <span className="block text-xs uppercase tracking-wide text-[var(--text-muted)] font-bold">{t("Gmail", "জিমেইল")}</span>
                     <span className="block text-xs font-bold text-emerald-400">{t("Verified ✅", "যাচাইকৃত ✅")}</span>
                   </div>
                 </div>
 
                 {/* Info Details */}
-                <div className="bg-slate-950/30 border border-white/5 rounded-2xl p-4 text-xs space-y-2">
+                <div className="bg-[var(--bg-deep)]/30 border border-[var(--border)] rounded-2xl p-4 text-xs space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-slate-500 font-medium">{t("NID Name:", "এনআইডি নাম:")}</span>
-                    <span className="text-slate-400 font-bold">{user.profile?.nid_name || user.first_name || 'Rakibul Islam'}</span>
+                    <span className="text-[var(--text-muted)] font-medium">{t("NID Name:", "এনআইডি নাম:")}</span>
+                    <span className="text-[var(--text-bright)] font-bold">{user.profile?.nid_name || user.first_name || 'Rakibul Islam'}</span>
                   </div>
-                  <div className="flex justify-between border-t border-white/5 pt-2">
-                    <span className="text-slate-500 font-medium">{t("NID Number:", "এনআইডি নম্বর:")}</span>
-                    <span className="text-slate-400 font-mono font-bold">
+                  <div className="flex justify-between border-t border-[var(--border)] pt-2">
+                    <span className="text-[var(--text-muted)] font-medium">{t("NID Number:", "এনআইডি নম্বর:")}</span>
+                    <span className="text-[var(--text-primary)] font-mono font-bold">
                       {user.profile?.nid ? `${user.profile.nid.substring(0, 4)}******` : '1234******'}
                     </span>
                   </div>
-                  <div className="flex justify-between border-t border-white/5 pt-2">
-                    <span className="text-slate-500 font-medium">{t("Mobile SIM:", "মোবাইল সিম:")}</span>
-                    <span className="text-slate-400 font-mono font-bold">{user.profile?.phone || '01712******'}</span>
+                  <div className="flex justify-between border-t border-[var(--border)] pt-2">
+                    <span className="text-[var(--text-muted)] font-medium">{t("Mobile SIM:", "মোবাইল সিম:")}</span>
+                    <span className="text-[var(--text-primary)] font-mono font-bold">{user.profile?.phone || '01712******'}</span>
                   </div>
                 </div>
 
@@ -368,7 +368,7 @@ export default function Home() {
                     <motion.a
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 p-3 text-center text-xs font-bold text-slate-200 transition-all duration-200 flex items-center justify-center space-x-1.5 cursor-pointer hover:-translate-y-0.5"
+                      className="rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/60 hover:bg-[var(--bg-elevated)]/80 p-3 text-center text-xs font-bold text-[var(--text-primary)] transition-all duration-200 flex items-center justify-center space-x-1.5 cursor-pointer hover:-translate-y-0.5"
                     >
                       <span>{t("My Dashboard", "আমার ড্যাশবোর্ড")}</span>
                       <ArrowRight className="h-3.5 w-3.5 text-emerald-400" />
@@ -439,15 +439,15 @@ export default function Home() {
         )}
 
         <GlowCard glowColor="emerald" intensity="low">
-          <div className="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-800 bg-slate-900/40 backdrop-blur-md">
+          <div className="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-[var(--border)] bg-[var(--bg-raised)]/40 backdrop-blur-md">
             
             <form onSubmit={handleSearch} className="space-y-6">
             
             {/* Control Bar: Mode and type select */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
               
               {/* Transport Tabs */}
-              <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 max-w-fit">
+              <div className="flex bg-[var(--bg-deep)] p-1 rounded-xl border border-[var(--border)] max-w-fit">
                 {[
                   { id: 'ALL', label: 'All Nodes', icon: Sparkles },
                   { id: 'BUS', label: 'Ground', icon: Bus },
@@ -460,8 +460,8 @@ export default function Home() {
                     onClick={() => { setTransportType(tab.id); setValidationError(''); }}
                     className={`flex items-center space-x-1.5 px-3 py-2 text-xs font-bold rounded-lg transition-all duration-200 cursor-pointer ${
                       transportType === tab.id
-                        ? 'bg-slate-800 text-emerald-400 shadow-md'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                        ? 'bg-[var(--bg-raised)] text-[var(--accent)] shadow-md'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-bright)] hover:bg-[var(--bg-deep)]/50'
                     }`}
                   >
                     <tab.icon className="h-3.5 w-3.5" />
@@ -471,15 +471,15 @@ export default function Home() {
               </div>
 
               {/* Trip type choice */}
-              <div className="flex space-x-4 text-xs font-semibold text-slate-400">
+              <div className="flex space-x-4 text-xs font-semibold text-[var(--text-secondary)]">
                 <label className="flex items-center space-x-1.5 cursor-pointer hover:opacity-80 transition-opacity">
                   <input 
                     type="radio" 
                     checked={tripType === 'oneway'} 
                     onChange={() => setTripType('oneway')}
-                    className="accent-emerald-500 h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[var(--accent)] h-3.5 w-3.5 cursor-pointer" 
                   />
-                  <span className={tripType === 'oneway' ? 'text-emerald-400 font-bold' : ''}>One Way</span>
+                  <span className={tripType === 'oneway' ? 'text-[var(--accent)] font-bold' : ''}>One Way</span>
                 </label>
                 <label className="flex items-center space-x-1.5 cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
                   <input 
@@ -489,9 +489,9 @@ export default function Home() {
                       setTripType('round');
                       alert('Round-trip return dates are mocked. You will search and book your outward journey first.');
                     }}
-                    className="accent-emerald-500 h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[var(--accent)] h-3.5 w-3.5 cursor-pointer" 
                   />
-                  <span className={tripType === 'round' ? 'text-emerald-400 font-bold' : ''}>Round Trip</span>
+                  <span className={tripType === 'round' ? 'text-[var(--accent)] font-bold' : ''}>Round Trip</span>
                 </label>
               </div>
 
@@ -502,20 +502,20 @@ export default function Home() {
               
               {/* FROM Dropdown */}
               <div ref={sourceRef} className="md:col-span-3 space-y-1.5 relative">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide block">Origin Node</label>
+                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block">Origin Node</label>
                 <button
                   type="button"
                   onClick={() => { setSourceOpen(!sourceOpen); setDestOpen(false); }}
-                  className={`w-full rounded-xl border p-4 text-left focus:border-emerald-500 transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                  className={`w-full rounded-xl border p-4 text-left focus:border-[var(--accent)] transition-all duration-200 flex items-center justify-between cursor-pointer ${
                     source 
-                      ? 'border-[var(--border)] bg-[var(--bg-elevated)]/60 text-[var(--text-primary)]' 
-                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-slate-700'
+                      ? 'border-[var(--border)] bg-[var(--bg-raised)]/60 text-[var(--text-primary)]' 
+                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-[var(--border-hover)]'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <MapPin className={`h-5 w-5 ${source ? 'text-emerald-400' : 'text-slate-600'}`} />
+                    <MapPin className={`h-5 w-5 ${source ? 'text-[var(--accent)]' : 'text-slate-655'}`} />
                     <div>
-                      <span className={`block font-bold text-sm ${source ? 'text-[var(--text-bright)]' : 'text-slate-500'}`}>
+                      <span className={`block font-bold text-sm ${source ? 'text-[var(--text-bright)]' : 'text-[var(--text-muted)]'}`}>
                         {source ? getStationLabel(source) : 'Select Departure Location'}
                       </span>
                       <span className="block text-xs text-slate-500 leading-none mt-0.5">
@@ -527,19 +527,19 @@ export default function Home() {
                 </button>
 
                 {sourceOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-slate-800 bg-slate-950 p-3.5 shadow-2xl flex flex-col space-y-3">
+                  <div className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)] p-3.5 shadow-2xl flex flex-col space-y-3">
                     {/* Search inside Dropdown */}
                     <div className="relative">
-                      <input
+                       <input
                         type="text"
                         placeholder="Search stations, ports..."
                         value={sourceSearch}
                         onChange={(e) => setSourceSearch(e.target.value)}
-                        className="w-full rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                        className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-deep)] px-3 py-2 text-xs text-[var(--text-bright)] focus:outline-none focus:border-[var(--accent)]"
                         autoFocus
                       />
                       {sourceSearch && (
-                        <button type="button" onClick={() => setSourceSearch('')} className="absolute right-2.5 top-2 text-slate-500 hover:text-white cursor-pointer">
+                        <button type="button" onClick={() => setSourceSearch('')} className="absolute right-2.5 top-2 text-slate-500 hover:text-[var(--text-bright)] cursor-pointer">
                           <X className="h-3.5 w-3.5" />
                         </button>
                       )}
@@ -549,16 +549,16 @@ export default function Home() {
                       {/* Bus Terminals Group */}
                       {sourceGroups.bus.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block px-1.5">🚌 Bus Terminals</span>
+                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚌 Bus Terminals</span>
                           {sourceGroups.bus.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-slate-400 hover:bg-slate-900 hover:text-white flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-slate-500 uppercase">{st.code}</span>
+                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
                             </button>
                           ))}
                         </div>
@@ -567,16 +567,16 @@ export default function Home() {
                       {/* Railway Stations Group */}
                       {sourceGroups.railway.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block px-1.5">🚆 Railway Stations</span>
+                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚆 Railway Stations</span>
                           {sourceGroups.railway.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-slate-400 hover:bg-slate-900 hover:text-white flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-slate-500 uppercase">{st.code}</span>
+                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
                             </button>
                           ))}
                         </div>
@@ -585,23 +585,23 @@ export default function Home() {
                       {/* Airports Group */}
                       {sourceGroups.airport.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block px-1.5">✈️ Airports</span>
+                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">✈️ Airports</span>
                           {sourceGroups.airport.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-slate-400 hover:bg-slate-900 hover:text-white flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-slate-500 uppercase">{st.code}</span>
+                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
                       {sourceGroups.bus.length === 0 && sourceGroups.railway.length === 0 && sourceGroups.airport.length === 0 && (
-                        <span className="text-xs text-slate-500 block text-center py-4">No matching locations found.</span>
+                        <span className="text-xs text-[var(--text-muted)] block text-center py-4">No matching locations found.</span>
                       )}
                     </div>
                   </div>
@@ -613,7 +613,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handleSwapStations}
-                  className="rounded-xl border border-slate-800 bg-slate-900/80 p-3 hover:bg-slate-800 text-emerald-400 hover:text-white transition-all duration-200 shadow-lg hover:-translate-y-0.5 cursor-pointer"
+                  className="rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/80 p-3 hover:bg-[var(--bg-raised)] text-[var(--accent)] hover:text-[var(--text-bright)] transition-all duration-200 shadow-lg hover:-translate-y-0.5 cursor-pointer"
                   title="Swap Locations"
                 >
                   <ArrowLeftRight className="h-4 w-4 md:rotate-90" />
@@ -622,20 +622,20 @@ export default function Home() {
 
               {/* TO Dropdown */}
               <div ref={destRef} className="md:col-span-3 space-y-1.5 relative">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide block">Destination Node</label>
+                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block">Destination Node</label>
                 <button
                   type="button"
                   onClick={() => { setDestOpen(!destOpen); setSourceOpen(false); }}
-                  className={`w-full rounded-xl border p-4 text-left focus:border-emerald-500 transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                  className={`w-full rounded-xl border p-4 text-left focus:border-[var(--accent)] transition-all duration-200 flex items-center justify-between cursor-pointer ${
                     destination 
-                      ? 'border-[var(--border)] bg-[var(--bg-elevated)]/60 text-[var(--text-primary)]' 
-                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-slate-700'
+                      ? 'border-[var(--border)] bg-[var(--bg-raised)]/60 text-[var(--text-primary)]' 
+                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-[var(--border-hover)]'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <MapPin className={`h-5 w-5 ${destination ? 'text-emerald-400' : 'text-slate-600'}`} />
+                    <MapPin className={`h-5 w-5 ${destination ? 'text-[var(--accent)]' : 'text-slate-655'}`} />
                     <div>
-                      <span className={`block font-bold text-sm ${destination ? 'text-[var(--text-bright)]' : 'text-slate-500'}`}>
+                      <span className={`block font-bold text-sm ${destination ? 'text-[var(--text-bright)]' : 'text-[var(--text-muted)]'}`}>
                         {destination ? getStationLabel(destination) : 'Select Destination Location'}
                       </span>
                       <span className="block text-xs text-slate-500 leading-none mt-0.5">
@@ -647,7 +647,7 @@ export default function Home() {
                 </button>
 
                 {destOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-slate-800 bg-slate-950 p-3.5 shadow-2xl flex flex-col space-y-3">
+                  <div className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)] p-3.5 shadow-2xl flex flex-col space-y-3">
                     {/* Search inside Dropdown */}
                     <div className="relative">
                       <input
@@ -655,11 +655,11 @@ export default function Home() {
                         placeholder="Search stations, ports..."
                         value={destSearch}
                         onChange={(e) => setDestSearch(e.target.value)}
-                        className="w-full rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                        className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-deep)] px-3 py-2 text-xs text-[var(--text-bright)] focus:outline-none focus:border-[var(--accent)]"
                         autoFocus
                       />
                       {destSearch && (
-                        <button type="button" onClick={() => setDestSearch('')} className="absolute right-2.5 top-2 text-slate-500 hover:text-white cursor-pointer">
+                        <button type="button" onClick={() => setDestSearch('')} className="absolute right-2.5 top-2 text-slate-500 hover:text-[var(--text-bright)] cursor-pointer">
                           <X className="h-3.5 w-3.5" />
                         </button>
                       )}
@@ -669,16 +669,16 @@ export default function Home() {
                       {/* Bus Terminals Group */}
                       {destGroups.bus.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block px-1.5">🚌 Bus Terminals</span>
+                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚌 Bus Terminals</span>
                           {destGroups.bus.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-slate-400 hover:bg-slate-900 hover:text-white flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-slate-500 uppercase">{st.code}</span>
+                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
                             </button>
                           ))}
                         </div>
@@ -687,16 +687,16 @@ export default function Home() {
                       {/* Railway Stations Group */}
                       {destGroups.railway.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block px-1.5">🚆 Railway Stations</span>
+                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚆 Railway Stations</span>
                           {destGroups.railway.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-slate-400 hover:bg-slate-900 hover:text-white flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-slate-500 uppercase">{st.code}</span>
+                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
                             </button>
                           ))}
                         </div>
@@ -705,23 +705,23 @@ export default function Home() {
                       {/* Airports Group */}
                       {destGroups.airport.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block px-1.5">✈️ Airports</span>
+                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">✈️ Airports</span>
                           {destGroups.airport.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-slate-400 hover:bg-slate-900 hover:text-white flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-slate-500 uppercase">{st.code}</span>
+                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
                       {destGroups.bus.length === 0 && destGroups.railway.length === 0 && destGroups.airport.length === 0 && (
-                        <span className="text-xs text-slate-500 block text-center py-4">No matching locations found.</span>
+                        <span className="text-xs text-[var(--text-muted)] block text-center py-4">No matching locations found.</span>
                       )}
                     </div>
                   </div>
@@ -734,8 +734,8 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide flex items-center space-x-1">
-                  <Calendar className="h-3.5 w-3.5 text-emerald-400" />
+                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide flex items-center space-x-1">
+                  <Calendar className="h-3.5 w-3.5 text-[var(--accent)]" />
                   <span>Journey Date (Locked to Present/Future)</span>
                 </label>
                 <input
@@ -744,22 +744,22 @@ export default function Home() {
                   min={todayStr}
                   max={getMaxDate()}
                   onChange={(e) => { setDate(e.target.value); setValidationError(''); }}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-sm text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors cursor-pointer"
+                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/60 p-4 text-sm text-[var(--text-primary)] focus:border-[var(--accent)] focus:outline-none transition-colors cursor-pointer"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wide flex items-center justify-between">
+                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide flex items-center justify-between">
                   <span className="flex items-center space-x-1">
-                    <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
+                    <Sparkles className="h-3.5 w-3.5 text-[var(--accent)]" />
                     <span>Smart Ranking Preference</span>
                   </span>
-                  <span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-emerald-400 font-bold uppercase leading-none">Dynamic Compare</span>
+                  <span className="text-xs bg-[var(--bg-deep)] px-1.5 py-0.5 rounded text-[var(--accent)] font-bold uppercase leading-none">Dynamic Compare</span>
                 </label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-sm text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors cursor-pointer"
+                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/60 p-4 text-sm text-[var(--text-primary)] focus:border-[var(--accent)] focus:outline-none transition-colors cursor-pointer"
                 >
                   <option value="balanced">BALANCED</option>
                   <option value="budget">BUDGET CONTROL</option>
@@ -788,22 +788,22 @@ export default function Home() {
       {/* Promotional Offers Row */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-16">
-          <h2 className="text-2xl font-bold text-white text-center mb-6 flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <h2 className="text-2xl font-bold text-[var(--text-bright)] text-center mb-6 flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
             <Percent className="h-6 w-6 text-cyan-400" />
             <span>QUANTUM TRAVEL PROTOCOLS</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {promos.map((promo, idx) => (
-              <TiltCard key={idx} className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 relative overflow-hidden">
+              <TiltCard key={idx} className="glass-panel p-5 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)]/40 relative overflow-hidden">
                 <span className="absolute top-2 right-2 text-xs bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
                   {promo.badge}
                 </span>
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">Promo Code</div>
+                <div className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wide">Promo Code</div>
                 <div className="text-lg font-bold text-cyan-400 mt-1 flex items-center space-x-1.5">
                   <span className="font-mono">{promo.code}</span>
                 </div>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">{promo.desc}</p>
-                <div className="text-xs text-slate-500 mt-4 font-semibold">{promo.expiry}</div>
+                <p className="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">{promo.desc}</p>
+                <div className="text-xs text-[var(--text-muted)] mt-4 font-semibold">{promo.expiry}</div>
               </TiltCard>
             ))}
           </div>
@@ -814,11 +814,11 @@ export default function Home() {
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-20">
           <div className="text-center space-y-2 mb-10">
-            <h2 className="text-2xl font-bold text-white flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+            <h2 className="text-2xl font-bold text-[var(--text-bright)] flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
               <Flame className="h-6 w-6 text-cyan-500" />
               <span>POPULAR DESTINATION NODES</span>
             </h2>
-            <p className="text-xs text-slate-400">Click any destination card below to immediately select that route in the booking form</p>
+            <p className="text-xs text-[var(--text-secondary)]">Click any destination card below to immediately select that route in the booking form</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -826,29 +826,29 @@ export default function Home() {
               <TiltCard key={idx}>
                 <button
                   onClick={() => handleQuickBookSelect(dest.fromCode, dest.toCode, dest.type)}
-                  className="w-full text-left rounded-3xl overflow-hidden glass-panel border border-slate-800 hover:border-emerald-500/50 transition-all hover:-translate-y-0.5 duration-200 flex flex-col cursor-pointer relative group h-48"
+                  className="w-full text-left rounded-3xl overflow-hidden glass-panel border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all hover:-translate-y-0.5 duration-200 flex flex-col cursor-pointer relative group h-48"
                 >
                   {/* Background gradient design mimicking a scenic image container */}
                   <div className={`absolute inset-0 bg-gradient-to-tr ${dest.bgGradient} -z-10 group-hover:scale-105 transition-transform duration-500`} />
                   
                   {/* Top status bar */}
                   <div className="p-5 w-full flex justify-between items-start">
-                    <span className="text-xs bg-slate-950/80 text-slate-300 border border-slate-800 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
+                    <span className="text-xs bg-[var(--bg-deep)]/80 text-[var(--text-primary)] border border-[var(--border)] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
                       {dest.type} Mode
                     </span>
                     <div className="text-right">
-                      <span className="text-xs text-slate-300 uppercase tracking-wide block font-bold">Fare From</span>
+                      <span className="text-xs text-[var(--text-secondary)] uppercase tracking-wide block font-bold">Fare From</span>
                       <span className="text-sm font-bold text-emerald-400">{dest.basePrice}</span>
                     </div>
                   </div>
 
                   {/* Bottom Details */}
-                  <div className="mt-auto p-5 w-full bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent">
-                    <h4 className="text-lg font-bold text-white flex items-center space-x-1.5">
+                  <div className="mt-auto p-5 w-full bg-gradient-to-t from-[var(--bg-deep)] via-[var(--bg-deep)]/70 to-transparent">
+                    <h4 className="text-lg font-bold text-[var(--text-bright)] flex items-center space-x-1.5">
                       <span>{dest.name}</span>
                       <ArrowRight className="h-4 w-4 text-emerald-400 transform translate-x-0 group-hover:translate-x-1 transition-transform" />
                     </h4>
-                    <p className="text-xs text-slate-400 mt-1">{dest.tagline}</p>
+                    <p className="text-xs text-[var(--text-secondary)] mt-1">{dest.tagline}</p>
                   </div>
                 </button>
               </TiltCard>
@@ -859,10 +859,10 @@ export default function Home() {
 
       {/* Interactive Match Score Engine Simulator */}
       <section className="mx-auto max-w-5xl px-4 pb-20">
-        <div className="glass-panel border border-slate-800 rounded-3xl p-8 relative overflow-hidden bg-slate-900/40">
-          <div className="text-center md:text-left md:flex justify-between items-center mb-8 border-b border-slate-800 pb-6">
+        <div className="glass-panel border border-[var(--border)] rounded-3xl p-8 relative overflow-hidden bg-[var(--bg-raised)]/40">
+          <div className="text-center md:text-left md:flex justify-between items-center mb-8 border-b border-[var(--border)] pb-6">
             <div className="space-y-1">
-              <h2 className="text-2xl font-bold text-white flex items-center justify-center md:justify-start space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+              <h2 className="text-2xl font-bold text-[var(--text-bright)] flex items-center justify-center md:justify-start space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                 <SlidersHorizontal className="h-6 w-6 text-cyan-400" />
                 <span>ROUTE MATRIX OPTIMIZER</span>
               </h2>
@@ -934,37 +934,37 @@ export default function Home() {
                         {match}% Match
                       </span>
                     </div>
-                    <p className="text-xs text-slate-500 leading-relaxed">{item.description}</p>
+                    <p className="text-xs text-[var(--text-muted)] leading-relaxed">{item.description}</p>
                   </div>
 
-                  <div className="space-y-2.5 pt-2 border-t border-slate-800">
+                  <div className="space-y-2.5 pt-2 border-t border-[var(--border)]">
                     <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-slate-400">
+                      <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
                         <span>Credit Efficiency</span>
                         <span className="font-mono">{item.budget}/10</span>
                       </div>
-                      <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
-                        <div className="h-full bg-cyan-500 transition-all duration-500" style={{ width: `${item.budget * 10}%` }} />
+                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden">
+                        <div className="h-full bg-[var(--accent)] transition-all duration-500" style={{ width: `${item.budget * 10}%` }} />
                       </div>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-slate-400">
+                      <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
                         <span>Comfort Factor</span>
                         <span className="font-mono">{item.comfort}/10</span>
                       </div>
-                      <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
-                        <div className="h-full bg-purple-500 transition-all duration-500" style={{ width: `${item.comfort * 10}%` }} />
+                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden">
+                        <div className="h-full bg-[var(--secondary)] transition-all duration-500" style={{ width: `${item.comfort * 10}%` }} />
                       </div>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-slate-400">
+                      <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
                         <span>Velocity Index</span>
                         <span className="font-mono">{item.speed}/10</span>
                       </div>
-                      <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden">
-                        <div className="h-full bg-indigo-500 transition-all duration-500" style={{ width: `${item.speed * 10}%` }} />
+                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden">
+                        <div className="h-full bg-[var(--accent-hover)] transition-all duration-500" style={{ width: `${item.speed * 10}%` }} />
                       </div>
                     </div>
                   </div>
@@ -984,8 +984,8 @@ export default function Home() {
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-sm">Anti-Scalper Verification</h4>
-                <p className="text-xs text-slate-400 mt-1">Requires official National ID (NID) and Bangladeshi SIM verification during signup to prevent fake ticket bookings.</p>
+                <h4 className="font-bold text-[var(--text-bright)] text-sm">Anti-Scalper Verification</h4>
+                <p className="text-xs text-[var(--text-secondary)] mt-1">Requires official National ID (NID) and Bangladeshi SIM verification during signup to prevent fake ticket bookings.</p>
               </div>
             </div>
 
@@ -994,8 +994,8 @@ export default function Home() {
                 <UserCheck className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-sm">Real-life BD Station Registry</h4>
-                <p className="text-xs text-slate-400 mt-1">Includes accurate station registries for railways, buses, and airports covering Dhaka, Chittagong, Sylhet, Cox's Bazar, and Rajshahi.</p>
+                <h4 className="font-bold text-[var(--text-bright)] text-sm">Real-life BD Station Registry</h4>
+                <p className="text-xs text-[var(--text-secondary)] mt-1">Includes accurate station registries for railways, buses, and airports covering Dhaka, Chittagong, Sylhet, Cox's Bazar, and Rajshahi.</p>
               </div>
             </div>
 
@@ -1004,8 +1004,8 @@ export default function Home() {
                 <CreditCard className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-sm">Interactive Banking checkout</h4>
-                <p className="text-xs text-slate-400 mt-1">Simulates complete bKash/Nagad overlays, requiring verification OTP codes and mobile banking PINs to authorize bookings.</p>
+                <h4 className="font-bold text-[var(--text-bright)] text-sm">Interactive Banking checkout</h4>
+                <p className="text-xs text-[var(--text-secondary)] mt-1">Simulates complete bKash/Nagad overlays, requiring verification OTP codes and mobile banking PINs to authorize bookings.</p>
               </div>
             </div>
           </div>
@@ -1015,16 +1015,16 @@ export default function Home() {
       {/* Frequently Asked Questions */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-3xl px-4 py-20 space-y-10">
-          <h2 className="text-2xl font-bold text-white text-center flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-            <HelpCircle className="h-6 w-6 text-slate-500" />
+          <h2 className="text-2xl font-bold text-[var(--text-bright)] text-center flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+            <HelpCircle className="h-6 w-6 text-[var(--text-muted)]" />
             <span>Frequently Asked Questions</span>
           </h2>
           
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-2 hover:border-slate-700 transition-colors">
-                <h4 className="font-bold text-white text-sm">{faq.q}</h4>
-                <p className="text-xs text-slate-400 leading-relaxed">{faq.a}</p>
+              <div key={idx} className="glass-panel p-5 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)]/40 space-y-2 hover:border-[var(--border-hover)] transition-colors">
+                <h4 className="font-bold text-[var(--text-bright)] text-sm">{faq.q}</h4>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
