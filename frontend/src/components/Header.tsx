@@ -40,8 +40,33 @@ export const Header: React.FC = () => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2.5 group">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 text-white shadow-sm transition-transform group-hover:scale-105">
-            <Ticket className="h-4 w-4" />
+          <div className="relative flex h-9 w-9 items-center justify-center mr-1 transform scale-110">
+            <div className="boxes">
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
           </div>
           <span className="hidden text-lg font-bold text-white tracking-tight sm:block" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
             BD GoTicket

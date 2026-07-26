@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PlexusBackground } from "@/components/PlexusBackground";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased dark">
       <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans min-h-full flex flex-col bg-[var(--bg-deep)] text-[var(--text-primary)] relative overflow-x-hidden`}>
         <AuthProvider>
+          <PlexusBackground />
           <Header />
           <main className="flex-grow flex flex-col">
             {children}
