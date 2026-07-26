@@ -35,6 +35,31 @@ export default function PaymentPage() {
   const [simOtpInput, setSimOtpInput] = useState('');
   const [simPinInput, setSimPinInput] = useState('');
 
+  const normalizeBooking = (b: any) => {
+    if (!b) return b;
+    const td = b.trip_details || b.trip || {};
+    const totalFare = b.total_fare || b.total_price || 0;
+    return {
+      ...b,
+      total_fare: totalFare,
+      total_price: totalFare,
+      trip: {
+        source: {
+          name: td.source_city || td.source?.name || 'Dhaka Central Hub',
+          code: td.source_code || td.source?.code || 'DAC',
+        },
+        destination: {
+          name: td.destination_city || td.destination?.name || 'Chittagong Station',
+          code: td.destination_code || td.destination?.code || 'CGP',
+        },
+        departure_time: td.departure_time || '08:00',
+        arrival_time: td.arrival_time || '14:00',
+        transport_type: td.transport_type || 'BUS',
+        operator_name: td.company_name || td.operator_name || 'Express Transit',
+      },
+    };
+  };
+
   useEffect(() => {
     const fetchBooking = async () => {
       setLoading(true);
@@ -71,9 +96,10 @@ export default function PaymentPage() {
           };
         }
 
-        setBooking(found);
-        if (found.status === 'PAID') {
-          router.push(`/dashboard?confirm=true&pnr=${found.pnr_number}`);
+        const normalized = normalizeBooking(found);
+        setBooking(normalized);
+        if (normalized.status === 'PAID') {
+          router.push(`/dashboard?confirm=true&pnr=${normalized.pnr_number}`);
         }
       } catch (err: any) {
         setError(err.message || 'Failed to load booking details.');
