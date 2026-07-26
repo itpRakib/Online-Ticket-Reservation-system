@@ -11,7 +11,7 @@ interface RetroGridProps {
 
 export const RetroGrid: React.FC<RetroGridProps> = ({
   className = '',
-  opacity = 0.22,
+  opacity = 0.35,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -42,7 +42,7 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
     window.addEventListener('resize', handleResize);
 
     const horizonY = height * 0.55;
-    const speed = 0.04; // Slightly slower speed for layout integration so it remains a background element
+    const speed = 0.07;
     let offset = 0;
 
     // Stars
@@ -54,12 +54,12 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
       speed: number;
     }
     const stars: Star[] = [];
-    const starCount = 35;
+    const starCount = 50;
     for (let i = 0; i < starCount; i++) {
       stars.push({
         x: Math.random() * width,
         y: Math.random() * horizonY,
-        size: Math.random() * 1.5,
+        size: Math.random() * 2.0 + 0.5,
         alpha: Math.random(),
         speed: 0.05 + Math.random() * 0.15,
       });
@@ -77,20 +77,20 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
         0,
         width / 2,
         horizonY,
-        width * 0.35
+        width * 0.45
       );
       if (isDark) {
-        gradientSun.addColorStop(0, 'rgba(255, 0, 127, 0.08)');
-        gradientSun.addColorStop(0.5, 'rgba(0, 240, 255, 0.02)');
+        gradientSun.addColorStop(0, 'rgba(255, 0, 127, 0.15)');
+        gradientSun.addColorStop(0.5, 'rgba(0, 240, 255, 0.06)');
         gradientSun.addColorStop(1, 'transparent');
       } else {
-        gradientSun.addColorStop(0, 'rgba(37, 99, 235, 0.03)');
+        gradientSun.addColorStop(0, 'rgba(37, 99, 235, 0.08)');
         gradientSun.addColorStop(1, 'transparent');
       }
 
       ctx.fillStyle = gradientSun;
       ctx.beginPath();
-      ctx.arc(width / 2, horizonY, width * 0.35, 0, Math.PI, true);
+      ctx.arc(width / 2, horizonY, width * 0.45, 0, Math.PI, true);
       ctx.fill();
 
       // Draw stars (only in dark mode)
@@ -101,16 +101,16 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
             star.alpha = 0;
             star.x = Math.random() * width;
           }
-          ctx.fillStyle = `rgba(255, 255, 255, ${Math.sin(star.alpha) * 0.6})`;
+          ctx.fillStyle = `rgba(255, 255, 255, ${Math.sin(star.alpha) * 0.75})`;
           ctx.beginPath();
           ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
           ctx.fill();
         });
       }
 
-      // Draw horizon boundary
-      ctx.strokeStyle = isDark ? 'rgba(0, 240, 255, 0.15)' : 'rgba(37, 99, 235, 0.08)';
-      ctx.lineWidth = 0.5;
+      // Draw horizon boundary line
+      ctx.strokeStyle = isDark ? 'rgba(0, 240, 255, 0.35)' : 'rgba(37, 99, 235, 0.15)';
+      ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(0, horizonY);
       ctx.lineTo(width, horizonY);
@@ -120,23 +120,22 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
       const gridY = horizonY;
       const viewHeight = height - gridY;
 
-      // Adjust offset for eternal animation
       offset = (offset + speed) % 1;
 
       // Theme-adaptive colors
-      const colorCyan = isDark ? 'rgba(0, 240, 255, 0.3)' : 'rgba(37, 99, 235, 0.06)';
-      const colorMagenta = isDark ? 'rgba(255, 0, 127, 0.35)' : 'rgba(13, 148, 136, 0.06)';
+      const colorCyan = isDark ? 'rgba(0, 240, 255, 0.45)' : 'rgba(37, 99, 235, 0.12)';
+      const colorMagenta = isDark ? 'rgba(255, 0, 127, 0.45)' : 'rgba(13, 148, 136, 0.12)';
 
       // Vertical Lines spreading outwards
-      const verticalLineCount = 28;
+      const verticalLineCount = 32;
       const spacingX = width / (verticalLineCount - 8);
       for (let i = 0; i < verticalLineCount; i++) {
         const xOffset = (i - (verticalLineCount - 1) / 2) * spacingX;
         const startX = width / 2 + xOffset * 0.03;
-        const endX = width / 2 + xOffset * 1.6;
+        const endX = width / 2 + xOffset * 1.7;
 
         ctx.strokeStyle = colorCyan;
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = 1.0;
         ctx.beginPath();
         ctx.moveTo(startX, gridY);
         ctx.lineTo(endX, height);
@@ -144,14 +143,14 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
       }
 
       // Horizontal Lines scaling exponentially
-      const horizontalLineCount = 10;
+      const horizontalLineCount = 12;
       for (let i = 0; i < horizontalLineCount; i++) {
         const progress = (i + offset) / horizontalLineCount;
         const y = gridY + Math.pow(progress, 2.5) * viewHeight;
-        const lineOpacity = Math.min(0.7, progress * 1.3);
+        const lineOpacity = Math.min(0.85, progress * 1.4);
 
-        ctx.strokeStyle = colorMagenta.replace('0.35', String(lineOpacity * 0.35)).replace('0.06', String(lineOpacity * 0.06));
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = isDark ? `rgba(255, 0, 127, ${lineOpacity * 0.5})` : `rgba(13, 148, 136, ${lineOpacity * 0.15})`;
+        ctx.lineWidth = 1.0;
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(width, y);
@@ -170,13 +169,13 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
   }, [shouldReduceMotion]);
 
   if (shouldReduceMotion) {
-    return null; // Suppress animations on reduced motion preferences
+    return null;
   }
 
   return (
     <div 
       className={`absolute inset-0 pointer-events-none -z-10 overflow-hidden ${className}`}
-      style={{ opacity: theme === 'dark' ? opacity : opacity * 0.35 }}
+      style={{ opacity: theme === 'dark' ? opacity : opacity * 0.4 }}
     >
       <canvas ref={canvasRef} className="w-full h-full block" />
       {/* Soft gradient mask overlaying grid bottom to fade it cleanly */}

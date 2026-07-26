@@ -869,7 +869,7 @@ export default function Home() {
             </div>
             
             {/* Simulator priority triggers */}
-            <div className="flex flex-wrap gap-2 mt-4 md:mt-0 justify-center">
+            <div className="flex flex-wrap gap-2.5 mt-4 md:mt-0 justify-center">
               {(['balanced', 'budget', 'comfort', 'speed'] as const).map(mode => (
                 <button
                   key={mode}
@@ -878,10 +878,10 @@ export default function Home() {
                     setSimMode(mode);
                     setPriority(mode);
                   }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-200 border cursor-pointer hover:-translate-y-0.5 ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 border cursor-pointer ${
                     simMode === mode
-                      ? 'bg-[var(--accent)] text-slate-950 border-[var(--accent)] shadow-md shadow-cyan-500/20'
-                      : 'bg-[var(--bg-deep)] text-[var(--text-secondary)] border-[var(--border)] hover:border-[var(--border-hover)] hover:text-[var(--text-bright)]'
+                      ? 'bg-cyan-400 text-slate-950 border-cyan-300 shadow-lg shadow-cyan-500/30 scale-105 font-extrabold'
+                      : 'bg-slate-900/80 text-slate-300 border-cyan-500/20 hover:border-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 shadow-sm'
                   }`}
                 >
                   {mode}
@@ -937,12 +937,12 @@ export default function Home() {
                     const el = document.getElementById('search-form-container');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="bg-[var(--bg-deep)]/60 border border-[var(--border)] hover:border-[var(--accent)]/60 rounded-2xl p-5 space-y-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 cursor-pointer group shadow-lg"
+                  className="bg-[var(--bg-deep)]/80 border border-[var(--border)] hover:border-cyan-400/60 rounded-2xl p-5 space-y-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 cursor-pointer group shadow-xl hover:shadow-cyan-500/10"
                 >
                   <div className="space-y-2">
                     <div className="flex justify-between items-start">
-                      <span className="text-xs font-bold text-[var(--text-bright)] leading-tight pr-2 group-hover:text-[var(--accent)] transition-colors">{item.type}</span>
-                      <span className="text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded border border-[var(--accent)]/20 font-mono shrink-0">
+                      <span className="text-xs font-bold text-[var(--text-bright)] leading-tight pr-2 group-hover:text-cyan-400 transition-colors">{item.type}</span>
+                      <span className="text-xs font-extrabold text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-lg border border-cyan-500/30 font-mono shrink-0 shadow-sm">
                         {match}% Match
                       </span>
                     </div>
@@ -953,38 +953,38 @@ export default function Home() {
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
                         <span>Credit Efficiency</span>
-                        <span className="font-mono">{item.budget}/10</span>
+                        <span className="font-mono text-cyan-400">{item.budget}/10</span>
                       </div>
-                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden">
-                        <div className="h-full bg-[var(--accent)] transition-all duration-500" style={{ width: `${item.budget * 10}%` }} />
+                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden border border-white/5">
+                        <div className="h-full bg-gradient-to-r from-cyan-500 to-teal-400 transition-all duration-500" style={{ width: `${item.budget * 10}%` }} />
                       </div>
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
                         <span>Comfort Factor</span>
-                        <span className="font-mono">{item.comfort}/10</span>
+                        <span className="font-mono text-pink-400">{item.comfort}/10</span>
                       </div>
-                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden">
-                        <div className="h-full bg-[var(--secondary)] transition-all duration-500" style={{ width: `${item.comfort * 10}%` }} />
+                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden border border-white/5">
+                        <div className="h-full bg-gradient-to-r from-pink-500 to-fuchsia-400 transition-all duration-500" style={{ width: `${item.comfort * 10}%` }} />
                       </div>
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
                         <span>Velocity Index</span>
-                        <span className="font-mono">{item.speed}/10</span>
+                        <span className="font-mono text-purple-400">{item.speed}/10</span>
                       </div>
-                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden">
-                        <div className="h-full bg-[var(--accent-hover)] transition-all duration-500" style={{ width: `${item.speed * 10}%` }} />
+                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden border border-white/5">
+                        <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-400 transition-all duration-500" style={{ width: `${item.speed * 10}%` }} />
                       </div>
                     </div>
 
-                    <div className="pt-2 text-center">
-                      <span className="inline-flex items-center space-x-1 text-xs font-bold text-[var(--accent)] group-hover:underline">
+                    <div className="pt-3">
+                      <div className="w-full py-2.5 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-400 text-cyan-400 group-hover:text-slate-950 border border-cyan-500/30 group-hover:border-cyan-400 text-xs font-bold flex items-center justify-center space-x-2 transition-all duration-300 shadow-md group-hover:shadow-cyan-500/20">
                         <span>Apply {item.mode} Route Filter</span>
                         <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" />
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>
