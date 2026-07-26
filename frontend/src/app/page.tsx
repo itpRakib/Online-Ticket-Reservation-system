@@ -874,11 +874,14 @@ export default function Home() {
                 <button
                   key={mode}
                   type="button"
-                  onClick={() => setSimMode(mode)}
+                  onClick={() => {
+                    setSimMode(mode);
+                    setPriority(mode);
+                  }}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-200 border cursor-pointer hover:-translate-y-0.5 ${
                     simMode === mode
-                      ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/10'
-                      : 'bg-transparent text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'
+                      ? 'bg-[var(--accent)] text-slate-950 border-[var(--accent)] shadow-md shadow-cyan-500/20'
+                      : 'bg-[var(--bg-deep)] text-[var(--text-secondary)] border-[var(--border)] hover:border-[var(--border-hover)] hover:text-[var(--text-bright)]'
                   }`}
                 >
                   {mode}
@@ -926,11 +929,20 @@ export default function Home() {
               const match = Math.round((item.budget * weights.b + item.comfort * weights.c + item.speed * weights.s) * 10);
               
               return (
-                <div key={item.type} className="bg-slate-950/40 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+                <div
+                  key={item.type}
+                  onClick={() => {
+                    setTransportType(item.mode);
+                    setPriority(simMode);
+                    const el = document.getElementById('search-form-container');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="bg-[var(--bg-deep)]/60 border border-[var(--border)] hover:border-[var(--accent)]/60 rounded-2xl p-5 space-y-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 cursor-pointer group shadow-lg"
+                >
                   <div className="space-y-2">
                     <div className="flex justify-between items-start">
-                      <span className="text-xs font-bold text-slate-200 leading-tight pr-2">{item.type}</span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 font-mono shrink-0">
+                      <span className="text-xs font-bold text-[var(--text-bright)] leading-tight pr-2 group-hover:text-[var(--accent)] transition-colors">{item.type}</span>
+                      <span className="text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded border border-[var(--accent)]/20 font-mono shrink-0">
                         {match}% Match
                       </span>
                     </div>
@@ -966,6 +978,13 @@ export default function Home() {
                       <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden">
                         <div className="h-full bg-[var(--accent-hover)] transition-all duration-500" style={{ width: `${item.speed * 10}%` }} />
                       </div>
+                    </div>
+
+                    <div className="pt-2 text-center">
+                      <span className="inline-flex items-center space-x-1 text-xs font-bold text-[var(--accent)] group-hover:underline">
+                        <span>Apply {item.mode} Route Filter</span>
+                        <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" />
+                      </span>
                     </div>
                   </div>
                 </div>
