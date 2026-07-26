@@ -70,7 +70,7 @@ export const Header: React.FC = () => {
               </div>
             </div>
           </div>
-          <span className="hidden text-lg font-bold text-white tracking-tight sm:block" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <span className="hidden text-lg font-bold text-[var(--text-bright)] tracking-tight sm:block" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
             BD GoTicket
           </span>
         </Link>
@@ -80,14 +80,14 @@ export const Header: React.FC = () => {
           <Link
             href="/"
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              isActive('/') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
+              isActive('/') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-[var(--text-bright)] hover:bg-slate-500/10'
             }`}
           >
             Home
           </Link>
           <Link
             href={`/search?source=DAC-BUS-G&destination=CGP-BUS-D&date=${today}`}
-            className="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+            className="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-[var(--text-bright)] hover:bg-slate-500/10 transition-colors"
           >
             Transit Matrix
           </Link>
@@ -95,7 +95,7 @@ export const Header: React.FC = () => {
             <Link
               href="/dashboard"
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive('/dashboard') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
+                isActive('/dashboard') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-[var(--text-bright)] hover:bg-slate-500/10'
               }`}
             >
               My Telemetry
@@ -162,7 +162,7 @@ export const Header: React.FC = () => {
             <div className="flex items-center space-x-2">
               <Link
                 href="/auth/login"
-                className="px-3 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                className="px-3 py-2 text-sm font-medium text-slate-400 hover:text-[var(--text-bright)] transition-colors"
               >
                 Login
               </Link>

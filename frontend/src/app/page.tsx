@@ -276,14 +276,14 @@ export default function Home() {
                   <span>{t("Assalam-o-Alaikum, ", "আসসালামু আলাইকুম, ") + (user.first_name || user.username) + "!"}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-[var(--text-bright)] leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("PLAN YOUR NEXT ", "আপনার পরবর্তী ")} <br className="hidden sm:inline" />
                   <span className="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("TRANSIT ROUTE", "ট্রানজিট রুট পরিকল্পনা")}
                   </span>
                 </motion.h1>
                 
-                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
                   {t("Search, compare, and secure transport node passages instantly using your verified credentials.", "আপনার যাচাইকৃত প্রোফাইল ব্যবহার করে তাৎক্ষণিকভাবে ট্রান্সপোর্ট নোড প্যাসেজ অনুসন্ধান, তুলনা এবং সুরক্ষিত করুন।")}
                 </motion.p>
               </>
@@ -294,20 +294,20 @@ export default function Home() {
                   <span>{t("Unified Transport Hub of Bangladesh", "বাংলাদেশের সমন্বিত যাতায়াত পোর্টাল")}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-[var(--text-bright)] leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("HYPER-VELOCITY ", "হাইপার-ভেলোসিটি ")} <br className="hidden sm:inline" />
                   <span className="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("TRANSIT GATEWAY", "ট্রানজিট গেটওয়ে")}
                   </span>
                 </motion.h1>
                 
-                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
                   {t("Book bus, rail, and aero transits instantly across Bangladesh. Secured by NID identity verification and real-time checkout telemetry.", "বাস, রেল এবং অ্যারো ট্রানজিট বুক করুন তাৎক্ষণিকভাবে বাংলাদেশ জুড়ে। এনআইডি যাচাইকরণ এবং রিয়েল-টাইম চেকআউট টেলিমেট্রি দ্বারা সুরক্ষিত।")}
                 </motion.p>
               </>
             )}
 
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-xs font-semibold text-slate-400">
+            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-xs font-semibold text-[var(--text-secondary)]">
               <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> <span>{t("NID Verified", "এনআইডি যাচাইকৃত")}</span></span>
               <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> <span>{t("SIM SMS OTP", "সিম ওটিপি")}</span></span>
               <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-400" /> <span>{t("bKash/Nagad checkout", "বিকাশ/নগদ পেমেন্ট")}</span></span>
@@ -508,14 +508,14 @@ export default function Home() {
                   onClick={() => { setSourceOpen(!sourceOpen); setDestOpen(false); }}
                   className={`w-full rounded-xl border p-4 text-left focus:border-emerald-500 transition-all duration-200 flex items-center justify-between cursor-pointer ${
                     source 
-                      ? 'border-slate-800 bg-slate-900/60 text-slate-200' 
-                      : 'border-slate-800 bg-slate-950/20 text-slate-500 hover:border-slate-700'
+                      ? 'border-[var(--border)] bg-[var(--bg-elevated)]/60 text-[var(--text-primary)]' 
+                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-slate-700'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <MapPin className={`h-5 w-5 ${source ? 'text-emerald-400' : 'text-slate-600'}`} />
                     <div>
-                      <span className={`block font-bold text-sm ${source ? 'text-white' : 'text-slate-500'}`}>
+                      <span className={`block font-bold text-sm ${source ? 'text-[var(--text-bright)]' : 'text-slate-500'}`}>
                         {source ? getStationLabel(source) : 'Select Departure Location'}
                       </span>
                       <span className="block text-xs text-slate-500 leading-none mt-0.5">
@@ -628,14 +628,14 @@ export default function Home() {
                   onClick={() => { setDestOpen(!destOpen); setSourceOpen(false); }}
                   className={`w-full rounded-xl border p-4 text-left focus:border-emerald-500 transition-all duration-200 flex items-center justify-between cursor-pointer ${
                     destination 
-                      ? 'border-slate-800 bg-slate-900/60 text-slate-200' 
-                      : 'border-slate-800 bg-slate-950/20 text-slate-500 hover:border-slate-700'
+                      ? 'border-[var(--border)] bg-[var(--bg-elevated)]/60 text-[var(--text-primary)]' 
+                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-slate-700'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <MapPin className={`h-5 w-5 ${destination ? 'text-emerald-400' : 'text-slate-600'}`} />
                     <div>
-                      <span className={`block font-bold text-sm ${destination ? 'text-white' : 'text-slate-500'}`}>
+                      <span className={`block font-bold text-sm ${destination ? 'text-[var(--text-bright)]' : 'text-slate-500'}`}>
                         {destination ? getStationLabel(destination) : 'Select Destination Location'}
                       </span>
                       <span className="block text-xs text-slate-500 leading-none mt-0.5">
