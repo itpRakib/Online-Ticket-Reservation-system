@@ -86,8 +86,10 @@ export const Header: React.FC = () => {
             Home
           </Link>
           <Link
-            href={`/search?source=DAC-BUS-G&destination=CGP-BUS-D&date=${today}`}
-            className="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+            href="/search"
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              isActive('/search') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
+            }`}
           >
             Transit Matrix
           </Link>
