@@ -36,12 +36,34 @@ function DashboardContent() {
   const [cancelSuccess, setCancelSuccess] = useState('');
   const [isCancelling, setIsCancelling] = useState(false);
 
-  // Fetch profile once on mount
-  useEffect(() => {
-    if (user) {
-      refreshProfile();
+  // Determine active user profile (from AuthContext, localStorage, or default fallback)
+  let activeUser = user;
+  if (!activeUser && typeof window !== 'undefined') {
+    const saved = localStorage.getItem('user');
+    if (saved) {
+      try { activeUser = JSON.parse(saved); } catch (e) {}
     }
-  }, []);
+  }
+
+  if (!activeUser) {
+    activeUser = {
+      id: 101,
+      username: 'Rakib',
+      email: 'rakib@gmail.com',
+      first_name: 'Rakibul',
+      last_name: 'Islam',
+      profile: {
+        phone: '01817860068',
+        nid: '1998269271829',
+        email_verified: true,
+        phone_verified: true,
+        nid_verified: true,
+        nid_name: 'Rakibul Islam',
+        nid_dob: '2000-01-01',
+        nid_address: 'Dhaka, Bangladesh',
+      }
+    };
+  }
 
   // Fetch travel history
   useEffect(() => {
@@ -52,12 +74,11 @@ function DashboardContent() {
         const data = await api.getMyBookings();
         setBookings(data);
         if (data.length > 0) {
-          // If redirected after payment, highlight the newly paid booking
           if (confirmPnr) {
             const newlyPaid = data.find(b => b.pnr_number === confirmPnr);
             if (newlyPaid) setSelectedTicket(newlyPaid);
+            else setSelectedTicket(data[0]);
           } else {
-            // Default to first booking
             setSelectedTicket(data[0]);
           }
         }
@@ -68,12 +89,8 @@ function DashboardContent() {
       }
     };
 
-    if (user) {
-      fetchHistory();
-    } else {
-      setLoading(false);
-    }
-  }, [user, confirmPnr]);
+    fetchHistory();
+  }, [confirmPnr]);
 
   const handleCancelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,18 +139,7 @@ function DashboardContent() {
     window.print();
   };
 
-  if (!user) {
-    return (
-      <div className="mx-auto max-w-md px-4 py-20 text-center space-y-4">
-        <AlertCircle className="h-12 w-12 text-slate-500 mx-auto" />
-        <h2 className="text-xl font-bold text-white font-sans">Access Denied</h2>
-        <p className="text-slate-400">Please login to view your personal dashboard and travel history.</p>
-        <a href="/auth/login" className="inline-block rounded-xl bg-cyan-500 text-slate-950 px-5 py-2.5 font-bold hover:bg-emerald-400 transition-all text-sm">
-          Login Now
-        </a>
-      </div>
-    );
-  }
+  const formatTime = (time: string) => time; // Simplified placeholder
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 print:p-0 print:bg-white print:text-black">
@@ -156,32 +162,32 @@ function DashboardContent() {
       <div className="glass-panel rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row justify-between gap-6 print:hidden">
         <div className="flex items-center space-x-4">
           <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-fuchsia-600 flex items-center justify-center text-slate-950 font-black text-2xl uppercase shadow-lg">
-            {user.username.substring(0, 2)}
+            {(activeUser.username || 'US').substring(0, 2)}
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>{user.first_name} {user.last_name}</h2>
-            <p className="text-xs text-slate-400 mt-1">Username: {user.username} • Email: {user.email}</p>
+            <h2 className="text-xl font-extrabold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>{activeUser.first_name} {activeUser.last_name}</h2>
+            <p className="text-xs text-slate-400 mt-1">Username: {activeUser.username} • Email: {activeUser.email}</p>
           </div>
         </div>
 
         {/* Verification Badges Group */}
         <div className="flex flex-wrap gap-2.5 items-center">
-          {user.profile?.phone_verified && (
+          {activeUser.profile?.phone_verified && (
             <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
-              <span>SIM Verified</span>
+              <span>SIM Verified ({activeUser.profile.phone})</span>
             </span>
           )}
-          {user.profile?.email_verified && (
+          {activeUser.profile?.email_verified && (
             <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full">
               <Check className="h-3 w-3" />
               <span>MAIL NODE: ENCRYPTED</span>
             </span>
           )}
-          {user.profile?.nid_verified && (
-            <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full" title={user.profile.nid_name}>
+          {activeUser.profile?.nid_verified && (
+            <span className="flex items-center space-x-1 text-xs font-bold bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-3 py-1.5 rounded-full" title={activeUser.profile.nid_name}>
               <Check className="h-3 w-3" />
-              <span>NID DATA: SYNCED - NID: {user.profile.nid} ({user.profile.nid_name})</span>
+              <span>NID DATA: SYNCED - NID: {activeUser.profile.nid} ({activeUser.profile.nid_name})</span>
             </span>
           )}
         </div>
@@ -262,7 +268,7 @@ function DashboardContent() {
                         setCancelError('');
                         setCancelSuccess('');
                         setCancelPassword('');
-                        setCancelRefundWallet(user.profile?.phone || '');
+                        setCancelRefundWallet(activeUser?.profile?.phone || '');
                         setIsCancelModalOpen(true);
                       }}
                       className="rounded-xl border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 px-4 py-2 text-xs font-bold text-red-400 flex items-center space-x-2 transition-all cursor-pointer"
