@@ -271,7 +271,7 @@ export default function Register() {
           className="w-full max-w-xl space-y-8 glass-panel p-8 sm:p-10 rounded-3xl shadow-2xl relative"
         >
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-400 to-purple-600 text-white shadow-lg">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-400 to-fuchsia-600 text-white shadow-lg">
               <Ticket className="h-6 w-6 rotate-12" />
             </div>
             <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Create an Account</h2>
@@ -423,7 +423,7 @@ export default function Register() {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full mt-6 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 py-3.5 font-bold text-slate-950 shadow-lg shadow-cyan-500/10 cursor-pointer transition-all"
+                className="w-full mt-6 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 py-3.5 font-bold text-slate-950 shadow-lg shadow-cyan-500/10 cursor-pointer transition-all"
               >
                 Proceed to SIM Verification
               </motion.button>
@@ -731,7 +731,7 @@ export default function Register() {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleFinalRegister}
                 disabled={loading}
-                className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-cyan-500/10 cursor-pointer"
+                className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-cyan-500/10 cursor-pointer"
               >
                 {loading ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
                 <span>Create Account</span>
@@ -751,10 +751,9 @@ export default function Register() {
                   Your account was created and verified against Bangladeshi SIM & National ID records. You can now login.
                 </p>
               </div>
-              
               <Link
                 href="/auth/login"
-                className="inline-block w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 py-3.5 font-bold text-slate-950 shadow-lg shadow-cyan-500/10 hover:from-emerald-400 hover:to-teal-400 transition-all text-center"
+                className="inline-block w-full rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 py-3.5 font-bold text-slate-950 shadow-lg shadow-cyan-500/10 hover:from-cyan-300 hover:to-fuchsia-500 transition-all text-center"
               >
                 Login Now
               </Link>

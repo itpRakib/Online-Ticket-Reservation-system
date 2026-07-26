@@ -168,7 +168,7 @@ export const Header: React.FC = () => {
               </Link>
               <Link
                 href="/auth/register"
-                className="rounded-lg bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 px-4 py-2 text-sm font-bold text-slate-950 transition-all hover:scale-[1.02]"
+                className="rounded-lg bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 px-4 py-2 text-sm font-bold text-slate-950 transition-all hover:scale-[1.02]"
               >
                 Sign Up
               </Link>

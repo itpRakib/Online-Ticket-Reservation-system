@@ -155,7 +155,7 @@ function DashboardContent() {
       <ScrollReveal>
       <div className="glass-panel rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row justify-between gap-6 print:hidden">
         <div className="flex items-center space-x-4">
-          <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-slate-950 font-black text-2xl uppercase shadow-lg">
+          <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-fuchsia-600 flex items-center justify-center text-slate-950 font-black text-2xl uppercase shadow-lg">
             {user.username.substring(0, 2)}
           </div>
           <div>
@@ -525,7 +525,7 @@ function DashboardContent() {
                   <button
                     type="submit"
                     disabled={isCancelling}
-                    className="w-1/2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-cyan-300 hover:to-purple-500 py-3 text-xs font-extrabold text-white transition-all hover:scale-[1.01] flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                    className="w-1/2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-cyan-300 hover:to-fuchsia-500 py-3 text-xs font-extrabold text-white transition-all hover:scale-[1.01] flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
                   >
                     {isCancelling ? (
                       <RefreshCw className="h-4 w-4 animate-spin text-white" />

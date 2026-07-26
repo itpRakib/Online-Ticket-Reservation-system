@@ -168,7 +168,7 @@ export const PlexusBackground: React.FC = () => {
   if (shouldReduceMotion) {
     return (
       <div className="fixed inset-0 pointer-events-none -z-50 bg-[var(--bg-deep)]">
-        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-950/5 via-transparent to-purple-950/5 opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-950/5 via-transparent to-fuchsia-950/5 opacity-60" />
       </div>
     );
   }

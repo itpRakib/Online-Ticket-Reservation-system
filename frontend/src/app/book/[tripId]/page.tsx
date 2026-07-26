@@ -507,7 +507,7 @@ function BookTripContent() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-emerald-500/10 hover:scale-[1.01] transition-all disabled:opacity-50"
+                  className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-cyan-500/10 hover:scale-[1.01] transition-all disabled:opacity-50"
                 >
                   {submitting ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
                   <span>CONFIRM TRAVEL PASSAGE</span>

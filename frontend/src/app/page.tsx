@@ -278,7 +278,7 @@ export default function Home() {
                 
                 <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("PLAN YOUR NEXT ", "আপনার পরবর্তী ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("TRANSIT ROUTE", "ট্রানজিট রুট পরিকল্পনা")}
                   </span>
                 </motion.h1>
@@ -296,7 +296,7 @@ export default function Home() {
                 
                 <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("HYPER-VELOCITY ", "হাইপার-ভেলোসিটি ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("TRANSIT GATEWAY", "ট্রানজিট গেটওয়ে")}
                   </span>
                 </motion.h1>
@@ -775,7 +775,7 @@ export default function Home() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 p-4 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all duration-200"
+              className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 p-4 font-bold text-slate-950 flex items-center justify-center space-x-2 cursor-pointer shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all duration-200"
             >
               <Search className="h-5 w-5" />
               <span>EXECUTE ROUTE SCAN</span>

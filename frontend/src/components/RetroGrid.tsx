@@ -39,7 +39,7 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
     let offset = 0;
 
     const colorCyan = 'rgba(0, 240, 255, 0.45)';
-    const colorMagenta = 'rgba(138, 43, 226, 0.5)'; // Darker purple matching secondary variables
+    const colorMagenta = 'rgba(255, 0, 127, 0.5)'; // Hot magenta for high-contrast cyber theme
 
     // Stars
     interface Star {

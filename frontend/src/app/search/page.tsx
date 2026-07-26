@@ -170,7 +170,7 @@ function SearchResultsContent() {
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm pt-4">
             <Link
               href={`/auth/login?redirect=/search?source=${querySource}&destination=${queryDest}&date=${queryDate}&transport_type=${transportType}&priority=${priority}`}
-              className="flex-1 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 py-3.5 font-bold text-slate-950 text-center transition-all hover:scale-[1.01] shadow-lg shadow-emerald-500/10"
+              className="flex-1 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 py-3.5 font-bold text-slate-950 text-center transition-all hover:scale-[1.01] shadow-lg shadow-emerald-500/10"
             >
               {t("Log In", "লগইন করুন")}
             </Link>
@@ -430,7 +430,7 @@ function SearchResultsContent() {
                           whileHover={{ scale: 1.03 }}
                           whileTap={{ scale: 0.97 }}
                           onClick={() => router.push(`/book/${trip.id}?date=${queryDate}`)}
-                          className="rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 hover:from-cyan-300 hover:to-purple-500 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-emerald-500/10 cursor-pointer"
+                          className="rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-emerald-500/10 cursor-pointer"
                         >
                           RESERVE PASSAGE
                         </motion.button>

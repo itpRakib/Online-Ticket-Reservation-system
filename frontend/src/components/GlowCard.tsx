@@ -18,7 +18,7 @@ const glowColors: Record<GlowColor, string> = {
   amber: 'rgba(245, 158, 11, VAR)',
   indigo: 'rgba(99, 102, 241, VAR)',
   cyan: 'rgba(0, 240, 255, VAR)',
-  purple: 'rgba(138, 43, 226, VAR)',
+  purple: 'rgba(255, 0, 127, VAR)',
   none: 'transparent',
 };
 
