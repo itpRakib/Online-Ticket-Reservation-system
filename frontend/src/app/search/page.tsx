@@ -253,11 +253,6 @@ function SearchResultsContent() {
         }).catch(() => null);
 
         let tripResults = res?.trips || (Array.isArray(res) ? res : []);
-
-        if (!Array.isArray(tripResults) || tripResults.length === 0) {
-          tripResults = defaultFallbackTrips;
-        }
-
         setTrips(tripResults);
       } catch (err: any) {
         setTrips(defaultFallbackTrips);
