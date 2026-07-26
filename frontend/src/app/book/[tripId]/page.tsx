@@ -254,7 +254,7 @@ function BookTripContent() {
                               !isAvail 
                                 ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20'
+                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700 hover:text-white'
                             }`}
                             title={isAvail ? `Seat ${seat} (Available)` : `Seat ${seat} (Booked)`}
@@ -296,7 +296,7 @@ function BookTripContent() {
                               !isAvail
                                 ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20'
+                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700'
                             }`}
                             title={seatNum}
@@ -337,7 +337,7 @@ function BookTripContent() {
                               !isAvail
                                 ? 'bg-red-500/10 border border-red-500/20 text-red-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20'
+                                ? 'bg-emerald-500 border border-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700'
                             }`}
                           >

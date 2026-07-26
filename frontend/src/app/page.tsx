@@ -13,6 +13,8 @@ import {
   ShieldCheck, CreditCard, Sparkles, Flame, Percent, MapPin, 
   Calendar, Clock, UserCheck, HelpCircle, ChevronDown, Check, ArrowRight, X, AlertCircle, SlidersHorizontal
 } from 'lucide-react';
+import { TiltCard } from '@/components/TiltCard';
+import { GlowCard } from '@/components/GlowCard';
 
 export default function Home() {
   const router = useRouter();
@@ -272,7 +274,7 @@ export default function Home() {
                   <span>{t("Assalam-o-Alaikum, ", "আসসালামু আলাইকুম, ") + (user.first_name || user.username) + "!"}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("Ready to Plan ", "আপনার পরবর্তী ভ্রমণের ")} <br className="hidden sm:inline" />
                   <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("Your Next Journey?", "পরিকল্পনা প্রস্তুত তো?")}
@@ -290,7 +292,7 @@ export default function Home() {
                   <span>{t("Unified Transport Hub of Bangladesh", "বাংলাদেশের সমন্বিত যাতায়াত পোর্টাল")}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("Book Bus, Train & Flight Tickets ", "বাস, ট্রেন এবং বিমানের টিকিট বুকিং ")} <br className="hidden sm:inline" />
                   <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
                     {t("Safely & Instantly Online", "নিরাপদে ও তাৎক্ষণিকভাবে অনলাইনে")}
@@ -408,7 +410,7 @@ export default function Home() {
       {/* Platform Statistics Live Metrics */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-8 -mt-2">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-[var(--bg-raised)]/50 border border-white/[0.03] rounded-2xl p-6 backdrop-blur-sm">
             <div className="text-center space-y-1">
               <span className="block text-2xl font-bold text-emerald-400 font-mono">
                 <NumberTicker value={2640} suffix="+" />
@@ -447,9 +449,10 @@ export default function Home() {
           </div>
         )}
 
-        <div className="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-800 bg-slate-900/40 backdrop-blur-md">
-          
-          <form onSubmit={handleSearch} className="space-y-6">
+        <GlowCard glowColor="emerald" intensity="low">
+          <div className="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-800 bg-slate-900/40 backdrop-blur-md">
+            
+            <form onSubmit={handleSearch} className="space-y-6">
             
             {/* Control Bar: Mode and type select */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
@@ -790,6 +793,7 @@ export default function Home() {
             </motion.button>
           </form>
         </div>
+        </GlowCard>
       </section>
 
       {/* Promotional Offers Row */}
@@ -801,12 +805,7 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {promos.map((promo, idx) => (
-              <motion.div 
-                key={idx} 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 relative overflow-hidden group hover:border-emerald-500/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-              >
+              <TiltCard key={idx} className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/40 relative overflow-hidden">
                 <span className="absolute top-2 right-2 text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
                   {promo.badge}
                 </span>
@@ -816,7 +815,7 @@ export default function Home() {
                 </div>
                 <p className="text-xs text-slate-400 mt-2 leading-relaxed">{promo.desc}</p>
                 <div className="text-xs text-slate-500 mt-4 font-semibold">{promo.expiry}</div>
-              </motion.div>
+              </TiltCard>
             ))}
           </div>
         </section>
@@ -835,36 +834,35 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {topDestinations.map((dest, idx) => (
-              <motion.button
-                key={idx}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => handleQuickBookSelect(dest.fromCode, dest.toCode, dest.type)}
-                className="w-full text-left rounded-3xl overflow-hidden glass-panel border border-slate-800 hover:border-emerald-500/50 transition-all hover:-translate-y-0.5 duration-200 flex flex-col cursor-pointer relative group h-48"
-              >
-                {/* Background gradient design mimicking a scenic image container */}
-                <div className={`absolute inset-0 bg-gradient-to-tr ${dest.bgGradient} -z-10 group-hover:scale-105 transition-transform duration-500`} />
-                
-                {/* Top status bar */}
-                <div className="p-5 w-full flex justify-between items-start">
-                  <span className="text-xs bg-slate-950/80 text-slate-300 border border-slate-800 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
-                    {dest.type} Mode
-                  </span>
-                  <div className="text-right">
-                    <span className="text-xs text-slate-300 uppercase tracking-wide block font-bold">Fare From</span>
-                    <span className="text-sm font-bold text-emerald-400">{dest.basePrice}</span>
+              <TiltCard key={idx}>
+                <button
+                  onClick={() => handleQuickBookSelect(dest.fromCode, dest.toCode, dest.type)}
+                  className="w-full text-left rounded-3xl overflow-hidden glass-panel border border-slate-800 hover:border-emerald-500/50 transition-all hover:-translate-y-0.5 duration-200 flex flex-col cursor-pointer relative group h-48"
+                >
+                  {/* Background gradient design mimicking a scenic image container */}
+                  <div className={`absolute inset-0 bg-gradient-to-tr ${dest.bgGradient} -z-10 group-hover:scale-105 transition-transform duration-500`} />
+                  
+                  {/* Top status bar */}
+                  <div className="p-5 w-full flex justify-between items-start">
+                    <span className="text-xs bg-slate-950/80 text-slate-300 border border-slate-800 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
+                      {dest.type} Mode
+                    </span>
+                    <div className="text-right">
+                      <span className="text-xs text-slate-300 uppercase tracking-wide block font-bold">Fare From</span>
+                      <span className="text-sm font-bold text-emerald-400">{dest.basePrice}</span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Bottom Details */}
-                <div className="mt-auto p-5 w-full bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent">
-                  <h4 className="text-lg font-bold text-white flex items-center space-x-1.5">
-                    <span>{dest.name}</span>
-                    <ArrowRight className="h-4 w-4 text-emerald-400 transform translate-x-0 group-hover:translate-x-1 transition-transform" />
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-1">{dest.tagline}</p>
-                </div>
-              </motion.button>
+                  {/* Bottom Details */}
+                  <div className="mt-auto p-5 w-full bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent">
+                    <h4 className="text-lg font-bold text-white flex items-center space-x-1.5">
+                      <span>{dest.name}</span>
+                      <ArrowRight className="h-4 w-4 text-emerald-400 transform translate-x-0 group-hover:translate-x-1 transition-transform" />
+                    </h4>
+                    <p className="text-xs text-slate-400 mt-1">{dest.tagline}</p>
+                  </div>
+                </button>
+              </TiltCard>
             ))}
           </div>
         </section>

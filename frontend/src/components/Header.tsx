@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[var(--background)]/80 backdrop-blur-xl"
+      className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[var(--bg-deep)]/80 backdrop-blur-xl"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
@@ -119,7 +119,7 @@ export const Header: React.FC = () => {
               </Link>
               <Link
                 href="/auth/register"
-                className="rounded-lg bg-emerald-500 hover:bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-all hover:scale-[1.02]"
+                className="rounded-lg bg-emerald-500 hover:bg-emerald-400 px-4 py-2 text-sm font-semibold text-white transition-all hover:scale-[1.02]"
               >
                 Sign Up
               </Link>
@@ -127,6 +127,7 @@ export const Header: React.FC = () => {
           )}
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
     </motion.header>
   );
 };

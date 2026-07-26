@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ScrollReveal';
+import { GlowCard } from '@/components/GlowCard';
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -281,6 +282,7 @@ function DashboardContent() {
               </div>
 
               {/* High-Fidelity e-Ticket design */}
+              <GlowCard glowColor="emerald" intensity="low">
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden shadow-2xl print:border-2 print:border-black print:text-black print:bg-white print:rounded-none">
                 
                 {/* Border punched-out stub ticket effects */}
@@ -423,6 +425,7 @@ function DashboardContent() {
                 </div>
 
               </div>
+              </GlowCard>
 
             </div>
           ) : (

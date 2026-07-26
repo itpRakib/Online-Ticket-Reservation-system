@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased dark">
-      <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans min-h-full flex flex-col bg-[var(--background)] text-slate-100 selection:bg-emerald-500 selection:text-slate-950 relative overflow-x-hidden`}>
+      <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans min-h-full flex flex-col bg-[var(--bg-deep)] text-[var(--text-primary)] relative overflow-x-hidden`}>
         <AuthProvider>
           <Header />
           <main className="flex-grow flex flex-col">

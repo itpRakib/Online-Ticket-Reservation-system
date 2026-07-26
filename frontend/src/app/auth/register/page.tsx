@@ -9,6 +9,7 @@ import {
   CheckCircle2, AlertCircle, RefreshCw, Smartphone, KeyRound, Calendar 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { GlowCard } from '@/components/GlowCard';
 
 export default function Register() {
   const router = useRouter();
@@ -261,506 +262,508 @@ export default function Register() {
         </div>
       )}
 
-      <motion.div 
-        layout
-        initial={{ opacity: 0, y: 20, scale: 0.95 }} 
-        animate={{ opacity: 1, y: 0, scale: 1 }} 
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-xl space-y-8 glass-panel p-8 sm:p-10 rounded-3xl shadow-2xl relative"
-      >
-        <div className="text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
-            <Ticket className="h-6 w-6 rotate-12" />
+      <GlowCard glowColor="emerald" intensity="low">
+        <motion.div 
+          layout
+          initial={{ opacity: 0, y: 20, scale: 0.95 }} 
+          animate={{ opacity: 1, y: 0, scale: 1 }} 
+          transition={{ duration: 0.4 }}
+          className="w-full max-w-xl space-y-8 glass-panel p-8 sm:p-10 rounded-3xl shadow-2xl relative"
+        >
+          <div className="text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg">
+              <Ticket className="h-6 w-6 rotate-12" />
+            </div>
+            <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Create an Account</h2>
+            <p className="mt-2 text-sm text-slate-400">
+              Verify SIM, Gmail, and NID to secure your reservation capability.
+            </p>
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Create an Account</h2>
-          <p className="mt-2 text-sm text-slate-400">
-            Verify SIM, Gmail, and NID to secure your reservation capability.
-          </p>
-        </div>
 
-        {/* Multi-step progress bar */}
-        {step <= 5 && (
-          <div className="flex items-center justify-between px-2 mb-6">
-            {[
-              { num: 1, label: 'Profile' },
-              { num: 2, label: 'SIM OTP' },
-              { num: 3, label: 'Gmail OTP' },
-              { num: 4, label: 'NID EC' },
-              { num: 5, label: 'Finish' }
-            ].map(s => (
-              <React.Fragment key={s.num}>
-                <div className="flex flex-col items-center space-y-1">
-                  <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                    step >= s.num 
-                      ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20' 
-                      : 'bg-slate-800 text-slate-400'
-                  }`}>
-                    {s.num}
+          {/* Multi-step progress bar */}
+          {step <= 5 && (
+            <div className="flex items-center justify-between px-2 mb-6">
+              {[
+                { num: 1, label: 'Profile' },
+                { num: 2, label: 'SIM OTP' },
+                { num: 3, label: 'Gmail OTP' },
+                { num: 4, label: 'NID EC' },
+                { num: 5, label: 'Finish' }
+              ].map(s => (
+                <React.Fragment key={s.num}>
+                  <div className="flex flex-col items-center space-y-1">
+                    <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                      step >= s.num 
+                        ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20' 
+                        : 'bg-slate-800 text-slate-400'
+                    }`}>
+                      {s.num}
+                    </div>
+                    <span className="text-xs font-semibold text-slate-500 tracking-wider hidden sm:inline">{s.label}</span>
                   </div>
-                  <span className="text-xs font-semibold text-slate-500 tracking-wider hidden sm:inline">{s.label}</span>
-                </div>
-                {s.num < 5 && (
-                  <div className="flex-1 h-0.5 mx-2 bg-slate-800 relative">
-                    {step > s.num && (
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '100%' }}
-                        transition={{ duration: 0.4 }}
-                        className="absolute top-0 left-0 h-full bg-emerald-500" 
-                      />
-                    )}
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        )}
-
-        <AnimatePresence>
-          {error && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0, marginTop: 0 }}
-              animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
-              exit={{ opacity: 0, height: 0, marginTop: 0 }}
-              className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2 overflow-hidden mb-6"
-            >
-              <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
-              <span>{error}</span>
-            </motion.div>
+                  {s.num < 5 && (
+                    <div className="flex-1 h-0.5 mx-2 bg-slate-800 relative">
+                      {step > s.num && (
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: '100%' }}
+                          transition={{ duration: 0.4 }}
+                          className="absolute top-0 left-0 h-full bg-emerald-500" 
+                        />
+                      )}
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           )}
-        </AnimatePresence>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* --- STEP 1: Account details --- */}
-        {step === 1 && (
-          <form onSubmit={handleAccountSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">First Name</label>
-                <input
-                  type="text"
-                  required
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
-                  placeholder="E.g., John"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Last Name</label>
-                <input
-                  type="text"
-                  required
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
-                  placeholder="E.g., Doe"
-                />
-              </div>
-            </div>
+          <AnimatePresence>
+            {error && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2 overflow-hidden mb-6"
+              >
+                <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+                <span>{error}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Username</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                  <User className="h-4 w-4" />
-                </div>
-                <input
-                  type="text"
-                  required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
-                  placeholder="E.g., johndoe123"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gmail Address</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                  <Mail className="h-4 w-4" />
-                </div>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
-                  placeholder="E.g., johndoe@gmail.com"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                  <Lock className="h-4 w-4" />
-                </div>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
-                  placeholder="••••••••"
-                />
-              </div>
-            </div>
-
-            <motion.button
-              type="submit"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full mt-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 cursor-pointer transition-all"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
             >
-              Proceed to SIM Verification
-            </motion.button>
-          </form>
-        )}
-
-        {/* --- STEP 2: SIM Verification --- */}
-        {step === 2 && (
-          <div className="space-y-6">
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Bangladeshi SIM Mobile Number</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                  <Phone className="h-4 w-4" />
-                </div>
-                <input
-                  type="text"
-                  required
-                  disabled={simVerified}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
-                  placeholder="017XXXXXXXX"
-                />
-              </div>
-              <p className="text-xs text-slate-500 mt-1">Accepts any 11-digit mobile number starting with 013, 014, 015, 016, 017, 018, 019.</p>
-            </div>
-
-            {!simOtpSent ? (
-              <button
-                type="button"
-                onClick={handleSendSimOtp}
-                disabled={loading}
-                className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
-              >
-                {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
-                <span>Send SMS Verification Code</span>
-              </button>
-            ) : (
-              <div className="space-y-4 bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
+              {/* --- STEP 1: Account details --- */}
+          {step === 1 && (
+            <form onSubmit={handleAccountSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Enter 6-Digit SMS OTP</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                      <KeyRound className="h-4 w-4" />
-                    </div>
-                    <input
-                      type="text"
-                      maxLength={6}
-                      value={simOtpInput}
-                      onChange={(e) => setSimOtpInput(e.target.value)}
-                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-emerald-500 focus:outline-none transition-colors"
-                      placeholder="XXXXXX"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center text-xs mt-1.5">
-                    <span className="text-slate-500">Code expires in: <span className={`font-bold ${simTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(simTimer / 60)}:{(simTimer % 60).toString().padStart(2, '0')}</span></span>
-                    <span className="text-emerald-400">Tip: Check simulated notification.</span>
-                  </div>
-                  <div className="text-center pt-2">
-                    <button
-                      type="button"
-                      disabled={loading || (simTimer > 90)}
-                      onClick={handleSendSimOtp}
-                      className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
-                    >
-                      {simTimer > 90 ? `Resend OTP in ${simTimer - 90}s` : 'Resend SMS Verification Code'}
-                    </button>
-                  </div>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">First Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    placeholder="E.g., John"
+                  />
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setSimOtpSent(false)}
-                    className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-400 transition-all cursor-pointer"
-                  >
-                    Back / Re-enter
-                  </button>
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleVerifySimOtp}
-                    className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
-                  >
-                    Verify SIM
-                  </motion.button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* --- STEP 3: Gmail Verification --- */}
-        {step === 3 && (
-          <div className="space-y-6">
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Verify Registered Gmail</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                  <Mail className="h-4 w-4" />
-                </div>
-                <input
-                  type="email"
-                  disabled
-                  value={email}
-                  className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 cursor-not-allowed"
-                />
-              </div>
-            </div>
-
-            {!emailOtpSent ? (
-              <button
-                type="button"
-                onClick={handleSendEmailOtp}
-                disabled={loading}
-                className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
-              >
-                {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
-                <span>Send Email Verification Code</span>
-              </button>
-            ) : (
-              <div className="space-y-4 bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Enter 6-Digit Email OTP</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                      <KeyRound className="h-4 w-4" />
-                    </div>
-                    <input
-                      type="text"
-                      maxLength={6}
-                      value={emailOtpInput}
-                      onChange={(e) => setEmailOtpInput(e.target.value)}
-                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-emerald-500 focus:outline-none transition-colors"
-                      placeholder="XXXXXX"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center text-xs mt-1.5">
-                    <span className="text-slate-500">Code expires in: <span className={`font-bold ${emailTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(emailTimer / 60)}:{(emailTimer % 60).toString().padStart(2, '0')}</span></span>
-                    <span className="text-emerald-400">Tip: Check simulated notification.</span>
-                  </div>
-                  <div className="text-center pt-2">
-                    <button
-                      type="button"
-                      disabled={loading || (emailTimer > 90)}
-                      onClick={handleSendEmailOtp}
-                      className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
-                    >
-                      {emailTimer > 90 ? `Resend OTP in ${emailTimer - 90}s` : 'Resend Email Verification Code'}
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-400 transition-all cursor-pointer"
-                  >
-                    Back to SIM Step
-                  </button>
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleVerifyEmailOtp}
-                    className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
-                  >
-                    Verify Gmail
-                  </motion.button>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Last Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    placeholder="E.g., Doe"
+                  />
                 </div>
               </div>
-            )}
-          </div>
-        )}
 
-        {/* --- STEP 4: NID Verification --- */}
-        {step === 4 && (
-          <div className="space-y-6">
-            {/* Guide Help block listing mock NID records */}
-            <div className="p-4 bg-slate-900/40 border border-slate-900 rounded-2xl text-xs space-y-2">
-              <h4 className="font-bold text-emerald-400 flex items-center space-x-1">
-                <span>Election Commission (EC) Registry Demo Data</span>
-              </h4>
-              <p className="text-slate-400">Use one of these registered Bangladeshi citizen credentials to verify successfully:</p>
-              <ul className="space-y-1.5 text-xs text-slate-400">
-                {[
-                  { nid: "1234567890", dob: "1995-06-15", name: "Rakibul Islam" },
-                  { nid: "9876543210", dob: "1998-10-20", name: "Ayesha Siddiqua" },
-                  { nid: "1122334455", dob: "1990-12-01", name: "Naimur Rahman" }
-                ].map(item => (
-                  <li key={item.nid} className="flex justify-between items-center py-1 border-b border-slate-900 last:border-b-0">
-                    <span className="font-mono">NID: <span className="text-emerald-400 font-bold">{item.nid}</span> | DOB: <span className="text-teal-400">{item.dob}</span> ({item.name})</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setNidNumber(item.nid);
-                        setDob(item.dob);
-                      }}
-                      className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 transition-colors font-bold text-xs cursor-pointer"
-                    >
-                      Autofill
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">National ID (NID) Number</label>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Username</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                    <CreditCard className="h-4 w-4" />
+                    <User className="h-4 w-4" />
                   </div>
                   <input
                     type="text"
                     required
-                    disabled={nidVerified}
-                    value={nidNumber}
-                    onChange={(e) => setNidNumber(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
-                    placeholder="E.g., 1234567890"
+                    placeholder="E.g., johndoe123"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Date of Birth</label>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gmail Address</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                    <Calendar className="h-4 w-4" />
+                    <Mail className="h-4 w-4" />
                   </div>
                   <input
-                    type="date"
+                    type="email"
                     required
-                    disabled={nidVerified}
-                    value={dob}
-                    onChange={(e) => setDob(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    placeholder="E.g., johndoe@gmail.com"
                   />
                 </div>
               </div>
-            </div>
 
-            {nidVerified && nidData && (
-              <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl space-y-2">
-                <h4 className="text-xs font-bold text-emerald-400 flex items-center space-x-1">
-                  <CheckCircle2 className="h-4 w-4" />
-                  <span>Citizen Details Verified Successfully</span>
-                </h4>
-                <div className="grid grid-cols-2 gap-2 text-xs font-medium">
-                  <div><span className="text-slate-500">Full Name:</span> <span className="text-slate-200">{nidData.full_name}</span></div>
-                  <div><span className="text-slate-500">Father Name:</span> <span className="text-slate-200">{nidData.father_name}</span></div>
-                  <div className="col-span-2"><span className="text-slate-500">Mother Name:</span> <span className="text-slate-200">{nidData.mother_name}</span></div>
-                  <div className="col-span-2"><span className="text-slate-500">Official Address:</span> <span className="text-slate-400">{nidData.address}</span></div>
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Password</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                    <Lock className="h-4 w-4" />
+                  </div>
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    placeholder="••••••••"
+                  />
                 </div>
               </div>
-            )}
 
-            {!nidVerified ? (
-              <button
-                type="button"
-                onClick={handleVerifyNID}
-                disabled={loading}
-                className="w-full rounded-xl bg-slate-800 hover:bg-slate-800 py-3.5 font-bold text-emerald-400 border border-emerald-500/20 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full mt-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 cursor-pointer transition-all"
               >
-                {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
-                <span>Query National EC Database</span>
-              </button>
-            ) : (
+                Proceed to SIM Verification
+              </motion.button>
+            </form>
+          )}
+
+          {/* --- STEP 2: SIM Verification --- */}
+          {step === 2 && (
+            <div className="space-y-6">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Bangladeshi SIM Mobile Number</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                    <Phone className="h-4 w-4" />
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    disabled={simVerified}
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    placeholder="017XXXXXXXX"
+                  />
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Accepts any 11-digit mobile number starting with 013, 014, 015, 016, 017, 018, 019.</p>
+              </div>
+
+              {!simOtpSent ? (
+                <button
+                  type="button"
+                  onClick={handleSendSimOtp}
+                  disabled={loading}
+                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
+                >
+                  {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
+                  <span>Send SMS Verification Code</span>
+                </button>
+              ) : (
+                <div className="space-y-4 bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Enter 6-Digit SMS OTP</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                        <KeyRound className="h-4 w-4" />
+                      </div>
+                      <input
+                        type="text"
+                        maxLength={6}
+                        value={simOtpInput}
+                        onChange={(e) => setSimOtpInput(e.target.value)}
+                        className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-emerald-500 focus:outline-none transition-colors"
+                        placeholder="XXXXXX"
+                      />
+                    </div>
+                    <div className="flex justify-between items-center text-xs mt-1.5">
+                      <span className="text-slate-500">Code expires in: <span className={`font-bold ${simTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(simTimer / 60)}:{(simTimer % 60).toString().padStart(2, '0')}</span></span>
+                      <span className="text-emerald-400">Tip: Check simulated notification.</span>
+                    </div>
+                    <div className="text-center pt-2">
+                      <button
+                        type="button"
+                        disabled={loading || (simTimer > 90)}
+                        onClick={handleSendSimOtp}
+                        className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        {simTimer > 90 ? `Resend OTP in ${simTimer - 90}s` : 'Resend SMS Verification Code'}
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <button
+                      type="button"
+                      onClick={() => setSimOtpSent(false)}
+                      className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-400 transition-all cursor-pointer"
+                    >
+                      Back / Re-enter
+                    </button>
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleVerifySimOtp}
+                      className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
+                    >
+                      Verify SIM
+                    </motion.button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* --- STEP 3: Gmail Verification --- */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Verify Registered Gmail</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                    <Mail className="h-4 w-4" />
+                  </div>
+                  <input
+                    type="email"
+                    disabled
+                    value={email}
+                    className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              {!emailOtpSent ? (
+                <button
+                  type="button"
+                  onClick={handleSendEmailOtp}
+                  disabled={loading}
+                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 py-3.5 font-bold text-white border border-slate-700 cursor-pointer flex items-center justify-center space-x-2 transition-all"
+                >
+                  {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
+                  <span>Send Email Verification Code</span>
+                </button>
+              ) : (
+                <div className="space-y-4 bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Enter 6-Digit Email OTP</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                        <KeyRound className="h-4 w-4" />
+                      </div>
+                      <input
+                        type="text"
+                        maxLength={6}
+                        value={emailOtpInput}
+                        onChange={(e) => setEmailOtpInput(e.target.value)}
+                        className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold focus:border-emerald-500 focus:outline-none transition-colors"
+                        placeholder="XXXXXX"
+                      />
+                    </div>
+                    <div className="flex justify-between items-center text-xs mt-1.5">
+                      <span className="text-slate-500">Code expires in: <span className={`font-bold ${emailTimer < 30 ? 'text-red-400' : 'text-emerald-400'}`}>{Math.floor(emailTimer / 60)}:{(emailTimer % 60).toString().padStart(2, '0')}</span></span>
+                      <span className="text-emerald-400">Tip: Check simulated notification.</span>
+                    </div>
+                    <div className="text-center pt-2">
+                      <button
+                        type="button"
+                        disabled={loading || (emailTimer > 90)}
+                        onClick={handleSendEmailOtp}
+                        className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        {emailTimer > 90 ? `Resend OTP in ${emailTimer - 90}s` : 'Resend Email Verification Code'}
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <button
+                      type="button"
+                      onClick={() => setStep(2)}
+                      className="rounded-xl border border-slate-800 bg-transparent hover:bg-slate-900 py-3 text-sm font-semibold text-slate-400 transition-all cursor-pointer"
+                    >
+                      Back to SIM Step
+                    </button>
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleVerifyEmailOtp}
+                      className="rounded-xl bg-emerald-500 py-3 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:bg-emerald-400 transition-all cursor-pointer"
+                    >
+                      Verify Gmail
+                    </motion.button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* --- STEP 4: NID Verification --- */}
+          {step === 4 && (
+            <div className="space-y-6">
+              {/* Guide Help block listing mock NID records */}
+              <div className="p-4 bg-slate-900/40 border border-slate-900 rounded-2xl text-xs space-y-2">
+                <h4 className="font-bold text-emerald-400 flex items-center space-x-1">
+                  <span>Election Commission (EC) Registry Demo Data</span>
+                </h4>
+                <p className="text-slate-400">Use one of these registered Bangladeshi citizen credentials to verify successfully:</p>
+                <ul className="space-y-1.5 text-xs text-slate-400">
+                  {[
+                    { nid: "1234567890", dob: "1995-06-15", name: "Rakibul Islam" },
+                    { nid: "9876543210", dob: "1998-10-20", name: "Ayesha Siddiqua" },
+                    { nid: "1122334455", dob: "1990-12-01", name: "Naimur Rahman" }
+                  ].map(item => (
+                    <li key={item.nid} className="flex justify-between items-center py-1 border-b border-slate-900 last:border-b-0">
+                      <span className="font-mono">NID: <span className="text-emerald-400 font-bold">{item.nid}</span> | DOB: <span className="text-teal-400">{item.dob}</span> ({item.name})</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setNidNumber(item.nid);
+                          setDob(item.dob);
+                        }}
+                        className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 transition-colors font-bold text-xs cursor-pointer"
+                      >
+                        Autofill
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">National ID (NID) Number</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                      <CreditCard className="h-4 w-4" />
+                    </div>
+                    <input
+                      type="text"
+                      required
+                      disabled={nidVerified}
+                      value={nidNumber}
+                      onChange={(e) => setNidNumber(e.target.value)}
+                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                      placeholder="E.g., 1234567890"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Date of Birth</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                      <Calendar className="h-4 w-4" />
+                    </div>
+                    <input
+                      type="date"
+                      required
+                      disabled={nidVerified}
+                      value={dob}
+                      onChange={(e) => setDob(e.target.value)}
+                      className="w-full pl-9 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 focus:border-emerald-500 focus:outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {nidVerified && nidData && (
+                <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl space-y-2">
+                  <h4 className="text-xs font-bold text-emerald-400 flex items-center space-x-1">
+                    <CheckCircle2 className="h-4 w-4" />
+                    <span>Citizen Details Verified Successfully</span>
+                  </h4>
+                  <div className="grid grid-cols-2 gap-2 text-xs font-medium">
+                    <div><span className="text-slate-500">Full Name:</span> <span className="text-slate-200">{nidData.full_name}</span></div>
+                    <div><span className="text-slate-500">Father Name:</span> <span className="text-slate-200">{nidData.father_name}</span></div>
+                    <div className="col-span-2"><span className="text-slate-500">Mother Name:</span> <span className="text-slate-200">{nidData.mother_name}</span></div>
+                    <div className="col-span-2"><span className="text-slate-500">Official Address:</span> <span className="text-slate-400">{nidData.address}</span></div>
+                  </div>
+                </div>
+              )}
+
+              {!nidVerified ? (
+                <button
+                  type="button"
+                  onClick={handleVerifyNID}
+                  disabled={loading}
+                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-800 py-3.5 font-bold text-emerald-400 border border-emerald-500/20 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                >
+                  {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : null}
+                  <span>Query National EC Database</span>
+                </button>
+              ) : (
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleNIDProceed}
+                  className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                >
+                  <span>Proceed to Finish</span>
+                </motion.button>
+              )}
+            </div>
+          )}
+
+          {/* --- STEP 5: Final Review & Finish --- */}
+          {step === 5 && (
+            <div className="space-y-6">
+              <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-6 space-y-4">
+                <h3 className="text-sm font-bold text-slate-200 uppercase tracking-widest border-b border-slate-800 pb-2">Registration Summary</h3>
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between"><span className="text-slate-500">Name:</span> <span className="text-slate-200">{firstName} {lastName}</span></div>
+                  <div className="flex justify-between"><span className="text-slate-500">Username:</span> <span className="text-slate-200">{username}</span></div>
+                  <div className="flex justify-between"><span className="text-slate-500">Gmail:</span> <span className="text-slate-200">{email} (Verified)</span></div>
+                  <div className="flex justify-between"><span className="text-slate-500">Mobile SIM:</span> <span className="text-slate-200">{phone} (Verified)</span></div>
+                  <div className="flex justify-between"><span className="text-slate-500">NID:</span> <span className="text-slate-200">{nidNumber} (Verified)</span></div>
+                  <div className="flex justify-between"><span className="text-slate-500">NID Holder:</span> <span className="text-emerald-400 font-bold">{nidData?.full_name}</span></div>
+                </div>
+              </div>
+
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={handleNIDProceed}
-                className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                onClick={handleFinalRegister}
+                disabled={loading}
+                className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-emerald-500/10 cursor-pointer"
               >
-                <span>Proceed to Finish</span>
+                {loading ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
+                <span>Create Account</span>
               </motion.button>
-            )}
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* --- STEP 5: Final Review & Finish --- */}
-        {step === 5 && (
-          <div className="space-y-6">
-            <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-6 space-y-4">
-              <h3 className="text-sm font-bold text-slate-200 uppercase tracking-widest border-b border-slate-800 pb-2">Registration Summary</h3>
-              <div className="space-y-2 text-xs">
-                <div className="flex justify-between"><span className="text-slate-500">Name:</span> <span className="text-slate-200">{firstName} {lastName}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Username:</span> <span className="text-slate-200">{username}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Gmail:</span> <span className="text-slate-200">{email} (Verified)</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Mobile SIM:</span> <span className="text-slate-200">{phone} (Verified)</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">NID:</span> <span className="text-slate-200">{nidNumber} (Verified)</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">NID Holder:</span> <span className="text-emerald-400 font-bold">{nidData?.full_name}</span></div>
+          {/* --- STEP 6: Success Screen --- */}
+          {step === 6 && (
+            <div className="text-center space-y-6 py-4">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 border-2 border-emerald-500/30">
+                <CheckCircle2 className="h-10 w-10 animate-bounce" />
               </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-extrabold text-white">Registration Complete!</h3>
+                <p className="text-sm text-slate-400 max-w-sm mx-auto">
+                  Your account was created and verified against Bangladeshi SIM & National ID records. You can now login.
+                </p>
+              </div>
+              
+              <Link
+                href="/auth/login"
+                className="inline-block w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 hover:from-emerald-400 hover:to-teal-400 transition-all text-center"
+              >
+                Login Now
+              </Link>
             </div>
-
-            <motion.button
-              type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleFinalRegister}
-              disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 py-4 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-emerald-500/10 cursor-pointer"
-            >
-              {loading ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
-              <span>Create Account</span>
-            </motion.button>
-          </div>
-        )}
-
-        {/* --- STEP 6: Success Screen --- */}
-        {step === 6 && (
-          <div className="text-center space-y-6 py-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 border-2 border-emerald-500/30">
-              <CheckCircle2 className="h-10 w-10 animate-bounce" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-extrabold text-white">Registration Complete!</h3>
-              <p className="text-sm text-slate-400 max-w-sm mx-auto">
-                Your account was created and verified against Bangladeshi SIM & National ID records. You can now login.
-              </p>
-            </div>
-            
-            <Link
-              href="/auth/login"
-              className="inline-block w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 font-bold text-slate-950 shadow-lg shadow-emerald-500/10 hover:from-emerald-400 hover:to-teal-400 transition-all text-center"
-            >
-              Login Now
-            </Link>
-          </div>
-        )}
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
+          )}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </GlowCard>
     </div>
   );
 }

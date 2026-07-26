@@ -3,7 +3,7 @@ import { Ticket, Mail, Phone, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-slate-950 border-t border-white/5 text-slate-400 py-12 mt-auto">
+    <footer className="w-full bg-[var(--bg-deep)] border-t border-white/[0.03] text-slate-400 py-12 mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2 space-y-4">
@@ -48,7 +48,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
         
-        <div className="border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs">
+        <div className="border-t border-white/[0.03] pt-8 flex flex-col sm:flex-row items-center justify-between text-xs">
           <p>&copy; {new Date().getFullYear()} BD GoTicket. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 sm:mt-0">
             <a href="#" className="hover:text-emerald-400 transition-colors">Privacy Policy</a>

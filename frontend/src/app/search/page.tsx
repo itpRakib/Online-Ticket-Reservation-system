@@ -10,6 +10,7 @@ import {
   MapPin, Calendar, Clock, AlertTriangle, ArrowRight, CheckCircle2, Lock, RefreshCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TiltCard } from '@/components/TiltCard';
 
 function SearchResultsContent() {
   const searchParams = useSearchParams();
@@ -346,95 +347,96 @@ function SearchResultsContent() {
                 if (trip.transport_type === 'PLANE') TransportIcon = Plane;
 
                 return (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    key={trip.id} 
-                    className="glass-panel hover:bg-slate-900/30 rounded-2xl p-5 border border-slate-900 hover:border-emerald-500/20 transition-all duration-200 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden group"
-                  >
-                    {/* Top Glow on hover */}
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  <TiltCard key={trip.id}>
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="glass-panel hover:bg-slate-900/30 rounded-2xl p-5 border border-slate-900 hover:border-emerald-500/20 transition-all duration-200 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden group"
+                    >
+                      {/* Top Glow on hover */}
+                      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
-                    {/* Match Index circular badge */}
-                    {comp && (
-                      <div className="absolute top-2 right-2 flex items-center space-x-1.5 bg-slate-950 border border-slate-800 px-2.5 py-1 rounded-full">
-                        <Sparkles className="h-3 w-3 text-emerald-400" />
-                        <span className="text-xs font-extrabold text-emerald-400">{comp.match_percentage}% Match</span>
-                      </div>
-                    )}
-
-                    {/* Operator info */}
-                    <div className="flex items-center space-x-4 self-start md:self-auto">
-                      <div className="h-14 w-14 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300">
-                        <TransportIcon className="h-6 w-6 text-emerald-400" />
-                      </div>
-                      <div>
-                        <div className="flex items-center space-x-2">
-                          <h4 className="font-bold text-white text-base leading-tight">{trip.operator_name}</h4>
-                          <span className="text-xs bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded uppercase">{trip.transport_type}</span>
+                      {/* Match Index circular badge */}
+                      {comp && (
+                        <div className="absolute top-2 right-2 flex items-center space-x-1.5 bg-slate-950 border border-slate-800 px-2.5 py-1 rounded-full">
+                          <Sparkles className="h-3 w-3 text-emerald-400" />
+                          <span className="text-xs font-extrabold text-emerald-400">{comp.match_percentage}% Match</span>
                         </div>
-                        <p className="text-xs text-slate-500 mt-1">ID: {trip.transport_identifier} • Seats: {trip.available_seats}/{trip.total_seats} left</p>
-                      </div>
-                    </div>
+                      )}
 
-                    {/* Timeline representation */}
-                    <div className="flex items-center space-x-6">
-                      <div className="text-center">
-                        <span className="block font-bold text-white text-base">{formatTime(trip.departure_time)}</span>
-                        <span className="text-xs text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.source.name.split(' ')[0]}</span>
-                      </div>
-                      
-                      <div className="flex flex-col items-center justify-center space-y-1">
-                        <span className="text-xs font-mono text-slate-500">{trip.duration_hours}h</span>
-                        <div className="relative flex items-center justify-center w-20">
-                          <div className="h-[1px] w-full bg-slate-800" />
-                          <div className="absolute h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-glow" />
+                      {/* Operator info */}
+                      <div className="flex items-center space-x-4 self-start md:self-auto">
+                        <div className="h-14 w-14 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300">
+                          <TransportIcon className="h-6 w-6 text-emerald-400" />
                         </div>
-                        <span className="text-xs text-slate-600 font-bold uppercase">Direct</span>
-                      </div>
-
-                      <div className="text-center">
-                        <span className="block font-bold text-white text-base">{formatTime(trip.arrival_time)}</span>
-                        <span className="text-xs text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.destination.name.split(' ')[0]}</span>
-                      </div>
-                    </div>
-
-                    {/* Score comparison details (small HUD) */}
-                    {comp && (
-                      <div className="hidden md:flex flex-col space-y-1 bg-slate-900/30 p-2.5 rounded-xl border border-slate-900/80 w-36">
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-slate-500">💰 Budget:</span>
-                          <span className={`font-bold ${comp.budget_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.budget_score}/10</span>
-                        </div>
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-slate-500">⚡ Speed:</span>
-                          <span className={`font-bold ${comp.speed_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.speed_score}/10</span>
-                        </div>
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-slate-500">🛌 Comfort:</span>
-                          <span className={`font-bold ${comp.comfort_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.comfort_score}/10</span>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <h4 className="font-bold text-white text-base leading-tight">{trip.operator_name}</h4>
+                            <span className="text-xs bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded uppercase">{trip.transport_type}</span>
+                          </div>
+                          <p className="text-xs text-slate-500 mt-1">ID: {trip.transport_identifier} • Seats: {trip.available_seats}/{trip.total_seats} left</p>
                         </div>
                       </div>
-                    )}
 
-                    {/* Booking Price & Redirect */}
-                    <div className="flex items-center justify-between md:flex-col md:items-end self-stretch md:self-auto border-t border-slate-900 pt-4 md:pt-0 md:border-0">
-                      <div>
-                        <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Fare Starts at</span>
-                        <span className="text-xl font-extrabold text-emerald-400 leading-tight">৳{parseFloat(trip.fare_economy).toLocaleString()}</span>
+                      {/* Timeline representation */}
+                      <div className="flex items-center space-x-6">
+                        <div className="text-center">
+                          <span className="block font-bold text-white text-base">{formatTime(trip.departure_time)}</span>
+                          <span className="text-xs text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.source.name.split(' ')[0]}</span>
+                        </div>
+                        
+                        <div className="flex flex-col items-center justify-center space-y-1">
+                          <span className="text-xs font-mono text-slate-500">{trip.duration_hours}h</span>
+                          <div className="relative flex items-center justify-center w-20">
+                            <div className="h-[1px] w-full bg-slate-800" />
+                            <div className="absolute h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-glow" />
+                          </div>
+                          <span className="text-xs text-slate-600 font-bold uppercase">Direct</span>
+                        </div>
+
+                        <div className="text-center">
+                          <span className="block font-bold text-white text-base">{formatTime(trip.arrival_time)}</span>
+                          <span className="text-xs text-slate-500 uppercase tracking-widest mt-0.5 block">{trip.destination.name.split(' ')[0]}</span>
+                        </div>
                       </div>
 
-                      <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => router.push(`/book/${trip.id}?date=${queryDate}`)}
-                        className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-emerald-500/10 cursor-pointer"
-                      >
-                        Book Now
-                      </motion.button>
-                    </div>
-                  </motion.div>
+                      {/* Score comparison details (small HUD) */}
+                      {comp && (
+                        <div className="hidden md:flex flex-col space-y-1 bg-slate-900/30 p-2.5 rounded-xl border border-slate-900/80 w-36">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-500">💰 Budget:</span>
+                            <span className={`font-bold ${comp.budget_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.budget_score}/10</span>
+                          </div>
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-500">⚡ Speed:</span>
+                            <span className={`font-bold ${comp.speed_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.speed_score}/10</span>
+                          </div>
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-slate-500">🛌 Comfort:</span>
+                            <span className={`font-bold ${comp.comfort_score > 7 ? 'text-emerald-400' : 'text-slate-400'}`}>{comp.comfort_score}/10</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Booking Price & Redirect */}
+                      <div className="flex items-center justify-between md:flex-col md:items-end self-stretch md:self-auto border-t border-slate-900 pt-4 md:pt-0 md:border-0">
+                        <div>
+                          <span className="block text-xs text-slate-500 uppercase tracking-widest font-bold">Fare Starts at</span>
+                          <span className="text-xl font-extrabold text-emerald-400 leading-tight">৳{parseFloat(trip.fare_economy).toLocaleString()}</span>
+                        </div>
+
+                        <motion.button
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={() => router.push(`/book/${trip.id}?date=${queryDate}`)}
+                          className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-emerald-500/10 cursor-pointer"
+                        >
+                          Book Now
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  </TiltCard>
                 );
               })}
               </AnimatePresence>
