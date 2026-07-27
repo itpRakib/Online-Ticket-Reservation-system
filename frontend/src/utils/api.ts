@@ -137,11 +137,23 @@ export const api = {
       }
     }
 
+    // Fetch trust token if stored locally
+    let trust_token = null;
+    if (typeof window !== 'undefined') {
+      trust_token = localStorage.getItem(`device_trust_token_${username.toLowerCase()}`);
+    }
+
     try {
-      return await this.request('/auth/login/', {
+      const res: any = await this.request('/auth/login/', {
         method: 'POST',
-        body: JSON.stringify({ username, password, otp }),
+        body: JSON.stringify({ username, password, otp, trust_token }),
       });
+      
+      // Save trust token if returned in response
+      if (res && res.trust_token && typeof window !== 'undefined') {
+        localStorage.setItem(`device_trust_token_${username.toLowerCase()}`, res.trust_token);
+      }
+      return res;
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
         let storedUser: User | null = null;
@@ -162,7 +174,13 @@ export const api = {
           throw new Error('Login Blocked: Valid verified 11-digit Bangladesh phone number is required to authenticate.');
         }
 
-        if (!otp) {
+        // Check if there is already a simulated trust token in local storage
+        let mock_trust_token = null;
+        if (typeof window !== 'undefined') {
+          mock_trust_token = localStorage.getItem(`device_trust_token_${input.toLowerCase()}`);
+        }
+
+        if (!otp && !mock_trust_token) {
           // Send simulated verification OTP
           const simulated_otp = Math.floor(100000 + Math.random() * 900000).toString();
           return {
@@ -195,10 +213,12 @@ export const api = {
         const refresh = 'mock-refresh-token-' + Date.now();
         this.setAuthToken(access);
         this.setRefreshToken(refresh);
+        const new_mock_trust_token = mock_trust_token || 'mock-trust-token-' + Date.now();
         if (typeof window !== 'undefined') {
           sessionStorage.setItem('user', JSON.stringify(mockUser));
+          localStorage.setItem(`device_trust_token_${input.toLowerCase()}`, new_mock_trust_token);
         }
-        return { access, refresh, user: mockUser };
+        return { access, refresh, user: mockUser, trust_token: new_mock_trust_token };
       }
       throw err;
     }

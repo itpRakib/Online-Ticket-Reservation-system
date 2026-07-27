@@ -50,6 +50,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
             }, status=status.HTTP_403_FORBIDDEN)
 
         otp = request.data.get('otp')
+        trust_token = request.data.get('trust_token')
 
         if otp:
             # Step 2: Verification of Gmail OTP
@@ -80,17 +81,35 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 serializer.is_valid(raise_exception=True)
                 # Success: clear attempts
                 cache.delete(attempts_key)
-                return Response(serializer.validated_data, status=status.HTTP_200_OK)
+                
+                # Generate new trust token valid for 48 hours
+                import uuid
+                new_trust_token = str(uuid.uuid4())
+                cache.set(f"trust_token_{user.username}_{new_trust_token}", True, timeout=48 * 3600)
+                
+                data = serializer.validated_data
+                data["trust_token"] = new_trust_token
+                return Response(data, status=status.HTTP_200_OK)
             except Exception:
                 return Response({"error": "Invalid credentials. Please log in again."}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            # Step 1: Validate credentials first, then send Gmail OTP
+            # Step 1: Validate credentials first, then check if device is trusted or send Gmail OTP
             serializer = self.get_serializer(data=request.data)
             try:
                 serializer.is_valid(raise_exception=True)
                 user = serializer.user
                 
-                # Generate random 6-digit OTP
+                # Check if device is trusted (trust_token is valid in cache)
+                if trust_token:
+                    cache_key = f"trust_token_{user.username}_{trust_token}"
+                    if cache.get(cache_key):
+                        # Bypass OTP, login immediately!
+                        cache.delete(attempts_key)
+                        data = serializer.validated_data
+                        data["trust_token"] = trust_token
+                        return Response(data, status=status.HTTP_200_OK)
+
+                # Otherwise, generate random 6-digit OTP
                 otp_code = "".join(random.choices(string.digits, k=6))
                 cache.set(f"login_otp_{user.username}", otp_code, timeout=120)  # Valid for 2 minutes
                 
