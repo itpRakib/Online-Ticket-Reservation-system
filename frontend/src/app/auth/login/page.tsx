@@ -28,6 +28,7 @@ function LoginForm() {
   const [toastMessage, setToastMessage] = useState('');
   const [timer, setTimer] = useState(120);
   const [timerActive, setTimerActive] = useState(false);
+  const [loginMode, setLoginMode] = useState<'user' | 'admin'>('user');
 
   const redirectUrl = searchParams.get('redirect') || '/';
 
@@ -207,6 +208,43 @@ function LoginForm() {
           </AnimatePresence>
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            {!otpSent && (
+              <div className="grid grid-cols-2 gap-2 bg-slate-950/40 p-1 rounded-xl border border-slate-800/80 mb-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginMode('user');
+                    setUsername('');
+                    setPassword('');
+                    setError('');
+                  }}
+                  className={`text-center py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+                    loginMode === 'user'
+                      ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 shadow shadow-cyan-500/10'
+                      : 'text-slate-500 hover:text-slate-300 border border-transparent'
+                  }`}
+                >
+                  👤 Standard Pilot
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginMode('admin');
+                    setUsername('admin');
+                    setPassword('admin123');
+                    setError('');
+                    showToast('Autofilled admin demo credentials! Press Login to authenticate as Admin.');
+                  }}
+                  className={`text-center py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+                    loginMode === 'admin'
+                      ? 'text-fuchsia-400 bg-fuchsia-500/10 border border-fuchsia-500/20 shadow shadow-fuchsia-500/10'
+                      : 'text-slate-500 hover:text-slate-300 border border-transparent'
+                  }`}
+                >
+                  🛡️ Admin Terminal
+                </button>
+              </div>
+            )}
             {!otpSent ? (
               <div className="space-y-4 rounded-md shadow-sm">
                 <div className="space-y-1.5">

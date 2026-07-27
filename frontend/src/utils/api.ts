@@ -188,6 +188,7 @@ export const api = {
             nid_name: input,
             nid_dob: '2000-01-01',
             nid_address: 'Dhaka, Bangladesh',
+            role: input.toLowerCase().includes('admin') ? 'admin' : 'user',
           },
         };
         const access = 'mock-access-token-' + Date.now();
