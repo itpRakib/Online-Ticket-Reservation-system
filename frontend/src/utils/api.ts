@@ -425,11 +425,12 @@ export const api = {
     };
 
     try {
-      const res = await this.request('/bookings/create/', {
+      const res: any = await this.request('/bookings/create/', {
         method: 'POST',
         body: JSON.stringify(data),
       });
-      const combined = { ...newBooking, ...(typeof res === 'object' && res !== null ? res : {}) };
+      const bookingData = (res && typeof res === 'object' && 'booking' in res) ? res.booking : res;
+      const combined = { ...newBooking, ...(typeof bookingData === 'object' && bookingData !== null ? bookingData : {}) };
       this.saveLocalBooking(combined);
       return combined;
     } catch (err: any) {
