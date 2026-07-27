@@ -102,7 +102,7 @@ function LoginForm() {
           if (userObj && (userObj.profile?.role === 'admin' || userObj.is_staff)) {
             router.push('/admin/dashboard');
           } else {
-            router.push('/dashboard');
+            router.push(redirectUrl);
           }
         }
       } else {
@@ -113,7 +113,7 @@ function LoginForm() {
         if (userObj && (userObj.profile?.role === 'admin' || userObj.is_staff)) {
           router.push('/admin/dashboard');
         } else {
-          router.push('/dashboard');
+          router.push(redirectUrl);
         }
       }
     } catch (err: any) {

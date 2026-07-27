@@ -456,15 +456,14 @@ function BookTripContent() {
                         </div>
                       </div>
 
-                      {/* NID / Passport (Required for Flights in real life, recommended for train) */}
+                      {/* NID / Passport (Optional) */}
                       <div className="space-y-1">
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex justify-between">
-                          <span>Passport / NID Database Key</span>
-                          {tType === 'PLANE' && <span className="text-xs text-red-400 font-bold uppercase tracking-wider">Required for Flights</span>}
+                          <span>Passport / NID Database Key (Optional)</span>
                         </label>
                         <input
                           type="text"
-                          required={tType === 'PLANE'}
+                          required={false}
                           value={p.nid}
                           onChange={(e) => handlePassengerChange(p.seat_number, 'nid', e.target.value)}
                           className="w-full rounded-lg border border-slate-800 bg-slate-900 p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500"

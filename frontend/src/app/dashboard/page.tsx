@@ -50,15 +50,42 @@ function DashboardContent() {
       setError('');
       try {
         const data = await api.getMyBookings();
-        setBookings(data.map(normalizeBooking));
-        if (data.length > 0) {
+        
+        const cancelTimeMap = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cancelled_tickets_timestamps') || '{}') : {};
+        const twoHoursAgo = Date.now() - 2 * 60 * 60 * 1000;
+        let cancelTimeMapUpdated = false;
+
+        const visibleBookings = data.map(normalizeBooking).filter((b: any) => {
+          if (b.status === 'CANCELLED') {
+            const cancelTimeStr = cancelTimeMap[b.pnr_number];
+            if (cancelTimeStr) {
+              const cancelTime = new Date(cancelTimeStr).getTime();
+              if (cancelTime < twoHoursAgo) {
+                return false;
+              }
+            } else {
+              // If there's no stored time, track it starting from now
+              cancelTimeMap[b.pnr_number] = new Date().toISOString();
+              cancelTimeMapUpdated = true;
+            }
+          }
+          return true;
+        });
+
+        if (cancelTimeMapUpdated && typeof window !== 'undefined') {
+          localStorage.setItem('cancelled_tickets_timestamps', JSON.stringify(cancelTimeMap));
+        }
+
+        setBookings(visibleBookings);
+        
+        if (visibleBookings.length > 0) {
           // If redirected after payment, highlight the newly paid booking
           if (confirmPnr) {
-            const newlyPaid = data.find(b => b.pnr_number === confirmPnr);
-            if (newlyPaid) setSelectedTicket(normalizeBooking(newlyPaid));
+            const newlyPaid = visibleBookings.find(b => b.pnr_number === confirmPnr);
+            if (newlyPaid) setSelectedTicket(newlyPaid);
           } else {
             // Default to first booking
-            setSelectedTicket(normalizeBooking(data[0]));
+            setSelectedTicket(visibleBookings[0]);
           }
         }
       } catch (err: any) {
@@ -96,6 +123,13 @@ function DashboardContent() {
       });
       
       setCancelSuccess(res.message || 'Ticket cancelled successfully.');
+      
+      // Track cancellation timestamp locally in the client
+      if (typeof window !== 'undefined') {
+        const cancelTimeMap = JSON.parse(localStorage.getItem('cancelled_tickets_timestamps') || '{}');
+        cancelTimeMap[selectedTicket.pnr_number] = new Date().toISOString();
+        localStorage.setItem('cancelled_tickets_timestamps', JSON.stringify(cancelTimeMap));
+      }
       
       // Update local state of the ticket list
       setBookings((prev: any[]) => prev.map(b => b.id === selectedTicket.id ? normalizeBooking({ ...b, status: 'CANCELLED' }) : b));

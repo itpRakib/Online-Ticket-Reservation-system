@@ -102,7 +102,7 @@ export const Header: React.FC = () => {
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '🛡️ Admin Terminal' : 'My Telemetry'}
+              {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '🛡️ Admin Terminal' : 'My Dashboard'}
             </Link>
           )}
         </nav>
