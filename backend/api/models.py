@@ -159,3 +159,16 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.payment_method} - {self.trx_id} ({self.status})"
+
+
+class SearchHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='search_history')
+    source_station = models.ForeignKey(Station, on_delete=models.CASCADE, related_name='searches_from')
+    destination_station = models.ForeignKey(Station, on_delete=models.CASCADE, related_name='searches_to')
+    travel_date = models.DateField()
+    transport_type = models.CharField(max_length=20, default='ALL')
+    search_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        user_str = self.user.username if self.user else "Anonymous"
+        return f"{user_str} searched {self.source_station.code} -> {self.destination_station.code} for {self.travel_date}"

@@ -305,6 +305,23 @@ class TripSearchView(APIView):
                 "error": f"Invalid search date: {date_str}. For {transport_type.lower()} journeys, tickets can only be booked up to {max_days} days in advance (Max date allowed: {max_allowed_date})."
             }, status=status.HTTP_400_BAD_REQUEST)
 
+        # Record search history
+        try:
+            from .models import SearchHistory, Station
+            src_st = Station.objects.filter(code=source_id).first()
+            dest_st = Station.objects.filter(code=destination_id).first()
+            if src_st and dest_st:
+                user_obj = request.user if request.user.is_authenticated else None
+                SearchHistory.objects.create(
+                    user=user_obj,
+                    source_station=src_st,
+                    destination_station=dest_st,
+                    travel_date=travel_date,
+                    transport_type=transport_type
+                )
+        except Exception as e:
+            print("Failed to record search history:", e)
+
         # Filter trips by source, destination, date
         trips = Trip.objects.filter(
             source__code=source_id,
@@ -646,9 +663,19 @@ class AdminUsersView(APIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        # Retrieve and serialize all registered users
+        # Retrieve and serialize all registered users, bookings, payments, and searches
         users = User.objects.all().order_by('-date_joined')
+        bookings = Booking.objects.all().order_by('-booking_date')
+        payments = Payment.objects.all().order_by('-payment_date')
+        
+        from .models import SearchHistory
+        from .serializers import SearchHistorySerializer
+        searches = SearchHistory.objects.all().order_by('-search_time')
+
         users_serializer = UserSerializer(users, many=True)
+        bookings_serializer = BookingSerializer(bookings, many=True)
+        payments_serializer = PaymentSerializer(payments, many=True)
+        searches_serializer = SearchHistorySerializer(searches, many=True)
 
         # Retrieve database metrics
         stats = {
@@ -657,10 +684,14 @@ class AdminUsersView(APIView):
             "total_trips": Trip.objects.count(),
             "total_stations": Station.objects.count(),
             "total_payments": Payment.objects.count(),
+            "total_searches": SearchHistory.objects.count(),
         }
 
         return Response({
             "users": users_serializer.data,
+            "bookings": bookings_serializer.data,
+            "payments": payments_serializer.data,
+            "searches": searches_serializer.data,
             "stats": stats
         }, status=status.HTTP_200_OK)
 

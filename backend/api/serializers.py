@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile, MockNIDDatabase, Station, Trip, Booking, Passenger, Payment
+from .models import UserProfile, MockNIDDatabase, Station, Trip, Booking, Passenger, Payment, SearchHistory
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -144,3 +144,13 @@ class MockNIDDatabaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = MockNIDDatabase
         fields = '__all__'
+
+
+class SearchHistorySerializer(serializers.ModelSerializer):
+    user_username = serializers.CharField(source='user.username', read_only=True, default='Anonymous')
+    source_name = serializers.CharField(source='source_station.name', read_only=True)
+    destination_name = serializers.CharField(source='destination_station.name', read_only=True)
+    
+    class Meta:
+        model = SearchHistory
+        fields = ['id', 'user_username', 'source_name', 'destination_name', 'travel_date', 'transport_type', 'search_time']
