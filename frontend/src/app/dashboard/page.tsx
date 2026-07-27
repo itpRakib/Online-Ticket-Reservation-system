@@ -6,7 +6,7 @@ import { api } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
 import { 
   User, CheckCircle2, AlertCircle, RefreshCw, Calendar, 
-  MapPin, Ticket, ShieldCheck, Printer, LogOut, Check, X
+  MapPin, Ticket, ShieldCheck, Printer, LogOut, Check, X, CreditCard
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ScrollReveal';
@@ -199,7 +199,9 @@ function DashboardContent() {
           </div>
           <div>
             <h2 className="text-xl font-extrabold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>{user.first_name} {user.last_name}</h2>
-            <p className="text-xs text-slate-400 mt-1">Username: {user.username} • Email: {user.email}</p>
+            <p className="text-xs text-slate-400 mt-1">
+              Username: {user.username} • Email: {user.email} • Role: <span className="text-cyan-400 font-bold uppercase">{user.profile?.role || 'user'}</span> • Registered: <span className="text-slate-300 font-bold">{user.registration_date ? new Date(user.registration_date).toLocaleDateString() : 'N/A'}</span>
+            </p>
           </div>
         </div>
 

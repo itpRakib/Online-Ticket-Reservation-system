@@ -20,6 +20,7 @@ export interface User {
   email: string;
   first_name: string;
   last_name: string;
+  registration_date?: string;
   profile?: {
     phone: string;
     nid: string;
@@ -29,6 +30,7 @@ export interface User {
     nid_name: string;
     nid_dob: string;
     nid_address: string;
+    role?: 'user' | 'admin';
   };
 }
 
@@ -124,7 +126,7 @@ export const api = {
   },
 
   // Auth APIs
-  async login(username: string, password: string): Promise<{ access: string; refresh: string; user: User }> {
+  async login(username: string, password: string, otp?: string): Promise<any> {
     const input = (username || '').trim();
     if (input.includes('@') && !isValidGmail(input)) {
       throw new Error('Access Denied: Only valid Gmail addresses (@gmail.com) are authorized.');
@@ -138,7 +140,7 @@ export const api = {
     try {
       return await this.request('/auth/login/', {
         method: 'POST',
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, otp }),
       });
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
@@ -158,6 +160,17 @@ export const api = {
         }
         if (!isValidBDPhone(targetPhone)) {
           throw new Error('Login Blocked: Valid verified 11-digit Bangladesh phone number is required to authenticate.');
+        }
+
+        if (!otp) {
+          // Send simulated verification OTP
+          const simulated_otp = Math.floor(100000 + Math.random() * 900000).toString();
+          return {
+            requires_otp: true,
+            username: input,
+            email: targetEmail,
+            simulated_otp
+          };
         }
 
         const mockUser: User = storedUser || {
@@ -538,6 +551,89 @@ export const api = {
         refund_amount: '100%',
         message: `Ticket successfully cancelled! 100% refund reference ${refundRef} processed to mobile wallet ${data.refund_wallet || 'bKash/Nagad'}. SMS confirmation dispatched.`,
       };
+    }
+  },
+
+  async getAdminUsers(): Promise<any> {
+    try {
+      return await this.request('/admin/users/');
+    } catch (err: any) {
+      if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
+        // Return simulated mock admin users & stats when backend is offline
+        const mockUsers = [
+          {
+            id: 101,
+            username: 'Rakib',
+            email: 'rakib@gmail.com',
+            first_name: 'Rakibul',
+            last_name: 'Islam',
+            registration_date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+            profile: {
+              phone: '01817860068',
+              nid: '1998269271829',
+              email_verified: true,
+              phone_verified: true,
+              nid_verified: true,
+              nid_name: 'Rakibul Islam',
+              nid_dob: '2000-01-01',
+              nid_address: 'Dhaka, Bangladesh',
+              role: 'admin'
+            }
+          },
+          {
+            id: 102,
+            username: 'John',
+            email: 'john@gmail.com',
+            first_name: 'John',
+            last_name: 'Doe',
+            registration_date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+            profile: {
+              phone: '01711122233',
+              nid: '9876543210',
+              email_verified: true,
+              phone_verified: true,
+              nid_verified: true,
+              nid_name: 'John Doe',
+              nid_dob: '1995-05-10',
+              nid_address: 'Mirpur, Dhaka',
+              role: 'user'
+            }
+          },
+          {
+            id: 103,
+            username: 'Ayesha',
+            email: 'ayesha@gmail.com',
+            first_name: 'Ayesha',
+            last_name: 'Siddiqua',
+            registration_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+            profile: {
+              phone: '01511223344',
+              nid: '1122334455',
+              email_verified: true,
+              phone_verified: true,
+              nid_verified: true,
+              nid_name: 'Ayesha Siddiqua',
+              nid_dob: '1998-08-15',
+              nid_address: 'Uttara, Dhaka',
+              role: 'user'
+            }
+          }
+        ];
+        
+        const mockStats = {
+          total_users: mockUsers.length,
+          total_bookings: 142,
+          total_trips: 48,
+          total_stations: 32,
+          total_payments: 120
+        };
+
+        return {
+          users: mockUsers,
+          stats: mockStats
+        };
+      }
+      throw err;
     }
   },
 };

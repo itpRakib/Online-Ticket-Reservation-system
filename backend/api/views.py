@@ -49,33 +49,94 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 "error": f"Too many failed attempts. Account blocked. Please try again in {minutes} minutes."
             }, status=status.HTTP_403_FORBIDDEN)
 
-        # Process standard JWT validation
-        serializer = self.get_serializer(data=request.data)
-        try:
-            serializer.is_valid(raise_exception=True)
-            # Success: clear attempts
-            cache.delete(attempts_key)
-            return Response(serializer.validated_data, status=status.HTTP_200_OK)
-        except Exception:
-            attempts = cache.get(attempts_key, 0) + 1
-            cache.set(attempts_key, attempts, timeout=600) # Keep attempts for 10 minutes
+        otp = request.data.get('otp')
 
-            if attempts >= 5:
-                blocks = cache.get(blocks_count_key, 0) + 1
-                cache.set(blocks_count_key, blocks, timeout=3600) # Keep block count history for 1 hour
+        if otp:
+            # Step 2: Verification of Gmail OTP
+            user = None
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                try:
+                    user = User.objects.get(email=username)
+                except User.DoesNotExist:
+                    pass
 
-                duration = 600 if blocks >= 2 else 300 # 10 mins (600s) on second block, 5 mins (300s) on first
-                lockout_time = time.time() + duration
-                cache.set(lockout_key, lockout_time, timeout=duration)
-                cache.delete(attempts_key) # Reset attempts
+            if not user:
+                return Response({"error": "No active account found with the given credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            cached_otp = cache.get(f"login_otp_{user.username}")
+            if not cached_otp:
+                return Response({"error": "Verification code has expired. Please log in again."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if otp != cached_otp:
+                return Response({"error": "Invalid verification code. Please check your Gmail inbox."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # OTP is correct, clear it and proceed with standard credentials check to generate token
+            cache.delete(f"login_otp_{user.username}")
+            
+            serializer = self.get_serializer(data=request.data)
+            try:
+                serializer.is_valid(raise_exception=True)
+                # Success: clear attempts
+                cache.delete(attempts_key)
+                return Response(serializer.validated_data, status=status.HTTP_200_OK)
+            except Exception:
+                return Response({"error": "Invalid credentials. Please log in again."}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            # Step 1: Validate credentials first, then send Gmail OTP
+            serializer = self.get_serializer(data=request.data)
+            try:
+                serializer.is_valid(raise_exception=True)
+                user = serializer.user
+                
+                # Generate random 6-digit OTP
+                otp_code = "".join(random.choices(string.digits, k=6))
+                cache.set(f"login_otp_{user.username}", otp_code, timeout=120)  # Valid for 2 minutes
+                
+                # Send email asynchronously
+                import threading
+                def send_email_async():
+                    try:
+                        send_mail(
+                            subject="BD GoTicket Login Verification Code",
+                            message=f"Your login verification code is: {otp_code}. This code is valid for 2 minutes.",
+                            from_email=None,
+                            recipient_list=[user.email],
+                            fail_silently=False,
+                        )
+                    except Exception as e:
+                        print("SMTP send_mail error:", e)
+
+                threading.Thread(target=send_email_async).start()
+                
+                return Response({
+                    "requires_otp": True,
+                    "username": user.username,
+                    "email": user.email,
+                    "simulated_otp": otp_code  # Retain simulated OTP for offline mockup
+                }, status=status.HTTP_200_OK)
+
+            except Exception:
+                attempts = cache.get(attempts_key, 0) + 1
+                cache.set(attempts_key, attempts, timeout=600) # Keep attempts for 10 minutes
+
+                if attempts >= 5:
+                    blocks = cache.get(blocks_count_key, 0) + 1
+                    cache.set(blocks_count_key, blocks, timeout=3600) # Keep block count history for 1 hour
+
+                    duration = 600 if blocks >= 2 else 300 # 10 mins (600s) on second block, 5 mins (300s) on first
+                    lockout_time = time.time() + duration
+                    cache.set(lockout_key, lockout_time, timeout=duration)
+                    cache.delete(attempts_key) # Reset attempts
+
+                    return Response({
+                        "error": f"Too many failed attempts. Account blocked for {duration // 60} minutes."
+                    }, status=status.HTTP_403_FORBIDDEN)
 
                 return Response({
-                    "error": f"Too many failed attempts. Account blocked for {duration // 60} minutes."
-                }, status=status.HTTP_403_FORBIDDEN)
-
-            return Response({
-                "error": "No active account found with the given credentials"
-            }, status=status.HTTP_401_UNAUTHORIZED)
+                    "error": "No active account found with the given credentials"
+                }, status=status.HTTP_401_UNAUTHORIZED)
 
 
 
@@ -551,4 +612,35 @@ class BookingCancelView(APIView):
         return Response({
             "message": f"Ticket cancellation successful. A refund of BDT {booking.total_fare} has been initiated to your wallet {refund_wallet}.",
             "booking": BookingSerializer(booking).data
+        }, status=status.HTTP_200_OK)
+
+
+class AdminUsersView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        # Server-side validation of JWT token and admin role check
+        user_role = getattr(request.user.profile, 'role', 'user')
+        if user_role != 'admin' and not request.user.is_staff and not request.user.is_superuser:
+            return Response(
+                {"error": "Access Denied: Admin privileges required to view database records."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        # Retrieve and serialize all registered users
+        users = User.objects.all().order_by('-date_joined')
+        users_serializer = UserSerializer(users, many=True)
+
+        # Retrieve database metrics
+        stats = {
+            "total_users": User.objects.count(),
+            "total_bookings": Booking.objects.count(),
+            "total_trips": Trip.objects.count(),
+            "total_stations": Station.objects.count(),
+            "total_payments": Payment.objects.count(),
+        }
+
+        return Response({
+            "users": users_serializer.data,
+            "stats": stats
         }, status=status.HTTP_200_OK)

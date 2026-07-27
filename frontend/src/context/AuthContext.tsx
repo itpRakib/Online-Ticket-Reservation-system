@@ -6,7 +6,7 @@ import { api, User } from '@/utils/api';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (username: string, password: string) => Promise<void>;
+  login: (username: string, password: string, otp?: string) => Promise<any>;
   logout: () => void;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   refreshProfile: () => Promise<void>;
@@ -49,46 +49,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             } catch {
               console.error("Profile fetch failed after token refresh");
               api.clearAuthToken();
+              if (typeof window !== 'undefined') {
+                localStorage.removeItem('user');
+              }
               setUser(null);
             }
           } else {
             api.clearAuthToken();
+            if (typeof window !== 'undefined') {
+              localStorage.removeItem('user');
+            }
             setUser(null);
           }
         }
       } else {
-        // Demo mode / auto fallback: check localStorage or load default demo profile
-        if (typeof window !== 'undefined') {
-          const savedUser = localStorage.getItem('user');
-          if (savedUser) {
-            try {
-              setUser(JSON.parse(savedUser));
-            } catch {
-              setUser(null);
-            }
-          } else {
-            // Provide default active profile for seamless demonstration
-            const defaultUser = {
-              id: 101,
-              username: 'Rakib',
-              email: 'rakib@gmail.com',
-              first_name: 'Rakibul',
-              last_name: 'Islam',
-              profile: {
-                phone: '01817860068',
-                nid: '1998269271829',
-                email_verified: true,
-                phone_verified: true,
-                nid_verified: true,
-                nid_name: 'Rakibul Islam',
-                nid_dob: '2000-01-01',
-                nid_address: 'Dhaka, Bangladesh',
-              },
-            };
-            localStorage.setItem('user', JSON.stringify(defaultUser));
-            setUser(defaultUser);
-          }
-        }
+        // No token found - guest mode, do not auto-login to any demo user!
+        setUser(null);
       }
       setLoading(false);
     };
@@ -96,22 +72,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeAuth();
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = async (username: string, password: string, otp?: string) => {
     setLoading(true);
     try {
-      const res = await api.login(username, password);
-      api.setAuthToken(res.access);
-      api.setRefreshToken(res.refresh);
-      setUser(res.user);
+      const res = await api.login(username, password, otp);
+      if (res && res.requires_otp) {
+        setLoading(false);
+        return res; // Forward requires_otp response
+      }
+      if (res && res.access) {
+        api.setAuthToken(res.access);
+        api.setRefreshToken(res.refresh);
+        setUser(res.user);
+      }
+      setLoading(false);
+      return res;
     } catch (error) {
       setLoading(false);
       throw error;
     }
-    setLoading(false);
   };
 
   const logout = () => {
     api.clearAuthToken();
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('user');
+    }
     setUser(null);
   };
 

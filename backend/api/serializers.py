@@ -5,20 +5,22 @@ from .models import UserProfile, MockNIDDatabase, Station, Trip, Booking, Passen
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['phone', 'nid', 'email_verified', 'phone_verified', 'nid_verified', 'nid_name', 'nid_dob', 'nid_address']
+        fields = ['phone', 'nid', 'email_verified', 'phone_verified', 'nid_verified', 'nid_name', 'nid_dob', 'nid_address', 'role']
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(read_only=True)
+    registration_date = serializers.DateTimeField(source='date_joined', read_only=True)
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'profile']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'registration_date', 'profile']
 
 class RegisterSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(write_only=True, required=True)
     nid = serializers.CharField(write_only=True, required=True)
     password = serializers.CharField(write_only=True, required=True)
     email = serializers.EmailField(required=True)
+    role = serializers.CharField(write_only=True, required=False, default='user')
     
     # NID Verification mock data passed from client (validated in view, but stored here)
     nid_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
@@ -27,7 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'phone', 'nid', 'nid_name', 'nid_dob', 'nid_address']
+        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'phone', 'nid', 'nid_name', 'nid_dob', 'nid_address', 'role']
 
     def validate_username(self, value):
         if User.objects.filter(username=value).exists():
@@ -60,6 +62,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         phone = validated_data.pop('phone')
         nid = validated_data.pop('nid')
         password = validated_data.pop('password')
+        role = validated_data.pop('role', 'user')
         
         nid_name = validated_data.get('nid_name', '')
         nid_dob = validated_data.get('nid_dob', None)
@@ -78,6 +81,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         profile = user.profile
         profile.phone = phone
         profile.nid = nid
+        profile.role = role
         profile.phone_verified = True  # Verified via SIM OTP simulation in frontend
         profile.email_verified = True  # Verified via Gmail OTP simulation in frontend
         profile.nid_verified = True    # Verified via NID simulation in frontend

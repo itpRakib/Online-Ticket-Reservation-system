@@ -15,6 +15,12 @@ class UserProfile(models.Model):
     nid_name = models.CharField(max_length=150, null=True, blank=True)
     nid_dob = models.DateField(null=True, blank=True)
     nid_address = models.TextField(null=True, blank=True)
+    
+    ROLE_CHOICES = (
+        ('user', 'User'),
+        ('admin', 'Admin'),
+    )
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
