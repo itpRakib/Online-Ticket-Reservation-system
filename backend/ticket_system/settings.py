@@ -194,3 +194,9 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'your-gmail@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-app-password')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+AUTHENTICATION_BACKENDS = [
+    'api.backends.EmailOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
