@@ -92,8 +92,23 @@ export const api = {
     const response = await fetch(url, mergedOptions);
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      const message = errorData.error || errorData.detail || errorData.message || 'Something went wrong';
-      throw new Error(message);
+      
+      let message = errorData.error || errorData.detail || errorData.message;
+      if (!message) {
+        const fieldErrors = [];
+        for (const [key, value] of Object.entries(errorData)) {
+          if (Array.isArray(value)) {
+            fieldErrors.push(`${key}: ${value.join(' ')}`);
+          } else if (typeof value === 'string') {
+            fieldErrors.push(`${key}: ${value}`);
+          }
+        }
+        if (fieldErrors.length > 0) {
+          message = fieldErrors.join(' | ');
+        }
+      }
+      
+      throw new Error(message || 'Something went wrong');
     }
 
     return response.json() as Promise<T>;
@@ -239,33 +254,7 @@ export const api = {
       });
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
-        const mockUser: User = {
-          id: Math.floor(Math.random() * 9000) + 1000,
-          username: data.username,
-          email: data.email,
-          first_name: data.first_name || data.username,
-          last_name: data.last_name || '',
-          profile: {
-            phone: data.phone || '',
-            nid: data.nid || '',
-            email_verified: true,
-            phone_verified: true,
-            nid_verified: true,
-            nid_name: data.nid_name || data.first_name || data.username,
-            nid_dob: data.nid_dob || '',
-            nid_address: data.nid_address || 'Dhaka, Bangladesh',
-          },
-        };
-        this.setAuthToken('mock-access-token-' + Date.now());
-        this.setRefreshToken('mock-refresh-token-' + Date.now());
-        if (typeof window !== 'undefined') {
-          sessionStorage.setItem('user', JSON.stringify(mockUser));
-          localStorage.setItem(`registered_user_${data.username.toLowerCase()}`, JSON.stringify(mockUser));
-          if (data.email) {
-            localStorage.setItem(`registered_user_${data.email.toLowerCase()}`, JSON.stringify(mockUser));
-          }
-        }
-        return { message: 'Registration successful!', user: mockUser };
+        throw new Error('⚠️ Connection to Cloud Server failed. The database might be sleeping (Render free tier cold start). Please wait 10 seconds and click Create Account again to save to the database.');
       }
       throw err;
     }
@@ -320,8 +309,11 @@ export const api = {
       });
       return res && (res as any).verified ? res as any : fallback;
     } catch (err: any) {
-      // Always succeed in demo — NID verification is simulated
-      return fallback;
+      if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
+        // Only return fallback if server is offline or cold starting
+        return fallback;
+      }
+      throw err;
     }
   },
 
