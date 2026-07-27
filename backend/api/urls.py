@@ -3,7 +3,7 @@ from .views import (
     RegisterView, MyTokenObtainPairView, UserProfileView, NIDVerificationView,
     OTPSendView, StationListView, TripSearchView, TripDetailView,
     BookingCreateView, BookingPaymentView, MyBookingsView, TicketDetailView,
-    BookingCancelView, AdminUsersView
+    BookingCancelView, AdminUsersView, ForgotPasswordView, ResetPasswordView
 )
 
 urlpatterns = [
@@ -12,6 +12,8 @@ urlpatterns = [
     path('auth/profile/', UserProfileView.as_view(), name='profile'),
     path('auth/nid-verify/', NIDVerificationView.as_view(), name='nid_verify'),
     path('auth/send-otp/', OTPSendView.as_view(), name='send_otp'),
+    path('auth/forgot-password/', ForgotPasswordView.as_view(), name='forgot_password'),
+    path('auth/reset-password/', ResetPasswordView.as_view(), name='reset_password'),
     path('admin/users/', AdminUsersView.as_view(), name='admin_users'),
     
     path('stations/', StationListView.as_view(), name='stations'),

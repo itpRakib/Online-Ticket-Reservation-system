@@ -37,34 +37,34 @@ export interface User {
 export const api = {
   getAuthToken(): string | null {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('token');
+      return sessionStorage.getItem('token');
     }
     return null;
   },
 
   getRefreshToken(): string | null {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('refresh_token');
+      return sessionStorage.getItem('refresh_token');
     }
     return null;
   },
 
   setAuthToken(token: string) {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
     }
   },
 
   setRefreshToken(token: string) {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('refresh_token', token);
+      sessionStorage.setItem('refresh_token', token);
     }
   },
 
   clearAuthToken() {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-      localStorage.removeItem('refresh_token');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('refresh_token');
     }
   },
 
@@ -146,7 +146,7 @@ export const api = {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
         let storedUser: User | null = null;
         if (typeof window !== 'undefined') {
-          const storedStr = localStorage.getItem(`registered_user_${input.toLowerCase()}`) || localStorage.getItem('user');
+          const storedStr = localStorage.getItem(`registered_user_${input.toLowerCase()}`) || sessionStorage.getItem('user');
           if (storedStr) {
             try { storedUser = JSON.parse(storedStr); } catch (e) { storedUser = null; }
           }
@@ -196,7 +196,7 @@ export const api = {
         this.setAuthToken(access);
         this.setRefreshToken(refresh);
         if (typeof window !== 'undefined') {
-          localStorage.setItem('user', JSON.stringify(mockUser));
+          sessionStorage.setItem('user', JSON.stringify(mockUser));
         }
         return { access, refresh, user: mockUser };
       }
@@ -239,7 +239,7 @@ export const api = {
         this.setAuthToken('mock-access-token-' + Date.now());
         this.setRefreshToken('mock-refresh-token-' + Date.now());
         if (typeof window !== 'undefined') {
-          localStorage.setItem('user', JSON.stringify(mockUser));
+          sessionStorage.setItem('user', JSON.stringify(mockUser));
           localStorage.setItem(`registered_user_${data.username.toLowerCase()}`, JSON.stringify(mockUser));
           if (data.email) {
             localStorage.setItem(`registered_user_${data.email.toLowerCase()}`, JSON.stringify(mockUser));
@@ -257,7 +257,7 @@ export const api = {
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
         if (typeof window !== 'undefined') {
-          const saved = localStorage.getItem('user');
+          const saved = sessionStorage.getItem('user');
           if (saved) return JSON.parse(saved);
         }
         return {
@@ -632,6 +632,51 @@ export const api = {
         return {
           users: mockUsers,
           stats: mockStats
+        };
+      }
+      throw err;
+    }
+  },
+
+  async forgotPassword(email: string): Promise<any> {
+    try {
+      return await this.request('/auth/forgot-password/', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      });
+    } catch (err: any) {
+      if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
+        // Mock fallback for forgot password when backend is offline
+        const simulated_otp = Math.floor(100000 + Math.random() * 900000).toString();
+        return {
+          requires_otp: true,
+          email,
+          simulated_otp,
+          message: "Verification code dispatched to your Gmail inbox. (Simulated)"
+        };
+      }
+      throw err;
+    }
+  },
+
+  async resetPassword(data: { email: string; otp: string; new_password: any }): Promise<any> {
+    try {
+      return await this.request('/auth/reset-password/', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+    } catch (err: any) {
+      if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
+        // Mock fallback for resetting password when backend is offline
+        const storedStr = localStorage.getItem(`registered_user_${data.email.toLowerCase()}`);
+        if (storedStr) {
+          const parsed = JSON.parse(storedStr);
+          parsed.password = data.new_password; // Update mock password in storage
+          localStorage.setItem(`registered_user_${data.email.toLowerCase()}`, JSON.stringify(parsed));
+          sessionStorage.setItem('user', JSON.stringify(parsed));
+        }
+        return {
+          message: "Password updated successfully. You can now log in with your new credentials. (Simulated)"
         };
       }
       throw err;

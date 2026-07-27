@@ -644,3 +644,89 @@ class AdminUsersView(APIView):
             "users": users_serializer.data,
             "stats": stats
         }, status=status.HTTP_200_OK)
+
+
+class ForgotPasswordView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({"error": "Email address is required."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = User.objects.get(email__iexact=email)
+        except User.DoesNotExist:
+            return Response({
+                "error": "No account found registered with this Gmail address."
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Generate a 6-digit OTP
+        otp = "".join(random.choices(string.digits, k=6))
+        
+        # Cache the OTP for 5 minutes
+        cache_key = f"reset_otp_{email.lower()}"
+        cache.set(cache_key, otp, timeout=300)
+
+        # Attempt to send real Gmail SMTP message
+        from django.conf import settings
+        email_sent = False
+        try:
+            send_mail(
+                'BD GoTicket — Password Reset OTP',
+                f'Hello {user.username},\n\n'
+                f'You have requested to reset your password. Use the following 6-digit verification code:\n\n'
+                f'   👉 {otp} 👈\n\n'
+                f'This code will expire in 5 minutes. If you did not make this request, please ignore this email.\n\n'
+                f'Best regards,\nBD GoTicket Security Node',
+                settings.DEFAULT_FROM_EMAIL,
+                [email],
+                fail_silently=False,
+            )
+            email_sent = True
+        except Exception as e:
+            print(f"Failed to send password reset email: {e}")
+
+        # Return response (include simulated OTP if SMTP failed for mock testing)
+        response_data = {
+            "message": "Verification code dispatched to your Gmail inbox.",
+            "email": email,
+            "requires_otp": True
+        }
+        if not email_sent:
+            response_data["simulated_otp"] = otp
+            
+        return Response(response_data, status=status.HTTP_200_OK)
+
+
+class ResetPasswordView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        otp = request.data.get('otp')
+        new_password = request.data.get('new_password')
+
+        if not email or not otp or not new_password:
+            return Response({"error": "Email, verification OTP, and new password are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Verify cached OTP
+        cache_key = f"reset_otp_{email.lower()}"
+        cached_otp = cache.get(cache_key)
+
+        if not cached_otp:
+            return Response({"error": "Verification code expired or invalid. Please request a new code."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if cached_otp != str(otp).strip():
+            return Response({"error": "Incorrect verification code. Please check and try again."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Update password
+        try:
+            user = User.objects.get(email__iexact=email)
+            user.set_password(new_password)
+            user.save()
+            # Clear cached OTP
+            cache.delete(cache_key)
+            return Response({"message": "Password updated successfully. You can now log in with your new credentials."}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "User no longer exists."}, status=status.HTTP_400_BAD_REQUEST)

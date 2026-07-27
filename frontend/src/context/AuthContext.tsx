@@ -50,14 +50,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               console.error("Profile fetch failed after token refresh");
               api.clearAuthToken();
               if (typeof window !== 'undefined') {
-                localStorage.removeItem('user');
+                sessionStorage.removeItem('user');
               }
               setUser(null);
             }
           } else {
             api.clearAuthToken();
             if (typeof window !== 'undefined') {
-              localStorage.removeItem('user');
+              sessionStorage.removeItem('user');
             }
             setUser(null);
           }
@@ -96,7 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     api.clearAuthToken();
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
     }
     setUser(null);
   };
