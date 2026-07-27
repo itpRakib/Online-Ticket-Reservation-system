@@ -82,13 +82,17 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 # Success: clear attempts
                 cache.delete(attempts_key)
                 
-                # Generate new trust token valid for 48 hours
-                import uuid
-                new_trust_token = str(uuid.uuid4())
-                cache.set(f"trust_token_{user.username}_{new_trust_token}", True, timeout=48 * 3600)
+                # Generate new trust token valid for 48 hours (bypassed for admins)
+                user_role = getattr(user.profile, 'role', 'user')
+                is_admin = user_role == 'admin' or user.is_staff or user.is_superuser or 'admin' in user.username.lower()
                 
                 data = serializer.validated_data
-                data["trust_token"] = new_trust_token
+                if not is_admin:
+                    import uuid
+                    new_trust_token = str(uuid.uuid4())
+                    cache.set(f"trust_token_{user.username}_{new_trust_token}", True, timeout=48 * 3600)
+                    data["trust_token"] = new_trust_token
+                
                 return Response(data, status=status.HTTP_200_OK)
             except Exception:
                 return Response({"error": "Invalid credentials. Please log in again."}, status=status.HTTP_401_UNAUTHORIZED)
@@ -100,7 +104,11 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 user = serializer.user
                 
                 # Check if device is trusted (trust_token is valid in cache)
-                if trust_token:
+                # Strict Admin Enforcement: Admin accounts can NEVER bypass OTP.
+                user_role = getattr(user.profile, 'role', 'user')
+                is_admin = user_role == 'admin' or user.is_staff or user.is_superuser or 'admin' in user.username.lower()
+
+                if trust_token and not is_admin:
                     cache_key = f"trust_token_{user.username}_{trust_token}"
                     if cache.get(cache_key):
                         # Bypass OTP, login immediately!
