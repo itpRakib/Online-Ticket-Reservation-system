@@ -95,12 +95,14 @@ export const Header: React.FC = () => {
           </Link>
           {user && (
             <Link
-              href="/dashboard"
+              href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive('/dashboard') ? 'text-cyan-400 bg-cyan-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
+                isActive(user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard')
+                  ? ((user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin'))) ? 'text-fuchsia-400 bg-fuchsia-500/10' : 'text-cyan-400 bg-cyan-500/10')
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              My Telemetry
+              {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '🛡️ Admin Terminal' : 'My Telemetry'}
             </Link>
           )}
         </nav>
@@ -144,10 +146,14 @@ export const Header: React.FC = () => {
           {user ? (
             <div className="flex items-center space-x-3">
               <Link
-                href="/dashboard"
-                className="flex items-center space-x-2 rounded-full bg-slate-900 border border-slate-800 py-1.5 px-3 text-sm text-slate-200 hover:bg-slate-800 transition-colors"
+                href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
+                className={`flex items-center space-x-2 rounded-full bg-slate-900 border py-1.5 px-3 text-sm text-slate-200 hover:bg-slate-800 transition-colors ${
+                  user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? 'border-fuchsia-500/30' : 'border-slate-800'
+                }`}
               >
-                <div className="h-6 w-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-[11px] uppercase">
+                <div className={`h-6 w-6 rounded-full flex items-center justify-center font-bold text-[11px] uppercase ${
+                  user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? 'bg-fuchsia-500/20 text-fuchsia-400' : 'bg-cyan-500/20 text-cyan-400'
+                }`}>
                   {user.username.substring(0, 2)}
                 </div>
                 <span className="hidden sm:inline font-medium max-w-[120px] truncate">{user.first_name || user.username}</span>
