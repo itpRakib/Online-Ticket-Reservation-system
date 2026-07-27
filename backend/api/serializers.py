@@ -42,16 +42,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def validate_phone(self, value):
-        # Format input phone if not formatted to match database entries
-        formatted = value.trim() if hasattr(value, 'trim') else value.strip()
+        # Format input phone to standard +880XXXXXXXXXX
+        formatted = value.strip()
         if formatted.startswith('0'):
             formatted = '+88' + formatted
         elif not formatted.startswith('+88'):
             formatted = '+880' + formatted
 
-        if UserProfile.objects.filter(phone=formatted).exists():
+        # Enforce uniqueness against both raw and formatted values in the database
+        if UserProfile.objects.filter(phone=value).exists() or UserProfile.objects.filter(phone=formatted).exists():
             raise serializers.ValidationError("Phone number already registered.")
-        return value
+        return formatted
 
     def validate_nid(self, value):
         if UserProfile.objects.filter(nid=value).exists():

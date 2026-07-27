@@ -803,8 +803,18 @@ export default function Register() {
                   {[
                     { nid: "1234567890", dob: "1995-06-15", name: "Rakibul Islam" },
                     { nid: "9876543210", dob: "1998-10-20", name: "Ayesha Siddiqua" },
-                    { nid: "1122334455", dob: "1990-12-01", name: "Naimur Rahman" }
-                  ].map(item => (
+                    { nid: "1122334455", dob: "1990-12-01", name: "Naimur Rahman" },
+                    { nid: "5566778899", dob: "2001-02-28", name: "Sadia Islam" },
+                    { nid: "9988776655", dob: "1985-04-05", name: "Mahmudul Hasan" }
+                  ].sort((a, b) => {
+                    const enteredName = `${firstName || ''} ${lastName || ''}`.toLowerCase().trim();
+                    if (!enteredName) return 0;
+                    const aMatch = a.name.toLowerCase().split(' ').some(part => enteredName.includes(part));
+                    const bMatch = b.name.toLowerCase().split(' ').some(part => enteredName.includes(part));
+                    if (aMatch && !bMatch) return -1;
+                    if (!aMatch && bMatch) return 1;
+                    return 0;
+                  }).slice(0, 3).map(item => (
                     <li key={item.nid} className="flex justify-between items-center py-1 border-b border-slate-900 last:border-b-0">
                       <span className="font-mono">NID: <span className="text-cyan-400 font-bold">{item.nid}</span> | DOB: <span className="text-teal-400">{item.dob}</span> ({item.name})</span>
                       <button
