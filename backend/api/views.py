@@ -113,6 +113,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
                     if cache.get(cache_key):
                         # Bypass OTP, login immediately!
                         cache.delete(attempts_key)
+                        
+                        # Renew/Extend the trust token's cache lifetime for another 48 hours
+                        cache.set(cache_key, True, timeout=48 * 3600)
+                        
                         data = serializer.validated_data
                         data["trust_token"] = trust_token
                         return Response(data, status=status.HTTP_200_OK)
