@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://online-ticket-reservation-system.onrender.com/api';
 
 export const BD_PHONE_REGEX = /^(?:\+88)?01[3-9]\d{8}$/;
 export const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
