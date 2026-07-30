@@ -163,28 +163,28 @@ function LoginForm() {
         </div>
       )}
 
-      <GlowCard glowColor="cyan" intensity="low">
+      <GlowCard glowColor="emerald" intensity="medium">
         <motion.div 
           initial={{ opacity: 0, y: 20, scale: 0.95 }} 
           animate={{ opacity: 1, y: 0, scale: 1 }} 
           transition={{ duration: 0.4 }}
-          className="w-full max-w-md space-y-8 glass-panel p-8 rounded-3xl shadow-2xl relative"
+          className="w-full max-w-md space-y-8 glass-panel p-8 rounded-3xl shadow-2xl relative border border-[#2A5B60]/20 bg-[#F3F3F3]/95 dark:bg-[#1C2E31]/95"
         >
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-400 to-fuchsia-600 text-white shadow-lg">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-md" style={{ backgroundColor: '#6F9526' }}>
               <Ticket className="h-6 w-6 rotate-12" />
             </div>
-            <h2 className="mt-6 text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+            <h2 className="mt-6 text-3xl font-extrabold text-[#2A5B60] dark:text-[#F3F3F3] tracking-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
               {otpSent ? "ENTER SECURITY KEY" : "AUTHORIZE IDENTITY"}
             </h2>
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-[#444E29] dark:text-slate-300 font-medium">
               {otpSent ? (
                 <span>Verify your identity nodes.</span>
               ) : (
                 <>
                   Authenticate using your registered credentials.<br/>
                   Or{' '}
-                  <Link href="/auth/register" className="font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
+                  <Link href="/auth/register" className="font-bold text-[#6F9526] hover:text-[#2A5B60] transition-colors underline">
                     create a new account
                   </Link>
                 </>
@@ -198,7 +198,7 @@ function LoginForm() {
                 initial={{ opacity: 0, height: 0, marginTop: 0 }}
                 animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
                 exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 flex items-start space-x-2 overflow-hidden"
+                className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-600 dark:text-red-400 flex items-start space-x-2 overflow-hidden font-bold"
               >
                 <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
                 <span>{error}</span>
@@ -210,9 +210,9 @@ function LoginForm() {
             {!otpSent ? (
               <div className="space-y-4 rounded-md shadow-sm">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Username / Email</label>
+                  <label className="text-xs font-bold text-[#2A5B60] dark:text-[#C5D050] uppercase tracking-wider">Username / Email / Phone</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-500">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#2A5B60]/60">
                       <UserIcon className="h-4 w-4" />
                     </div>
                     <input
@@ -220,16 +220,16 @@ function LoginForm() {
                       required
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="block w-full pl-10 pr-3.5 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
-                      placeholder="Enter user node identity"
+                      className="block w-full pl-10 pr-3.5 py-3 rounded-xl border border-[#2A5B60]/20 bg-white dark:bg-[#162426] text-[#2A5B60] dark:text-[#F3F3F3] placeholder-[#444E29]/50 focus:border-[#6F9526] focus:outline-none transition-colors shadow-sm font-medium"
+                      placeholder="Username, Email, or 017XXXXXXXX"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Password</label>
+                  <label className="text-xs font-bold text-[#2A5B60] dark:text-[#C5D050] uppercase tracking-wider">Password</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-500">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#2A5B60]/60">
                       <Lock className="h-4 w-4" />
                     </div>
                     <input
@@ -237,13 +237,13 @@ function LoginForm() {
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="block w-full pl-10 pr-10 py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
-                      placeholder="Enter secure access code"
+                      className="block w-full pl-10 pr-10 py-3 rounded-xl border border-[#2A5B60]/20 bg-white dark:bg-[#162426] text-[#2A5B60] dark:text-[#F3F3F3] placeholder-[#444E29]/50 focus:border-[#6F9526] focus:outline-none transition-colors shadow-sm font-medium"
+                      placeholder="Enter secure access password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-500 hover:text-slate-300 cursor-pointer"
+                      className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-[#2A5B60]/60 hover:text-[#2A5B60] cursor-pointer"
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
@@ -251,7 +251,7 @@ function LoginForm() {
                   <div className="flex justify-end mt-1.5">
                     <Link
                       href="/auth/forgot-password"
-                      className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
+                      className="text-xs font-bold text-[#6F9526] hover:text-[#2A5B60] transition-colors"
                     >
                       Forgot Password?
                     </Link>
@@ -260,21 +260,21 @@ function LoginForm() {
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="text-sm text-slate-300 bg-slate-900/40 p-4 rounded-xl border border-slate-800/80 leading-relaxed">
-                  We have dispatched a 6-digit security code to your verified Gmail: <span className="font-bold text-cyan-400 font-mono">{emailAddress}</span>.
+                <div className="text-sm text-[#444E29] dark:text-slate-300 bg-white/80 dark:bg-[#162426]/80 p-4 rounded-xl border border-[#2A5B60]/20 leading-relaxed font-medium">
+                  We have dispatched a 6-digit security code to your verified Gmail: <span className="font-extrabold text-[#6F9526] font-mono">{emailAddress}</span>.
                 </div>
 
                 {otpActual && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-4 rounded-xl bg-fuchsia-950/60 border border-fuchsia-500/40 space-y-2 shadow-lg shadow-fuchsia-500/10"
+                    className="p-4 rounded-xl bg-[#C5D050]/20 border border-[#6F9526]/30 space-y-2 shadow-md"
                   >
-                    <div className="flex items-center space-x-2 text-fuchsia-400 text-xs font-bold uppercase tracking-wider">
-                      <Mail className="h-4 w-4 animate-bounce" />
+                    <div className="flex items-center space-x-2 text-[#2A5B60] text-xs font-bold uppercase tracking-wider">
+                      <Mail className="h-4 w-4 text-[#6F9526] animate-bounce" />
                       <span>Gmail Server Delivery</span>
                     </div>
-                    <div className="text-xl font-black text-fuchsia-400 font-mono tracking-widest text-center mt-1">
+                    <div className="text-xl font-black text-[#2A5B60] font-mono tracking-widest text-center mt-1">
                       {otpActual}
                     </div>
                     <button
@@ -283,7 +283,8 @@ function LoginForm() {
                         setOtpInput(otpActual);
                         setError('');
                       }}
-                      className="w-full mt-2 py-2 rounded-lg bg-fuchsia-500 hover:bg-fuchsia-400 text-slate-950 text-xs font-bold transition-all cursor-pointer"
+                      className="w-full mt-2 py-2 rounded-lg text-white text-xs font-bold transition-all cursor-pointer shadow-sm hover:opacity-90"
+                      style={{ backgroundColor: '#6F9526' }}
                     >
                       Auto-Fill Code ({otpActual})
                     </button>
@@ -291,23 +292,23 @@ function LoginForm() {
                 )}
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Gmail Verification Code</label>
+                  <label className="text-xs font-bold text-[#2A5B60] dark:text-[#C5D050] uppercase tracking-wider">Gmail Verification Code</label>
                   <input
                     type="text"
                     maxLength={6}
                     required
                     value={otpInput}
                     onChange={(e) => setOtpInput(e.target.value)}
-                    className="block w-full py-3 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-200 tracking-widest text-center font-bold placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                    className="block w-full py-3 rounded-xl border border-[#2A5B60]/20 bg-white dark:bg-[#162426] text-[#2A5B60] dark:text-[#F3F3F3] tracking-widest text-center font-bold placeholder-[#444E29]/50 focus:border-[#6F9526] focus:outline-none transition-colors shadow-sm"
                     placeholder="XXXXXX"
                   />
-                  <div className="flex justify-between items-center text-xs mt-2 text-slate-400">
-                    <span>Expires in: <span className={`font-bold ${timer < 30 ? 'text-red-400' : 'text-cyan-400'}`}>{Math.floor(timer / 60)}:{(timer % 60).toString().padStart(2, '0')}</span></span>
+                  <div className="flex justify-between items-center text-xs mt-2 text-[#444E29] dark:text-slate-400">
+                    <span>Expires in: <span className={`font-bold ${timer < 30 ? 'text-red-500' : 'text-[#6F9526]'}`}>{Math.floor(timer / 60)}:{(timer % 60).toString().padStart(2, '0')}</span></span>
                     <button
                       type="button"
                       disabled={loading || timer > 90}
                       onClick={handleResendOtp}
-                      className="text-cyan-400 hover:text-cyan-300 font-semibold disabled:text-slate-600 disabled:cursor-not-allowed"
+                      className="text-[#6F9526] hover:text-[#2A5B60] font-bold disabled:text-slate-400 disabled:cursor-not-allowed"
                     >
                       {timer > 90 ? `Resend in ${timer - 90}s` : 'Resend Code'}
                     </button>
@@ -322,7 +323,8 @@ function LoginForm() {
                 disabled={loading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 py-3.5 font-bold text-slate-950 flex items-center justify-center space-x-2 transition-all shadow-lg shadow-cyan-500/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl py-3.5 font-extrabold text-white hover:text-white flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-[#6F9526] hover:bg-[#2A5B60]"
+                style={{ backgroundColor: '#6F9526' }}
               >
                 {loading ? (
                   <>
@@ -345,7 +347,7 @@ function LoginForm() {
                       setTimerActive(false);
                       setError('');
                     }}
-                    className="text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer"
+                    className="text-xs font-bold text-[#444E29] dark:text-slate-300 hover:text-[#2A5B60] transition-colors cursor-pointer"
                   >
                     ← Back to Login Credentials
                   </button>

@@ -335,4 +335,33 @@ class Command(BaseCommand):
                     trip_count += 1
 
         self.stdout.write(self.style.SUCCESS(f'Successfully seeded {trip_count} Trips over the next 15 days!'))
+
+        # 5. Seed Core Admin & User Accounts
+        from django.contrib.auth.models import User
+        from api.models import UserProfile
+
+        def ensure_account(username, email, password, first, last, phone, nid, role='user', is_staff=False, is_superuser=False):
+            u, _ = User.objects.get_or_create(username=username, defaults={'email': email, 'first_name': first, 'last_name': last, 'is_staff': is_staff, 'is_superuser': is_superuser})
+            u.email = email
+            u.first_name = first
+            u.last_name = last
+            u.is_staff = is_staff
+            u.is_superuser = is_superuser
+            u.set_password(password)
+            u.save()
+            p, _ = UserProfile.objects.get_or_create(user=u, defaults={'phone': phone, 'nid': nid, 'role': role, 'email_verified': True, 'phone_verified': True, 'nid_verified': True})
+            p.phone = phone
+            p.nid = nid
+            p.role = role
+            p.email_verified = True
+            p.phone_verified = True
+            p.nid_verified = True
+            p.save()
+
+        ensure_account('bd_goticket_root', 'admin@bdgoticket.com', 'Password123!', 'System', 'Admin', '01700000000', '1000000000000', role='admin', is_staff=True, is_superuser=True)
+        ensure_account('admin', 'admin@matrix-transit.bd', 'Password123!', 'Matrix', 'Admin', '01711111111', '1000000000001', role='admin', is_staff=True, is_superuser=True)
+        ensure_account('rakib00245', 'rakib.00245@gmail.com', 'Password123!', 'Rakibul', 'Islam', '01712345678', '1234567890123', role='user')
+        ensure_account('rakib002', 'rakib860068@gmail.com', 'Password123!', 'Rakib', 'User', '01812345678', '1234567890124', role='user')
+
+        self.stdout.write(self.style.SUCCESS('Successfully seeded core Admin & User accounts!'))
         self.stdout.write(self.style.SUCCESS('Database seeding completed.'))
