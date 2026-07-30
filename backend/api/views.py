@@ -25,6 +25,27 @@ from .serializers import (
 # Custom JWT Claims to include user details in Token response
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
+        username_or_email = attrs.get(self.username_field, '').strip()
+        password = attrs.get('password')
+
+        if username_or_email and password:
+            clean = username_or_email
+            formatted_phone = clean
+            if formatted_phone.startswith('0'):
+                formatted_phone = '+88' + formatted_phone
+            elif not formatted_phone.startswith('+88'):
+                formatted_phone = '+880' + formatted_phone
+
+            user = User.objects.filter(
+                Q(username__iexact=clean) |
+                Q(email__iexact=clean) |
+                Q(profile__phone=clean) |
+                Q(profile__phone=formatted_phone)
+            ).first()
+
+            if user and user.check_password(password):
+                attrs[self.username_field] = user.username
+
         data = super().validate(attrs)
         data['user'] = UserSerializer(self.user).data
         return data
@@ -33,9 +54,29 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
-        username = request.data.get('username')
-        if not username:
+        raw_username = (request.data.get('username') or '').strip()
+        if not raw_username:
             return super().post(request, *args, **kwargs)
+
+        formatted_phone = raw_username
+        if formatted_phone.startswith('0'):
+            formatted_phone = '+88' + formatted_phone
+        elif not formatted_phone.startswith('+88'):
+            formatted_phone = '+880' + formatted_phone
+
+        user = User.objects.filter(
+            Q(username__iexact=raw_username) |
+            Q(email__iexact=raw_username) |
+            Q(profile__phone=raw_username) |
+            Q(profile__phone=formatted_phone)
+        ).first()
+
+        username = user.username if user else raw_username
+
+        # Standardize request data to use normalized username
+        mutable_data = request.data.copy() if hasattr(request.data, 'copy') else dict(request.data)
+        mutable_data['username'] = username
+        request._full_data = mutable_data
 
         lockout_key = f"lockout_{username}"
         attempts_key = f"attempts_{username}"

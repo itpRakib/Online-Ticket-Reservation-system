@@ -172,8 +172,8 @@ export const Header: React.FC = () => {
               </Link>
               <Link
                 href="/auth/register"
-                className="rounded-xl px-4 py-2 text-sm font-bold text-[#2A5B60] transition-all hover:opacity-90 hover:scale-[1.02] shadow-md border border-[#C5D050]"
-                style={{ backgroundColor: '#C5D050' }}
+                className="rounded-xl px-4 py-2 text-sm font-extrabold text-white transition-all hover:scale-[1.02] shadow-md border border-[#6F9526] hover:bg-[#2A5B60]"
+                style={{ backgroundColor: '#6F9526' }}
               >
                 Sign Up
               </Link>

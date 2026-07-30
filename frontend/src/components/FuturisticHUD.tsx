@@ -248,13 +248,13 @@ export const FuturisticHUD: React.FC = () => {
         const proj = project(current3DPt, rotX, rotY, rotZ);
         const opacity = Math.max(0.1, (1 - proj.depth / sphereRadius) * 0.85);
 
-        ctx.fillStyle = p.color === '#00F0FF' ? `rgba(0, 240, 255, ${opacity})` : `rgba(138, 43, 226, ${opacity})`;
+        ctx.fillStyle = p.color === '#6F9526' ? `rgba(111, 149, 38, ${opacity})` : `rgba(197, 208, 80, ${opacity})`;
         ctx.beginPath();
         ctx.arc(proj.x, proj.y, Math.max(2, proj.scale * 3.5), 0, 2 * Math.PI);
         ctx.fill();
 
         // Particle trail
-        ctx.strokeStyle = p.color === '#00F0FF' ? `rgba(0, 240, 255, ${opacity * 0.25})` : `rgba(138, 43, 226, ${opacity * 0.25})`;
+        ctx.strokeStyle = p.color === '#6F9526' ? `rgba(111, 149, 38, ${opacity * 0.3})` : `rgba(197, 208, 80, ${opacity * 0.3})`;
         ctx.lineWidth = Math.max(1, proj.scale * 1.5);
         ctx.beginPath();
         
@@ -269,12 +269,12 @@ export const FuturisticHUD: React.FC = () => {
       ctx.lineWidth = 1;
       
       // Center HUD target reticle
-      ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+      ctx.strokeStyle = 'rgba(42, 91, 96, 0.4)';
       ctx.beginPath();
       ctx.arc(width / 2, height / 2, 25, 0, 2 * Math.PI);
       ctx.stroke();
 
-      ctx.strokeStyle = 'rgba(138, 43, 226, 0.3)';
+      ctx.strokeStyle = 'rgba(197, 208, 80, 0.4)';
       ctx.beginPath();
       ctx.arc(width / 2, height / 2, 45, 0, 2 * Math.PI);
       ctx.stroke();
@@ -282,7 +282,7 @@ export const FuturisticHUD: React.FC = () => {
       // Corner borders
       const borderLen = 15;
       const margin = 20;
-      ctx.strokeStyle = 'rgba(0, 240, 255, 0.35)';
+      ctx.strokeStyle = 'rgba(111, 149, 38, 0.4)';
 
       // Top-Left
       ctx.beginPath();
@@ -327,17 +327,17 @@ export const FuturisticHUD: React.FC = () => {
     <div ref={containerRef} className="w-full h-full min-h-[320px] md:min-h-[450px] relative overflow-hidden flex items-center justify-center">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
       {/* Floating Holographic Telemetry Data */}
-      <div className="absolute bottom-6 left-6 font-mono text-[10px] text-slate-500 space-y-1 bg-slate-950/60 p-3 rounded-lg border border-white/[0.03] backdrop-blur-sm pointer-events-none">
+      <div className="absolute bottom-6 left-6 font-mono text-[10px] text-[#444E29] space-y-1 bg-[#F3F3F3]/90 dark:bg-[#1C2E31]/90 p-3 rounded-lg border border-[#2A5B60]/20 backdrop-blur-sm pointer-events-none shadow-md">
         <div className="flex items-center space-x-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-slate-400 font-bold uppercase tracking-wider">Telemetry Link Online</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-[#6F9526] animate-pulse" />
+          <span className="text-[#2A5B60] dark:text-[#C5D050] font-bold uppercase tracking-wider">Telemetry Link Online</span>
         </div>
         <div>VECTOR.ROT_X: {(mouse.targetX * 0.4).toFixed(3)}</div>
         <div>VECTOR.ROT_Y: {(mouse.targetY * 0.4).toFixed(3)}</div>
         <div>NODES.ACTIVE: 60</div>
       </div>
-      <div className="absolute top-6 right-6 font-mono text-[9px] text-slate-500 uppercase tracking-widest pointer-events-none border border-slate-800/80 bg-slate-950/80 px-2 py-1 rounded">
-        System Mode: <span className="text-[#00F0FF] font-bold">Orbit_Sync</span>
+      <div className="absolute top-6 right-6 font-mono text-[9px] text-[#444E29] uppercase tracking-widest pointer-events-none border border-[#2A5B60]/20 bg-[#F3F3F3]/90 dark:bg-[#1C2E31]/90 px-2 py-1 rounded shadow-sm">
+        System Mode: <span className="text-[#6F9526] font-extrabold">Orbit_Sync</span>
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── Color Palette Tokens (User Requirements) ─── */
+  /* ─── Color Palette Tokens ─── */
   --bg-light: #F3F3F3;
   --off-white: #F3F3F3;
   --text-primary: #2A5B60;
   --text-secondary: #444E29;
-  --accent-lime: #C5D050;
   --accent-leaf: #6F9526;
+  --accent-lime: #C5D050;
   --deep-teal: #2A5B60;
   --dark-olive: #444E29;
 
@@ -15,19 +15,19 @@
   --bg-deep: #F3F3F3;
   --bg-base: #FFFFFF;
   --bg-raised: #F3F3F3;
-  --bg-elevated: #EBF0F1;
+  --bg-elevated: #E5ECEE;
   --foreground: #2A5B60;
 
-  /* Primary Action & Accent — Lime Green (#C5D050) */
-  --accent: #C5D050;
-  --accent-dim: #B4BF44;
-  --accent-hover: #6F9526;
-  --accent-glow: rgba(197, 208, 80, 0.25);
-  --accent-subtle: rgba(197, 208, 80, 0.1);
+  /* Primary Action & Accent — Leaf Green (#6F9526) */
+  --accent: #6F9526;
+  --accent-dim: #5E801F;
+  --accent-hover: #2A5B60;
+  --accent-glow: rgba(111, 149, 38, 0.25);
+  --accent-subtle: rgba(111, 149, 38, 0.1);
 
-  /* Secondary & Highlights — Leaf Green (#6F9526) */
-  --secondary: #6F9526;
-  --secondary-glow: rgba(111, 149, 38, 0.2);
+  /* Highlights & Badges — Lime Green (#C5D050) */
+  --secondary: #C5D050;
+  --secondary-glow: rgba(197, 208, 80, 0.25);
   --header-bg: #2A5B60;
 
   /* Text hierarchy — Deep Teal (#2A5B60) & Dark Olive (#444E29) */
