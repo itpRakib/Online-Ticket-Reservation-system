@@ -11,6 +11,95 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlowCard } from '@/components/GlowCard';
 
+export interface NIDSuggestion {
+  nid: string;
+  name: string;
+  dob: string;
+  father: string;
+  mother: string;
+  address: string;
+}
+
+const FIRST_NAMES = [
+  'Rakibul', 'Tanvir', 'Sabbir', 'Mehedi', 'Ayesha', 'Sadia', 'Nusrat', 
+  'Taskin', 'Mustafizur', 'Mahmudul', 'Fatema', 'Tariqul', 'Sharmin', 
+  'Naimur', 'Farhana', 'Jubayer', 'Anisur', 'Rashed', 'Kamrul', 'Tamim', 
+  'Sakib', 'Mushfiqur', 'Laila', 'Nazmul', 'Shahariar', 'Sumaiya', 'Tahmina', 
+  'Zahid', 'Arif', 'Soumya', 'Liton', 'Rubel', 'Mosaddek', 'Afif', 'Towhid'
+];
+
+const LAST_NAMES = [
+  'Islam', 'Hasan', 'Rahman', 'Siddiqua', 'Akter', 'Begum', 'Ahmed', 
+  'Chowdhury', 'Khan', 'Hossain', 'Alam', 'Uddin', 'Mahmud', 'Sarkar', 
+  'Miah', 'Jahan', 'Ali', 'Kabir', 'Biswas', 'Rana', 'Bhuiyan', 'Parvez'
+];
+
+const DISTRICTS = [
+  'House 45, Road 12, Dhanmondi, Dhaka',
+  'MIA Bari, Kazir Dewri, Chittagong',
+  'Sylhet Road, Subhanighat, Sylhet',
+  'Kolatoli Road, Cox\'s Bazar',
+  'Motihar, Rajshahi',
+  'Sonadanga, Khulna',
+  'Nathullabad, Barisal',
+  'Paduar Bazar, Comilla',
+  'Town Hall, Mymensingh',
+  'Central Road, Rangpur'
+];
+
+function generateRandomNIDSuggestions(count: number = 5): NIDSuggestion[] {
+  let recentlySeen: string[] = [];
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = sessionStorage.getItem('recently_seen_nid_suggestions');
+      if (stored) recentlySeen = JSON.parse(stored);
+    } catch (e) {}
+  }
+
+  const suggestions: NIDSuggestion[] = [];
+  const newlyGeneratedNids: string[] = [];
+
+  while (suggestions.length < count) {
+    const randomPrefix = Math.floor(100 + Math.random() * 900).toString();
+    const randomMid = Math.floor(100 + Math.random() * 900).toString();
+    const randomEnd = Math.floor(1000 + Math.random() * 9000).toString();
+    const nid = `${randomPrefix}${randomMid}${randomEnd}`;
+
+    if (recentlySeen.includes(nid) || newlyGeneratedNids.includes(nid)) {
+      continue;
+    }
+
+    const fName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
+    const lName = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
+    const name = `${fName} ${lName}`;
+
+    const year = Math.floor(1978 + Math.random() * 26);
+    const month = (Math.floor(1 + Math.random() * 12)).toString().padStart(2, '0');
+    const day = (Math.floor(1 + Math.random() * 28)).toString().padStart(2, '0');
+    const dob = `${year}-${month}-${day}`;
+
+    const fatherFName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
+    const father = `Md. ${fatherFName} ${lName}`;
+
+    const motherFName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
+    const mother = `${motherFName} Begum`;
+
+    const address = DISTRICTS[Math.floor(Math.random() * DISTRICTS.length)];
+
+    newlyGeneratedNids.push(nid);
+    suggestions.push({ nid, name, dob, father, mother, address });
+  }
+
+  if (typeof window !== 'undefined') {
+    try {
+      const updatedRecentlySeen = [...newlyGeneratedNids, ...recentlySeen].slice(0, 100);
+      sessionStorage.setItem('recently_seen_nid_suggestions', JSON.stringify(updatedRecentlySeen));
+    } catch (e) {}
+  }
+
+  return suggestions;
+}
+
 export default function Register() {
   const router = useRouter();
   
@@ -45,6 +134,18 @@ export default function Register() {
   const [dob, setDob] = useState('');
   const [nidVerified, setNidVerified] = useState(false);
   const [nidData, setNidData] = useState<any>(null);
+  const [nidSuggestions, setNidSuggestions] = useState<NIDSuggestion[]>([]);
+
+  React.useEffect(() => {
+    if (step === 4 && nidSuggestions.length === 0) {
+      setNidSuggestions(generateRandomNIDSuggestions(5));
+    }
+  }, [step, nidSuggestions.length]);
+
+  const handleRefreshNIDSuggestions = () => {
+    setNidSuggestions(generateRandomNIDSuggestions(5));
+    showToast('🎲 Generated 5 brand new random NID suggestions!');
+  };
 
   // OTP Timer States (2 min limit)
   const [simTimer, setSimTimer] = useState(120);
@@ -797,37 +898,49 @@ export default function Register() {
           {/* --- STEP 4: NID Verification --- */}
           {step === 4 && (
             <div className="space-y-6">
-              {/* Guide Help block listing mock NID records */}
-              <div className="p-4 bg-slate-900/40 border border-slate-900 rounded-2xl text-xs space-y-2">
-                <h4 className="font-bold text-cyan-400 flex items-center space-x-1">
-                  <span>Election Commission (EC) Registry Demo Data</span>
-                </h4>
-                <p className="text-slate-400">Use one of these registered Bangladeshi citizen credentials to verify successfully:</p>
-                <ul className="space-y-1.5 text-xs text-slate-400">
-                  {[
-                    { nid: "1234567890", dob: "1995-06-15", name: "Rakibul Islam" },
-                    { nid: "9876543210", dob: "1998-10-20", name: "Ayesha Siddiqua" },
-                    { nid: "1122334455", dob: "1990-12-01", name: "Naimur Rahman" },
-                    { nid: "5566778899", dob: "2001-02-28", name: "Sadia Islam" },
-                    { nid: "9988776655", dob: "1985-04-05", name: "Mahmudul Hasan" }
-                  ].sort((a, b) => {
-                    const enteredName = `${firstName || ''} ${lastName || ''}`.toLowerCase().trim();
-                    if (!enteredName) return 0;
-                    const aMatch = a.name.toLowerCase().split(' ').some(part => enteredName.includes(part));
-                    const bMatch = b.name.toLowerCase().split(' ').some(part => enteredName.includes(part));
-                    if (aMatch && !bMatch) return -1;
-                    if (!aMatch && bMatch) return 1;
-                    return 0;
-                  }).slice(0, 3).map(item => (
-                    <li key={item.nid} className="flex justify-between items-center py-1 border-b border-slate-900 last:border-b-0">
-                      <span className="font-mono">NID: <span className="text-cyan-400 font-bold">{item.nid}</span> | DOB: <span className="text-teal-400">{item.dob}</span> ({item.name})</span>
+              {/* Dynamic Non-Repeating NID Suggestions Card */}
+              <div className="p-4 bg-slate-900/50 border border-cyan-500/20 rounded-2xl text-xs space-y-3 shadow-lg">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-cyan-400 flex items-center space-x-1">
+                    <span>⚡ Random NID & Name Suggestions (5 Unique Records)</span>
+                  </h4>
+                  <button
+                    type="button"
+                    onClick={handleRefreshNIDSuggestions}
+                    className="px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-[11px] flex items-center space-x-1 transition-all cursor-pointer border border-cyan-500/30"
+                  >
+                    <RefreshCw className="h-3 w-3" />
+                    <span>Generate New 5</span>
+                  </button>
+                </div>
+                <p className="text-slate-400 text-[11px]">
+                  Select any random suggestion below to autofill your NID and DOB. New creators always get fresh, non-repeating suggestions:
+                </p>
+                <ul className="space-y-2 text-xs">
+                  {nidSuggestions.map((item, idx) => (
+                    <li key={item.nid} className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-cyan-500/40 transition-colors">
+                      <div className="space-y-0.5">
+                        <div className="font-bold text-slate-200 flex items-center space-x-2">
+                          <span className="text-[10px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded font-mono">#{idx + 1}</span>
+                          <span>{item.name}</span>
+                        </div>
+                        <div className="text-[11px] text-slate-400 font-mono">
+                          NID: <span className="text-cyan-400 font-bold">{item.nid}</span> | DOB: <span className="text-teal-300 font-bold">{item.dob}</span>
+                        </div>
+                      </div>
                       <button
                         type="button"
                         onClick={() => {
                           setNidNumber(item.nid);
                           setDob(item.dob);
+                          if (!firstName && !lastName) {
+                            const nameParts = item.name.split(' ');
+                            setFirstName(nameParts[0]);
+                            setLastName(nameParts.slice(1).join(' '));
+                          }
+                          showToast(`Autofilled NID: ${item.nid} for ${item.name}`);
                         }}
-                        className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500 hover:text-slate-950 transition-colors font-bold text-xs cursor-pointer"
+                        className="self-end sm:self-center px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-slate-950 font-extrabold text-xs cursor-pointer shadow-md shadow-cyan-500/10 transition-all shrink-0"
                       >
                         Autofill
                       </button>

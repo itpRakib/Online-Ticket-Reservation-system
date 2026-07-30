@@ -12,19 +12,23 @@ class EmailOrUsernameModelBackend(ModelBackend):
 
         clean_username = username.strip()
         formatted_phone = clean_username
-        if formatted_phone.startswith('0'):
-            formatted_phone = '+88' + formatted_phone
-        elif not formatted_phone.startswith('+88'):
-            formatted_phone = '+880' + formatted_phone
+        clean_digits = clean_username.replace('+', '').replace('-', '').replace(' ', '')
+        if clean_digits.isdigit():
+            if formatted_phone.startswith('0'):
+                formatted_phone = '+88' + formatted_phone
+            elif not formatted_phone.startswith('+88'):
+                formatted_phone = '+880' + formatted_phone
 
         try:
             # Look up user by case-insensitive username, email, or phone number
-            user = User.objects.get(
+            user = User.objects.filter(
                 Q(username__iexact=clean_username) | 
                 Q(email__iexact=clean_username) | 
                 Q(profile__phone=clean_username) | 
                 Q(profile__phone=formatted_phone)
-            )
+            ).first()
+            if not user:
+                raise User.DoesNotExist()
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             # Run the password hash checks anyway to prevent timing attacks
             User().set_password(password)
