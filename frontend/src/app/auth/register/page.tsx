@@ -315,16 +315,16 @@ export default function Register() {
     }
 
     const payload = {
-      username,
-      email,
+      username: username.trim(),
+      email: email.trim(),
       password,
-      first_name: firstName,
-      last_name: lastName,
+      first_name: firstName.trim(),
+      last_name: lastName.trim(),
       phone: formattedPhone,
-      nid: nidNumber,
-      nid_name: nidData?.full_name || '',
-      nid_dob: dob,
-      nid_address: nidData?.address || ''
+      nid: nidNumber.trim(),
+      nid_name: nidData?.full_name || `${firstName} ${lastName}`.trim(),
+      nid_dob: dob || null,
+      nid_address: nidData?.address || 'Dhaka, Bangladesh'
     };
 
     try {

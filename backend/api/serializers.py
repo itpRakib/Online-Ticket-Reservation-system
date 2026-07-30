@@ -24,20 +24,27 @@ class RegisterSerializer(serializers.ModelSerializer):
     
     # NID Verification mock data passed from client (validated in view, but stored here)
     nid_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
-    nid_dob = serializers.DateField(write_only=True, required=False)
+    nid_dob = serializers.DateField(write_only=True, required=False, allow_null=True)
     nid_address = serializers.CharField(write_only=True, required=False, allow_blank=True)
 
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'first_name', 'last_name', 'phone', 'nid', 'nid_name', 'nid_dob', 'nid_address', 'role']
 
+    def to_internal_value(self, data):
+        if isinstance(data, dict):
+            data = data.copy()
+            if data.get('nid_dob') == '':
+                data['nid_dob'] = None
+        return super().to_internal_value(data)
+
     def validate_username(self, value):
-        if User.objects.filter(username=value).exists():
+        if User.objects.filter(username__iexact=value).exists():
             raise serializers.ValidationError("Username already exists.")
         return value
 
     def validate_email(self, value):
-        if User.objects.filter(email=value).exists():
+        if User.objects.filter(email__iexact=value).exists():
             raise serializers.ValidationError("Email already registered.")
         return value
 

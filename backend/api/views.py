@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.db import transaction
+from django.db.models import Q
 from django.contrib.auth.models import User
 from rest_framework import status, permissions
 from rest_framework.views import APIView
@@ -55,13 +56,22 @@ class MyTokenObtainPairView(TokenObtainPairView):
         if otp:
             # Step 2: Verification of Gmail OTP
             user = None
+            clean_username = username.strip()
+            formatted_phone = clean_username
+            if formatted_phone.startswith('0'):
+                formatted_phone = '+88' + formatted_phone
+            elif not formatted_phone.startswith('+88'):
+                formatted_phone = '+880' + formatted_phone
+
             try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                try:
-                    user = User.objects.get(email=username)
-                except User.DoesNotExist:
-                    pass
+                user = User.objects.get(
+                    Q(username__iexact=clean_username) | 
+                    Q(email__iexact=clean_username) | 
+                    Q(profile__phone=clean_username) | 
+                    Q(profile__phone=formatted_phone)
+                )
+            except (User.DoesNotExist, User.MultipleObjectsReturned):
+                pass
 
             if not user:
                 return Response({"error": "No active account found with the given credentials"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -178,11 +188,17 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            return Response({
-                "message": "User registered successfully",
-                "user": UserSerializer(user).data
-            }, status=status.HTTP_201_CREATED)
+            try:
+                user = serializer.save()
+                return Response({
+                    "message": "User registered successfully",
+                    "user": UserSerializer(user).data
+                }, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                print("[RegisterView Save Error]", str(e))
+                return Response({"error": f"Failed to create user: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        print("[RegisterView Validation Error]", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
