@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── Color Palette Tokens ─── */
+  /* ─── Color Palette Tokens (User Requirements) ─── */
+  --bg-light: #F3F3F3;
   --off-white: #F3F3F3;
-  --lime-green: #C5D050;
-  --leaf-green: #6F9526;
+  --text-primary: #2A5B60;
+  --text-secondary: #444E29;
+  --accent-lime: #C5D050;
+  --accent-leaf: #6F9526;
   --deep-teal: #2A5B60;
   --dark-olive: #444E29;
 
@@ -13,30 +16,30 @@
   --bg-base: #FFFFFF;
   --bg-raised: #F3F3F3;
   --bg-elevated: #EBF0F1;
-  --foreground: #444E29;
+  --foreground: #2A5B60;
 
   /* Primary Action & Accent — Lime Green (#C5D050) */
   --accent: #C5D050;
   --accent-dim: #B4BF44;
-  --accent-hover: #D4E05A;
-  --accent-glow: rgba(197, 208, 80, 0.18);
-  --accent-subtle: rgba(197, 208, 80, 0.08);
+  --accent-hover: #6F9526;
+  --accent-glow: rgba(197, 208, 80, 0.25);
+  --accent-subtle: rgba(197, 208, 80, 0.1);
 
   /* Secondary & Highlights — Leaf Green (#6F9526) */
   --secondary: #6F9526;
-  --secondary-glow: rgba(111, 149, 38, 0.15);
+  --secondary-glow: rgba(111, 149, 38, 0.2);
   --header-bg: #2A5B60;
 
-  /* Text hierarchy — Dark Olive (#444E29) */
+  /* Text hierarchy — Deep Teal (#2A5B60) & Dark Olive (#444E29) */
   --text-bright: #2A5B60;
-  --text-primary: #444E29;
-  --text-secondary: #586438;
-  --text-muted: #7E8D56;
+  --text-primary-var: #2A5B60;
+  --text-secondary-var: #444E29;
+  --text-muted: #5B6638;
 
-  /* Borders — Dark Olive & Deep Teal */
-  --border: rgba(68, 78, 41, 0.15);
-  --border-subtle: rgba(68, 78, 41, 0.08);
-  --border-hover: rgba(42, 91, 96, 0.3);
+  /* Borders — Dark Olive (#444E29) & Deep Teal */
+  --border: rgba(68, 78, 41, 0.18);
+  --border-subtle: rgba(68, 78, 41, 0.1);
+  --border-hover: rgba(42, 91, 96, 0.35);
 }
 
 .dark {
