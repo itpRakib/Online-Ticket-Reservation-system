@@ -68,6 +68,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        from django.db import transaction
         phone = validated_data.pop('phone')
         nid = validated_data.pop('nid')
         password = validated_data.pop('password')
@@ -78,30 +79,29 @@ class RegisterSerializer(serializers.ModelSerializer):
         nid_address = validated_data.get('nid_address', '')
         onboarding_duration_seconds = validated_data.get('onboarding_duration_seconds', 0)
 
-        # Create user
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=password,
-            first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', '')
-        )
-        
-        # Profile is created by signal. Let's update it.
-        profile = user.profile
-        profile.phone = phone
-        profile.nid = nid
-        profile.role = role
-        profile.phone_verified = True  # Verified via SIM OTP simulation in frontend
-        profile.email_verified = True  # Verified via Gmail OTP simulation in frontend
-        profile.nid_verified = True    # Verified via NID simulation in frontend
-        profile.nid_name = nid_name
-        profile.nid_dob = nid_dob
-        profile.nid_address = nid_address
-        profile.onboarding_duration_seconds = onboarding_duration_seconds
-        profile.save()
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=validated_data['username'],
+                email=validated_data['email'],
+                password=password,
+                first_name=validated_data.get('first_name', ''),
+                last_name=validated_data.get('last_name', '')
+            )
+            
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            profile.phone = phone
+            profile.nid = nid
+            profile.role = role
+            profile.phone_verified = True  # Verified via SIM OTP simulation in frontend
+            profile.email_verified = True  # Verified via Gmail OTP simulation in frontend
+            profile.nid_verified = True    # Verified via NID simulation in frontend
+            profile.nid_name = nid_name
+            profile.nid_dob = nid_dob
+            profile.nid_address = nid_address
+            profile.onboarding_duration_seconds = onboarding_duration_seconds
+            profile.save()
 
-        return user
+            return user
 
 
 class StationSerializer(serializers.ModelSerializer):

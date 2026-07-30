@@ -64,10 +64,13 @@ export default function AdminDashboard() {
     if (!authLoading) {
       if (!user) {
         router.push('/auth/login?redirect=/admin/dashboard');
-      } else if (user.profile?.role !== 'admin' && !user.username.toLowerCase().includes('admin')) {
-        router.push('/dashboard');
       } else {
-        fetchData();
+        const isAdmin = user.profile?.role === 'admin' || (user as any).is_staff || (user as any).is_superuser || user.username.toLowerCase().includes('admin');
+        if (!isAdmin) {
+          router.push('/dashboard');
+        } else {
+          fetchData();
+        }
       }
     }
   }, [user, authLoading]);

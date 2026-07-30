@@ -264,6 +264,15 @@ export const api = {
           localStorage.setItem(`registered_user_${cleanPhone}`, JSON.stringify(userObj));
           localStorage.setItem(`registered_user_${data.phone}`, JSON.stringify(userObj));
         }
+
+        try {
+          const existingStr = localStorage.getItem('all_local_registered_users');
+          const list = existingStr ? JSON.parse(existingStr) : [];
+          const updatedList = [userObj, ...list.filter((u: any) => u.username !== userObj.username && u.email !== userObj.email)];
+          localStorage.setItem('all_local_registered_users', JSON.stringify(updatedList));
+        } catch (e) {
+          console.error("Failed to update all_local_registered_users", e);
+        }
       }
       return res;
     } catch (err: any) {
@@ -613,14 +622,41 @@ export const api = {
   },
 
   async getAdminUsers(): Promise<any> {
+    let res: any = null;
     try {
-      return await this.request('/admin/users/');
+      res = await this.request('/admin/users/');
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
         throw new Error('⚠️ Connection to Cloud Server failed. The database might be sleeping (Render free tier cold start). Please wait 10 seconds and click Sync Database Registry.');
       }
       throw err;
     }
+
+    if (typeof window !== 'undefined' && res && Array.isArray(res.users)) {
+      try {
+        const localListStr = localStorage.getItem('all_local_registered_users');
+        if (localListStr) {
+          const localList = JSON.parse(localListStr);
+          const existingUsernames = new Set(res.users.map((u: any) => u.username));
+          const existingEmails = new Set(res.users.map((u: any) => u.email));
+
+          localList.forEach((lu: any) => {
+            if (lu && lu.username && !existingUsernames.has(lu.username) && !existingEmails.has(lu.email)) {
+              res.users.unshift(lu);
+              existingUsernames.add(lu.username);
+              existingEmails.add(lu.email);
+              if (res.stats) {
+                res.stats.total_users = (res.stats.total_users || 0) + 1;
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.error("Failed to merge local registered users into admin data", e);
+      }
+    }
+
+    return res;
   },
 
   async updateAdminPayment(paymentId: number | string, data: { status?: string; admin_notes?: string }): Promise<any> {
