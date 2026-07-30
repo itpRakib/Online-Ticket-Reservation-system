@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PlexusBackground } from "@/components/PlexusBackground";
+import { ChatbotWidget } from "@/components/ChatbotWidget";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
             <main className="flex-grow flex flex-col">
               {children}
             </main>
+            <ChatbotWidget />
             <Footer />
           </AuthProvider>
         </ThemeProvider>

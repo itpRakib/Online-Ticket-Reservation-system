@@ -16,6 +16,10 @@ class UserProfile(models.Model):
     nid_dob = models.DateField(null=True, blank=True)
     nid_address = models.TextField(null=True, blank=True)
     
+    # Analytics & Activity Tracking
+    last_login_at = models.DateTimeField(null=True, blank=True)
+    onboarding_duration_seconds = models.IntegerField(default=0, null=True, blank=True)
+    
     ROLE_CHOICES = (
         ('user', 'User'),
         ('admin', 'Admin'),
@@ -147,7 +151,10 @@ class Passenger(models.Model):
 class Payment(models.Model):
     STATUS_CHOICES = (
         ('SUCCESS', 'Success'),
+        ('PENDING', 'Pending Verification'),
         ('FAILED', 'Failed'),
+        ('CANCELLED', 'Cancelled'),
+        ('REFUNDED', 'Refunded'),
     )
 
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='payments')
@@ -156,6 +163,7 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='SUCCESS')
     payment_date = models.DateTimeField(auto_now_add=True)
+    admin_notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.payment_method} - {self.trx_id} ({self.status})"

@@ -1,70 +1,83 @@
 @import "tailwindcss";
 
 :root {
+  /* ─── Color Palette Tokens ─── */
+  --off-white: #F3F3F3;
+  --lime-green: #C5D050;
+  --leaf-green: #6F9526;
+  --deep-teal: #2A5B60;
+  --dark-olive: #444E29;
+
   /* ─── Light Mode Defaults ─── */
-  --bg-deep: #F8FAFC;
-  --bg-base: #F1F5F9;
-  --bg-raised: #FFFFFF;
-  --bg-elevated: #F8FAFC;
-  --foreground: #0F172A;
+  --bg-deep: #F3F3F3;
+  --bg-base: #FFFFFF;
+  --bg-raised: #F3F3F3;
+  --bg-elevated: #EBF0F1;
+  --foreground: #444E29;
 
-  /* Accent — Vibrant Cobalt & Teal */
-  --accent: #2563EB;
-  --accent-dim: #1D4ED8;
-  --accent-hover: #3B82F6;
-  --accent-glow: rgba(37, 99, 235, 0.08);
-  --accent-subtle: rgba(37, 99, 235, 0.04);
+  /* Primary Action & Accent — Lime Green (#C5D050) */
+  --accent: #C5D050;
+  --accent-dim: #B4BF44;
+  --accent-hover: #D4E05A;
+  --accent-glow: rgba(197, 208, 80, 0.18);
+  --accent-subtle: rgba(197, 208, 80, 0.08);
 
-  --secondary: #0D9488;
-  --secondary-glow: rgba(13, 148, 136, 0.08);
-  --amber-accent: #D97706;
+  /* Secondary & Highlights — Leaf Green (#6F9526) */
+  --secondary: #6F9526;
+  --secondary-glow: rgba(111, 149, 38, 0.15);
+  --header-bg: #2A5B60;
 
-  /* Text hierarchy */
-  --text-bright: #0F172A;
-  --text-primary: #334155;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
+  /* Text hierarchy — Dark Olive (#444E29) */
+  --text-bright: #2A5B60;
+  --text-primary: #444E29;
+  --text-secondary: #586438;
+  --text-muted: #7E8D56;
 
-  /* Borders */
-  --border: rgba(37, 99, 235, 0.08);
-  --border-subtle: rgba(37, 99, 235, 0.04);
-  --border-hover: rgba(37, 99, 235, 0.2);
+  /* Borders — Dark Olive & Deep Teal */
+  --border: rgba(68, 78, 41, 0.15);
+  --border-subtle: rgba(68, 78, 41, 0.08);
+  --border-hover: rgba(42, 91, 96, 0.3);
 }
 
 .dark {
-  /* ─── Dark Mode Overrides (Default) ─── */
-  --bg-deep: #0B0F17;
-  --bg-base: #0F172A;
-  --bg-raised: #111827;
-  --bg-elevated: #1F2937;
-  --foreground: #F9FAFB;
+  /* ─── Dark Mode Palette Overrides ─── */
+  --bg-deep: #162426;
+  --bg-base: #1C2E31;
+  --bg-raised: #2A5B60;
+  --bg-elevated: #366E74;
+  --foreground: #F3F3F3;
 
-  /* Accent — Electric Cyan & Deep Radiant Violet */
-  --accent: #00F0FF;
-  --accent-dim: #00D2E0;
-  --accent-hover: #33F5FF;
-  --accent-glow: rgba(0, 240, 255, 0.12);
-  --accent-subtle: rgba(0, 240, 255, 0.05);
+  /* Accents */
+  --accent: #C5D050;
+  --accent-dim: #B4BF44;
+  --accent-hover: #D4E05A;
+  --accent-glow: rgba(197, 208, 80, 0.25);
+  --accent-subtle: rgba(197, 208, 80, 0.1);
 
-  --secondary: #FF007F;
-  --secondary-glow: rgba(255, 0, 127, 0.12);
-  --amber-accent: #FF9E00;
+  --secondary: #6F9526;
+  --secondary-glow: rgba(111, 149, 38, 0.25);
+  --header-bg: #1C2E31;
 
   /* Text hierarchy */
-  --text-bright: #F9FAFB;
+  --text-bright: #F3F3F3;
   --text-primary: #E2E8F0;
-  --text-secondary: #9CA3AF;
-  --text-muted: #4B5563;
+  --text-secondary: #C5D050;
+  --text-muted: #9CA3AF;
 
   /* Borders */
-  --border: rgba(0, 240, 255, 0.06);
-  --border-subtle: rgba(255, 0, 127, 0.06);
-  --border-hover: rgba(0, 240, 255, 0.22);
+  --border: rgba(197, 208, 80, 0.15);
+  --border-subtle: rgba(111, 149, 38, 0.15);
+  --border-hover: rgba(197, 208, 80, 0.35);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-offwhite: #F3F3F3;
+  --color-lime: #C5D050;
+  --color-leaf: #6F9526;
+  --color-teal: #2A5B60;
+  --color-olive: #444E29;
 }
 
 /* ─── Base ─── */

@@ -18,6 +18,7 @@ export default function Register() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [startTime] = useState<number>(() => Date.now());
   
   // Step 1: Account details
   const [username, setUsername] = useState('');
@@ -314,6 +315,8 @@ export default function Register() {
       formattedPhone = '+880' + formattedPhone;
     }
 
+    const durationInSeconds = Math.max(1, Math.round((Date.now() - startTime) / 1000));
+
     const payload = {
       username: username.trim(),
       email: email.trim(),
@@ -324,7 +327,8 @@ export default function Register() {
       nid: nidNumber.trim(),
       nid_name: nidData?.full_name || `${firstName} ${lastName}`.trim(),
       nid_dob: dob || null,
-      nid_address: nidData?.address || 'Dhaka, Bangladesh'
+      nid_address: nidData?.address || 'Dhaka, Bangladesh',
+      onboarding_duration_seconds: durationInSeconds
     };
 
     try {

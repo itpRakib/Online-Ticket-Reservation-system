@@ -96,6 +96,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 user_role = getattr(user.profile, 'role', 'user')
                 is_admin = user_role == 'admin' or user.is_staff or user.is_superuser or 'admin' in user.username.lower()
                 
+                # Update last login timestamp
+                user.profile.last_login_at = timezone.now()
+                user.profile.save()
+
                 data = serializer.validated_data
                 if not is_admin:
                     import uuid
@@ -123,6 +127,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
                     if cache.get(cache_key):
                         # Bypass OTP, login immediately!
                         cache.delete(attempts_key)
+                        
+                        # Update last login timestamp
+                        user.profile.last_login_at = timezone.now()
+                        user.profile.save()
                         
                         # Renew/Extend the trust token's cache lifetime for another 48 hours
                         cache.set(cache_key, True, timeout=48 * 3600)
@@ -721,6 +729,45 @@ class AdminUsersView(APIView):
             "payments": payments_serializer.data,
             "searches": searches_serializer.data,
             "stats": stats
+        }, status=status.HTTP_200_OK)
+
+
+class AdminPaymentManageView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        user_role = getattr(request.user.profile, 'role', 'user')
+        if user_role != 'admin' and not request.user.is_staff and not request.user.is_superuser:
+            return Response({"error": "Access Denied: Admin privileges required."}, status=status.HTTP_403_FORBIDDEN)
+
+        try:
+            payment = Payment.objects.get(pk=pk)
+        except Payment.DoesNotExist:
+            return Response({"error": "Payment record not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        new_status = request.data.get('status')
+        admin_notes = request.data.get('admin_notes')
+
+        if new_status:
+            payment.status = new_status
+            if new_status == 'CANCELLED':
+                payment.booking.status = 'CANCELLED'
+                payment.booking.save()
+            elif new_status == 'SUCCESS':
+                payment.booking.status = 'PAID'
+                payment.booking.save()
+            elif new_status == 'REFUNDED':
+                payment.booking.status = 'CANCELLED'
+                payment.booking.save()
+
+        if admin_notes is not None:
+            payment.admin_notes = admin_notes
+
+        payment.save()
+
+        return Response({
+            "message": f"Payment #{payment.id} successfully updated.",
+            "payment": PaymentSerializer(payment).data
         }, status=status.HTTP_200_OK)
 
 

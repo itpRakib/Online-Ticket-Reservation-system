@@ -5,7 +5,7 @@ from .models import UserProfile, MockNIDDatabase, Station, Trip, Booking, Passen
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['phone', 'nid', 'email_verified', 'phone_verified', 'nid_verified', 'nid_name', 'nid_dob', 'nid_address', 'role']
+        fields = ['phone', 'nid', 'email_verified', 'phone_verified', 'nid_verified', 'nid_name', 'nid_dob', 'nid_address', 'role', 'last_login_at', 'onboarding_duration_seconds']
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(read_only=True)
@@ -26,10 +26,11 @@ class RegisterSerializer(serializers.ModelSerializer):
     nid_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
     nid_dob = serializers.DateField(write_only=True, required=False, allow_null=True)
     nid_address = serializers.CharField(write_only=True, required=False, allow_blank=True)
+    onboarding_duration_seconds = serializers.IntegerField(write_only=True, required=False, default=0)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'phone', 'nid', 'nid_name', 'nid_dob', 'nid_address', 'role']
+        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'phone', 'nid', 'nid_name', 'nid_dob', 'nid_address', 'role', 'onboarding_duration_seconds']
 
     def to_internal_value(self, data):
         if isinstance(data, dict):
@@ -75,6 +76,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         nid_name = validated_data.get('nid_name', '')
         nid_dob = validated_data.get('nid_dob', None)
         nid_address = validated_data.get('nid_address', '')
+        onboarding_duration_seconds = validated_data.get('onboarding_duration_seconds', 0)
 
         # Create user
         user = User.objects.create_user(
@@ -96,6 +98,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         profile.nid_name = nid_name
         profile.nid_dob = nid_dob
         profile.nid_address = nid_address
+        profile.onboarding_duration_seconds = onboarding_duration_seconds
         profile.save()
 
         return user

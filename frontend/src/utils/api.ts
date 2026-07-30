@@ -31,6 +31,8 @@ export interface User {
     nid_dob: string;
     nid_address: string;
     role?: 'user' | 'admin';
+    last_login_at?: string;
+    onboarding_duration_seconds?: number;
   };
 }
 
@@ -616,6 +618,23 @@ export const api = {
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
         throw new Error('⚠️ Connection to Cloud Server failed. The database might be sleeping (Render free tier cold start). Please wait 10 seconds and click Sync Database Registry.');
+      }
+      throw err;
+    }
+  },
+
+  async updateAdminPayment(paymentId: number | string, data: { status?: string; admin_notes?: string }): Promise<any> {
+    try {
+      return await this.request(`/admin/payments/${paymentId}/manage/`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+    } catch (err: any) {
+      if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
+        return {
+          message: `Payment #${paymentId} updated locally (Simulated mode).`,
+          payment: { id: paymentId, status: data.status || 'SUCCESS', admin_notes: data.admin_notes || '' }
+        };
       }
       throw err;
     }
