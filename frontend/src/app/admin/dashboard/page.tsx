@@ -43,19 +43,25 @@ export default function AdminDashboard() {
     setError('');
     try {
       const res = await api.getAdminUsers();
-      setData(res);
+      if (res) {
+        setData({
+          users: res.users || [],
+          bookings: res.bookings || [],
+          payments: res.payments || [],
+          searches: res.searches || [],
+          stats: res.stats || {
+            total_users: 0,
+            total_bookings: 0,
+            total_trips: 0,
+            total_stations: 0,
+            total_payments: 0,
+            total_searches: 0
+          }
+        });
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to retrieve administrative records.');
     } finally {
-      setData((prev: any) => {
-        if (!prev) return null;
-        return {
-          ...prev,
-          bookings: prev.bookings || [],
-          payments: prev.payments || [],
-          searches: prev.searches || [],
-        };
-      });
       setLoading(false);
     }
   };
@@ -245,11 +251,11 @@ export default function AdminDashboard() {
       <ScrollReveal>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           {[
-            { label: 'Total Enrolled Users', value: data?.stats.total_users ?? 0, icon: Users },
-            { label: 'Total Node Bookings', value: data?.stats.total_bookings ?? 0, icon: Ticket },
-            { label: 'Total Transit Trips', value: data?.stats.total_trips ?? 0, icon: KeyRound },
-            { label: 'Configured Stations', value: data?.stats.total_stations ?? 0, icon: MapPin },
-            { label: 'Synchronized Payments', value: data?.stats.total_payments ?? 0, icon: Database }
+            { label: 'Total Enrolled Users', value: data?.stats?.total_users ?? 0, icon: Users },
+            { label: 'Total Node Bookings', value: data?.stats?.total_bookings ?? 0, icon: Ticket },
+            { label: 'Total Transit Trips', value: data?.stats?.total_trips ?? 0, icon: KeyRound },
+            { label: 'Configured Stations', value: data?.stats?.total_stations ?? 0, icon: MapPin },
+            { label: 'Synchronized Payments', value: data?.stats?.total_payments ?? 0, icon: Database }
           ].map((stat, idx) => (
             <div key={idx} className="p-5 rounded-2xl border border-[#2A5B60]/20 space-y-4 flex flex-col justify-between h-full bg-white shadow-sm">
               <div className="flex items-center justify-between">

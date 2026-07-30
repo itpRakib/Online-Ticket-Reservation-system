@@ -274,16 +274,11 @@ export const api = {
         const targetEmail = storedUser?.email || (input.includes('@') ? input : `${cleanInput}@gmail.com`);
         const targetPhone = storedUser?.profile?.phone || '01712345678';
 
-        // Check if there is already a simulated trust token in local storage
-        let mock_trust_token = null;
-        if (typeof window !== 'undefined') {
-          mock_trust_token = localStorage.getItem(`device_trust_token_${cleanInput}`);
-        }
+        const userRole = storedUser?.profile?.role || (cleanInput.includes('admin') || cleanInput.includes('root') ? 'admin' : 'user');
+        const isUserAdmin = userRole === 'admin';
 
-        const isSystemAccount = Boolean(matchedSystemUser);
-
-        if (!otp && !mock_trust_token && !isSystemAccount) {
-          // Send simulated verification OTP
+        if (!otp && isUserAdmin) {
+          // Send simulated verification OTP (admins always need OTP)
           const simulated_otp = Math.floor(100000 + Math.random() * 900000).toString();
           return {
             requires_otp: true,
@@ -315,6 +310,10 @@ export const api = {
         const refresh = 'mock-refresh-token-' + Date.now();
         this.setAuthToken(access);
         this.setRefreshToken(refresh);
+        let mock_trust_token = null;
+        if (typeof window !== 'undefined') {
+          mock_trust_token = localStorage.getItem(`device_trust_token_${cleanInput}`);
+        }
         const new_mock_trust_token = mock_trust_token || 'mock-trust-token-' + Date.now();
         if (typeof window !== 'undefined') {
           sessionStorage.setItem('user', JSON.stringify(mockUser));
@@ -712,7 +711,85 @@ export const api = {
       res = await this.request('/admin/users/');
     } catch (err: any) {
       if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch')) {
-        throw new Error('⚠️ Connection to Cloud Server failed. The database might be sleeping (Render free tier cold start). Please wait 10 seconds and click Sync Database Registry.');
+        // Return mock data for local fallback when backend is offline
+        const localListStr = typeof window !== 'undefined' ? localStorage.getItem('all_local_registered_users') : null;
+        let localUsers: any[] = [];
+        if (localListStr) {
+          try { localUsers = JSON.parse(localListStr); } catch (e) { localUsers = []; }
+        }
+        
+        // Seed with default system users
+        const defaultUsers = Object.values(BUILTIN_SYSTEM_USERS);
+        const mergedUsers = [...localUsers];
+        defaultUsers.forEach(du => {
+          if (!mergedUsers.some(mu => mu.username === du.username)) {
+            mergedUsers.push(du);
+          }
+        });
+
+        // Seed mock bookings
+        let localBookings: any[] = [];
+        if (typeof window !== 'undefined') {
+          const savedBookings = localStorage.getItem('local_user_bookings');
+          if (savedBookings) {
+            try { localBookings = JSON.parse(savedBookings); } catch (e) { localBookings = []; }
+          }
+        }
+
+        const mockBookings = localBookings.map((b: any) => {
+          const td = b.trip_details || b.trip || {};
+          return {
+            id: b.id,
+            pnr_number: b.pnr_number,
+            user: { username: b.passengers?.[0]?.name ? b.passengers[0].name.toLowerCase().replace(/\s+/g, '') : 'rakib002' },
+            trip: {
+              source: { name: td.source_city || td.source?.name || 'Dhaka' },
+              destination: { name: td.destination_city || td.destination?.name || 'Cox\'s Bazar' },
+              transport_type: td.transport_type || 'BUS'
+            },
+            travel_date: b.travel_date || new Date().toISOString().split('T')[0],
+            total_fare: String(b.total_fare || b.total_price || 1200),
+            status: b.status || 'PENDING',
+            payment_method: b.payment_method || '',
+            trx_id: b.trx_id || '',
+            passengers: (b.passengers || []).map((p: any, idx: number) => ({
+              id: p.id || idx + 1,
+              name: p.name || 'Traveler Citizen',
+              gender: p.gender || 'MALE',
+              age: p.age || 25,
+              seat_number: p.seat_number || 'A1',
+              nid: p.nid || '1998269271829'
+            }))
+          };
+        });
+
+        const mockPayments = mockBookings.filter(b => b.status === 'PAID').map((b: any, idx: number) => ({
+          id: idx + 1,
+          booking: b.id,
+          payment_method: b.payment_method || 'BKASH',
+          trx_id: b.trx_id || 'BKASH-MOCK-1234',
+          amount: b.total_fare || '1200',
+          status: 'SUCCESS',
+          admin_notes: 'Verified automatically via local simulator gateway.'
+        }));
+
+        const mockRes = {
+          users: mergedUsers,
+          bookings: mockBookings,
+          payments: mockPayments,
+          searches: [
+            { id: 1, user_username: 'rakib002', source_name: 'Dhaka Kamalapur Railway Station', destination_name: 'Cox\'s Bazar Iconic Railway Station', travel_date: '2026-07-30', transport_type: 'TRAIN', search_time: new Date().toISOString() }
+          ],
+          stats: {
+            total_users: mergedUsers.length,
+            total_bookings: mockBookings.length,
+            total_trips: 15,
+            total_stations: 25,
+            total_payments: mockPayments.length,
+            total_searches: 1
+          }
+        };
+        return mockRes;
       }
       throw err;
     }

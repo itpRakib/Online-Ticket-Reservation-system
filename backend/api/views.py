@@ -163,24 +163,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 user_role = getattr(user.profile, 'role', 'user')
                 is_admin = user_role == 'admin' or user.is_staff or user.is_superuser or 'admin' in user.username.lower()
 
-                if trust_token and not is_admin:
-                    cache_key = f"trust_token_{user.username}_{trust_token}"
-                    if cache.get(cache_key):
-                        # Bypass OTP, login immediately!
-                        cache.delete(attempts_key)
-                        
-                        # Update last login timestamp
-                        user.profile.last_login_at = timezone.now()
-                        user.profile.save()
-                        
-                        # Renew/Extend the trust token's cache lifetime for another 48 hours
-                        cache.set(cache_key, True, timeout=48 * 3600)
-                        
-                        data = serializer.validated_data
-                        data["trust_token"] = trust_token
-                        return Response(data, status=status.HTTP_200_OK)
+                if not is_admin:
+                    # User login directly! Bypass OTP.
+                    cache.delete(attempts_key)
+                    
+                    # Update last login timestamp
+                    user.profile.last_login_at = timezone.now()
+                    user.profile.save()
+                    
+                    data = serializer.validated_data
+                    return Response(data, status=status.HTTP_200_OK)
 
-                # Otherwise, generate random 6-digit OTP
+                # Otherwise (since is_admin is True), generate random 6-digit OTP
                 otp_code = "".join(random.choices(string.digits, k=6))
                 cache.set(f"login_otp_{user.username}", otp_code, timeout=120)  # Valid for 2 minutes
                 
