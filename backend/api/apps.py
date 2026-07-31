@@ -10,6 +10,12 @@ class ApiConfig(AppConfig):
             return
 
         try:
+            from django.core.management import call_command
+            call_command('migrate', interactive=False)
+        except Exception as e:
+            print("Auto-migration failed on app ready:", e)
+
+        try:
             from django.contrib.auth.models import User
             from .models import UserProfile
 
