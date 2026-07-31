@@ -270,7 +270,8 @@ export const api = {
         }
       }
 
-      if (err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch') || storedUser) {
+      const isNetworkError = err.message === 'Failed to fetch' || err.name === 'TypeError' || err.message?.includes('fetch') || err.message?.includes('NetworkError');
+      if (isNetworkError) {
         const targetEmail = storedUser?.email || (input.includes('@') ? input : `${cleanInput}@gmail.com`);
         const targetPhone = storedUser?.profile?.phone || '01712345678';
 
