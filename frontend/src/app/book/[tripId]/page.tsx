@@ -218,32 +218,63 @@ function BookTripContent() {
           animate={{ opacity: 1, y: 0 }}
           className="lg:col-span-1 glass-panel rounded-3xl p-6 sm:p-8 flex flex-col items-center"
         >
-          <h3 className="font-bold text-white text-sm uppercase tracking-wider border-b border-slate-800 pb-3 w-full text-center mb-6">
-            Choose Seating Layout
-          </h3>
+          <div className="w-full space-y-2 border-b border-purple-500/20 pb-4 mb-4 text-center">
+            <h3 className="font-black text-white text-base uppercase tracking-wider flex items-center justify-center space-x-2">
+              {tType === 'BUS' && <Bus className="h-5 w-5 text-purple-400" />}
+              {tType === 'TRAIN' && <Train className="h-5 w-5 text-purple-400" />}
+              {tType === 'PLANE' && <Plane className="h-5 w-5 text-purple-400" />}
+              <span>{tType === 'BUS' ? 'Bus Recliner Chassis Plan' : tType === 'TRAIN' ? 'Railway Bogie Compartment Plan' : 'Aircraft Fuselage Cabin Plan'}</span>
+            </h3>
+            <p className="text-[11px] text-purple-200/60 font-mono">
+              {tType === 'BUS' ? 'Standard 2+2 AC Luxury Coach • Front Entrance' : tType === 'TRAIN' ? 'Bangladesh Railway Snigdha/Shovon Bogie Layout' : 'Boeing/ATR 3+3 Dual Aisle Fuselage'}
+            </p>
+          </div>
 
-          {/* Seat Layout Graphics */}
-          <div className="bg-slate-950/80 border border-slate-900 p-6 rounded-2xl w-full max-w-[320px] relative">
+          {/* Seat Layout Vehicle Graphic Chassis */}
+          <div className="w-full flex justify-center">
             
-            {/* Bus Layout View */}
+            {/* 🚌 REAL-LIFE BUS CHASSIS SITE PLAN */}
             {tType === 'BUS' && (
-              <div className="space-y-4">
-                {/* Front indicator (Steering wheel mock) */}
-                <div className="flex justify-between items-center border-b border-slate-900 pb-3 mb-2 text-xs text-slate-500 font-bold uppercase tracking-wider">
-                  <span>Driver</span>
-                  <div className="h-6 w-6 rounded-full border-4 border-dashed border-slate-800 animate-spin" style={{ animationDuration: '40s' }} />
-                  <span>Gate</span>
+              <div className="relative w-full max-w-[340px] bg-[#0A0817] border-2 border-purple-500/30 rounded-t-[45px] rounded-b-2xl p-5 shadow-[0_0_30px_rgba(168,85,247,0.15)] flex flex-col space-y-4">
+                
+                {/* Windshield & Driver Cockpit */}
+                <div className="relative border-b border-purple-500/20 pb-4 mb-1">
+                  {/* Curved Windshield Header */}
+                  <div className="h-4 w-3/4 mx-auto rounded-t-full border-t-2 border-x-2 border-cyan-400/40 bg-cyan-500/10 mb-3 text-[9px] text-cyan-300 font-mono flex items-center justify-center tracking-widest uppercase">
+                    Windshield / Front View
+                  </div>
+
+                  <div className="flex items-center justify-between px-2 text-xs font-bold text-slate-400">
+                    <div className="flex items-center space-x-1.5 bg-slate-900/80 border border-slate-800 px-2.5 py-1 rounded-lg">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[10px] text-emerald-400 uppercase font-mono">Passenger Door</span>
+                    </div>
+
+                    <div className="flex items-center space-x-2 bg-purple-950/60 border border-purple-500/30 px-3 py-1 rounded-lg">
+                      <span className="text-[10px] text-purple-300 font-mono font-bold uppercase">Driver Seat</span>
+                      <div className="h-5 w-5 rounded-full border-2 border-dashed border-purple-400 animate-spin" style={{ animationDuration: '30s' }} />
+                    </div>
+                  </div>
                 </div>
 
+                {/* Outer Glass Windows Column Identifiers */}
+                <div className="flex justify-between text-[10px] font-mono text-purple-300/60 px-1 border-b border-purple-500/10 pb-2">
+                  <span>🪟 Win (A1)</span>
+                  <span>🚶 Aisle (A2)</span>
+                  <span className="text-cyan-400 font-bold">◄ AISLE ►</span>
+                  <span>🚶 Aisle (A3)</span>
+                  <span>🪟 Win (A4)</span>
+                </div>
+
+                {/* Bus Seats Grid */}
                 <div className="grid grid-cols-4 gap-3">
                   {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map(row => {
                     return ['1', '2', '3', '4'].map(col => {
                       const seat = `${row}${col}`;
                       const isAvail = layout[seat] !== false;
                       const isSel = selectedSeats.includes(seat);
-                      
-                      // Inject Aisle space in center (between 2 and 3)
                       const isAisleRight = col === '2';
+                      const isWindow = col === '1' || col === '4';
 
                       return (
                         <React.Fragment key={seat}>
@@ -251,41 +282,71 @@ function BookTripContent() {
                             type="button"
                             onClick={() => handleSeatClick(seat, isAvail)}
                             disabled={!isAvail}
-                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
+                            className={`h-10 w-10 rounded-xl flex flex-col items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail 
-                                ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
+                                ? 'bg-slate-900/90 border border-slate-800 text-slate-600 cursor-not-allowed opacity-60'
                                 : isSel
-                                ? 'bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-cyan-400 border border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.7)] animate-seat-pulse'
-                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500 hover:text-white'
+                                ? 'bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-cyan-400 border border-purple-300 text-white shadow-[0_0_20px_rgba(168,85,247,0.8)] animate-seat-pulse scale-105'
+                                : 'bg-[#16122C] border border-purple-500/25 text-purple-200 hover:border-cyan-400 hover:text-white hover:bg-purple-900/40'
                             }`}
-                            title={isAvail ? `Seat ${seat} (Available)` : `Seat ${seat} (Booked)`}
+                            title={`Bus Seat ${seat} ${isWindow ? '(Window)' : '(Aisle)'} ${isAvail ? '• Available' : '• Booked'}`}
                           >
-                            <Armchair className="h-4.5 w-4.5 absolute opacity-30" />
-                            <span className="z-10">{seat}</span>
+                            <Armchair className="h-4 w-4 absolute opacity-20" />
+                            <span className="z-10 text-[11px]">{seat}</span>
+                            {isWindow && <span className="text-[7px] text-cyan-400/80 font-mono leading-none -mt-0.5">WIN</span>}
                           </button>
-                          {isAisleRight && <div className="w-4" />}
+                          {isAisleRight && <div className="w-5 flex items-center justify-center text-[9px] text-purple-500/40 font-mono select-none">│</div>}
                         </React.Fragment>
                       );
                     });
                   })}
                 </div>
+
+                {/* Rear Engine Bay / Rear Window */}
+                <div className="mt-4 pt-3 border-t border-purple-500/20 text-center text-[10px] font-mono text-purple-300/50 uppercase tracking-widest flex items-center justify-between px-2">
+                  <span>Engine Bay</span>
+                  <span>Rear Emergency Exit</span>
+                </div>
               </div>
             )}
 
-            {/* Train Coach Seating (Shovon/Snigdha 2x2 layout) */}
+            {/* 🚆 REAL-LIFE TRAIN BOGIE SITE PLAN */}
             {tType === 'TRAIN' && (
-              <div className="space-y-4">
-                <div className="text-center text-xs text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900 pb-2 mb-2">
-                  Coach Compartment View
+              <div className="relative w-full max-w-[360px] bg-[#0A0817] border-2 border-indigo-500/40 rounded-2xl p-5 shadow-[0_0_30px_rgba(99,102,241,0.2)] flex flex-col space-y-4">
+                
+                {/* Bogie Front Coupler & Gangway Door */}
+                <div className="border-b border-indigo-500/20 pb-3 flex items-center justify-between text-[10px] font-mono text-indigo-300">
+                  <div className="flex items-center space-x-1.5 bg-indigo-950/60 border border-indigo-500/30 px-2.5 py-1 rounded-lg">
+                    <span>🚽 TOILET / WASHROOM</span>
+                  </div>
+                  <div className="text-center">
+                    <span className="block font-bold text-cyan-400 uppercase">══ COUPLER ══</span>
+                    <span className="text-[9px] text-slate-500">KA-COACH (SNIGDHA AC)</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5 bg-indigo-950/60 border border-indigo-500/30 px-2.5 py-1 rounded-lg">
+                    <span>⚡ POWER / CHG</span>
+                  </div>
                 </div>
-                <div className="grid grid-cols-4 gap-2.5 max-h-[450px] overflow-y-auto pr-1">
-                  {Array.from({ length: 15 }).map((_, rIdx) => {
-                    const rowLetter = String.fromCharCode(65 + rIdx); // A to O
+
+                {/* Track Corridor Guide */}
+                <div className="flex justify-between text-[10px] font-mono text-indigo-300/70 border-b border-indigo-500/10 pb-2">
+                  <span>🪟 Window</span>
+                  <span>Corridor</span>
+                  <span className="text-indigo-400 font-bold">🚶 MAIN CORRIDOR</span>
+                  <span>Corridor</span>
+                  <span>🪟 Window</span>
+                </div>
+
+                {/* Train Compartment Seating Grid */}
+                <div className="grid grid-cols-4 gap-2.5 max-h-[460px] overflow-y-auto pr-1 scrollbar">
+                  {Array.from({ length: 14 }).map((_, rIdx) => {
+                    const rowLetter = String.fromCharCode(65 + rIdx); // A to N
                     return ['1', '2', '3', '4'].map(col => {
                       const seatNum = `S${rIdx * 4 + parseInt(col)}`;
                       const isAvail = layout[seatNum] !== false;
                       const isSel = selectedSeats.includes(seatNum);
                       const isAisleRight = col === '2';
+                      const isWindow = col === '1' || col === '4';
 
                       return (
                         <React.Fragment key={seatNum}>
@@ -293,40 +354,72 @@ function BookTripContent() {
                             type="button"
                             onClick={() => handleSeatClick(seatNum, isAvail)}
                             disabled={!isAvail}
-                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
+                            className={`h-10 w-10 rounded-lg flex flex-col items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail
-                                ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
+                                ? 'bg-slate-900/90 border border-slate-800 text-slate-600 cursor-not-allowed opacity-50'
                                 : isSel
-                                ? 'bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-cyan-400 border border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.7)] animate-seat-pulse'
-                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500'
+                                ? 'bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-cyan-400 border border-purple-300 text-white shadow-[0_0_20px_rgba(168,85,247,0.8)] animate-seat-pulse scale-105'
+                                : 'bg-[#16122C] border border-indigo-500/30 text-indigo-200 hover:border-cyan-400 hover:text-white hover:bg-indigo-900/40'
                             }`}
-                            title={seatNum}
+                            title={`Train Seat ${seatNum} ${isWindow ? '(Window Seat)' : '(Aisle Seat)'} ${isAvail ? '• Available' : '• Booked'}`}
                           >
-                            <span className="z-10">{seatNum}</span>
+                            <span className="z-10 text-[10px]">{seatNum}</span>
+                            {isWindow && <span className="text-[7px] text-indigo-300/80 font-mono leading-none -mt-0.5">WIN</span>}
                           </button>
-                          {isAisleRight && <div className="w-2" />}
+                          {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-indigo-500/30 font-mono">║</div>}
                         </React.Fragment>
                       );
                     });
                   })}
                 </div>
+
+                {/* Bogie Rear Coupling */}
+                <div className="pt-3 border-t border-indigo-500/20 text-center text-[10px] font-mono text-indigo-300/50 uppercase tracking-widest flex items-center justify-between px-2">
+                  <span>🚽 TOILET</span>
+                  <span>══ REAR GANGWAY ══</span>
+                  <span>🧯 SAFETY</span>
+                </div>
               </div>
             )}
 
-            {/* Flight Layout View (3x3 grid) */}
+            {/* ✈️ REAL-LIFE AIRCRAFT FUSELAGE SITE PLAN */}
             {tType === 'PLANE' && (
-              <div className="space-y-4">
-                <div className="text-center text-xs text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900 pb-2 mb-2">
-                  Cabin Seating (3 + 3)
+              <div className="relative w-full max-w-[380px] bg-[#0A0817] border-2 border-cyan-500/40 rounded-t-[70px] rounded-b-3xl p-5 shadow-[0_0_30px_rgba(6,182,212,0.2)] flex flex-col space-y-4">
+                
+                {/* Aircraft Curved Nose & Cockpit Flight Deck */}
+                <div className="relative border-b border-cyan-500/20 pb-4 text-center">
+                  <div className="h-6 w-1/2 mx-auto rounded-t-full bg-cyan-500/10 border-t-2 border-x-2 border-cyan-400/50 flex items-center justify-center text-[10px] font-bold text-cyan-300 font-mono uppercase tracking-wider mb-2">
+                    ✈️ FLIGHT DECK / COCKPIT
+                  </div>
+                  <div className="flex justify-between items-center px-4 text-[10px] font-mono text-cyan-300">
+                    <span className="bg-slate-900 border border-slate-800 px-2 py-0.5 rounded">🍽️ GALLEY</span>
+                    <span className="text-cyan-400 font-bold">CABIN 3 + 3</span>
+                    <span className="bg-slate-900 border border-slate-800 px-2 py-0.5 rounded">🚽 LAVATORY</span>
+                  </div>
                 </div>
-                <div className="grid grid-cols-6 gap-2 max-h-[450px] overflow-y-auto pr-1">
+
+                {/* Seat Position Guide (Window / Middle / Aisle) */}
+                <div className="grid grid-cols-6 gap-1 text-center text-[9px] font-mono text-cyan-300/70 border-b border-cyan-500/10 pb-2">
+                  <span>A (Win)</span>
+                  <span>B (Mid)</span>
+                  <span>C (Aisle)</span>
+                  <span>D (Aisle)</span>
+                  <span>E (Mid)</span>
+                  <span>F (Win)</span>
+                </div>
+
+                {/* Plane Seating Grid (3 + 3) */}
+                <div className="grid grid-cols-6 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar">
                   {Array.from({ length: 10 }).map((_, rowNum) => {
                     const r = rowNum + 1;
+                    const isOverwing = r >= 5 && r <= 7;
+
                     return ['A', 'B', 'C', 'D', 'E', 'F'].map(col => {
                       const seat = `${r}${col}`;
                       const isAvail = layout[seat] !== false;
                       const isSel = selectedSeats.includes(seat);
                       const isAisleRight = col === 'C';
+                      const isWindow = col === 'A' || col === 'F';
 
                       return (
                         <React.Fragment key={seat}>
@@ -334,40 +427,52 @@ function BookTripContent() {
                             type="button"
                             onClick={() => handleSeatClick(seat, isAvail)}
                             disabled={!isAvail}
-                            className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
+                            className={`h-9 w-9 rounded-lg flex flex-col items-center justify-center text-[10px] font-bold transition-all relative cursor-pointer ${
                               !isAvail
-                                ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
+                                ? 'bg-slate-900/90 border border-slate-800 text-slate-600 cursor-not-allowed opacity-50'
                                 : isSel
-                                ? 'bg-gradient-to-tr from-cyan-500 to-emerald-500 border border-cyan-400 text-white shadow-[0_0_18px_rgba(6,182,212,0.6)] animate-seat-pulse'
-                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500'
+                                ? 'bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-cyan-400 border border-purple-300 text-white shadow-[0_0_20px_rgba(168,85,247,0.8)] animate-seat-pulse scale-105'
+                                : 'bg-[#16122C] border border-cyan-500/25 text-cyan-200 hover:border-purple-400 hover:text-white hover:bg-cyan-950/40'
                             }`}
+                            title={`Flight Seat ${seat} ${isWindow ? '(Window)' : col === 'B' || col === 'E' ? '(Middle)' : '(Aisle)'} ${isOverwing ? '• Overwing Exit Row' : ''}`}
                           >
-                            <span className="z-10">{seat}</span>
+                            <span className="z-10 font-mono">{seat}</span>
                           </button>
-                          {isAisleRight && <div className="w-2" />}
+                          {isAisleRight && <div className="w-2 flex items-center justify-center text-[8px] text-cyan-500/30 font-mono">│</div>}
                         </React.Fragment>
                       );
                     });
                   })}
+                </div>
+
+                {/* Tail / Rear Galley */}
+                <div className="pt-3 border-t border-cyan-500/20 text-center text-[10px] font-mono text-cyan-300/50 uppercase tracking-widest flex items-center justify-between px-2">
+                  <span>Rear Lavatory</span>
+                  <span>AFT EXIT 🚪</span>
+                  <span>Rear Galley</span>
                 </div>
               </div>
             )}
 
           </div>
 
-          {/* Seating color code guide */}
-          <div className="flex space-x-6 mt-6 text-xs font-semibold">
+          {/* Real-Life Seating Legend */}
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-6 text-xs font-semibold text-purple-200/80 bg-[#0E0C1E] p-3 rounded-2xl border border-purple-500/20 w-full">
             <div className="flex items-center space-x-1.5">
-              <div className="h-3 w-3 bg-slate-900 border border-slate-800 rounded" />
-              <span className="text-slate-400">Available</span>
+              <div className="h-3.5 w-3.5 bg-[#16122C] border border-purple-500/30 rounded" />
+              <span>Available</span>
             </div>
             <div className="flex items-center space-x-1.5">
-              <div className="h-3 w-3 bg-emerald-500 rounded" />
-              <span className="text-emerald-400">Selected</span>
+              <div className="h-3.5 w-3.5 bg-gradient-to-r from-purple-500 to-cyan-400 rounded shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
+              <span className="text-purple-300 font-bold">Selected</span>
             </div>
             <div className="flex items-center space-x-1.5">
-              <div className="h-3 w-3 bg-red-500/10 border border-red-500/20 rounded" />
-              <span className="text-red-500">Booked</span>
+              <div className="h-3.5 w-3.5 bg-slate-900 border border-slate-800 rounded opacity-60" />
+              <span className="text-slate-500">Booked</span>
+            </div>
+            <div className="flex items-center space-x-1.5">
+              <span className="text-cyan-400 font-mono text-xs">🪟</span>
+              <span className="text-cyan-300">Window Seat</span>
             </div>
           </div>
         </motion.div>
@@ -408,9 +513,17 @@ function BookTripContent() {
                 <div className="space-y-6">
                   {passengers.map((p, idx) => (
                     <div key={p.seat_number} className="bg-slate-900/30 border border-slate-900 rounded-2xl p-5 space-y-4">
-                      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Passenger {idx + 1}</span>
-                        <span className="text-xs bg-slate-800 text-slate-200 px-2 py-0.5 rounded font-bold">Seat: {p.seat_number}</span>
+                      <div className="flex justify-between items-center border-b border-purple-500/20 pb-2">
+                        <span className="text-xs font-bold text-purple-300 uppercase tracking-widest">Passenger {idx + 1}</span>
+                        <span className="text-xs bg-purple-950/80 border border-purple-500/30 text-purple-200 px-2.5 py-0.5 rounded-lg font-mono font-bold">
+                          Seat: {p.seat_number} {
+                            (p.seat_number.endsWith('1') || p.seat_number.endsWith('4') || p.seat_number.endsWith('A') || p.seat_number.endsWith('F'))
+                              ? '• 🪟 Window Seat'
+                              : (p.seat_number.endsWith('B') || p.seat_number.endsWith('E'))
+                              ? '• 💺 Middle Seat'
+                              : '• 🚶 Aisle Seat'
+                          }
+                        </span>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
