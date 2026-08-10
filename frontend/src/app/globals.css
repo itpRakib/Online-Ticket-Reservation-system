@@ -1,86 +1,86 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── Color Palette Tokens (Light Mode - Clean Sapphire & Slate) ─── */
-  --bg-light: #F8FAFC;
-  --off-white: #F8FAFC;
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --accent-leaf: #059669; /* Emerald Teal */
-  --accent-lime: #0284C7; /* Sapphire Blue */
-  --deep-teal: #0F172A;
-  --dark-olive: #334155;
+  /* ─── Custom Palette Tokens (Light Mode Base) ─── */
+  --bg-light: #e8e8fd;
+  --off-white: #eae8fd;
+  --text-primary: #08042f;
+  --text-secondary: #190c8d;
+  --accent-leaf: #2513ec;
+  --accent-lime: #eb1478;
+  --deep-teal: #08042f;
+  --dark-olive: #11085e;
 
   /* ─── Light Mode Defaults ─── */
-  --bg-deep: #F8FAFC;
-  --bg-base: #FFFFFF;
-  --bg-raised: #F1F5F9;
-  --bg-elevated: #E2E8F0;
-  --foreground: #0F172A;
+  --bg-deep: #e8e8fd;
+  --bg-base: #ffffff;
+  --bg-raised: #d0d0fb;
+  --bg-elevated: #a2a2f6;
+  --foreground: #08042f;
 
-  /* Primary Action & Accent — Vibrant Sapphire & Indigo */
-  --accent: #4F46E5;
-  --accent-dim: #4338CA;
-  --accent-hover: #3730A3;
-  --accent-glow: rgba(79, 70, 229, 0.22);
-  --accent-subtle: rgba(79, 70, 229, 0.08);
+  /* Primary Action & Accent — Deep Indigo & Pink/Crimson */
+  --accent: #2513ec;
+  --accent-dim: #1e0fbd;
+  --accent-hover: #5142f0;
+  --accent-glow: rgba(37, 19, 236, 0.25);
+  --accent-subtle: rgba(37, 19, 236, 0.1);
 
-  /* Highlights & Badges — Vivid Cyan & Emerald */
-  --secondary: #0284C7;
-  --secondary-glow: rgba(2, 132, 199, 0.22);
-  --header-bg: #FFFFFF;
+  /* Highlights & Badges — Secondary Pink & Accent Crimson */
+  --secondary: #eb1478;
+  --secondary-glow: rgba(235, 20, 120, 0.25);
+  --header-bg: #ffffff;
 
   /* Text hierarchy */
-  --text-bright: #0F172A;
-  --text-primary-var: #0F172A;
-  --text-secondary-var: #475569;
-  --text-muted: #64748B;
+  --text-bright: #040217;
+  --text-primary-var: #08042f;
+  --text-secondary-var: #190c8d;
+  --text-muted: #7f72f3;
 
   /* Borders */
-  --border: rgba(148, 163, 184, 0.25);
-  --border-subtle: rgba(148, 163, 184, 0.15);
-  --border-hover: rgba(79, 70, 229, 0.4);
+  --border: rgba(37, 19, 236, 0.2);
+  --border-subtle: rgba(37, 19, 236, 0.1);
+  --border-hover: rgba(235, 20, 120, 0.4);
 }
 
 .dark {
-  /* ─── Dark Mode Palette Overrides (Deep Obsidian Cyberpunk/High-Tech) ─── */
-  --bg-deep: #0B0F19;
-  --bg-base: #111827;
-  --bg-raised: #1F2937;
-  --bg-elevated: #374151;
-  --foreground: #F8FAFC;
+  /* ─── Dark Mode Palette Overrides (Rich Royal Midnight & Magenta/Crimson) ─── */
+  --bg-deep: #020217;
+  --bg-base: #04042f;
+  --bg-raised: #09095d;
+  --bg-elevated: #0d0d8c;
+  --foreground: #eae8fd;
 
-  /* Accents — Electric Cyan & Vivid Emerald Glow */
-  --accent: #06B6D4;
-  --accent-dim: #0891B2;
-  --accent-hover: #22D3EE;
-  --accent-glow: rgba(6, 182, 212, 0.35);
-  --accent-subtle: rgba(6, 182, 212, 0.12);
+  /* Accents — Royal Indigo (#2513ec), Vivid Magenta (#eb1478), & Crimson (#ec2513) */
+  --accent: #5142f0;
+  --accent-dim: #2513ec;
+  --accent-hover: #7c71f4;
+  --accent-glow: rgba(81, 66, 240, 0.35);
+  --accent-subtle: rgba(81, 66, 240, 0.15);
 
-  --secondary: #10B981;
-  --secondary-glow: rgba(16, 185, 129, 0.3);
-  --header-bg: #111827;
+  --secondary: #eb1478;
+  --secondary-glow: rgba(235, 20, 120, 0.35);
+  --header-bg: #04042f;
 
   /* Text hierarchy */
-  --text-bright: #FFFFFF;
-  --text-primary: #F8FAFC;
-  --text-secondary: #CBD5E1;
-  --text-muted: #94A3B8;
+  --text-bright: #ffffff;
+  --text-primary: #eae8fd;
+  --text-secondary: #d4d0fb;
+  --text-muted: #aaa1f7;
 
   /* Borders */
-  --border: rgba(6, 182, 212, 0.2);
+  --border: rgba(124, 113, 244, 0.25);
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(6, 182, 212, 0.5);
+  --border-hover: rgba(235, 20, 120, 0.5);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-offwhite: #F8FAFC;
-  --color-lime: #06B6D4;
-  --color-leaf: #10B981;
-  --color-teal: #0F172A;
-  --color-olive: #334155;
+  --color-offwhite: #eae8fd;
+  --color-lime: #5142f0;
+  --color-leaf: #eb1478;
+  --color-teal: #04042f;
+  --color-olive: #09095d;
 }
 
 /* ─── Base ─── */
