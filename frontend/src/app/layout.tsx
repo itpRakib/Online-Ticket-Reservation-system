@@ -25,6 +25,8 @@ export const metadata: Metadata = {
   description: "Compare and book transport tickets across Bangladesh with verified identity. Bus, train, and flight — all in one platform.",
 };
 
+import { InitialPreloader } from "@/components/InitialPreloader";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,6 +37,7 @@ export default function RootLayout({
       <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans min-h-full flex flex-col bg-[var(--bg-deep)] text-[var(--text-primary)] relative overflow-x-hidden`}>
         <ThemeProvider>
           <AuthProvider>
+            <InitialPreloader />
             <PlexusBackground />
             <Header />
             <main className="flex-grow flex flex-col">
