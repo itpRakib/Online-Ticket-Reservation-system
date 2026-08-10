@@ -113,7 +113,7 @@ export default function PaymentPage() {
   // Open simulated Mobile Gateway
   const handleSelectMobileMethod = (method: 'BKASH' | 'NAGAD' | 'ROCKET') => {
     setPaymentMethod(method);
-    setSimPhoneNumber(user?.profile?.phone || '');
+    setSimPhoneNumber('');
     setSimStep(1);
     setSimOtpInput('');
     setSimPinInput('');
@@ -236,14 +236,25 @@ export default function PaymentPage() {
                 {simStep === 1 && (
                   <form onSubmit={handleSimNumberSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <label className="block text-xs font-bold text-pink-100">Enter Your bKash Number</label>
+                      <div className="flex justify-between items-center">
+                        <label className="block text-xs font-bold text-pink-100">Select or Enter bKash Number</label>
+                        {user?.profile?.phone && (
+                          <button
+                            type="button"
+                            onClick={() => setSimPhoneNumber(user.profile.phone)}
+                            className="text-[10px] underline text-pink-200 hover:text-white cursor-pointer"
+                          >
+                            Use my number ({user.profile.phone})
+                          </button>
+                        )}
+                      </div>
                       <input 
                         type="text"
                         required
                         value={simPhoneNumber}
                         onChange={(e) => setSimPhoneNumber(e.target.value)}
                         className="w-full rounded-xl bg-white text-slate-900 p-3.5 text-center font-bold text-lg focus:outline-none placeholder-slate-350"
-                        placeholder="e.g. 017XXXXXXXX"
+                        placeholder="e.g. 018XXXXXXXX"
                       />
                     </div>
                     <button 
@@ -281,7 +292,7 @@ export default function PaymentPage() {
                 {simStep === 3 && (
                   <form onSubmit={handleSimPinSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <label className="block text-xs font-bold text-pink-100">Enter Your 5-Digit bKash PIN</label>
+                      <label className="block text-xs font-bold text-pink-100">Enter bKash Transit Password / 5-Digit PIN</label>
                       <input 
                         type="password"
                         required
@@ -326,7 +337,18 @@ export default function PaymentPage() {
                 {simStep === 1 && (
                   <form onSubmit={handleSimNumberSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <label className="block text-xs font-bold text-red-100">Enter Nagad Account Number</label>
+                      <div className="flex justify-between items-center">
+                        <label className="block text-xs font-bold text-red-100">Select or Enter Nagad Number</label>
+                        {user?.profile?.phone && (
+                          <button
+                            type="button"
+                            onClick={() => setSimPhoneNumber(user.profile.phone)}
+                            className="text-[10px] underline text-red-200 hover:text-white cursor-pointer"
+                          >
+                            Use my number ({user.profile.phone})
+                          </button>
+                        )}
+                      </div>
                       <input 
                         type="text"
                         required
@@ -371,7 +393,7 @@ export default function PaymentPage() {
                 {simStep === 3 && (
                   <form onSubmit={handleSimPinSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <label className="block text-xs font-bold text-red-100">Enter Nagad Account PIN</label>
+                      <label className="block text-xs font-bold text-red-100">Enter Nagad Transit Password / 4-Digit PIN</label>
                       <input 
                         type="password"
                         required
@@ -416,7 +438,18 @@ export default function PaymentPage() {
                 {simStep === 1 && (
                   <form onSubmit={handleSimNumberSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <label className="block text-xs font-bold text-purple-100">Enter Rocket 12-Digit Wallet Number</label>
+                      <div className="flex justify-between items-center">
+                        <label className="block text-xs font-bold text-purple-100">Select or Enter Rocket Number</label>
+                        {user?.profile?.phone && (
+                          <button
+                            type="button"
+                            onClick={() => setSimPhoneNumber(user.profile.phone)}
+                            className="text-[10px] underline text-purple-200 hover:text-white cursor-pointer"
+                          >
+                            Use my number ({user.profile.phone})
+                          </button>
+                        )}
+                      </div>
                       <input 
                         type="text"
                         required
@@ -461,7 +494,7 @@ export default function PaymentPage() {
                 {simStep === 3 && (
                   <form onSubmit={handleSimPinSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <label className="block text-xs font-bold text-purple-100">Enter Rocket 4-Digit PIN</label>
+                      <label className="block text-xs font-bold text-purple-100">Enter Rocket Transit Password / 4-Digit PIN</label>
                       <input 
                         type="password"
                         required
