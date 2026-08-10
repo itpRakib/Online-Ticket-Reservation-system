@@ -88,14 +88,14 @@ export const PlexusBackground: React.FC = () => {
 
       // Theme-adaptive drawing configurations
       const nodeColor = isDark
-        ? 'rgba(197, 208, 80, 0.5)'   // Dark: Lime Green (#C5D050)
-        : 'rgba(111, 149, 38, 0.4)';  // Light: Leaf Green (#6F9526)
+        ? 'rgba(6, 182, 212, 0.75)'   // Dark: Electric Cyan (#06B6D4)
+        : 'rgba(79, 70, 229, 0.6)';  // Light: Royal Indigo (#4F46E5)
 
       const lineStrokeTemplate = isDark
-        ? 'rgba(197, 208, 80, ALPHA)'  // Dark: Lime Green line
-        : 'rgba(42, 91, 96, ALPHA)';   // Light: Deep Teal line
+        ? 'rgba(6, 182, 212, ALPHA)'  // Dark: Electric Cyan line
+        : 'rgba(79, 70, 229, ALPHA)';   // Light: Royal Indigo line
 
-      const maxOpacity = isDark ? 0.22 : 0.16;
+      const maxOpacity = isDark ? 0.35 : 0.22;
 
       // Draw all nodes
       particles.forEach((p) => {

@@ -253,10 +253,10 @@ function BookTripContent() {
                             disabled={!isAvail}
                             className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail 
-                                ? 'bg-gradient-to-br from-purple-900 to-red-900 border border-red-500/50 text-red-400 cursor-not-allowed'
+                                ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-[#00F0FF] border-[#00F0FF] text-slate-950 shadow-[0_0_15px_#00F0FF] animate-seat-pulse'
-                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700 hover:text-white'
+                                ? 'bg-gradient-to-tr from-cyan-500 to-emerald-500 border border-cyan-400 text-white shadow-[0_0_18px_rgba(6,182,212,0.6)] animate-seat-pulse'
+                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500 hover:text-white'
                             }`}
                             title={isAvail ? `Seat ${seat} (Available)` : `Seat ${seat} (Booked)`}
                           >
@@ -295,10 +295,10 @@ function BookTripContent() {
                             disabled={!isAvail}
                             className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail
-                                ? 'bg-gradient-to-br from-purple-900 to-red-900 border border-red-500/50 text-red-400 cursor-not-allowed'
+                                ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-[#00F0FF] border-[#00F0FF] text-slate-950 shadow-[0_0_15px_#00F0FF] animate-seat-pulse'
-                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700'
+                                ? 'bg-gradient-to-tr from-cyan-500 to-emerald-500 border border-cyan-400 text-white shadow-[0_0_18px_rgba(6,182,212,0.6)] animate-seat-pulse'
+                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500'
                             }`}
                             title={seatNum}
                           >
@@ -336,10 +336,10 @@ function BookTripContent() {
                             disabled={!isAvail}
                             className={`h-9 w-9 rounded-lg flex items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail
-                                ? 'bg-gradient-to-br from-purple-900 to-red-900 border border-red-500/50 text-red-400 cursor-not-allowed'
+                                ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-[#00F0FF] border-[#00F0FF] text-slate-950 shadow-[0_0_15px_#00F0FF] animate-seat-pulse'
-                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-700'
+                                ? 'bg-gradient-to-tr from-cyan-500 to-emerald-500 border border-cyan-400 text-white shadow-[0_0_18px_rgba(6,182,212,0.6)] animate-seat-pulse'
+                                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500'
                             }`}
                           >
                             <span className="z-10">{seat}</span>

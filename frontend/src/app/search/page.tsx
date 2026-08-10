@@ -574,9 +574,9 @@ function SearchResultsContent() {
                               router.push(`/book/${trip.id}?date=${queryDate}`);
                             }
                           }}
-                          className="rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 px-5 py-2.5 text-xs font-bold text-slate-950 transition-all shadow-md shadow-cyan-500/10 cursor-pointer"
+                          className="rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-emerald-500 hover:opacity-95 px-5 py-2.5 text-xs font-extrabold text-white transition-all shadow-md cursor-pointer"
                         >
-                          RESERVE PASSAGE
+                          SELECT SEATS 🎟️
                         </motion.button>
                       </div>
                     </motion.div>

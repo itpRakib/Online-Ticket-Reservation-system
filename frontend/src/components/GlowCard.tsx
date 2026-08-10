@@ -14,11 +14,11 @@ interface GlowCardProps {
 }
 
 const glowColors: Record<GlowColor, string> = {
-  emerald: 'rgba(111, 149, 38, VAR)', // Leaf Green (#6F9526)
-  amber: 'rgba(197, 208, 80, VAR)',   // Lime Green (#C5D050)
-  indigo: 'rgba(42, 91, 96, VAR)',    // Deep Teal (#2A5B60)
-  cyan: 'rgba(197, 208, 80, VAR)',    // Lime Green (#C5D050)
-  purple: 'rgba(68, 78, 41, VAR)',    // Dark Olive (#444E29)
+  emerald: 'rgba(16, 185, 129, VAR)', // Vivid Emerald (#10B981)
+  amber: 'rgba(245, 158, 11, VAR)',   // Amber Glow (#F59E0B)
+  indigo: 'rgba(99, 102, 241, VAR)',  // Neon Indigo (#6366F1)
+  cyan: 'rgba(6, 182, 212, VAR)',     // Electric Cyan (#06B6D4)
+  purple: 'rgba(139, 92, 246, VAR)',  // Radiant Purple (#8B5CF6)
   none: 'transparent',
 };
 

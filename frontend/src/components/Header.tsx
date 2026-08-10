@@ -70,7 +70,7 @@ export const Header: React.FC = () => {
               </div>
             </div>
           </div>
-          <span className="hidden text-lg font-bold text-[#2A5B60] dark:text-[#F3F3F3] tracking-tight sm:block" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <span className="hidden text-xl font-black text-slate-900 dark:text-white tracking-tight sm:block bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 bg-clip-text text-transparent" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
             BD GoTicket
           </span>
         </Link>
@@ -79,16 +79,20 @@ export const Header: React.FC = () => {
         <nav className="hidden md:flex items-center space-x-1">
           <Link
             href="/"
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              isActive('/') ? 'text-[#6F9526] bg-[#6F9526]/15 font-extrabold' : 'text-[#444E29] dark:text-slate-300 hover:text-[#2A5B60] hover:bg-[#C5D050]/20'
+            className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+              isActive('/') 
+                ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 font-bold border border-cyan-500/20 shadow-sm' 
+                : 'text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
             }`}
           >
             Home
           </Link>
           <Link
             href="/search"
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              isActive('/search') ? 'text-[#6F9526] bg-[#6F9526]/15 font-extrabold' : 'text-[#444E29] dark:text-slate-300 hover:text-[#2A5B60] hover:bg-[#C5D050]/20'
+            className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+              isActive('/search') 
+                ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 font-bold border border-cyan-500/20 shadow-sm' 
+                : 'text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
             }`}
           >
             Transit Matrix
@@ -96,10 +100,10 @@ export const Header: React.FC = () => {
           {user && (
             <Link
               href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
                 isActive(user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard')
-                  ? 'text-[#2A5B60] bg-[#C5D050]/30 font-extrabold border border-[#C5D050]/60'
-                  : 'text-[#444E29] dark:text-slate-300 hover:text-[#2A5B60] hover:bg-[#C5D050]/20'
+                  ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 font-bold border border-indigo-500/30 shadow-sm'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-indigo-500 hover:bg-slate-100 dark:hover:bg-slate-800/60'
               }`}
             >
               {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '🛡️ Admin Terminal' : 'My Dashboard'}
@@ -113,18 +117,18 @@ export const Header: React.FC = () => {
           {/* Language Toggle Button */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center space-x-1.5 rounded-lg border border-[#2A5B60]/20 bg-[#F3F3F3] dark:bg-[#1C2E31] px-3 py-1.5 text-xs font-semibold transition-all text-[#444E29] dark:text-slate-300 hover:border-[#6F9526] cursor-pointer print:hidden shadow-sm"
+            className="flex items-center space-x-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-900/80 px-3 py-1.5 text-xs font-bold transition-all text-slate-700 dark:text-slate-200 hover:border-cyan-500 cursor-pointer print:hidden shadow-sm"
           >
             <span>🌐</span>
-            <span className={language === 'en' ? 'text-[#6F9526] font-bold' : ''}>EN</span>
-            <span className="text-[#444E29]/40">|</span>
-            <span className={language === 'bn' ? 'text-[#6F9526] font-bold' : ''}>বাংলা</span>
+            <span className={language === 'en' ? 'text-cyan-500 font-extrabold' : ''}>EN</span>
+            <span className="text-slate-400">|</span>
+            <span className={language === 'bn' ? 'text-cyan-500 font-extrabold' : ''}>বাংলা</span>
           </button>
 
           {/* Theme Toggler Button */}
           <button
             onClick={toggleTheme}
-            className="rounded-lg p-2 text-[#444E29] dark:text-slate-300 hover:bg-[#C5D050]/20 border border-[#2A5B60]/20 bg-[#F3F3F3] dark:bg-[#1C2E31] transition-all cursor-pointer flex items-center justify-center print:hidden h-8 w-8 shadow-sm"
+            className="rounded-xl p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-900/80 transition-all cursor-pointer flex items-center justify-center print:hidden h-9 w-9 shadow-sm"
             title={theme === 'dark' ? 'Activate Light Mode' : 'Activate Dark Mode'}
           >
             <motion.div
@@ -136,9 +140,9 @@ export const Header: React.FC = () => {
               className="flex items-center justify-center"
             >
               {theme === 'dark' ? (
-                <Sun className="h-4 w-4 text-[#C5D050]" />
+                <Sun className="h-4.5 w-4.5 text-amber-400" />
               ) : (
-                <Moon className="h-4 w-4 text-[#2A5B60]" />
+                <Moon className="h-4.5 w-4.5 text-indigo-600" />
               )}
             </motion.div>
           </button>
@@ -147,16 +151,16 @@ export const Header: React.FC = () => {
             <div className="flex items-center space-x-3">
               <Link
                 href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-                className="flex items-center space-x-2 rounded-full bg-[#F3F3F3] dark:bg-[#1C2E31] border border-[#2A5B60]/20 py-1.5 px-3 text-sm text-[#2A5B60] dark:text-slate-200 hover:bg-[#C5D050]/20 transition-colors shadow-sm"
+                className="flex items-center space-x-2 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 py-1.5 px-3 text-sm text-slate-800 dark:text-slate-200 hover:border-cyan-500 transition-colors shadow-sm"
               >
-                <div className="h-6 w-6 rounded-full flex items-center justify-center font-bold text-[11px] uppercase text-white" style={{ backgroundColor: '#2A5B60' }}>
+                <div className="h-6 w-6 rounded-full flex items-center justify-center font-extrabold text-[11px] uppercase text-white bg-gradient-to-tr from-cyan-500 to-indigo-600">
                   {user.username.substring(0, 2)}
                 </div>
                 <span className="hidden sm:inline font-bold max-w-[120px] truncate">{user.first_name || user.username}</span>
               </Link>
               <button
                 onClick={logout}
-                className="rounded-lg p-2 text-[#444E29] hover:text-red-600 hover:bg-red-500/10 transition-all cursor-pointer"
+                className="rounded-xl p-2 text-slate-500 hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
                 title="Logout"
               >
                 <LogOut className="h-4 w-4" />
@@ -166,14 +170,13 @@ export const Header: React.FC = () => {
             <div className="flex items-center space-x-2">
               <Link
                 href="/auth/login"
-                className="px-3 py-2 text-sm font-bold text-[#2A5B60] dark:text-slate-300 hover:text-[#6F9526] transition-colors"
+                className="px-3.5 py-2 text-sm font-bold text-slate-700 dark:text-slate-200 hover:text-cyan-500 transition-colors"
               >
                 Login
               </Link>
               <Link
                 href="/auth/register"
-                className="rounded-xl px-4 py-2 text-sm font-extrabold text-white transition-all hover:scale-[1.02] shadow-md border border-[#6F9526] hover:bg-[#2A5B60]"
-                style={{ backgroundColor: '#6F9526' }}
+                className="rounded-xl px-4 py-2 text-sm font-extrabold text-white transition-all hover:scale-[1.03] shadow-md bg-gradient-to-r from-cyan-500 via-indigo-600 to-emerald-500 hover:opacity-95"
               >
                 Sign Up
               </Link>
@@ -181,7 +184,7 @@ export const Header: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#6F9526]/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
     </motion.header>
   );
 };

@@ -212,27 +212,26 @@ export default function AdminDashboard() {
       {/* Title Header Section */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#2A5B60] tracking-tight flex items-center gap-2.5" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-            <Database className="h-8 w-8 text-[#6F9526]" />
-            <span>Central Management Terminal</span>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2.5" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+            <Database className="h-8 w-8 text-cyan-500" />
+            <span className="bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 bg-clip-text text-transparent">Central Management Terminal</span>
           </h1>
-          <p className="text-[#444E29] text-xs mt-1.5 font-mono">
-            SECURE ACCESS AUTHORIZED • ROLE: <span className="text-[#6F9526] font-bold uppercase">{user?.profile?.role}</span> • NODE USERNAME: {user?.username}
+          <p className="text-slate-500 dark:text-slate-400 text-xs mt-1.5 font-mono">
+            SECURE ACCESS AUTHORIZED • ROLE: <span className="text-cyan-500 font-extrabold uppercase">{user?.profile?.role}</span> • NODE USERNAME: {user?.username}
           </p>
         </div>
         <div className="flex items-center space-x-2.5">
           <button
             onClick={fetchData}
             disabled={loading}
-            className="flex items-center space-x-2 rounded-xl border border-[#2A5B60]/30 bg-white px-4 py-2.5 text-xs font-bold text-[#444E29] hover:bg-[#F3F3F3] transition-all cursor-pointer disabled:opacity-50 shadow-sm"
+            className="flex items-center space-x-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 px-4 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-200 hover:border-cyan-500 transition-all cursor-pointer disabled:opacity-50 shadow-xs"
           >
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 text-cyan-500 ${loading ? 'animate-spin' : ''}`} />
             <span>Sync Database Registry</span>
           </button>
           <button
             onClick={() => router.push('/')}
-            className="flex items-center space-x-2 rounded-xl text-white px-4 py-2.5 text-xs font-bold transition-all cursor-pointer shadow-md"
-            style={{ backgroundColor: '#2A5B60' }}
+            className="flex items-center space-x-2 rounded-xl text-white px-4 py-2.5 text-xs font-extrabold transition-all cursor-pointer shadow-md bg-gradient-to-r from-cyan-500 to-indigo-600 hover:opacity-90"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Standard View</span>
@@ -241,7 +240,7 @@ export default function AdminDashboard() {
       </div>
 
       {error && (
-        <div className="rounded-2xl bg-red-500/15 border border-red-500/30 p-5 text-sm text-red-600 flex items-center space-x-3 shadow-lg">
+        <div className="rounded-2xl bg-red-500/15 border border-red-500/30 p-5 text-sm text-red-600 dark:text-red-400 flex items-center space-x-3 shadow-lg">
           <AlertCircle className="h-6 w-6 shrink-0 text-red-500" />
           <span className="font-bold">{error}</span>
         </div>
@@ -257,15 +256,15 @@ export default function AdminDashboard() {
             { label: 'Configured Stations', value: data?.stats?.total_stations ?? 0, icon: MapPin },
             { label: 'Synchronized Payments', value: data?.stats?.total_payments ?? 0, icon: Database }
           ].map((stat, idx) => (
-            <div key={idx} className="p-5 rounded-2xl border border-[#2A5B60]/20 space-y-4 flex flex-col justify-between h-full bg-white shadow-sm">
+            <div key={idx} className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 flex flex-col justify-between h-full bg-white dark:bg-slate-900 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] text-[#444E29]/70 font-bold uppercase tracking-wider font-sans leading-tight">{stat.label}</span>
-                <stat.icon className="h-5 w-5 text-[#6F9526] shrink-0" />
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider font-sans leading-tight">{stat.label}</span>
+                <stat.icon className="h-5 w-5 text-cyan-500 shrink-0" />
               </div>
               <div className="space-y-1">
-                <span className="block text-2xl sm:text-3xl font-black text-[#2A5B60] font-mono leading-none">
+                <span className="block text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono leading-none">
                   {loading ? (
-                    <span className="block h-8 w-12 bg-slate-200 rounded animate-pulse" />
+                    <span className="block h-8 w-12 bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
                   ) : (
                     stat.value
                   )}
@@ -277,7 +276,7 @@ export default function AdminDashboard() {
       </ScrollReveal>
 
       {/* Dynamic Tabs Selector */}
-      <div className="flex border-b border-[#2A5B60]/20 space-x-6 overflow-x-auto">
+      <div className="flex border-b border-slate-200 dark:border-slate-800 space-x-6 overflow-x-auto">
         {[
           { id: 'users', label: 'User Identity & Analytics', count: data?.users.length ?? 0 },
           { id: 'bookings', label: 'Ticket Bookings', count: data?.bookings?.length ?? 0 },
@@ -289,12 +288,12 @@ export default function AdminDashboard() {
             onClick={() => { setActiveTab(tab.id as any); setSearchQuery(''); }}
             className={`pb-3 text-xs font-bold uppercase tracking-wider transition-all relative border-b-2 cursor-pointer shrink-0 ${
               activeTab === tab.id 
-                ? 'border-[#6F9526] text-[#2A5B60] font-extrabold' 
-                : 'border-transparent text-[#444E29]/60 hover:text-[#444E29]'
+                ? 'border-cyan-500 text-cyan-500 font-extrabold' 
+                : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
             }`}
           >
             <span>{tab.label}</span>
-            <span className="ml-2 rounded-md bg-[#F3F3F3] border border-[#2A5B60]/20 px-1.5 py-0.5 text-[10px] text-[#444E29] font-mono">
+            <span className="ml-2 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 text-[10px] text-slate-600 dark:text-slate-300 font-mono">
               {tab.count}
             </span>
           </button>
