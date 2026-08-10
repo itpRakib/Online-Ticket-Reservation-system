@@ -117,34 +117,12 @@ export const Header: React.FC = () => {
           {/* Language Toggle Button */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center space-x-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-900/80 px-3 py-1.5 text-xs font-bold transition-all text-slate-700 dark:text-slate-200 hover:border-cyan-500 cursor-pointer print:hidden shadow-sm"
+            className="flex items-center space-x-1.5 rounded-xl border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-xs font-bold transition-all text-slate-200 hover:border-cyan-500 cursor-pointer print:hidden shadow-sm"
           >
             <span>🌐</span>
-            <span className={language === 'en' ? 'text-cyan-500 font-extrabold' : ''}>EN</span>
-            <span className="text-slate-400">|</span>
-            <span className={language === 'bn' ? 'text-cyan-500 font-extrabold' : ''}>বাংলা</span>
-          </button>
-
-          {/* Theme Toggler Button */}
-          <button
-            onClick={toggleTheme}
-            className="rounded-xl p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-900/80 transition-all cursor-pointer flex items-center justify-center print:hidden h-9 w-9 shadow-sm"
-            title={theme === 'dark' ? 'Activate Light Mode' : 'Activate Dark Mode'}
-          >
-            <motion.div
-              key={theme}
-              initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
-              animate={{ rotate: 0, opacity: 1, scale: 1 }}
-              exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="flex items-center justify-center"
-            >
-              {theme === 'dark' ? (
-                <Sun className="h-4.5 w-4.5 text-amber-400" />
-              ) : (
-                <Moon className="h-4.5 w-4.5 text-indigo-600" />
-              )}
-            </motion.div>
+            <span className={language === 'en' ? 'text-cyan-400 font-extrabold' : ''}>EN</span>
+            <span className="text-slate-500">|</span>
+            <span className={language === 'bn' ? 'text-cyan-400 font-extrabold' : ''}>বাংলা</span>
           </button>
 
           {user ? (

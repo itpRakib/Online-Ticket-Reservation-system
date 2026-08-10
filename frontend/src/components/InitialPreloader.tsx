@@ -50,7 +50,7 @@ export const InitialPreloader: React.FC = () => {
             filter: 'blur(12px)',
             transition: { duration: 0.55, ease: [0.65, 0, 0.35, 1] } 
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#080C14] text-white select-none overflow-hidden"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black text-white select-none overflow-hidden"
         >
           {/* Ambient Glow Orbs */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-indigo-600/20 via-cyan-500/15 to-emerald-500/20 blur-3xl pointer-events-none animate-pulse" />

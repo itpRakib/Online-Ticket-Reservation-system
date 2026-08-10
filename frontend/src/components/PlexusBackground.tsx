@@ -83,19 +83,9 @@ export const PlexusBackground: React.FC = () => {
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const currentTheme = themeRef.current;
-      const isDark = currentTheme === 'dark';
-
-      // Theme-adaptive drawing configurations
-      const nodeColor = isDark
-        ? 'rgba(6, 182, 212, 0.75)'   // Dark: Electric Cyan (#06B6D4)
-        : 'rgba(79, 70, 229, 0.6)';  // Light: Royal Indigo (#4F46E5)
-
-      const lineStrokeTemplate = isDark
-        ? 'rgba(6, 182, 212, ALPHA)'  // Dark: Electric Cyan line
-        : 'rgba(79, 70, 229, ALPHA)';   // Light: Royal Indigo line
-
-      const maxOpacity = isDark ? 0.35 : 0.22;
+      const nodeColor = 'rgba(0, 240, 255, 0.85)';
+      const lineStrokeTemplate = 'rgba(0, 240, 255, ALPHA)';
+      const maxOpacity = 0.38;
 
       // Draw all nodes
       particles.forEach((p) => {
