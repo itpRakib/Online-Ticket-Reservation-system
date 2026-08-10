@@ -574,7 +574,7 @@ function SearchResultsContent() {
                               router.push(`/book/${trip.id}?date=${queryDate}`);
                             }
                           }}
-                          className="rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-emerald-500 hover:opacity-95 px-5 py-2.5 text-xs font-extrabold text-white transition-all shadow-md cursor-pointer"
+                          className="rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:opacity-95 px-5 py-2.5 text-xs font-extrabold text-white transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)] cursor-pointer"
                         >
                           SELECT SEATS 🎟️
                         </motion.button>

@@ -83,9 +83,9 @@ export const PlexusBackground: React.FC = () => {
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const nodeColor = 'rgba(0, 240, 255, 0.85)';
-      const lineStrokeTemplate = 'rgba(0, 240, 255, ALPHA)';
-      const maxOpacity = 0.38;
+      const nodeColor = 'rgba(168, 85, 247, 0.85)';
+      const lineStrokeTemplate = 'rgba(168, 85, 247, ALPHA)';
+      const maxOpacity = 0.42;
 
       // Draw all nodes
       particles.forEach((p) => {

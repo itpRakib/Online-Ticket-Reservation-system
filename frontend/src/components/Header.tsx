@@ -37,7 +37,7 @@ export const Header: React.FC = () => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[var(--bg-deep)]/80 backdrop-blur-xl"
+      className="sticky top-0 z-50 w-full border-b border-purple-500/20 bg-[#06060D]/85 backdrop-blur-2xl shadow-[0_4px_30px_rgba(6,6,13,0.8)]"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
@@ -70,7 +70,7 @@ export const Header: React.FC = () => {
               </div>
             </div>
           </div>
-          <span className="hidden text-xl font-black text-slate-900 dark:text-white tracking-tight sm:block bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 bg-clip-text text-transparent" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <span className="hidden text-xl font-black tracking-tight sm:block bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(168,85,247,0.4)]" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
             BD GoTicket
           </span>
         </Link>
@@ -81,8 +81,8 @@ export const Header: React.FC = () => {
             href="/"
             className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
               isActive('/') 
-                ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 font-bold border border-cyan-500/20 shadow-sm' 
-                : 'text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                ? 'text-purple-300 bg-purple-500/15 font-bold border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]' 
+                : 'text-purple-100/70 hover:text-purple-300 hover:bg-purple-500/10'
             }`}
           >
             Home
@@ -91,8 +91,8 @@ export const Header: React.FC = () => {
             href="/search"
             className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
               isActive('/search') 
-                ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 font-bold border border-cyan-500/20 shadow-sm' 
-                : 'text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                ? 'text-purple-300 bg-purple-500/15 font-bold border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]' 
+                : 'text-purple-100/70 hover:text-purple-300 hover:bg-purple-500/10'
             }`}
           >
             Transit Matrix
@@ -102,8 +102,8 @@ export const Header: React.FC = () => {
               href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
               className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
                 isActive(user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard')
-                  ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 font-bold border border-indigo-500/30 shadow-sm'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-indigo-500 hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                  ? 'text-cyan-300 bg-cyan-500/15 font-bold border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                  : 'text-purple-100/70 hover:text-cyan-300 hover:bg-cyan-500/10'
               }`}
             >
               {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '🛡️ Admin Terminal' : 'My Dashboard'}

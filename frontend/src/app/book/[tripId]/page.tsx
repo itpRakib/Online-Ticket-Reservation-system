@@ -255,7 +255,7 @@ function BookTripContent() {
                               !isAvail 
                                 ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-gradient-to-tr from-cyan-500 to-emerald-500 border border-cyan-400 text-white shadow-[0_0_18px_rgba(6,182,212,0.6)] animate-seat-pulse'
+                                ? 'bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-cyan-400 border border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.7)] animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500 hover:text-white'
                             }`}
                             title={isAvail ? `Seat ${seat} (Available)` : `Seat ${seat} (Booked)`}
@@ -297,7 +297,7 @@ function BookTripContent() {
                               !isAvail
                                 ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-slate-500 cursor-not-allowed'
                                 : isSel
-                                ? 'bg-gradient-to-tr from-cyan-500 to-emerald-500 border border-cyan-400 text-white shadow-[0_0_18px_rgba(6,182,212,0.6)] animate-seat-pulse'
+                                ? 'bg-gradient-to-tr from-purple-600 via-fuchsia-500 to-cyan-400 border border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.7)] animate-seat-pulse'
                                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:border-cyan-500'
                             }`}
                             title={seatNum}

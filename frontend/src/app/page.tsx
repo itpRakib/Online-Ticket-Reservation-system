@@ -277,32 +277,32 @@ export default function Home() {
           >
             {user ? (
               <>
-                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs text-cyan-600 dark:text-cyan-400 font-bold shadow-xs">
-                  <Sparkles className="h-3.5 w-3.5 text-cyan-500" />
+                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-purple-500/30 bg-purple-500/15 px-4 py-1.5 text-xs text-purple-300 font-bold shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                  <Sparkles className="h-3.5 w-3.5 text-purple-400" />
                   <span>{t("Assalam-o-Alaikum, ", "আসসালামু আলাইকুম, ") + (user.first_name || user.username) + "!"}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-slate-900 dark:text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
                   {t("PLAN YOUR NEXT ", "আপনার পরবর্তী ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]">
                     {t("TRANSIT ROUTE", "ট্রানজিট রুট পরিকল্পনা")}
                   </span>
                 </motion.h1>
                 
-                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
+                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-purple-200/80 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
                   {t("Search, compare, and secure transport node passages instantly using your verified credentials.", "আপনাদের যাচাইকৃত প্রোফাইল ব্যবহার করে তাৎক্ষণিকভাবে ট্রান্সপোর্ট নোড প্যাসেজ অনুসন্ধান, তুলনা এবং সুরক্ষিত করুন।")}
                 </motion.p>
               </>
             ) : (
               <>
-                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs text-cyan-600 dark:text-cyan-400 font-bold shadow-xs">
-                  <Sparkles className="h-3.5 w-3.5 text-cyan-500" />
+                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-purple-500/30 bg-purple-500/15 px-4 py-1.5 text-xs text-purple-300 font-bold shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                  <Sparkles className="h-3.5 w-3.5 text-purple-400" />
                   <span>{t("Unified Transport Hub of Bangladesh", "বাংলাদেশের সমন্বিত যাতায়াত পোর্টাল")}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-black tracking-tight sm:text-5xl text-slate-900 dark:text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-                  {t("HYPER-VELOCITY ", "হাইপার-ভেলোসিটি ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 bg-clip-text text-transparent">
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-black tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+                  {t("ETHEREAL VELOCITY ", "ইথেরিয়াল ভেলোসিটি ")} <br className="hidden sm:inline" />
+                  <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]">
                     {t("TRANSIT GATEWAY", "ট্রানজিট গেটওয়ে")}
                   </span>
                 </motion.h1>
@@ -781,7 +781,7 @@ export default function Home() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full rounded-xl p-4 font-black text-white bg-gradient-to-r from-cyan-500 via-indigo-600 to-emerald-500 hover:opacity-95 flex items-center justify-center space-x-2 cursor-pointer shadow-lg transition-all duration-300 border border-cyan-400/30"
+              className="w-full rounded-xl p-4 font-black text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:opacity-95 flex items-center justify-center space-x-2 cursor-pointer shadow-[0_0_25px_rgba(168,85,247,0.4)] transition-all duration-300 border border-purple-400/30"
             >
               <Search className="h-5 w-5" />
               <span>SEARCH TRANSIT ROUTES</span>

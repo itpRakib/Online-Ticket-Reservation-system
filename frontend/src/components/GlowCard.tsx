@@ -14,24 +14,24 @@ interface GlowCardProps {
 }
 
 const glowColors: Record<GlowColor, string> = {
-  emerald: 'rgba(16, 185, 129, VAR)', // Vivid Emerald (#10B981)
-  amber: 'rgba(245, 158, 11, VAR)',   // Amber Glow (#F59E0B)
-  indigo: 'rgba(99, 102, 241, VAR)',  // Neon Indigo (#6366F1)
-  cyan: 'rgba(6, 182, 212, VAR)',     // Electric Cyan (#06B6D4)
-  purple: 'rgba(139, 92, 246, VAR)',  // Radiant Purple (#8B5CF6)
+  emerald: 'rgba(16, 185, 129, VAR)', // Runic Emerald (#10B981)
+  amber: 'rgba(245, 158, 11, VAR)',   // Eldritch Gold (#F59E0B)
+  indigo: 'rgba(99, 102, 241, VAR)',  // Mystical Indigo (#6366F1)
+  cyan: 'rgba(6, 182, 212, VAR)',     // Spectral Cyan (#06B6D4)
+  purple: 'rgba(168, 85, 247, VAR)',  // Ethereal Amethyst (#A855F7)
   none: 'transparent',
 };
 
 const intensityValues: Record<string, { base: number; hover: number; spread: string }> = {
-  low:    { base: 0.04, hover: 0.07, spread: '80px' },
-  medium: { base: 0.06, hover: 0.10, spread: '100px' },
-  high:   { base: 0.08, hover: 0.14, spread: '120px' },
+  low:    { base: 0.05, hover: 0.10, spread: '80px' },
+  medium: { base: 0.08, hover: 0.15, spread: '100px' },
+  high:   { base: 0.12, hover: 0.22, spread: '130px' },
 };
 
 export const GlowCard: React.FC<GlowCardProps> = ({
   children,
   className = '',
-  glowColor = 'emerald',
+  glowColor = 'purple',
   intensity = 'medium',
   rounded = 'rounded-3xl',
 }) => {
