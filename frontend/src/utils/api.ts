@@ -516,6 +516,22 @@ export const api = {
       const updated = [booking, ...list.filter((b: any) => b.id !== booking.id && b.pnr_number !== booking.pnr_number)];
       localStorage.setItem('local_user_bookings', JSON.stringify(updated));
       localStorage.setItem('latest_booking', JSON.stringify(booking));
+
+      // Persist global seat locks across all user accounts
+      const tripId = booking.trip_id || booking.trip?.id || booking.trip_details?.id;
+      const travelDate = booking.travel_date;
+      if (tripId && travelDate) {
+        const key = `all_system_booked_seats_${tripId}_${travelDate}`;
+        const savedStr = localStorage.getItem(key);
+        const bookedList: string[] = savedStr ? JSON.parse(savedStr) : [];
+        const seatsStr = booking.seats_booked || '';
+        const newSeats = seatsStr.split(',').map((s: string) => s.trim()).filter(Boolean);
+        if (Array.isArray(booking.passengers)) {
+          booking.passengers.forEach((p: any) => { if (p.seat_number) newSeats.push(p.seat_number); });
+        }
+        const updatedSet = Array.from(new Set([...bookedList, ...newSeats]));
+        localStorage.setItem(key, JSON.stringify(updatedSet));
+      }
     } catch (e) {
       console.error("Failed to save local booking", e);
     }

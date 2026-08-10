@@ -585,18 +585,22 @@ class BookingCreateView(APIView):
                 "error": f"Booking limit exceeded. You have already booked {already_booked_count} ticket(s) for this journey. Under one account, you can only book a maximum of {limit} tickets in total."
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        # Validate seats availability
+        # Validate seats availability across all users
         selected_seats = [p.get('seat_number') for p in passengers_data]
         if not selected_seats:
             return Response({"error": "No seat numbers provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Query all seats already booked by ANY user for this trip on this travel date
+        existing_booked_seats = set(Passenger.objects.filter(
+            booking__trip=trip,
+            booking__travel_date=travel_date,
+            booking__status__in=['PAID', 'PENDING']
+        ).values_list('seat_number', flat=True))
         
-        # Check seats in seat_layout
+        # Check seats availability
         for seat in selected_seats:
-            status_val = trip.seat_layout.get(seat, None)
-            if status_val is False: # False means booked/unavailable
-                return Response({"error": f"Seat {seat} is already booked."}, status=status.HTTP_400_BAD_REQUEST)
-            if status_val is None:
-                return Response({"error": f"Seat {seat} is not valid for this transport."}, status=status.HTTP_400_BAD_REQUEST)
+            if seat in existing_booked_seats or trip.seat_layout.get(seat) is False:
+                return Response({"error": f"Seat {seat} is already booked by another traveler for this journey date. Please select a different seat."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Calculate fare
         base_fare = trip.fare_business if (class_type == 'BUSINESS' and trip.fare_business) else trip.fare_economy
@@ -627,6 +631,13 @@ class BookingCreateView(APIView):
                     seat_number=p_data['seat_number'],
                     nid=p_data.get('nid')
                 )
+
+            # Update trip seat_layout to mark seats as booked (False)
+            updated_layout = dict(trip.seat_layout or {})
+            for seat in selected_seats:
+                updated_layout[seat] = False
+            trip.seat_layout = updated_layout
+            trip.save()
 
         return Response({
             "message": "Booking created. Please complete the payment.",

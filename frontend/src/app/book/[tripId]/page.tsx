@@ -125,11 +125,38 @@ function BookTripContent() {
     try {
       const res: any = await api.createBooking(payload);
       const bookingId = res?.id || res?.booking?.id || res?.booking_id || Date.now();
+
+      // Persist newly booked seats globally so other users/sessions cannot book them
+      if (typeof window !== 'undefined') {
+        try {
+          const key = `all_system_booked_seats_${tripId}_${travelDate}`;
+          const existing = localStorage.getItem(key);
+          const list: string[] = existing ? JSON.parse(existing) : [];
+          const updated = Array.from(new Set([...list, ...selectedSeats]));
+          localStorage.setItem(key, JSON.stringify(updated));
+        } catch (e) {}
+      }
+
       router.push(`/payment/${bookingId}`);
     } catch (err: any) {
       setError(err.message || 'Failed to create booking.');
       setSubmitting(false);
     }
+  };
+
+  // Helper to accurately resolve vehicle mode (PLANE, TRAIN, BUS)
+  const getNormalizedTransportType = (t: any): 'BUS' | 'TRAIN' | 'PLANE' => {
+    if (!t) return 'BUS';
+    const rawType = (t.transport_type || t.trip_details?.transport_type || t.type || '').toString().toUpperCase();
+    if (rawType.includes('PLANE') || rawType.includes('FLIGHT') || rawType.includes('AIR')) return 'PLANE';
+    if (rawType.includes('TRAIN') || rawType.includes('RAIL')) return 'TRAIN';
+    if (rawType.includes('BUS')) return 'BUS';
+
+    const name = ((t.operator_name || '') + ' ' + (t.company_name || '') + ' ' + (t.transport_identifier || '')).toUpperCase();
+    if (name.includes('AIR') || name.includes('BIMAN') || name.includes('FLIGHT') || name.includes('AERO') || name.includes('AIRLINES') || name.includes('NOVOAIR') || name.includes('ASTRA')) return 'PLANE';
+    if (name.includes('EXPRESS') || name.includes('TRAIN') || name.includes('RAIL') || name.includes('BANGLADESH RAILWAY') || name.includes('SONAR BANGLA') || name.includes('SUBARNA')) return 'TRAIN';
+
+    return 'BUS';
   };
 
   // Helpers
@@ -162,8 +189,53 @@ function BookTripContent() {
     );
   }
 
-  const layout = trip?.seat_layout || {};
-  const tType = trip?.transport_type || 'BUS';
+  const rawLayout = trip?.seat_layout || {};
+  const tType = getNormalizedTransportType(trip);
+
+  // Aggregate all booked seats across API and local storage
+  const getBookedSeatsSet = (): Set<string> => {
+    const booked = new Set<string>();
+    
+    // 1. Check API seat_layout
+    Object.entries(rawLayout).forEach(([seatKey, val]) => {
+      if (val === false) booked.add(seatKey);
+    });
+
+    // 2. Check persistent global booked seats in localStorage
+    if (typeof window !== 'undefined') {
+      try {
+        const key = `all_system_booked_seats_${tripId}_${travelDate}`;
+        const savedStr = localStorage.getItem(key);
+        if (savedStr) {
+          const list: string[] = JSON.parse(savedStr);
+          list.forEach(s => booked.add(s));
+        }
+
+        // 3. Check all local user bookings for matching tripId & travelDate
+        const localBookingsStr = localStorage.getItem('local_user_bookings');
+        if (localBookingsStr) {
+          const bList: any[] = JSON.parse(localBookingsStr);
+          bList.forEach(b => {
+            const bTripId = b.trip_id || b.trip?.id || b.trip_details?.id;
+            const bDate = b.travel_date;
+            if (bTripId?.toString() === tripId?.toString() && bDate === travelDate && (b.status === 'PAID' || b.status === 'PENDING')) {
+              const seatsStr = b.seats_booked || '';
+              seatsStr.split(',').map((s: string) => s.trim()).filter(Boolean).forEach((s: string) => booked.add(s));
+              if (Array.isArray(b.passengers)) {
+                b.passengers.forEach((p: any) => {
+                  if (p.seat_number) booked.add(p.seat_number);
+                });
+              }
+            }
+          });
+        }
+      } catch (e) {}
+    }
+
+    return booked;
+  };
+
+  const bookedSeatsSet = getBookedSeatsSet();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
@@ -275,7 +347,7 @@ function BookTripContent() {
                     const cols = classType === 'BUSINESS' ? ['1', '2', '3'] : ['1', '2', '3', '4'];
                     return cols.map(col => {
                       const seat = `${row}${col}`;
-                      const isAvail = layout[seat] !== false;
+                      const isAvail = !bookedSeatsSet.has(seat) && rawLayout[seat] !== false;
                       const isSel = selectedSeats.includes(seat);
                       const isAisleRight = classType === 'BUSINESS' ? col === '1' : col === '2';
                       const isWindow = classType === 'BUSINESS' ? (col === '1' || col === '3') : (col === '1' || col === '4');
@@ -346,7 +418,7 @@ function BookTripContent() {
                   {Array.from({ length: 14 }).map((_, rIdx) => {
                     return ['1', '2', '3', '4'].map(col => {
                       const seatNum = `S${rIdx * 4 + parseInt(col)}`;
-                      const isAvail = layout[seatNum] !== false;
+                      const isAvail = !bookedSeatsSet.has(seatNum) && rawLayout[seatNum] !== false;
                       const isSel = selectedSeats.includes(seatNum);
                       const isAisleRight = col === '2';
                       const isWindow = col === '1' || col === '4';
@@ -429,7 +501,7 @@ function BookTripContent() {
 
                     return cols.map(col => {
                       const seat = `${r}${col}`;
-                      const isAvail = layout[seat] !== false;
+                      const isAvail = !bookedSeatsSet.has(seat) && rawLayout[seat] !== false;
                       const isSel = selectedSeats.includes(seat);
                       const isAisleRight = classType === 'BUSINESS' ? col === 'B' : col === 'C';
                       const isWindow = classType === 'BUSINESS' ? (col === 'A' || col === 'D') : (col === 'A' || col === 'F');
