@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Kalam, Patrick_Hand } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -8,16 +8,23 @@ import { Footer } from "@/components/Footer";
 import { InitialPreloader } from "@/components/InitialPreloader";
 import { ChatbotWidget } from "@/components/ChatbotWidget";
 
-const jetBrainsMono = JetBrains_Mono({
+const kalam = Kalam({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "800"],
-  variable: "--font-mono",
+  weight: ["400", "700"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const patrickHand = Patrick_Hand({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "root@bdgoticket:~# ./init_matrix",
-  description: "Terminal CLI Cyber-Industrial Multi-Modal Transit Reservation Mainframe for Bangladesh. Bus, Train, and Flight Node booking with Gmail OTP authorization.",
+  title: "✏️ BD GoTicket — Hand-Drawn Transit Sketchbook",
+  description: "Playful hand-drawn multi-modal ticket reservation platform for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
 };
 
 export default function RootLayout({
@@ -26,11 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jetBrainsMono.variable} h-full antialiased dark`}>
-      <body className="font-mono min-h-full flex flex-col bg-[#0a0a0a] text-[#33ff00] relative overflow-x-hidden selection:bg-[#33ff00] selection:text-[#0a0a0a]">
-        {/* CRT Scanline Overlay */}
-        <div className="crt-scanlines pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true" />
-        
+    <html lang="en" className={`${kalam.variable} ${patrickHand.variable} h-full antialiased`}>
+      <body className="font-body min-h-full flex flex-col bg-[#fdfbf7] text-[#2d2d2d] relative overflow-x-hidden selection:bg-[#ff4d4d] selection:text-white pattern-paper-dots">
         <ThemeProvider>
           <AuthProvider>
             <InitialPreloader />
@@ -46,5 +50,6 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 

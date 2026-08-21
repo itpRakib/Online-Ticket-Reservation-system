@@ -11,9 +11,8 @@ import { NumberTicker } from '@/components/NumberTicker';
 import { 
   Bus, Train, Plane, Search, ArrowLeftRight, CheckCircle2, 
   ShieldCheck, CreditCard, Sparkles, Flame, Percent, MapPin, 
-  Calendar, Clock, UserCheck, HelpCircle, ChevronDown, Check, ArrowRight, X, AlertCircle, SlidersHorizontal, Terminal, Activity
+  Calendar, Clock, UserCheck, HelpCircle, ChevronDown, Check, ArrowRight, X, AlertCircle, Edit3, Heart, Tag
 } from 'lucide-react';
-import { FuturisticHUD } from '@/components/FuturisticHUD';
 import { RetroGrid } from '@/components/RetroGrid';
 
 export default function Home() {
@@ -203,14 +202,14 @@ export default function Home() {
   const destGroups = filterAndGroupStations(destSearch, source);
 
   const promos = [
-    { code: 'BKASH200', desc: 'Save up to ৳200 on any bus ticket via bKash payment.', expiry: 'EXP: 30 JUNE', badge: 'POPULAR' },
-    { code: 'FLIGHT10', desc: '10% flat discount on domestic flights (US-Bangla & Biman).', expiry: 'EXP: 15 JULY', badge: 'HOT DEAL' },
-    { code: 'ECVERIFY', desc: 'Register with NID & get free service fee on first booking.', expiry: 'SPECIAL OFFER', badge: 'NEW USER' }
+    { code: 'BKASH200', desc: 'Save up to ৳200 on any bus ticket via bKash payment.', expiry: 'Exp: 30 June', badge: 'Popular!' },
+    { code: 'FLIGHT10', desc: '10% flat discount on domestic flights (US-Bangla & Biman).', expiry: 'Exp: 15 July', badge: 'Hot Deal 🔥' },
+    { code: 'ECVERIFY', desc: 'Register with NID & get free service fee on first booking.', expiry: 'Special Note', badge: 'New User ✨' }
   ];
 
   const topDestinations = [
     { 
-      name: "COX'S BAZAR", 
+      name: "Cox's Bazar", 
       tagline: "World's longest ocean beach", 
       basePrice: '৳700', 
       fromCode: 'DAC-BUS-G', 
@@ -218,7 +217,7 @@ export default function Home() {
       type: 'BUS',
     },
     { 
-      name: 'SYLHET', 
+      name: 'Sylhet', 
       tagline: 'Land of tea gardens & hills', 
       basePrice: '৳350', 
       fromCode: 'DAC-RLY-K', 
@@ -226,7 +225,7 @@ export default function Home() {
       type: 'TRAIN',
     },
     { 
-      name: 'CHITTAGONG', 
+      name: 'Chittagong', 
       tagline: 'Port city transit hub', 
       basePrice: '৳4,500', 
       fromCode: 'DAC-AIR-S', 
@@ -236,16 +235,16 @@ export default function Home() {
   ];
 
   const faqs = [
-    { q: '> IS IDENTITY MATRIX (NID) SYNCHRONIZATION REQUIRED?', a: 'Affirmative. To ensure node integrity and prevent unauthorized ticket scalping, all passenger profiles are cross-referenced with the central National Identity Registry.' },
-    { q: '> HOW DOES THE ROUTE OPTIMIZER FUNCTION?', a: 'By calibrating your telemetry parameters (Credit Efficiency, Velocity Index, Comfort Factor), the engine cross-references real-time transit databases to prioritize optimal routing.' },
-    { q: '> WHAT PAYMENT PROTOCOLS ARE ACCEPTED?', a: 'Our gateways seamlessly integrate with primary temporal credit networks including bKash, Nagad, Rocket, and standard orbital card nodes (Visa/Mastercard).' }
+    { q: '✏️ Is NID verification required to book tickets?', a: 'Yes! To prevent ticket scalping and ensure security, all passenger profiles are cross-verified with Bangladesh NID records.' },
+    { q: '📌 How does the Route Optimizer match journeys?', a: 'By calibrating your preference weights (Price, Speed, Comfort), our algorithm selects the top multi-modal travel options for your route.' },
+    { q: '💳 What payment options are supported?', a: 'We support all major Bangladesh payment gateways including bKash, Nagad, Rocket, and Visa/Mastercard credit cards.' }
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-[#33ff00] font-mono">
+    <div className="relative min-h-screen overflow-hidden bg-[#fdfbf7] text-[#2d2d2d] font-body text-lg">
       
-      {/* Background Phosphor Matrix Canvas */}
-      <RetroGrid opacity={0.5} />
+      {/* Background Doodled Grid Canvas */}
+      <RetroGrid opacity={0.6} />
 
       {/* Hero Section */}
       <section className="mx-auto max-w-7xl px-4 pt-12 pb-10 sm:px-6 lg:px-8 relative z-10">
@@ -259,117 +258,101 @@ export default function Home() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.08 } }
             }}
-            className="lg:col-span-7 space-y-5 text-center lg:text-left"
+            className="lg:col-span-7 space-y-6 text-center lg:text-left"
           >
-            {/* ASCII Banner Logo */}
-            <div className="hidden sm:block text-[9px] sm:text-[10px] leading-none text-[#33ff00] font-mono select-none overflow-hidden text-left opacity-90 drop-shadow-cli-green">
-              <pre>{`
-  ██████╗ ██████╗  ██████╗  ██████╗ ████████╗██╗ ██████╗██╗  ██╗███████╗████████╗
-  ██╔══██╗██╔══██╗██╔════╝ ██╔═══██╗╚══██╔══╝██║██╔════╝██║  ██║██╔════╝╚══██╔══╝
-  ██████╔╝██║  ██║██║  ███╗██║   ██║   ██║   ██║██║     ███████║█████╗     ██║   
-  ██╔══██╗██║  ██║██║   ██║██║   ██║   ██║   ██║██║     ██╔══██║██╔══╝     ██║   
-  ██████╔╝██████╔╝╚██████╔╝╚██████╔╝   ██║   ██║╚██████╗██║  ██║███████╗   ██║   
-  ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝    ╚═╝   ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   
-              `}</pre>
-            </div>
-
-            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 border border-[#1f521f] bg-[#0a0a0a] px-3.5 py-1 text-xs text-[#ffb000] font-mono">
-              <Terminal className="h-3.5 w-3.5 text-[#33ff00]" />
-              <span>{user ? `root@bdgoticket:~# welcome --user ${user.username}` : 'root@bdgoticket:~# ./init_transit_system.sh'}</span>
-              <span className="animate-caret-blink font-bold text-[#33ff00]">█</span>
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 border-[2.5px] border-[#2d2d2d] bg-[#fff9c4] px-4 py-1.5 text-base font-bold text-[#2d2d2d] wobbly-badge shadow-[3px_3px_0px_#2d2d2d] -rotate-1">
+              <Edit3 className="h-4 w-4 text-[#ff4d4d]" />
+              <span>{user ? `✏️ Welcome back, ${user.username}!` : '✏️ Hand-Drawn Transit Sketchbook'}</span>
             </motion.div>
             
-            <motion.h1 variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="text-3xl font-extrabold tracking-wider sm:text-5xl text-white leading-tight font-mono">
-              {t("BANGLADESH ", "বাংলাদেশের ")} <br className="hidden sm:inline" />
-              <span className="text-phosphor-green">
-                {t("CYBER TRANSIT MATRIX", "সাইবার ট্রানজিট ম্যাট্রিক্স")}
+            <motion.h1 variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="text-4xl font-extrabold tracking-tight sm:text-6xl text-[#2d2d2d] leading-tight font-heading">
+              {t("Book Bus, Train & Flight ", "বাস, ট্রেন ও ফ্লাইটের টিকেট ")} <br className="hidden sm:inline" />
+              <span className="text-[#ff4d4d] underline decoration-wavy decoration-[#2d5da1]">
+                {t("Tickets Easily!", "বুক করুন সহজে!")}
               </span>
             </motion.h1>
             
-            <motion.p variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }} className="text-[#33ff00]/80 text-xs sm:text-sm leading-relaxed max-w-xl mx-auto lg:mx-0 font-mono">
-              {t("High-contrast command line interface for booking Bus, Train, and Flight transit passages across Bangladesh. Secured with Gmail OTP authentication.", "বাস, রেল এবং অ্যারো ট্রানজিট বুক করুন জিমেইল ওটিপি সহ।")}
+            <motion.p variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }} className="text-[#2d2d2d]/80 text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 font-body">
+              {t("A human-centered sketchbook interface to search, compare, and reserve multi-modal transit passages across Bangladesh with Gmail OTP verification.", "বাংলাদেশ জুড়ে বাস, ট্রেন ও ফ্লাইটের টিকেট বুকিং করুন একদম সহজে।")}
             </motion.p>
 
-            {/* Terminal Bracket Action Buttons */}
+            {/* Hand-Drawn Action Buttons */}
             <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start pt-2">
-              <a href="#search-form-container" className="cli-btn-primary">
-                [ EXPLORE MATRIX ]
+              <a href="#search-form-container" className="hand-btn-primary">
+                ✏️ Explore Journeys
               </a>
               {!user && (
-                <Link href="/auth/login" className="cli-btn-secondary">
-                  [ PASSENGER LOGIN ]
+                <Link href="/auth/login" className="hand-btn-secondary">
+                  🔑 Passenger Login
                 </Link>
               )}
             </motion.div>
 
-            {/* System Status Badges */}
-            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-xs font-mono text-[#33ff00]">
-              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-[#33ff00]" /> <span>NID_VERIFIED</span></span>
-              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-[#33ff00]" /> <span>GMAIL_OTP_2FA</span></span>
-              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-[#33ff00]" /> <span>BKASH_CHECKOUT</span></span>
+            {/* Feature Badges */}
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-base font-bold text-[#2d2d2d]">
+              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-5 w-5 text-[#ff4d4d]" /> <span>NID Verified</span></span>
+              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-5 w-5 text-[#2d5da1]" /> <span>Gmail OTP 2FA</span></span>
+              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-5 w-5 text-[#ff4d4d]" /> <span>Instant Checkout</span></span>
             </motion.div>
           </motion.div>
 
-          {/* Right Hero Column: Passenger Profile Window or HUD */}
+          {/* Right Hero Column: Passenger Profile Index Card */}
           {user ? (
             <div className="lg:col-span-5 relative">
-              <div className="cli-window p-5 space-y-4">
-                <div className="cli-titlebar flex justify-between items-center -mx-5 -mt-5 mb-4">
-                  <span>+--- PASSENGER_NODE_PROFILE [ACTIVE] ---+</span>
-                  <span className="text-[#ffb000]">[OK]</span>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <div className="h-10 w-10 border border-[#33ff00] bg-[#0a0a0a] text-[#33ff00] font-mono text-lg flex items-center justify-center font-bold">
+              <div className="hand-card p-6 space-y-4 relative -rotate-1">
+                <div className="tape-strip" />
+                
+                <div className="flex items-center space-x-3 pt-2">
+                  <div className="h-12 w-12 border-[3px] border-[#2d2d2d] bg-[#fff9c4] text-[#2d2d2d] font-heading text-2xl flex items-center justify-center font-bold wobbly-box shadow-[2px_2px_0px_#2d2d2d]">
                     {user.username.substring(0, 2).toUpperCase()}
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white font-mono">{user.first_name || user.username}</h4>
-                    <p className="text-xs text-[#ffb000] font-mono mt-0.5">SYS_ID: #00{user.id}2088</p>
+                    <h4 className="text-xl font-bold font-heading text-[#2d2d2d]">{user.first_name || user.username}</h4>
+                    <p className="text-sm text-[#2d5da1] font-bold">Passenger ID: #00{user.id}2088</p>
                   </div>
                 </div>
 
-                {/* Status Panels */}
-                <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono">
-                  <div className="border border-[#1f521f] bg-[#0a0a0a] p-2 space-y-0.5">
-                    <span className="block text-[9px] text-[#33ff00]/60 uppercase">NID CARD</span>
-                    <span className="block font-bold text-[#33ff00]">[OK]</span>
+                {/* Status Badges */}
+                <div className="grid grid-cols-3 gap-2 text-center text-sm font-bold">
+                  <div className="border-[2px] border-[#2d2d2d] bg-[#fdfbf7] p-2 wobbly-badge">
+                    <span className="block text-xs text-[#2d2d2d]/60">NID CARD</span>
+                    <span className="block text-[#ff4d4d]">✓ Verified</span>
                   </div>
-                  <div className="border border-[#1f521f] bg-[#0a0a0a] p-2 space-y-0.5">
-                    <span className="block text-[9px] text-[#33ff00]/60 uppercase">SIM PHONE</span>
-                    <span className="block font-bold text-[#33ff00]">[OK]</span>
+                  <div className="border-[2px] border-[#2d2d2d] bg-[#fdfbf7] p-2 wobbly-badge">
+                    <span className="block text-xs text-[#2d2d2d]/60">PHONE</span>
+                    <span className="block text-[#2d5da1]">✓ Active</span>
                   </div>
-                  <div className="border border-[#1f521f] bg-[#0a0a0a] p-2 space-y-0.5">
-                    <span className="block text-[9px] text-[#33ff00]/60 uppercase">GMAIL OTP</span>
-                    <span className="block font-bold text-[#33ff00]">[OK]</span>
+                  <div className="border-[2px] border-[#2d2d2d] bg-[#fdfbf7] p-2 wobbly-badge">
+                    <span className="block text-xs text-[#2d2d2d]/60">GMAIL OTP</span>
+                    <span className="block text-[#ff4d4d]">✓ Ready</span>
                   </div>
                 </div>
 
                 {/* Info Block */}
-                <div className="border border-[#1f521f] bg-[#0a0a0a] p-3 text-xs space-y-1.5 font-mono">
+                <div className="border-[2px] border-[#2d2d2d] bg-[#fff9c4] p-3 text-base space-y-1.5 wobbly-box">
                   <div className="flex justify-between">
-                    <span className="text-[#33ff00]/60">NAME:</span>
-                    <span className="text-white font-bold">{user.profile?.nid_name || user.first_name || 'Rakibul Islam'}</span>
+                    <span className="text-[#2d2d2d]/70">Name:</span>
+                    <span className="font-bold text-[#2d2d2d]">{user.profile?.nid_name || user.first_name || 'Rakibul Islam'}</span>
                   </div>
-                  <div className="flex justify-between border-t border-[#1f521f] pt-1.5">
-                    <span className="text-[#33ff00]/60">NID_NO:</span>
-                    <span className="text-[#33ff00] font-bold">
+                  <div className="flex justify-between border-t border-dashed border-[#2d2d2d]/40 pt-1.5">
+                    <span className="text-[#2d2d2d]/70">NID No:</span>
+                    <span className="font-bold text-[#2d5da1]">
                       {user.profile?.nid ? `${user.profile.nid.substring(0, 4)}******` : '1234******'}
                     </span>
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <Link href="/dashboard" className="cli-btn-primary text-xs h-9 px-2 text-center">
-                    [ DASHBOARD ]
+                <div className="grid grid-cols-2 gap-3 pt-1">
+                  <Link href="/dashboard" className="hand-btn-primary text-base h-10 px-2 text-center">
+                    Dashboard
                   </Link>
                   <button
                     type="button"
                     onClick={logout}
-                    className="cli-btn-secondary text-xs h-9 px-2 text-center"
+                    className="hand-btn-secondary text-base h-10 px-2 text-center"
                   >
-                    [ LOGOUT ]
+                    Logout
                   </button>
                 </div>
 
@@ -377,78 +360,76 @@ export default function Home() {
             </div>
           ) : (
             <div className="lg:col-span-5 relative">
-              <FuturisticHUD />
+              <div className="postit-card p-7 space-y-4 text-center relative rotate-2">
+                <div className="thumbtack" />
+                <h3 className="text-2xl font-bold font-heading text-[#2d2d2d] pt-2">
+                  📌 Quick Ticket Booking
+                </h3>
+                <p className="text-lg text-[#2d2d2d]/80 leading-relaxed">
+                  Search luxury coaches, Bangladesh Railway trains, and domestic flights in one notebook sketchbook!
+                </p>
+                <div className="pt-2">
+                  <a href="#search-form-container" className="hand-btn-primary w-full py-3">
+                    ✏️ Start Booking Now
+                  </a>
+                </div>
+              </div>
             </div>
           )}
 
         </div>
       </section>
 
-      {/* Platform Statistics in Character Progress Bar Format */}
+      {/* Platform Statistics */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 cli-window p-5 font-mono text-xs">
-            <div className="space-y-1 border border-[#1f521f] p-3">
-              <span className="block text-xs text-[#ffb000] uppercase font-bold">// DAILY_TRANSITS</span>
-              <span className="block text-lg font-bold text-[#33ff00]">
-                [██████████████░░] <NumberTicker value={2640} suffix="+" />
-              </span>
-            </div>
-            <div className="space-y-1 border border-[#1f521f] p-3">
-              <span className="block text-xs text-[#ffb000] uppercase font-bold">// TRANSIT_NODES</span>
-              <span className="block text-lg font-bold text-[#33ff00]">
-                [████████████████] <NumberTicker value={26} /> NODES
-              </span>
-            </div>
-            <div className="space-y-1 border border-[#1f521f] p-3">
-              <span className="block text-xs text-[#ffb000] uppercase font-bold">// ENROLLED_PILOTS</span>
-              <span className="block text-lg font-bold text-[#33ff00]">
-                [████████████░░░░] <NumberTicker value={15200} decimals={1} suffix="K" />
-              </span>
-            </div>
-            <div className="space-y-1 border border-[#1f521f] p-3">
-              <span className="block text-xs text-[#ffb000] uppercase font-bold">// TELEMETRY_SYNC</span>
-              <span className="block text-lg font-bold text-[#33ff00]">
-                [████████████████] <NumberTicker value={99.9} decimals={1} suffix="%" />
-              </span>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+            {[
+              { label: 'Daily Transits', val: 2640, suffix: '+', color: 'text-[#ff4d4d]' },
+              { label: 'Transit Nodes', val: 26, suffix: ' Nodes', color: 'text-[#2d5da1]' },
+              { label: 'Registered Pilots', val: 15.2, decimals: 1, suffix: 'K', color: 'text-[#ff4d4d]' },
+              { label: 'Route Telemetry', val: 99.9, decimals: 1, suffix: '%', color: 'text-[#2d5da1]' }
+            ].map((stat, idx) => (
+              <div key={idx} className="hand-card p-4 text-center space-y-1 wobbly-box rotate-1">
+                <span className="block text-base font-bold text-[#2d2d2d]/70 uppercase">// {stat.label}</span>
+                <span className={`block text-3xl font-bold font-heading ${stat.color}`}>
+                  <NumberTicker value={stat.val} decimals={stat.decimals} suffix={stat.suffix} />
+                </span>
+              </div>
+            ))}
           </div>
         </section>
       </ScrollReveal>
 
-      {/* Terminal Search Matrix Window */}
+      {/* Post-It Yellow Search Container */}
       <section id="search-form-container" className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8 relative scroll-mt-24 z-20">
         
         {validationError && (
-          <div className="max-w-4xl mx-auto mb-4 border border-[#ff3333] bg-[#0a0a0a] p-3 text-xs text-[#ff3333] flex items-center space-x-2 font-mono">
-            <AlertCircle className="h-4 w-4 shrink-0 text-[#ff3333]" />
-            <span className="uppercase tracking-wider">[ERR] {validationError}</span>
+          <div className="max-w-4xl mx-auto mb-4 border-[3px] border-[#2d2d2d] bg-[#ff4d4d] text-white p-3 text-base flex items-center space-x-2 font-bold wobbly-box shadow-[3px_3px_0px_#2d2d2d]">
+            <AlertCircle className="h-5 w-5 shrink-0 text-white" />
+            <span>{validationError}</span>
           </div>
         )}
 
-        <div className="cli-window p-5 sm:p-7 relative">
-          
-          {/* ASCII Titlebar */}
-          <div className="cli-titlebar flex justify-between items-center -mx-5 sm:-mx-7 -mt-5 sm:-mt-7 mb-6">
-            <div className="flex items-center space-x-2">
-              <Terminal className="h-4 w-4 text-[#33ff00]" />
-              <span className="text-xs font-mono font-bold text-[#33ff00] uppercase">+--- TRANSIT ROUTER INPUT [tmux 0:bash*] ---+</span>
-            </div>
-            <span className="text-[#ffb000] text-xs font-bold">[ READY ]</span>
-          </div>
+        <div className="postit-card p-6 sm:p-8 relative -rotate-1">
+          <div className="tape-strip" />
 
-          <form onSubmit={handleSearch} className="space-y-5">
+          <h2 className="text-3xl font-bold font-heading text-[#2d2d2d] text-center mb-6 pt-2">
+            ✏️ Search Transit Route Matrix
+          </h2>
+
+          <form onSubmit={handleSearch} className="space-y-6">
           
             {/* Control Bar: Mode & Type Select */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1f521f] pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-dashed border-[#2d2d2d]/40 pb-5">
               
               {/* Transport Tabs */}
-              <div className="flex border border-[#1f521f] bg-[#0a0a0a] space-x-1 p-1">
+              <div className="flex flex-wrap gap-2">
                 {[
-                  { id: 'ALL', label: '[ ALL MODES ]', icon: Sparkles },
-                  { id: 'BUS', label: '[ BUS ]', icon: Bus },
-                  { id: 'TRAIN', label: '[ TRAIN ]', icon: Train },
-                  { id: 'PLANE', label: '[ PLANE ]', icon: Plane }
+                  { id: 'ALL', label: 'All Modes ✨', icon: Sparkles },
+                  { id: 'BUS', label: 'Bus 🚌', icon: Bus },
+                  { id: 'TRAIN', label: 'Train 🚂', icon: Train },
+                  { id: 'PLANE', label: 'Plane ✈️', icon: Plane }
                 ].map((tab) => {
                   const active = transportType === tab.id;
                   return (
@@ -456,13 +437,13 @@ export default function Home() {
                       key={tab.id}
                       type="button"
                       onClick={() => { setTransportType(tab.id); setValidationError(''); }}
-                      className={`flex items-center space-x-1 px-2.5 py-1 text-xs font-mono uppercase tracking-wider transition-all duration-150 cursor-pointer ${
+                      className={`flex items-center space-x-1.5 px-3.5 py-1.5 text-base font-bold wobbly-btn transition-all cursor-pointer ${
                         active 
-                          ? 'bg-[#33ff00] text-[#0a0a0a] font-bold' 
-                          : 'text-[#33ff00]/70 hover:text-[#33ff00] hover:bg-[#1f521f]/40'
+                          ? 'border-[3px] border-[#2d2d2d] bg-[#ff4d4d] text-white shadow-[3px_3px_0px_#2d2d2d] -rotate-1' 
+                          : 'border-[2px] border-[#2d2d2d] bg-white text-[#2d2d2d] hover:bg-[#e5e0d8]'
                       }`}
                     >
-                      <tab.icon className="h-3.5 w-3.5" />
+                      <tab.icon className="h-4 w-4" />
                       <span>{tab.label}</span>
                     </button>
                   );
@@ -470,15 +451,15 @@ export default function Home() {
               </div>
 
               {/* Trip Type Choice */}
-              <div className="flex space-x-4 text-xs font-mono text-[#33ff00]">
+              <div className="flex space-x-4 text-base font-bold text-[#2d2d2d]">
                 <label className="flex items-center space-x-1.5 cursor-pointer">
                   <input 
                     type="radio" 
                     checked={tripType === 'oneway'} 
                     onChange={() => setTripType('oneway')}
-                    className="accent-[#33ff00] h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[#ff4d4d] h-4 w-4 cursor-pointer" 
                   />
-                  <span className={tripType === 'oneway' ? 'text-[#ffb000] font-bold' : ''}>[ ONE-WAY ]</span>
+                  <span className={tripType === 'oneway' ? 'text-[#ff4d4d] underline' : ''}>One-Way</span>
                 </label>
                 <label className="flex items-center space-x-1.5 cursor-pointer opacity-70 hover:opacity-100">
                   <input 
@@ -488,9 +469,9 @@ export default function Home() {
                       setTripType('round');
                       alert('Round-trip return dates are mocked. You will search and book your outward journey first.');
                     }}
-                    className="accent-[#33ff00] h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[#ff4d4d] h-4 w-4 cursor-pointer" 
                   />
-                  <span className={tripType === 'round' ? 'text-[#ffb000] font-bold' : ''}>[ ROUND-TRIP ]</span>
+                  <span className={tripType === 'round' ? 'text-[#ff4d4d] underline' : ''}>Round-Trip</span>
                 </label>
               </div>
 
@@ -501,40 +482,40 @@ export default function Home() {
               
               {/* FROM Dropdown */}
               <div ref={sourceRef} className="md:col-span-3 space-y-1 relative">
-                <label className="text-xs font-mono text-[#ffb000] uppercase tracking-wider block">user@origin:~$</label>
+                <label className="text-base font-bold text-[#2d2d2d] block">Departure Node:</label>
                 <button
                   type="button"
                   onClick={() => { setSourceOpen(!sourceOpen); setDestOpen(false); }}
-                  className="w-full bg-[#0a0a0a] border border-[#1f521f] p-3 text-left focus:border-[#33ff00] transition-all flex items-center justify-between cursor-pointer hover:border-[#33ff00]"
+                  className="w-full bg-white border-[3px] border-[#2d2d2d] p-3 text-left wobbly-input shadow-[3px_3px_0px_#2d2d2d] flex items-center justify-between cursor-pointer hover:border-[#2d5da1]"
                 >
                   <div className="flex items-center space-x-2.5">
-                    <MapPin className="h-4 w-4 text-[#33ff00]" />
+                    <MapPin className="h-5 w-5 text-[#ff4d4d]" />
                     <div>
-                      <span className="block font-bold text-xs text-[#33ff00]">
-                        {source ? getStationLabel(source) : 'SELECT DEPARTURE STATION'}
+                      <span className="block font-bold text-base text-[#2d2d2d]">
+                        {source ? getStationLabel(source) : 'SELECT DEPARTURE'}
                       </span>
-                      <span className="block text-[11px] text-[#33ff00]/60 mt-0.5">
+                      <span className="block text-xs text-[#2d2d2d]/60 mt-0.5">
                         {source ? getStationDetail(source) : 'Choose origin node'}
                       </span>
                     </div>
                   </div>
-                  <ChevronDown className="h-4 w-4 text-[#ffb000]" />
+                  <ChevronDown className="h-5 w-5 text-[#2d2d2d]" />
                 </button>
 
                 {sourceOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-1 z-40 border border-[#33ff00] bg-[#0a0a0a] p-3 shadow-2xl flex flex-col space-y-2 font-mono text-xs">
+                  <div className="absolute left-0 right-0 top-full mt-2 z-40 border-[3px] border-[#2d2d2d] bg-white p-3 shadow-2xl wobbly-box flex flex-col space-y-2 text-base">
                     <div className="relative">
                        <input
                         type="text"
-                        placeholder="Filter station name/code..."
+                        placeholder="Search station or city..."
                         value={sourceSearch}
                         onChange={(e) => setSourceSearch(e.target.value)}
-                        className="cli-input w-full text-xs"
+                        className="hand-input w-full text-base"
                         autoFocus
                       />
                       {sourceSearch && (
-                        <button type="button" onClick={() => setSourceSearch('')} className="absolute right-2 top-2 text-[#ff3333]">
-                          <X className="h-3.5 w-3.5" />
+                        <button type="button" onClick={() => setSourceSearch('')} className="absolute right-2 top-3 text-[#ff4d4d]">
+                          <X className="h-4 w-4" />
                         </button>
                       )}
                     </div>
@@ -542,16 +523,16 @@ export default function Home() {
                     <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
                       {sourceGroups.bus.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-bold text-[#ffb000] uppercase block px-1">// BUS TERMINALS</span>
+                          <span className="text-xs font-bold text-[#ff4d4d] uppercase block px-1">// Bus Terminals</span>
                           {sourceGroups.bus.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left p-1.5 text-xs text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] flex items-center justify-between cursor-pointer"
+                              className="w-full text-left p-1.5 text-base text-[#2d2d2d] hover:bg-[#fff9c4] flex items-center justify-between cursor-pointer rounded"
                             >
                               <span>{st.name}</span>
-                              <span className="font-mono">[{st.code}]</span>
+                              <span className="font-bold text-[#2d5da1]">[{st.code}]</span>
                             </button>
                           ))}
                         </div>
@@ -559,16 +540,16 @@ export default function Home() {
 
                       {sourceGroups.railway.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-bold text-[#ffb000] uppercase block px-1">// RAILWAY STATIONS</span>
+                          <span className="text-xs font-bold text-[#2d5da1] uppercase block px-1">// Railway Stations</span>
                           {sourceGroups.railway.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left p-1.5 text-xs text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] flex items-center justify-between cursor-pointer"
+                              className="w-full text-left p-1.5 text-base text-[#2d2d2d] hover:bg-[#fff9c4] flex items-center justify-between cursor-pointer rounded"
                             >
                               <span>{st.name}</span>
-                              <span className="font-mono">[{st.code}]</span>
+                              <span className="font-bold text-[#2d5da1]">[{st.code}]</span>
                             </button>
                           ))}
                         </div>
@@ -576,23 +557,23 @@ export default function Home() {
 
                       {sourceGroups.airport.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-bold text-[#ffb000] uppercase block px-1">// AIRPORTS</span>
+                          <span className="text-xs font-bold text-[#ff4d4d] uppercase block px-1">// Airports</span>
                           {sourceGroups.airport.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left p-1.5 text-xs text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] flex items-center justify-between cursor-pointer"
+                              className="w-full text-left p-1.5 text-base text-[#2d2d2d] hover:bg-[#fff9c4] flex items-center justify-between cursor-pointer rounded"
                             >
                               <span>{st.name}</span>
-                              <span className="font-mono">[{st.code}]</span>
+                              <span className="font-bold text-[#2d5da1]">[{st.code}]</span>
                             </button>
                           ))}
                         </div>
                       )}
 
                       {sourceGroups.bus.length === 0 && sourceGroups.railway.length === 0 && sourceGroups.airport.length === 0 && (
-                        <span className="text-xs text-[#33ff00]/50 block text-center py-2">[ERR: NO NODES MATCH]</span>
+                        <span className="text-base text-[#2d2d2d]/50 block text-center py-2">No matching stations found</span>
                       )}
                     </div>
                   </div>
@@ -604,49 +585,49 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handleSwapStations}
-                  className="p-2.5 border border-[#1f521f] bg-[#0a0a0a] text-[#33ff00] hover:border-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all cursor-pointer"
+                  className="p-3 border-[3px] border-[#2d2d2d] bg-white text-[#2d2d2d] wobbly-btn shadow-[3px_3px_0px_#2d2d2d] hover:bg-[#ff4d4d] hover:text-white transition-all cursor-pointer"
                   title="Swap Departure and Destination"
                 >
-                  <ArrowLeftRight className="h-4 w-4 md:rotate-90" />
+                  <ArrowLeftRight className="h-5 w-5 md:rotate-90" />
                 </button>
               </div>
 
               {/* TO Dropdown */}
               <div ref={destRef} className="md:col-span-3 space-y-1 relative">
-                <label className="text-xs font-mono text-[#ffb000] uppercase tracking-wider block">user@destination:~$</label>
+                <label className="text-base font-bold text-[#2d2d2d] block">Destination Node:</label>
                 <button
                   type="button"
                   onClick={() => { setDestOpen(!destOpen); setSourceOpen(false); }}
-                  className="w-full bg-[#0a0a0a] border border-[#1f521f] p-3 text-left focus:border-[#33ff00] transition-all flex items-center justify-between cursor-pointer hover:border-[#33ff00]"
+                  className="w-full bg-white border-[3px] border-[#2d2d2d] p-3 text-left wobbly-input shadow-[3px_3px_0px_#2d2d2d] flex items-center justify-between cursor-pointer hover:border-[#2d5da1]"
                 >
                   <div className="flex items-center space-x-2.5">
-                    <MapPin className="h-4 w-4 text-[#33ff00]" />
+                    <MapPin className="h-5 w-5 text-[#2d5da1]" />
                     <div>
-                      <span className="block font-bold text-xs text-[#33ff00]">
-                        {destination ? getStationLabel(destination) : 'SELECT DESTINATION STATION'}
+                      <span className="block font-bold text-base text-[#2d2d2d]">
+                        {destination ? getStationLabel(destination) : 'SELECT DESTINATION'}
                       </span>
-                      <span className="block text-[11px] text-[#33ff00]/60 mt-0.5">
+                      <span className="block text-xs text-[#2d2d2d]/60 mt-0.5">
                         {destination ? getStationDetail(destination) : 'Choose destination node'}
                       </span>
                     </div>
                   </div>
-                  <ChevronDown className="h-4 w-4 text-[#ffb000]" />
+                  <ChevronDown className="h-5 w-5 text-[#2d2d2d]" />
                 </button>
 
                 {destOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-1 z-40 border border-[#33ff00] bg-[#0a0a0a] p-3 shadow-2xl flex flex-col space-y-2 font-mono text-xs">
+                  <div className="absolute left-0 right-0 top-full mt-2 z-40 border-[3px] border-[#2d2d2d] bg-white p-3 shadow-2xl wobbly-box flex flex-col space-y-2 text-base">
                     <div className="relative">
                       <input
                         type="text"
-                        placeholder="Filter station name/code..."
+                        placeholder="Search station or city..."
                         value={destSearch}
                         onChange={(e) => setDestSearch(e.target.value)}
-                        className="cli-input w-full text-xs"
+                        className="hand-input w-full text-base"
                         autoFocus
                       />
                       {destSearch && (
-                        <button type="button" onClick={() => setDestSearch('')} className="absolute right-2 top-2 text-[#ff3333]">
-                          <X className="h-3.5 w-3.5" />
+                        <button type="button" onClick={() => setDestSearch('')} className="absolute right-2 top-3 text-[#ff4d4d]">
+                          <X className="h-4 w-4" />
                         </button>
                       )}
                     </div>
@@ -654,16 +635,16 @@ export default function Home() {
                     <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
                       {destGroups.bus.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-bold text-[#ffb000] uppercase block px-1">// BUS TERMINALS</span>
+                          <span className="text-xs font-bold text-[#ff4d4d] uppercase block px-1">// Bus Terminals</span>
                           {destGroups.bus.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left p-1.5 text-xs text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] flex items-center justify-between cursor-pointer"
+                              className="w-full text-left p-1.5 text-base text-[#2d2d2d] hover:bg-[#fff9c4] flex items-center justify-between cursor-pointer rounded"
                             >
                               <span>{st.name}</span>
-                              <span className="font-mono">[{st.code}]</span>
+                              <span className="font-bold text-[#2d5da1]">[{st.code}]</span>
                             </button>
                           ))}
                         </div>
@@ -671,16 +652,16 @@ export default function Home() {
 
                       {destGroups.railway.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-bold text-[#ffb000] uppercase block px-1">// RAILWAY STATIONS</span>
+                          <span className="text-xs font-bold text-[#2d5da1] uppercase block px-1">// Railway Stations</span>
                           {destGroups.railway.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left p-1.5 text-xs text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] flex items-center justify-between cursor-pointer"
+                              className="w-full text-left p-1.5 text-base text-[#2d2d2d] hover:bg-[#fff9c4] flex items-center justify-between cursor-pointer rounded"
                             >
                               <span>{st.name}</span>
-                              <span className="font-mono">[{st.code}]</span>
+                              <span className="font-bold text-[#2d5da1]">[{st.code}]</span>
                             </button>
                           ))}
                         </div>
@@ -688,23 +669,23 @@ export default function Home() {
 
                       {destGroups.airport.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-bold text-[#ffb000] uppercase block px-1">// AIRPORTS</span>
+                          <span className="text-xs font-bold text-[#ff4d4d] uppercase block px-1">// Airports</span>
                           {destGroups.airport.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left p-1.5 text-xs text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] flex items-center justify-between cursor-pointer"
+                              className="w-full text-left p-1.5 text-base text-[#2d2d2d] hover:bg-[#fff9c4] flex items-center justify-between cursor-pointer rounded"
                             >
                               <span>{st.name}</span>
-                              <span className="font-mono">[{st.code}]</span>
+                              <span className="font-bold text-[#2d5da1]">[{st.code}]</span>
                             </button>
                           ))}
                         </div>
                       )}
 
                       {destGroups.bus.length === 0 && destGroups.railway.length === 0 && destGroups.airport.length === 0 && (
-                        <span className="text-xs text-[#33ff00]/50 block text-center py-2">[ERR: NO NODES MATCH]</span>
+                        <span className="text-base text-[#2d2d2d]/50 block text-center py-2">No matching stations found</span>
                       )}
                     </div>
                   </div>
@@ -717,9 +698,9 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               
               <div className="space-y-1">
-                <label className="text-xs font-mono text-[#33ff00] uppercase tracking-wider flex items-center space-x-1">
-                  <Calendar className="h-3.5 w-3.5 text-[#ffb000]" />
-                  <span>// JOURNEY DATE [YYYY-MM-DD]</span>
+                <label className="text-base font-bold text-[#2d2d2d] flex items-center space-x-1">
+                  <Calendar className="h-4 w-4 text-[#ff4d4d]" />
+                  <span>Journey Date:</span>
                 </label>
                 <input
                   type="date"
@@ -727,26 +708,24 @@ export default function Home() {
                   min={todayStr}
                   max={getMaxDate()}
                   onChange={(e) => { setDate(e.target.value); setValidationError(''); }}
-                  className="cli-input w-full cursor-pointer"
+                  className="hand-input w-full cursor-pointer"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-mono text-[#33ff00] uppercase tracking-wider flex items-center justify-between">
-                  <span className="flex items-center space-x-1">
-                    <Sparkles className="h-3.5 w-3.5 text-[#ffb000]" />
-                    <span>// RANKING ALGORITHM</span>
-                  </span>
+                <label className="text-base font-bold text-[#2d2d2d] flex items-center space-x-1">
+                  <Sparkles className="h-4 w-4 text-[#2d5da1]" />
+                  <span>Ranking Preference:</span>
                 </label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
-                  className="cli-input w-full cursor-pointer"
+                  className="hand-input w-full cursor-pointer"
                 >
-                  <option value="balanced">BALANCED MATRIX</option>
-                  <option value="budget">BUDGET CONTROL</option>
-                  <option value="speed">VELOCITY DRIVE</option>
-                  <option value="comfort">MAX COMFORT</option>
+                  <option value="balanced">Balanced Matrix</option>
+                  <option value="budget">Budget Saver</option>
+                  <option value="speed">Velocity Drive</option>
+                  <option value="comfort">Max Comfort</option>
                 </select>
               </div>
 
@@ -755,11 +734,11 @@ export default function Home() {
             {/* Search Submit Button */}
             <button
               type="submit"
-              className="cli-btn-primary w-full py-3.5 text-xs font-bold tracking-widest mt-2"
+              className="hand-btn-primary w-full py-4 text-xl font-bold mt-2"
             >
               <span className="flex items-center space-x-2">
-                <Search className="h-4 w-4" />
-                <span>[ EXECUTE TRANSIT SEARCH ]</span>
+                <Search className="h-5 w-5" />
+                <span>✏️ Execute Search</span>
               </span>
             </button>
           </form>
@@ -769,19 +748,20 @@ export default function Home() {
       {/* Promotional Offers Row */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-16">
-          <h2 className="text-lg font-bold text-white text-center mb-6 flex items-center justify-center space-x-2 font-mono">
-            <Percent className="h-5 w-5 text-[#ffb000]" />
-            <span>// PROMOTIONAL PROTOCOLS</span>
+          <h2 className="text-3xl font-bold font-heading text-[#2d2d2d] text-center mb-6 flex items-center justify-center space-x-2">
+            <Percent className="h-6 w-6 text-[#ff4d4d]" />
+            <span>Promotional Coupons</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {promos.map((promo, idx) => (
-              <div key={idx} className="cli-window p-4 flex flex-col justify-between space-y-3">
-                <div className="cli-titlebar -mx-4 -mt-4 mb-2 flex justify-between">
-                  <span>+--- CODE: {promo.code} ---+</span>
-                  <span className="text-[#ffb000]">[{promo.badge}]</span>
+              <div key={idx} className="hand-card p-5 flex flex-col justify-between space-y-3 relative rotate-1">
+                <div className="thumbtack" />
+                <div className="flex justify-between items-center pt-2">
+                  <span className="font-bold font-heading text-xl text-[#2d2d2d]">Code: {promo.code}</span>
+                  <span className="text-sm font-bold text-white bg-[#ff4d4d] px-2 py-0.5 wobbly-badge">{promo.badge}</span>
                 </div>
-                <p className="text-xs text-[#33ff00]/80 leading-relaxed font-mono">{promo.desc}</p>
-                <div className="text-[11px] text-[#ffb000] font-mono font-bold border-t border-[#1f521f] pt-2">{promo.expiry}</div>
+                <p className="text-base text-[#2d2d2d]/80 leading-relaxed font-body">{promo.desc}</p>
+                <div className="text-sm font-bold text-[#2d5da1] border-t border-dashed border-[#2d2d2d]/30 pt-2">{promo.expiry}</div>
               </div>
             ))}
           </div>
@@ -791,37 +771,38 @@ export default function Home() {
       {/* Top Destinations Cards */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-20">
-          <div className="text-center space-y-1 mb-8 font-mono">
-            <h2 className="text-lg font-bold text-white flex items-center justify-center space-x-2">
-              <Flame className="h-5 w-5 text-[#33ff00]" />
-              <span>// POPULAR DESTINATION NODES</span>
+          <div className="text-center space-y-1 mb-8">
+            <h2 className="text-3xl font-bold font-heading text-[#2d2d2d] flex items-center justify-center space-x-2">
+              <Flame className="h-6 w-6 text-[#ff4d4d]" />
+              <span>Popular Destinations</span>
             </h2>
-            <p className="text-xs text-[#ffb000]">Click any destination node to auto-fill search telemetry</p>
+            <p className="text-base text-[#2d5da1] font-bold">Click any route to auto-fill search telemetry</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {topDestinations.map((dest, idx) => (
               <button
                 key={idx}
                 onClick={() => handleQuickBookSelect(dest.fromCode, dest.toCode, dest.type)}
-                className="text-left cli-window p-4 flex flex-col justify-between cursor-pointer group h-44 hover:border-[#33ff00] transition-all"
+                className="text-left hand-card p-5 flex flex-col justify-between cursor-pointer group h-48 hover:-rotate-1 transition-all"
               >
-                <div className="cli-titlebar -mx-4 -mt-4 mb-3 flex justify-between">
-                  <span>+--- NODE: {dest.name} ---+</span>
-                  <span className="text-[#ffb000]">[{dest.type}]</span>
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-xs bg-[#e5e0d8] text-[#2d2d2d] px-2 py-0.5 wobbly-badge">
+                    {dest.type}
+                  </span>
+                  <span className="text-sm font-bold text-[#ff4d4d]">Fare: {dest.basePrice}</span>
                 </div>
 
                 <div>
-                  <h4 className="text-base font-bold text-white flex items-center space-x-1.5 group-hover:text-[#33ff00]">
+                  <h4 className="text-2xl font-bold font-heading text-[#2d2d2d] flex items-center space-x-1.5 group-hover:text-[#ff4d4d]">
                     <span>{dest.name}</span>
-                    <ArrowRight className="h-3.5 w-3.5 text-[#33ff00] transform group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="h-4 w-4 text-[#ff4d4d] transform group-hover:translate-x-1 transition-transform" />
                   </h4>
-                  <p className="text-xs text-[#33ff00]/70 font-mono mt-1">{dest.tagline}</p>
+                  <p className="text-base text-[#2d2d2d]/70 mt-1">{dest.tagline}</p>
                 </div>
 
-                <div className="border-t border-[#1f521f] pt-2 mt-auto flex justify-between text-xs font-mono">
-                  <span className="text-[#33ff00]/60">FARE:</span>
-                  <span className="font-bold text-[#ffb000]">{dest.basePrice}</span>
+                <div className="border-t border-dashed border-[#2d2d2d]/30 pt-2 mt-auto text-sm font-bold text-[#2d5da1]">
+                  Click to auto-fill route ✏️
                 </div>
               </button>
             ))}
@@ -829,180 +810,19 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* Interactive Match Score Engine Simulator */}
-      <section className="mx-auto max-w-5xl px-4 pb-20 font-mono">
-        <div className="cli-window p-5 sm:p-7">
-          <div className="cli-titlebar -mx-5 sm:-mx-7 -mt-5 sm:-mt-7 mb-5 flex justify-between">
-            <span>+--- ROUTE OPTIMIZER SIMULATOR [tmux] ---+</span>
-            <span className="text-[#ffb000]">[ACTIVE]</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-5 justify-center">
-            {(['balanced', 'budget', 'comfort', 'speed'] as const).map(mode => (
-              <button
-                key={mode}
-                type="button"
-                onClick={() => {
-                  setSimMode(mode);
-                  setPriority(mode);
-                }}
-                className={`px-3 py-1 text-xs font-mono uppercase border cursor-pointer transition-all ${
-                  simMode === mode
-                    ? 'border-[#33ff00] bg-[#33ff00] text-[#0a0a0a] font-bold'
-                    : 'border-[#1f521f] bg-[#0a0a0a] text-[#33ff00]/70 hover:border-[#33ff00]'
-                }`}
-              >
-                [ {mode} ]
-              </button>
-            ))}
-          </div>
-
-          {/* Character Progress Bar Items */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {
-                type: 'Green Line Bus (AC)',
-                mode: 'BUS',
-                budget: 8.5,
-                comfort: 4.5,
-                speed: 4.0,
-                description: 'Economical land transit.'
-              },
-              {
-                type: 'Subarna Express Train',
-                mode: 'TRAIN',
-                budget: 7.2,
-                comfort: 9.0,
-                speed: 5.5,
-                description: 'Bypasses highway traffic.'
-              },
-              {
-                type: 'US-Bangla Flight',
-                mode: 'PLANE',
-                budget: 1.5,
-                comfort: 9.8,
-                speed: 9.8,
-                description: 'High velocity aero transit.'
-              }
-            ].map(item => {
-              const weights = {
-                balanced: { b: 0.33, c: 0.33, s: 0.33 },
-                budget: { b: 0.70, c: 0.15, s: 0.15 },
-                comfort: { b: 0.15, c: 0.70, s: 0.15 },
-                speed: { b: 0.15, c: 0.15, s: 0.70 }
-              }[simMode];
-
-              const match = Math.round((item.budget * weights.b + item.comfort * weights.c + item.speed * weights.s) * 10);
-              
-              return (
-                <div
-                  key={item.type}
-                  onClick={() => {
-                    setTransportType(item.mode);
-                    setPriority(simMode);
-                    const el = document.getElementById('search-form-container');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="border border-[#1f521f] bg-[#0a0a0a] hover:border-[#33ff00] p-4 flex flex-col justify-between transition-all cursor-pointer group"
-                >
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-start">
-                      <span className="text-xs font-bold text-white group-hover:text-[#33ff00]">{item.type}</span>
-                      <span className="text-xs font-mono text-[#ffb000] border border-[#ffb000] px-1.5 py-0.5">
-                        {match}% MATCH
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#33ff00]/60">{item.description}</p>
-                  </div>
-
-                  <div className="space-y-2 pt-3 border-t border-[#1f521f] mt-3 text-xs">
-                    <div>
-                      <div className="flex justify-between text-[#33ff00]/70 text-[11px]">
-                        <span>CREDIT EFFICIENCY</span>
-                        <span>{item.budget}/10</span>
-                      </div>
-                      <div className="text-xs text-[#33ff00] font-mono mt-0.5">
-                        [████████░░]
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between text-[#33ff00]/70 text-[11px]">
-                        <span>COMFORT FACTOR</span>
-                        <span>{item.comfort}/10</span>
-                      </div>
-                      <div className="text-xs text-[#33ff00] font-mono mt-0.5">
-                        [██████████]
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between text-[#33ff00]/70 text-[11px]">
-                        <span>VELOCITY INDEX</span>
-                        <span>{item.speed}/10</span>
-                      </div>
-                      <div className="text-xs text-[#ffb000] font-mono mt-0.5">
-                        [██████████]
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Security & System Features */}
-      <section className="bg-[#0a0a0a] border-y border-[#1f521f] py-14 font-mono">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex items-start space-x-3 border border-[#1f521f] p-4">
-              <div className="h-8 w-8 shrink-0 border border-[#33ff00] bg-[#0a0a0a] flex items-center justify-center text-[#33ff00]">
-                <ShieldCheck className="h-4 w-4" />
-              </div>
-              <div>
-                <h4 className="font-bold text-white text-xs">// ANTI_SCALPER_VERIFICATION</h4>
-                <p className="text-[11px] text-[#33ff00]/70 mt-1">Requires National ID &amp; SIM verification to eliminate fake seat reservations.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-3 border border-[#1f521f] p-4">
-              <div className="h-8 w-8 shrink-0 border border-[#33ff00] bg-[#0a0a0a] flex items-center justify-center text-[#33ff00]">
-                <UserCheck className="h-4 w-4" />
-              </div>
-              <div>
-                <h4 className="font-bold text-white text-xs">// REAL_TIME_BD_STATIONS</h4>
-                <p className="text-[11px] text-[#33ff00]/70 mt-1">Accurate registries covering Dhaka, Chittagong, Sylhet, and Cox's Bazar.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-3 border border-[#1f521f] p-4">
-              <div className="h-8 w-8 shrink-0 border border-[#ffb000] bg-[#0a0a0a] flex items-center justify-center text-[#ffb000]">
-                <CreditCard className="h-4 w-4" />
-              </div>
-              <div>
-                <h4 className="font-bold text-white text-xs">// GMAIL_OTP_CHECKOUT</h4>
-                <p className="text-[11px] text-[#33ff00]/70 mt-1">Simulates complete mobile banking overlays with instant Gmail OTP authorization.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Frequently Asked Questions */}
       <ScrollReveal delay={0.1}>
-        <section className="mx-auto max-w-3xl px-4 py-16 space-y-6 font-mono">
-          <h2 className="text-lg font-bold text-white text-center flex items-center justify-center space-x-2">
-            <HelpCircle className="h-5 w-5 text-[#33ff00]" />
-            <span>// FREQUENTLY ASKED QUESTIONS</span>
+        <section className="mx-auto max-w-3xl px-4 py-16 space-y-6">
+          <h2 className="text-3xl font-bold font-heading text-[#2d2d2d] text-center flex items-center justify-center space-x-2">
+            <HelpCircle className="h-6 w-6 text-[#2d5da1]" />
+            <span>Frequently Asked Questions</span>
           </h2>
           
-          <div className="space-y-3">
+          <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="cli-window p-4 space-y-1.5">
-                <h4 className="font-bold text-[#ffb000] text-xs">{faq.q}</h4>
-                <p className="text-xs text-[#33ff00]/80 leading-relaxed">{faq.a}</p>
+              <div key={idx} className="hand-card p-5 space-y-2 wobbly-box -rotate-1">
+                <h4 className="font-bold font-heading text-xl text-[#ff4d4d]">{faq.q}</h4>
+                <p className="text-lg text-[#2d2d2d]/80 leading-relaxed font-body">{faq.a}</p>
               </div>
             ))}
           </div>

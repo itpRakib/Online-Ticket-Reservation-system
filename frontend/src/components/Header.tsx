@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { LogOut, Menu, X, Terminal, Sparkles, User } from 'lucide-react';
+import { LogOut, Menu, X, Sparkles, User, Edit3 } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 
 export const Header: React.FC = () => {
@@ -33,47 +33,41 @@ export const Header: React.FC = () => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.15, ease: "linear" }}
-      className="sticky top-0 z-50 w-full bg-[#0a0a0a] border-b border-[#1f521f] font-mono text-[#33ff00]"
+      className="sticky top-0 z-50 w-full bg-[#fdfbf7] border-b-[3px] border-[#2d2d2d] font-body text-[#2d2d2d]"
     >
-      {/* Shell Title Bar Header */}
-      <div className="bg-[#1f521f] text-[#33ff00] px-4 py-1 text-[11px] flex justify-between items-center tracking-wider">
-        <span>root@bdgoticket:~# ./init_nav_matrix.sh</span>
-        <span className="text-[#ffb000]">[ STATUS: 200 OK ]</span>
-      </div>
-
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 relative">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 relative">
         
-        {/* Terminal Shell Logo */}
-        <Link href="/" className="flex items-center space-x-2 group cursor-pointer">
-          <div className="flex items-center justify-center h-8 w-8 border border-[#33ff00] bg-[#0a0a0a] text-[#33ff00] group-hover:bg-[#33ff00] group-hover:text-[#0a0a0a] transition-all duration-150">
-            <Terminal className="h-4 w-4" />
+        {/* Hand-Drawn Brand Logo */}
+        <Link href="/" className="flex items-center space-x-2.5 group cursor-pointer">
+          <div className="flex items-center justify-center h-10 w-10 border-[3px] border-[#2d2d2d] bg-[#fff9c4] text-[#2d2d2d] wobbly-box shadow-[3px_3px_0px_#2d2d2d] group-hover:rotate-6 transition-transform">
+            <Edit3 className="h-5 w-5 text-[#ff4d4d]" />
           </div>
 
           <div className="flex flex-col">
-            <span className="text-base sm:text-lg font-bold tracking-wider text-phosphor-green">
-              [BD-GOTICKET:~$]
+            <span className="text-2xl font-bold font-heading text-[#2d2d2d] group-hover:text-[#ff4d4d] transition-colors">
+              BD GOTICKET<span className="text-[#ff4d4d]">.</span>
             </span>
-            <span className="text-[9px] text-[#ffb000] tracking-widest -mt-1 font-mono">
-              MAINFRAME v2088
+            <span className="text-xs font-body text-[#2d5da1] -mt-1 font-bold tracking-wide">
+              ✏️ Hand-Drawn Transit Sketchbook
             </span>
           </div>
         </Link>
 
-        {/* Desktop Monospace Navigation Tabs (Cleaned: NO seat-selection link) */}
-        <nav className="hidden md:flex items-center space-x-2 text-xs font-mono tracking-wider uppercase">
+        {/* Navigation Links in Handwritten Style */}
+        <nav className="hidden md:flex items-center space-x-4 font-body text-xl font-bold">
           {[
-            { path: '/', label: '[ 01: HOME ]' },
-            { path: '/search', label: '[ 02: SEARCH MATRIX ]' },
+            { path: '/', label: 'Home' },
+            { path: '/search', label: 'Search Matrix' },
           ].map(nav => {
             const active = isActive(nav.path);
             return (
               <Link
                 key={nav.path}
                 href={nav.path}
-                className={`px-3 py-1.5 border transition-all duration-150 ${
+                className={`px-3 py-1 border-[2.5px] wobbly-btn transition-all duration-150 ${
                   active 
-                    ? 'border-[#33ff00] bg-[#33ff00] text-[#0a0a0a] font-bold shadow-[0_0_10px_rgba(51,255,0,0.5)]' 
-                    : 'border-transparent text-[#33ff00]/80 hover:border-[#33ff00] hover:bg-[#1f521f]/30'
+                    ? 'border-[#2d2d2d] bg-[#ff4d4d] text-white shadow-[3px_3px_0px_#2d2d2d] -rotate-1' 
+                    : 'border-transparent text-[#2d2d2d] hover:border-[#2d2d2d] hover:bg-[#fff9c4] hover:shadow-[2px_2px_0px_#2d2d2d] hover:rotate-1'
                 }`}
               >
                 {nav.label}
@@ -84,61 +78,61 @@ export const Header: React.FC = () => {
           {user && (
             <Link
               href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-              className={`px-3 py-1.5 border transition-all duration-150 ${
+              className={`px-3 py-1 border-[2.5px] wobbly-btn transition-all duration-150 ${
                 isActive(user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard')
-                  ? 'border-[#ffb000] bg-[#ffb000] text-[#0a0a0a] font-bold'
-                  : 'border-transparent text-[#ffb000] hover:border-[#ffb000] hover:bg-[#ffb000]/10'
+                  ? 'border-[#2d2d2d] bg-[#2d5da1] text-white shadow-[3px_3px_0px_#2d2d2d]'
+                  : 'border-transparent text-[#2d5da1] hover:border-[#2d2d2d] hover:bg-[#e5e0d8]'
               }`}
             >
-              {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '[ 03: ADMIN CONSOLE ]' : '[ 03: DASHBOARD ]'}
+              {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? 'Admin Console' : 'Dashboard'}
             </Link>
           )}
         </nav>
 
         {/* Right Actions & Language Toggle */}
-        <div className="flex items-center space-x-3 text-xs">
+        <div className="flex items-center space-x-3 text-base">
           
-          {/* Language Switcher */}
+          {/* Language Switcher Badge */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center space-x-1 border border-[#1f521f] bg-[#0a0a0a] px-2.5 py-1 text-xs font-mono text-[#33ff00] hover:border-[#33ff00] cursor-pointer transition-all"
+            className="flex items-center space-x-1.5 border-[2.5px] border-[#2d2d2d] bg-[#fff9c4] px-3 py-1 font-body font-bold text-[#2d2d2d] wobbly-badge shadow-[2px_2px_0px_#2d2d2d] hover:bg-[#e5e0d8] cursor-pointer transition-all"
           >
-            <Sparkles className="h-3 w-3 text-[#ffb000]" />
-            <span className={language === 'en' ? 'text-[#33ff00] font-bold' : 'text-[#33ff00]/50'}>EN</span>
-            <span className="text-[#1f521f]">|</span>
-            <span className={language === 'bn' ? 'text-[#ffb000] font-bold' : 'text-[#33ff00]/50'}>BN</span>
+            <Sparkles className="h-4 w-4 text-[#ff4d4d]" />
+            <span className={language === 'en' ? 'text-[#ff4d4d] font-bold underline' : 'text-[#2d2d2d]'}>EN</span>
+            <span className="text-[#2d2d2d]/40">|</span>
+            <span className={language === 'bn' ? 'text-[#2d5da1] font-bold underline' : 'text-[#2d2d2d]'}>BN</span>
           </button>
 
           {user ? (
             <div className="flex items-center space-x-2">
               <Link
                 href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-                className="flex items-center space-x-1.5 border border-[#33ff00] bg-[#0a0a0a] py-1 px-2.5 text-xs text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
+                className="flex items-center space-x-1.5 border-[2.5px] border-[#2d2d2d] bg-white py-1 px-3 text-base font-bold text-[#2d2d2d] wobbly-btn shadow-[3px_3px_0px_#2d2d2d] hover:bg-[#ff4d4d] hover:text-white transition-all"
               >
-                <User className="h-3 w-3" />
-                <span className="hidden sm:inline max-w-[90px] truncate">{user.username}</span>
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline max-w-[100px] truncate">{user.username}</span>
               </Link>
               <button
                 onClick={logout}
-                className="p-1.5 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-white transition-all cursor-pointer"
+                className="p-2 border-[2.5px] border-[#2d2d2d] bg-[#ff4d4d] text-white wobbly-btn shadow-[3px_3px_0px_#2d2d2d] hover:bg-[#2d2d2d] transition-all cursor-pointer"
                 title="Logout System"
               >
-                <LogOut className="h-3.5 w-3.5" />
+                <LogOut className="h-4 w-4" />
               </button>
             </div>
           ) : (
-            <div className="hidden sm:flex items-center space-x-2">
+            <div className="hidden sm:flex items-center space-x-3">
               <Link
                 href="/auth/login"
-                className="cli-btn-outline text-xs h-8 px-3"
+                className="hand-btn-secondary text-base h-10 px-4"
               >
-                [ LOGIN ]
+                Login
               </Link>
               <Link
                 href="/auth/register"
-                className="cli-btn-primary text-xs h-8 px-3"
+                className="hand-btn-primary text-base h-10 px-4"
               >
-                [ REGISTER ]
+                Register
               </Link>
             </div>
           )}
@@ -147,36 +141,36 @@ export const Header: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 border border-[#33ff00] text-[#33ff00] cursor-pointer"
+            className="md:hidden p-2 border-[2.5px] border-[#2d2d2d] bg-[#fff9c4] text-[#2d2d2d] wobbly-box shadow-[2px_2px_0px_#2d2d2d] cursor-pointer"
           >
-            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
 
         </div>
       </div>
 
-      {/* Mobile Drawer Menu (Cleaned: NO seat-selection link) */}
+      {/* Mobile Menu Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-[#1f521f] bg-[#0a0a0a] px-4 pt-3 pb-5 space-y-2 font-mono text-xs uppercase"
+            className="md:hidden border-t-[3px] border-[#2d2d2d] bg-[#fdfbf7] px-4 pt-3 pb-5 space-y-3 font-body text-xl font-bold"
           >
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-[#0a0a0a] bg-[#33ff00] font-bold border border-[#33ff00]"
+              className="block px-4 py-2 text-[#2d2d2d] bg-[#fff9c4] border-[2.5px] border-[#2d2d2d] wobbly-box shadow-[3px_3px_0px_#2d2d2d]"
             >
-              &gt; 01: HOME
+              ✏️ Home
             </Link>
             <Link
               href="/search"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-[#33ff00] border border-[#1f521f] hover:border-[#33ff00]"
+              className="block px-4 py-2 text-[#2d2d2d] border-[2.5px] border-[#2d2d2d] wobbly-box hover:bg-[#e5e0d8]"
             >
-              &gt; 02: SEARCH MATRIX
+              🔍 Search Matrix
             </Link>
 
             {!user && (
@@ -184,16 +178,16 @@ export const Header: React.FC = () => {
                 <Link
                   href="/auth/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-2 border border-[#ffb000] text-[#ffb000]"
+                  className="w-full text-center py-2 border-[2.5px] border-[#2d2d2d] bg-[#e5e0d8] text-[#2d2d2d] wobbly-btn shadow-[3px_3px_0px_#2d2d2d]"
                 >
-                  [ LOGIN ]
+                  Login
                 </Link>
                 <Link
                   href="/auth/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-2 border border-[#33ff00] bg-[#33ff00] text-[#0a0a0a] font-bold"
+                  className="w-full text-center py-2 border-[2.5px] border-[#2d2d2d] bg-[#ff4d4d] text-white font-bold wobbly-btn shadow-[3px_3px_0px_#2d2d2d]"
                 >
-                  [ REGISTER ]
+                  Register Account
                 </Link>
               </div>
             )}
@@ -203,6 +197,7 @@ export const Header: React.FC = () => {
     </motion.header>
   );
 };
+
 
 
 
