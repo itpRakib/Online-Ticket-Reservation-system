@@ -73,6 +73,17 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
     };
   }, [propBookedSeats]);
 
+  // Sync state when initialType prop updates dynamically
+  React.useEffect(() => {
+    if (initialType) {
+      setActiveType(initialType);
+      setClassType('ECONOMY');
+      setSelectedSeats([]);
+      setPassengers([]);
+      setAlertMessage(null);
+    }
+  }, [initialType]);
+
   const bookedSet = defaultBookedSeats[activeType];
 
   // Seat Limit based on BD Transport Regulations
