@@ -4,8 +4,8 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { api } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
-import { RefreshCw, AlertCircle, ArrowRight } from 'lucide-react';
-import { VehicleSeatSelector, TransportType } from '@/components/VehicleSeatSelector';
+import { RefreshCw, AlertCircle, ArrowRight, ShieldCheck, Mail } from 'lucide-react';
+import { VehicleSeatSelector, TransportType, Passenger } from '@/components/VehicleSeatSelector';
 
 function BookTripContent() {
   const params = useParams();
@@ -32,7 +32,7 @@ function BookTripContent() {
         setTrip(data);
       } catch (err: any) {
         setError(err.message || 'Failed to load details.');
-      } font-sans finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -57,7 +57,7 @@ function BookTripContent() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
-        <RefreshCw className="h-10 w-10 text-emerald-500 animate-spin" />
+        <RefreshCw className="h-10 w-10 text-cyan-400 animate-spin" />
         <span className="text-slate-400 font-medium">Loading seat layout & vehicle details...</span>
       </div>
     );
@@ -80,12 +80,12 @@ function BookTripContent() {
   const getBookedSeatsList = (): string[] => {
     const booked = new Set<string>();
     
-    // 1. Check API seat_layout
+    // Check API seat_layout
     Object.entries(rawLayout).forEach(([seatKey, val]) => {
       if (val === false) booked.add(seatKey);
     });
 
-    // 2. Check persistent global booked seats in localStorage
+    // Check persistent global booked seats in localStorage
     if (typeof window !== 'undefined') {
       try {
         const key = `all_system_booked_seats_${tripId}_${travelDate}`;
@@ -124,7 +124,7 @@ function BookTripContent() {
     transportType: TransportType;
     classType: string;
     selectedSeats: string[];
-    passengers: Array<{ seat_number: string; name: string; age: string; gender: string; nid: string }>;
+    passengers: Passenger[];
     totalFare: number;
   }) => {
     if (!user) {
@@ -146,6 +146,10 @@ function BookTripContent() {
         setError(`Please enter a valid age for passenger on seat ${p.seat_number}.`);
         return;
       }
+      if (!p.isVerified) {
+        setError(`Please complete Gmail OTP verification for passenger on seat ${p.seat_number}. NID is not required.`);
+        return;
+      }
     }
 
     setError('');
@@ -160,7 +164,8 @@ function BookTripContent() {
         name: p.name,
         age: parseInt(p.age),
         gender: p.gender,
-        nid: p.nid || null
+        email: p.gmail,
+        gmail_verified: true
       }))
     };
 
@@ -196,9 +201,15 @@ function BookTripContent() {
       </button>
 
       {/* Trip Brief Details */}
-      <div className="glass-panel rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#090717]/90 border border-purple-500/20 shadow-xl">
+      <div className="glass-panel rounded-3xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#090717]/90 border border-purple-500/20 shadow-xl">
         <div>
-          <span className="text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">{tType}</span>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">{tType}</span>
+            <span className="text-xs bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-bold px-2.5 py-0.5 rounded-full flex items-center space-x-1">
+              <Mail className="h-3 w-3 text-cyan-400" />
+              <span>Gmail Verification Required</span>
+            </span>
+          </div>
           <h2 className="text-xl font-extrabold text-white mt-2 flex items-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
             <span>{trip.source?.name || 'Dhaka'}</span>
             <ArrowRight className="h-4 w-4 text-slate-500" />
@@ -210,7 +221,7 @@ function BookTripContent() {
         </div>
 
         <div className="text-right">
-          <span className="block text-xs text-slate-400 uppercase tracking-widest font-mono">Economy Fare</span>
+          <span className="block text-xs text-slate-400 uppercase tracking-widest font-mono">Economy Base Fare</span>
           <span className="text-2xl font-extrabold text-emerald-400">৳{parseFloat(trip.fare_economy || 850).toLocaleString()}</span>
         </div>
       </div>
@@ -227,7 +238,7 @@ function BookTripContent() {
         initialType={tType}
         allowModeSwitching={true}
         bookedSeats={bookedSeatsList}
-        baseFareEconomy={parseFloat(trip.fare_economy || 850)}
+ baseFareEconomy={parseFloat(trip.fare_economy || 850)}
         baseFareBusiness={parseFloat(trip.fare_business || 1450)}
         onBookingConfirm={handleBookingConfirm}
       />

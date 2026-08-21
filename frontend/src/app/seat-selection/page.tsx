@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { VehicleSeatSelector, TransportType } from '@/components/VehicleSeatSelector';
-import { Bus, Train, Plane, Sparkles, CheckCircle2, ArrowRight, ShieldCheck, MapPin } from 'lucide-react';
+import { VehicleSeatSelector } from '@/components/VehicleSeatSelector';
+import { Bus, Train, Plane, Sparkles, CheckCircle2, Mail, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
 
 export default function SeatSelectionPage() {
   const [confirmedBooking, setConfirmedBooking] = useState<any | null>(null);
@@ -22,27 +21,31 @@ export default function SeatSelectionPage() {
         <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-widest">
             <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
-            <span>Interactive Transport Seat Matrix</span>
+            <span>Dynamic Transport Seat Selection Matrix</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-            Vehicle-Specific <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">Seat Selection System</span>
+            Vehicle-Specific <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">Seat Selection & Gmail Verification</span>
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Experience real-time dynamic seat layout switching for Bangladesh&apos;s primary transport modes — Bus, Train, and Commercial Flights. Switch modes seamlessly below to inspect vehicle configurations, seat availability, and pricing.
+            Experience real-time dynamic seat layout switching across Bus, Train, and Commercial Flight cabins. Confirm seat reservations instantly using <span className="text-emerald-400 font-bold">Gmail OTP Verification</span> — eliminating the need for NID confirmation!
           </p>
 
-          <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-mono text-purple-200/80">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2 text-xs font-mono text-purple-200/80">
+            <div className="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-emerald-300 font-bold">
+              <Mail className="h-4 w-4 text-emerald-400" />
+              <span>Gmail OTP Verification Active</span>
+            </div>
             <div className="flex items-center space-x-2">
               <Bus className="h-4 w-4 text-purple-400" />
-              <span>Bus: 2+2 AC & 2+1 VIP Coach</span>
+              <span>Bus: 2+2 & 2+1 Sleeper</span>
             </div>
             <div className="flex items-center space-x-2">
               <Train className="h-4 w-4 text-indigo-400" />
-              <span>Train: Shovon, Snigdha & AC Berth Cabins</span>
+              <span>Train: Shovon, Snigdha & AC Berth</span>
             </div>
             <div className="flex items-center space-x-2">
               <Plane className="h-4 w-4 text-cyan-400" />
@@ -74,7 +77,7 @@ export default function SeatSelectionPage() {
               <div className="flex items-center justify-between border-b border-cyan-500/20 pb-4">
                 <div className="flex items-center space-x-2">
                   <CheckCircle2 className="h-6 w-6 text-emerald-400" />
-                  <h3 className="font-extrabold text-white text-lg">Reservation Confirmed!</h3>
+                  <h3 className="font-extrabold text-white text-lg">Gmail Verified & Confirmed!</h3>
                 </div>
                 <button
                   onClick={() => setConfirmedBooking(null)}
@@ -98,8 +101,12 @@ export default function SeatSelectionPage() {
                     <span className="text-slate-400">Reserved Seats:</span>
                     <span className="text-emerald-400 font-mono font-bold">{confirmedBooking.selectedSeats.join(', ')}</span>
                   </div>
+                  <div className="flex justify-between text-[11px] text-emerald-400 pt-1">
+                    <span>Identity Status:</span>
+                    <span className="font-bold">📧 Gmail OTP Verified (NID Skipped)</span>
+                  </div>
                   <div className="flex justify-between pt-2 border-t border-slate-800">
-                    <span className="text-slate-300 font-bold">Total Fare:</span>
+                    <span className="text-slate-300 font-bold">Total Payable Fare:</span>
                     <span className="text-emerald-400 font-extrabold text-base">৳{confirmedBooking.totalFare.toLocaleString()}</span>
                   </div>
                 </div>
@@ -111,7 +118,10 @@ export default function SeatSelectionPage() {
                     <div key={p.seat_number} className="bg-purple-950/40 p-2.5 rounded-xl border border-purple-500/20 flex justify-between items-center text-xs">
                       <div>
                         <span className="text-white font-bold block">{p.name || 'Anonymous Traveler'}</span>
-                        <span className="text-slate-400 text-[10px]">Age: {p.age || 'N/A'} • {p.gender}</span>
+                        <span className="text-emerald-300 text-[10px] flex items-center space-x-1">
+                          <Mail className="h-3 w-3 inline" />
+                          <span>{p.gmail} (Verified)</span>
+                        </span>
                       </div>
                       <span className="bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-mono font-bold">Seat {p.seat_number}</span>
                     </div>

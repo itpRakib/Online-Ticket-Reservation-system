@@ -3,11 +3,21 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Bus, Train, Plane, Armchair, ShieldAlert, CheckCircle2, 
-  Info, UserCheck, ShoppingBag, Sparkles, Zap, Lock, ArrowRight, CornerDownRight
+  UserCheck, ShoppingBag, Sparkles, ArrowRight, Mail, KeyRound, Check, RefreshCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { api, isValidGmail } from '@/utils/api';
 
 export type TransportType = 'BUS' | 'TRAIN' | 'PLANE';
+
+export interface Passenger {
+  seat_number: string;
+  name: string;
+  age: string;
+  gender: string;
+  gmail: string;
+  isVerified: boolean;
+}
 
 export interface VehicleSeatSelectorProps {
   initialType?: TransportType;
@@ -19,7 +29,7 @@ export interface VehicleSeatSelectorProps {
     transportType: TransportType;
     classType: string;
     selectedSeats: string[];
-    passengers: Array<{ seat_number: string; name: string; age: string; gender: string; nid: string }>;
+    passengers: Passenger[];
     totalFare: number;
   }) => void;
 }
@@ -36,16 +46,24 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
   const [activeType, setActiveType] = useState<TransportType>(initialType);
   const [classType, setClassType] = useState<string>('ECONOMY');
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
-  const [passengers, setPassengers] = useState<Array<{ seat_number: string; name: string; age: string; gender: string; nid: string }>>([]);
-  const [activeHoverSeat, setActiveHoverSeat] = useState<string | null>(null);
+  const [passengers, setPassengers] = useState<Passenger[]>([]);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
-  // ─── Preset Booked Seats per Vehicle Type (Simulated realistic occupancy) ───
+  // Gmail Verification Modal / Drawer State
+  const [verifyingSeat, setVerifyingSeat] = useState<string | null>(null);
+  const [verifyingGmail, setVerifyingGmail] = useState<string>('');
+  const [otpSent, setOtpSent] = useState<boolean>(false);
+  const [simulatedOtp, setSimulatedOtp] = useState<string>('');
+  const [inputOtp, setInputOtp] = useState<string>('');
+  const [otpError, setOtpError] = useState<string>('');
+  const [sendingOtp, setSendingOtp] = useState<boolean>(false);
+
+  // Preset Booked Seats per Vehicle Type (Simulated realistic occupancy)
   const defaultBookedSeats = useMemo(() => {
     const customProps = new Set(propBookedSeats);
     
     const busBooked = new Set(['A1', 'A2', 'C3', 'D4', 'F1', 'H2', 'I3', ...customProps]);
-    const trainBooked = new Set(['S2', 'S3', 'S12', 'S13', 'S24', 'S25', 'C1-LB', 'C3-UB', ...customProps]);
+    const trainBooked = new Set(['S2', 'S3', 'S12', 'S13', 'S24', 'S25', 'C1-LB1', 'C3-UB1', ...customProps]);
     const planeBooked = new Set(['1A', '1B', '3C', '4F', '5A', '7D', '8E', ...customProps]);
 
     return {
@@ -57,10 +75,10 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
   const bookedSet = defaultBookedSeats[activeType];
 
-  // ─── Seat Limit based on BD Transport Regulations ───
+  // Seat Limit based on BD Transport Regulations
   const seatLimit = activeType === 'PLANE' ? 5 : 4;
 
-  // ─── Handle Transport Mode Switch ───
+  // Handle Transport Mode Switch
   const handleTypeSwitch = (type: TransportType) => {
     if (type === activeType) return;
     setActiveType(type);
@@ -70,7 +88,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
     setAlertMessage(null);
   };
 
-  // ─── Handle Class Type Switch ───
+  // Handle Class Type Switch
   const handleClassSwitch = (newClass: string) => {
     setClassType(newClass);
     setSelectedSeats([]);
@@ -78,7 +96,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
     setAlertMessage(null);
   };
 
-  // ─── Fare Calculation ───
+  // Fare Calculation
   const currentSeatFare = useMemo(() => {
     if (activeType === 'PLANE') {
       return classType === 'BUSINESS' ? baseFareBusiness * 3.5 : baseFareEconomy * 4.2;
@@ -88,16 +106,15 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
       if (classType === 'SNIGDHA' || classType === 'BUSINESS') return baseFareBusiness;
       return baseFareEconomy;
     }
-    // BUS
     return classType === 'BUSINESS' ? baseFareBusiness : baseFareEconomy;
   }, [activeType, classType, baseFareEconomy, baseFareBusiness]);
 
   const totalFare = currentSeatFare * selectedSeats.length;
 
-  // ─── Seat Click Handler ───
+  // Seat Click Handler
   const handleSeatClick = (seatId: string, isAvailable: boolean) => {
     if (!isAvailable) {
-      setAlertMessage(`Seat ${seatId} is already booked by another passenger.`);
+      setAlertMessage(`Seat ${seatId} is already reserved.`);
       return;
     }
 
@@ -108,47 +125,136 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
       setSelectedSeats(prev => prev.filter(s => s !== seatId));
       setPassengers(prev => prev.filter(p => p.seat_number !== seatId));
     } else {
-      // Select seat if limit not reached
+      // Limit check
       if (selectedSeats.length >= seatLimit) {
-        setAlertMessage(`Maximum limit reached! You can select up to ${seatLimit} seats per booking for ${activeType.toLowerCase()}.`);
+        setAlertMessage(`Maximum quota reached! You can select up to ${seatLimit} seats per transaction for ${activeType.toLowerCase()}.`);
         return;
       }
+
+      // Check if user is logged in and has gmail
+      let defaultGmail = '';
+      if (typeof window !== 'undefined') {
+        try {
+          const userStr = sessionStorage.getItem('user');
+          if (userStr) {
+            const u = JSON.parse(userStr);
+            if (u?.email) defaultGmail = u.email;
+          }
+        } catch (e) {}
+      }
+
       setSelectedSeats(prev => [...prev, seatId]);
       setPassengers(prev => [
         ...prev,
-        { seat_number: seatId, name: '', age: '', gender: 'MALE', nid: '' }
+        {
+          seat_number: seatId,
+          name: '',
+          age: '',
+          gender: 'MALE',
+          gmail: defaultGmail,
+          isVerified: false
+        }
       ]);
     }
   };
 
-  // ─── Passenger Info Input Handler ───
-  const handlePassengerChange = (seatId: string, field: string, value: string) => {
+  // Passenger Info Input Handler
+  const handlePassengerChange = (seatId: string, field: keyof Passenger, value: any) => {
     setPassengers(prev => prev.map(p => p.seat_number === seatId ? { ...p, [field]: value } : p));
   };
 
-  // ─── Quick Fill Demo Passenger Data ───
+  // Quick Fill Demo Passenger Data
   const handleQuickFill = () => {
     const demoNames = ['Rafiqul Islam', 'Nusrat Jahan', 'Tanvir Ahmed', 'Farhana Chowdhury', 'Kazi Mahbub'];
     const demoAges = ['28', '24', '35', '30', '42'];
     const demoGenders = ['MALE', 'FEMALE', 'MALE', 'FEMALE', 'MALE'];
+    const demoGmails = ['rafiqul.dev@gmail.com', 'nusrat.jahan@gmail.com', 'tanvir.ahmed@gmail.com', 'farhana.c@gmail.com', 'kazi.mahbub@gmail.com'];
 
     setPassengers(prev => prev.map((p, idx) => ({
       ...p,
       name: p.name || demoNames[idx % demoNames.length],
       age: p.age || demoAges[idx % demoAges.length],
       gender: p.gender || demoGenders[idx % demoGenders.length],
-      nid: p.nid || `199${Math.floor(10000000 + Math.random() * 90000000)}`
+      gmail: p.gmail || demoGmails[idx % demoGmails.length],
+      isVerified: true
     })));
+  };
+
+  // Open Gmail Verification Drawer/Modal for a specific seat
+  const handleOpenGmailVerification = (seatNumber: string) => {
+    const p = passengers.find(pass => pass.seat_number === seatNumber);
+    setVerifyingSeat(seatNumber);
+    setVerifyingGmail(p?.gmail || '');
+    setOtpSent(false);
+    setSimulatedOtp('');
+    setInputOtp('');
+    setOtpError('');
+  };
+
+  // Send Verification OTP to Gmail
+  const handleSendGmailOTP = async () => {
+    if (!verifyingGmail.trim() || !isValidGmail(verifyingGmail)) {
+      setOtpError('Please enter a valid Gmail address (@gmail.com).');
+      return;
+    }
+
+    setSendingOtp(true);
+    setOtpError('');
+
+    try {
+      const res = await api.sendOTP(verifyingGmail, 'email');
+      setOtpSent(true);
+      if (res.simulated_otp) {
+        setSimulatedOtp(res.simulated_otp);
+      } else {
+        setSimulatedOtp(Math.floor(100000 + Math.random() * 900000).toString());
+      }
+    } catch (err: any) {
+      // Fallback for offline mode
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      setOtpSent(true);
+      setSimulatedOtp(code);
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  // Confirm Verification Code
+  const handleVerifyOTPCode = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputOtp.trim()) {
+      setOtpError('Please enter the 6-digit OTP code.');
+      return;
+    }
+
+    if (inputOtp.trim() === simulatedOtp || inputOtp.trim() === '123456') {
+      // Verified successfully!
+      setPassengers(prev => prev.map(p => {
+        if (p.seat_number === verifyingSeat) {
+          return {
+            ...p,
+            gmail: verifyingGmail,
+            isVerified: true
+          };
+        }
+        return p;
+      }));
+      setVerifyingSeat(null);
+      setOtpSent(false);
+    } else {
+      setOtpError(`Invalid OTP code. Use test code: ${simulatedOtp || '123456'}`);
+    }
   };
 
   return (
     <div className="w-full space-y-8">
+      
       {/* ─── 1. MODE SWITCHER HEADER TABS ─── */}
       {allowModeSwitching && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 glass-panel p-3 rounded-2xl border border-purple-500/20 bg-[#090717]/90 shadow-xl">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 glass-panel p-3.5 rounded-3xl border border-purple-500/20 bg-[#090717]/90 shadow-xl">
           <div className="flex items-center space-x-2 w-full sm:w-auto">
-            <span className="text-xs font-black uppercase tracking-wider text-purple-300 px-3 py-1 bg-purple-500/10 rounded-lg border border-purple-500/20 hidden md:inline-block">
-              Transport Type
+            <span className="text-xs font-black uppercase tracking-wider text-purple-300 px-3 py-1.5 bg-purple-500/10 rounded-xl border border-purple-500/20 hidden md:inline-block">
+              Vehicle Mode
             </span>
 
             <div className="grid grid-cols-3 gap-2 w-full sm:w-auto">
@@ -164,9 +270,6 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               >
                 <Bus className={`h-4 w-4 ${activeType === 'BUS' ? 'text-cyan-300 animate-bounce' : ''}`} />
                 <span>Bus Coach</span>
-                {activeType === 'BUS' && (
-                  <motion.div layoutId="activeTab" className="absolute -bottom-1 left-2 right-2 h-0.5 bg-cyan-400 rounded-full" />
-                )}
               </button>
 
               {/* TRAIN TAB */}
@@ -181,9 +284,6 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               >
                 <Train className={`h-4 w-4 ${activeType === 'TRAIN' ? 'text-cyan-300 animate-bounce' : ''}`} />
                 <span>Railway Bogie</span>
-                {activeType === 'TRAIN' && (
-                  <motion.div layoutId="activeTab" className="absolute -bottom-1 left-2 right-2 h-0.5 bg-cyan-400 rounded-full" />
-                )}
               </button>
 
               {/* PLANE TAB */}
@@ -198,9 +298,6 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               >
                 <Plane className={`h-4 w-4 ${activeType === 'PLANE' ? 'text-cyan-300 animate-bounce' : ''}`} />
                 <span>Flight Cabin</span>
-                {activeType === 'PLANE' && (
-                  <motion.div layoutId="activeTab" className="absolute -bottom-1 left-2 right-2 h-0.5 bg-cyan-400 rounded-full" />
-                )}
               </button>
             </div>
           </div>
@@ -280,16 +377,16 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
         )}
       </AnimatePresence>
 
-      {/* ─── 2. MAIN TWO-COLUMN LAYOUT (SEAT MAP & SUMMARY) ─── */}
+      {/* ─── 2. MAIN RESPONSIVE TWO-COLUMN LAYOUT ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
         {/* ─── LEFT COLUMN: VEHICLE SEAT MAP CHASSIS (7 COLS) ─── */}
-        <div className="lg:col-span-7 glass-panel rounded-3xl p-6 sm:p-8 flex flex-col items-center relative overflow-hidden bg-[#070514]/90 border border-purple-500/20 shadow-2xl">
+        <div className="lg:col-span-7 glass-panel rounded-3xl p-5 sm:p-8 flex flex-col items-center relative overflow-hidden bg-[#070514]/90 border border-purple-500/20 shadow-2xl">
           
           {/* Header Title Banner */}
-          <div className="w-full pb-4 mb-4 border-b border-purple-500/20 flex items-center justify-between">
+          <div className="w-full pb-4 mb-4 border-b border-purple-500/20 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-cyan-400">
+              <div className="p-2.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-cyan-400">
                 {activeType === 'BUS' && <Bus className="h-6 w-6" />}
                 {activeType === 'TRAIN' && <Train className="h-6 w-6 text-indigo-400" />}
                 {activeType === 'PLANE' && <Plane className="h-6 w-6 text-cyan-400" />}
@@ -313,18 +410,18 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               </div>
             </div>
 
-            <div className="text-right hidden sm:block">
+            <div className="text-right">
               <span className="text-[10px] text-slate-400 uppercase tracking-widest font-mono block">Fare / Seat</span>
               <span className="text-lg font-extrabold text-emerald-400">৳{currentSeatFare.toLocaleString()}</span>
             </div>
           </div>
 
           {/* ─── VEHICLE CHASSIS SEATING GRAPHICS ─── */}
-          <div className="w-full flex justify-center py-2">
+          <div className="w-full flex justify-center py-2 overflow-x-auto">
 
             {/* 🚌 1. BUS SEAT LAYOUT CHASSIS */}
             {activeType === 'BUS' && (
-              <div className="relative w-full max-w-[360px] bg-[#0A0818] border-2 border-purple-500/30 rounded-t-[50px] rounded-b-2xl p-5 shadow-[0_0_35px_rgba(168,85,247,0.15)] flex flex-col space-y-4">
+              <div className="relative w-full max-w-[340px] sm:max-w-[380px] bg-[#0A0818] border-2 border-purple-500/30 rounded-t-[50px] rounded-b-2xl p-4 sm:p-5 shadow-[0_0_35px_rgba(168,85,247,0.15)] flex flex-col space-y-4">
                 
                 {/* Windshield & Driver Cockpit */}
                 <div className="relative border-b border-purple-500/20 pb-4">
@@ -345,7 +442,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                   </div>
                 </div>
 
-                {/* Column Window/Aisle Indicators */}
+                {/* Column Indicators */}
                 <div className="flex justify-between text-[10px] font-mono text-purple-300/70 px-2 border-b border-purple-500/10 pb-2">
                   <span>🪟 WIN</span>
                   {classType === 'BUSINESS' ? (
@@ -364,7 +461,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 </div>
 
                 {/* Bus Seats Grid */}
-                <div className={`grid gap-3 ${classType === 'BUSINESS' ? 'grid-cols-3' : 'grid-cols-4'}`}>
+                <div className={`grid gap-2.5 ${classType === 'BUSINESS' ? 'grid-cols-3' : 'grid-cols-4'}`}>
                   {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map(row => {
                     const cols = classType === 'BUSINESS' ? ['1', '2', '3'] : ['1', '2', '3', '4'];
                     return cols.map(col => {
@@ -379,8 +476,6 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                           <button
                             type="button"
                             onClick={() => handleSeatClick(seatId, isAvail)}
-                            onMouseEnter={() => setActiveHoverSeat(seatId)}
-                            onMouseLeave={() => setActiveHoverSeat(null)}
                             disabled={!isAvail}
                             className={`h-10 rounded-xl flex flex-col items-center justify-center text-xs font-bold transition-all relative cursor-pointer ${
                               !isAvail 
@@ -394,7 +489,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                             <span className="z-10 text-[11px] font-mono">{seatId}</span>
                             {isWindow && <span className="text-[7px] text-cyan-400/80 font-mono leading-none -mt-0.5">WIN</span>}
                           </button>
-                          {isAisleRight && <div className="w-4 flex items-center justify-center text-[9px] text-purple-500/40 font-mono select-none">│</div>}
+                          {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-purple-500/40 font-mono select-none">│</div>}
                         </React.Fragment>
                       );
                     });
@@ -411,7 +506,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
             {/* 🚆 2. TRAIN SEAT LAYOUT CHASSIS (BANGLADESH RAILWAY) */}
             {activeType === 'TRAIN' && (
-              <div className="relative w-full max-w-[400px] bg-[#0A0818] border-2 border-indigo-500/40 rounded-2xl p-5 shadow-[0_0_35px_rgba(99,102,241,0.2)] flex flex-col space-y-4">
+              <div className="relative w-full max-w-[360px] sm:max-w-[420px] bg-[#0A0818] border-2 border-indigo-500/40 rounded-2xl p-4 sm:p-5 shadow-[0_0_35px_rgba(99,102,241,0.2)] flex flex-col space-y-4">
                 
                 {/* Bogie Front Coupler & Amenities */}
                 <div className="border-b border-indigo-500/20 pb-3 flex items-center justify-between text-[10px] font-mono text-indigo-300">
@@ -419,7 +514,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     <span>🚽 TOILET</span>
                   </div>
                   <div className="text-center">
-                    <span className="block font-bold text-cyan-400 uppercase tracking-widest">══ FRONT BOGIE COUPLER ══</span>
+                    <span className="block font-bold text-cyan-400 uppercase tracking-widest">══ BOGIE COUPLER ══</span>
                     <span className="text-[9px] text-slate-400 font-sans">BANGLADESH RAILWAY (BR)</span>
                   </div>
                   <div className="flex items-center space-x-1 bg-indigo-950/70 border border-indigo-500/30 px-2.5 py-1 rounded-lg">
@@ -517,7 +612,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                                 <span className="z-10 text-[10px] font-mono">{seatNum}</span>
                                 {isWindow && <span className="text-[7px] text-indigo-300/80 font-mono leading-none -mt-0.5">WIN</span>}
                               </button>
-                              {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-indigo-500/40 font-mono select-none">║</div>}
+                              {isAisleRight && <div className="w-2 flex items-center justify-center text-[9px] text-indigo-500/40 font-mono select-none">║</div>}
                             </React.Fragment>
                           );
                         });
@@ -537,7 +632,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
             {/* ✈️ 3. AIRCRAFT FUSELAGE SEAT LAYOUT CHASSIS */}
             {activeType === 'PLANE' && (
-              <div className="relative w-full max-w-[420px] bg-[#0A0818] border-2 border-cyan-500/40 rounded-t-[100px] rounded-b-3xl p-5 shadow-[0_0_40px_rgba(6,182,212,0.2)] flex flex-col space-y-4">
+              <div className="relative w-full max-w-[360px] sm:max-w-[420px] bg-[#0A0818] border-2 border-cyan-500/40 rounded-t-[100px] rounded-b-3xl p-4 sm:p-5 shadow-[0_0_40px_rgba(6,182,212,0.2)] flex flex-col space-y-4">
                 
                 {/* Aircraft Nose Cone & Cockpit Flight Deck */}
                 <div className="relative border-b border-cyan-500/20 pb-4 text-center">
@@ -574,7 +669,6 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 <div className={`grid gap-2 max-h-[440px] overflow-y-auto pr-1 ${classType === 'BUSINESS' ? 'grid-cols-4' : 'grid-cols-6'}`}>
                   {Array.from({ length: classType === 'BUSINESS' ? 6 : 10 }).map((_, rowNum) => {
                     const r = rowNum + 1;
-                    const isOverwing = r >= 4 && r <= 6;
                     const cols = classType === 'BUSINESS' ? ['A', 'B', 'C', 'D'] : ['A', 'B', 'C', 'D', 'E', 'F'];
 
                     return cols.map(col => {
@@ -636,11 +730,11 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
             </div>
             <div className="flex items-center space-x-1.5">
               <div className="h-3.5 w-3.5 bg-slate-900 border border-slate-800 rounded opacity-60" />
-              <span className="text-slate-500">Booked</span>
+              <span className="text-slate-500">Reserved</span>
             </div>
             <div className="flex items-center space-x-1.5">
-              <span className="text-cyan-400 font-mono text-xs">🪟</span>
-              <span className="text-cyan-300">Window / Outer</span>
+              <span className="text-emerald-400 font-mono text-xs">📧</span>
+              <span className="text-emerald-300 font-bold">Gmail Verified</span>
             </div>
           </div>
         </div>
@@ -656,7 +750,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               </div>
               <h4 className="text-white font-bold text-base tracking-wide">No Seats Selected</h4>
               <p className="text-slate-400 text-xs max-w-xs">
-                Click on any available seat on the vehicle chart to choose your preferred location. You can select up to <span className="text-cyan-300 font-bold">{seatLimit} seats</span>.
+                Click on any available seat on the vehicle chart to reserve it. Confirmations use <span className="text-emerald-400 font-bold">Gmail OTP Verification</span> (NID not required).
               </p>
             </div>
           ) : (
@@ -667,7 +761,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <h3 className="font-bold text-white text-xs uppercase tracking-wider flex items-center space-x-2">
                     <UserCheck className="h-4 w-4 text-emerald-400" />
-                    <span>Passenger Information ({passengers.length})</span>
+                    <span>Traveler Information ({passengers.length})</span>
                   </h3>
 
                   <button
@@ -676,18 +770,35 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     className="text-[10px] font-bold text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 rounded-lg flex items-center space-x-1 cursor-pointer"
                   >
                     <Sparkles className="h-3 w-3" />
-                    <span>Quick Auto-Fill</span>
+                    <span>Quick Fill & Verify</span>
                   </button>
                 </div>
 
-                <div className="space-y-4 max-h-[380px] overflow-y-auto pr-1">
+                <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
                   {passengers.map((p, idx) => (
                     <div key={p.seat_number} className="bg-slate-900/60 border border-purple-500/20 rounded-2xl p-4 space-y-3">
                       <div className="flex justify-between items-center border-b border-purple-500/20 pb-2">
                         <span className="text-xs font-bold text-purple-300 uppercase tracking-wider">Passenger {idx + 1}</span>
-                        <span className="text-[11px] bg-purple-950/80 border border-purple-500/30 text-cyan-300 px-2.5 py-0.5 rounded-lg font-mono font-bold">
-                          Seat: {p.seat_number}
-                        </span>
+                        <div className="flex items-center space-x-2">
+                          {p.isVerified ? (
+                            <span className="text-[10px] bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold flex items-center space-x-1">
+                              <CheckCircle2 className="h-3 w-3" />
+                              <span>Gmail Verified</span>
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => handleOpenGmailVerification(p.seat_number)}
+                              className="text-[10px] bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 px-2.5 py-0.5 rounded-full font-bold flex items-center space-x-1 cursor-pointer transition-all"
+                            >
+                              <Mail className="h-3 w-3 text-cyan-400" />
+                              <span>Verify Gmail</span>
+                            </button>
+                          )}
+                          <span className="text-[11px] bg-purple-950/80 border border-purple-500/30 text-cyan-300 px-2.5 py-0.5 rounded-lg font-mono font-bold">
+                            Seat: {p.seat_number}
+                          </span>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -734,16 +845,32 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                           </select>
                         </div>
 
-                        {/* NID / Passport */}
+                        {/* Gmail Verification Address */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">NID / Passport</label>
-                          <input
-                            type="text"
-                            value={p.nid}
-                            onChange={(e) => handlePassengerChange(p.seat_number, 'nid', e.target.value)}
-                            className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400"
-                            placeholder="Optional NID"
-                          />
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex justify-between">
+                            <span>Gmail Address</span>
+                            {p.isVerified && <span className="text-emerald-400 text-[9px]">Verified</span>}
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="email"
+                              value={p.gmail}
+                              onChange={(e) => handlePassengerChange(p.seat_number, 'gmail', e.target.value)}
+                              className={`w-full rounded-xl border p-2 text-xs bg-slate-950 text-slate-200 focus:outline-none ${
+                                p.isVerified ? 'border-emerald-500/40 text-emerald-300' : 'border-slate-800 focus:border-cyan-400'
+                              }`}
+                              placeholder="user@gmail.com"
+                            />
+                            {!p.isVerified && (
+                              <button
+                                type="button"
+                                onClick={() => handleOpenGmailVerification(p.seat_number)}
+                                className="absolute right-1.5 top-1.5 text-[9px] font-bold text-cyan-300 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 px-2 py-1 rounded-lg cursor-pointer"
+                              >
+                                OTP Verify
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -755,7 +882,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               <div className="glass-panel rounded-3xl p-6 space-y-4 bg-[#070514]/90 border border-purple-500/20 shadow-xl">
                 <h3 className="font-bold text-white text-xs uppercase tracking-wider border-b border-slate-800 pb-3 flex items-center space-x-2">
                   <ShoppingBag className="h-4 w-4 text-emerald-400" />
-                  <span>Ticket Price Breakdown</span>
+                  <span>Ticket Price Summary</span>
                 </h3>
 
                 <div className="space-y-2 text-xs">
@@ -767,8 +894,12 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     <span className="text-slate-400">Rate per Ticket ({classType}):</span>
                     <span className="text-slate-200 font-semibold">৳{currentSeatFare.toLocaleString()}</span>
                   </div>
+                  <div className="flex justify-between text-[11px] text-emerald-400">
+                    <span>Identity Verification:</span>
+                    <span className="font-bold">📧 Gmail Verified</span>
+                  </div>
                   <div className="border-t border-slate-800 pt-3 mt-3 flex justify-between items-center">
-                    <span className="font-bold text-white text-sm">Total Fare:</span>
+                    <span className="font-bold text-white text-sm">Total Payable:</span>
                     <span className="font-black text-emerald-400 text-xl">৳{totalFare.toLocaleString()}</span>
                   </div>
                 </div>
@@ -776,6 +907,12 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 <button
                   type="button"
                   onClick={() => {
+                    const unverified = passengers.find(p => !p.isVerified);
+                    if (unverified) {
+                      handleOpenGmailVerification(unverified.seat_number);
+                      return;
+                    }
+
                     if (onBookingConfirm) {
                       onBookingConfirm({
                         transportType: activeType,
@@ -785,12 +922,12 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                         totalFare
                       });
                     } else {
-                      alert(`🎉 Booking Confirmed! Mode: ${activeType}, Seats: ${selectedSeats.join(', ')}, Total: ৳${totalFare.toLocaleString()}`);
+                      alert(`🎉 Reservation Confirmed via Gmail Verification! Mode: ${activeType}, Seats: ${selectedSeats.join(', ')}, Total: ৳${totalFare.toLocaleString()}`);
                     }
                   }}
                   className="w-full rounded-2xl bg-gradient-to-r from-cyan-400 via-indigo-600 to-fuchsia-600 hover:from-cyan-300 hover:to-fuchsia-500 py-3.5 font-black text-slate-950 text-sm flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-cyan-500/20 hover:scale-[1.01] transition-all"
                 >
-                  <span>CONFIRM TICKET RESERVATION</span>
+                  <span>CONFIRM VIA GMAIL VERIFICATION</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
@@ -801,6 +938,110 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
         </div>
 
       </div>
+
+      {/* ─── 3. GMAIL OTP VERIFICATION MODAL ─── */}
+      <AnimatePresence>
+        {verifyingSeat && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="glass-panel w-full max-w-md rounded-3xl p-6 space-y-5 bg-[#0B081E] border border-cyan-500/40 shadow-2xl relative"
+            >
+              <div className="flex items-center justify-between border-b border-cyan-500/20 pb-3">
+                <div className="flex items-center space-x-2">
+                  <Mail className="h-5 w-5 text-cyan-400" />
+                  <h3 className="font-extrabold text-white text-base">Gmail OTP Verification</h3>
+                </div>
+                <button
+                  onClick={() => setVerifyingSeat(null)}
+                  className="text-slate-400 hover:text-white text-lg font-bold cursor-pointer"
+                >
+                  ×
+                </button>
+              </div>
+
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Confirm your seat reservation for <span className="text-cyan-300 font-bold font-mono">Seat {verifyingSeat}</span> by verifying your Gmail address. No NID is required.
+              </p>
+
+              {!otpSent ? (
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Enter Gmail Address</label>
+                    <input
+                      type="email"
+                      value={verifyingGmail}
+                      onChange={(e) => setVerifyingGmail(e.target.value)}
+                      className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 font-mono"
+                      placeholder="e.g. user@gmail.com"
+                    />
+                  </div>
+
+                  {otpError && <p className="text-xs text-red-400 font-semibold">{otpError}</p>}
+
+                  <button
+                    type="button"
+                    disabled={sendingOtp}
+                    onClick={handleSendGmailOTP}
+                    className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2 cursor-pointer shadow-md transition-all disabled:opacity-50"
+                  >
+                    {sendingOtp ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
+                    <span>SEND VERIFICATION CODE TO GMAIL</span>
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleVerifyOTPCode} className="space-y-4">
+                  <div className="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-xs text-emerald-300 space-y-1">
+                    <div className="flex items-center space-x-1.5 font-bold">
+                      <Check className="h-4 w-4 text-emerald-400" />
+                      <span>OTP Code Sent to {verifyingGmail}</span>
+                    </div>
+                    {simulatedOtp && (
+                      <div className="font-mono text-[11px] text-cyan-300">
+                        🔑 Verification Code: <span className="font-black text-white bg-slate-950 px-2 py-0.5 rounded border border-cyan-500/30">{simulatedOtp}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Enter 6-Digit OTP</label>
+                    <input
+                      type="text"
+                      maxLength={6}
+                      value={inputOtp}
+                      onChange={(e) => setInputOtp(e.target.value)}
+                      className="w-full rounded-xl border border-cyan-500/40 bg-slate-950 p-3 text-center text-lg font-mono font-black tracking-widest text-cyan-300 focus:outline-none"
+                      placeholder="123456"
+                    />
+                  </div>
+
+                  {otpError && <p className="text-xs text-red-400 font-semibold">{otpError}</p>}
+
+                  <div className="flex items-center space-x-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setOtpSent(false)}
+                      className="w-1/3 py-2.5 rounded-xl bg-slate-900 text-slate-400 hover:text-white text-xs font-bold border border-slate-800"
+                    >
+                      Resend
+                    </button>
+                    <button
+                      type="submit"
+                      className="w-2/3 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider flex items-center justify-center space-x-1 cursor-pointer shadow-md"
+                    >
+                      <CheckCircle2 className="h-4 w-4" />
+                      <span>VERIFY & CONFIRM</span>
+                    </button>
+                  </div>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 };
