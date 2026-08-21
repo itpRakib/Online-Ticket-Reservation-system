@@ -97,6 +97,16 @@ export const Header: React.FC = () => {
           >
             Transit Matrix
           </Link>
+          <Link
+            href="/seat-selection"
+            className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+              isActive('/seat-selection') 
+                ? 'text-purple-300 bg-purple-500/15 font-bold border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]' 
+                : 'text-purple-100/70 hover:text-purple-300 hover:bg-purple-500/10'
+            }`}
+          >
+            Seat Layouts
+          </Link>
           {user && (
             <Link
               href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
