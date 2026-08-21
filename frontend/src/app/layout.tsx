@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, DM_Sans } from "next/font/google";
+import { Orbitron, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -8,23 +8,23 @@ import { Footer } from "@/components/Footer";
 import { InitialPreloader } from "@/components/InitialPreloader";
 import { ChatbotWidget } from "@/components/ChatbotWidget";
 
-const outfit = Outfit({
+const orbitron = Orbitron({
   subsets: ["latin"],
-  weight: ["500", "700", "800", "900"],
-  variable: "--font-display",
+  weight: ["400", "500", "700", "900"],
+  variable: "--font-heading",
   display: "swap",
 });
 
-const dmSans = DM_Sans({
+const shareTechMono = Share_Tech_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400"],
   variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "BD GoTicket — Maximalist Dopamine Transit Matrix",
-  description: "Sensory overload multi-modal ticket reservation for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
+  title: "BD GOTICKET // VAPORWAVE TRANSIT MATRIX",
+  description: "80s Retro-Futuristic Outrun ticket reservation platform for Bangladesh. Bus, Train, and Air travel with Gmail OTP verification.",
 };
 
 export default function RootLayout({
@@ -33,8 +33,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${dmSans.variable} h-full antialiased`}>
-      <body className="font-body min-h-full flex flex-col bg-[#0D0D1A] text-white relative overflow-x-hidden selection:bg-[#FF3AF2] selection:text-white pattern-dots">
+    <html lang="en" className={`${orbitron.variable} ${shareTechMono.variable} h-full antialiased dark`}>
+      <body className="font-body min-h-full flex flex-col bg-[#090014] text-[#E0E0E0] relative overflow-x-hidden selection:bg-[#FF00FF] selection:text-black">
+        {/* Global CRT Scanlines & Chromatic Overlay */}
+        <div className="crt-scanlines pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true" />
+        
         <ThemeProvider>
           <AuthProvider>
             <InitialPreloader />
@@ -50,3 +53,4 @@ export default function RootLayout({
     </html>
   );
 }
+

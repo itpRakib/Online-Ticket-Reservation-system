@@ -1,271 +1,337 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── MAXIMALISM / DOPAMINE DESIGN SYSTEM TOKENS ─── */
-  --dopamine-bg: #0D0D1A;       /* Cosmic void */
-  --dopamine-fg: #FFFFFF;       /* Pure white */
-  --dopamine-muted: #2D1B4E;    /* Dark purple container */
-
-  /* 5 Accent Colors */
-  --dopamine-magenta: #FF3AF2;  /* Accent 1 */
-  --dopamine-cyan: #00F5D4;     /* Accent 2 */
-  --dopamine-yellow: #FFE600;   /* Accent 3 */
-  --dopamine-orange: #FF6B35;   /* Accent 4 */
-  --dopamine-purple: #7B2FFF;   /* Accent 5 */
-
-  /* Legacy variable compatibility */
-  --bg-canvas: #0D0D1A;
-  --bg-deep: #0D0D1A;
-  --bg-base: #18122B;
+  /* ─── VAPORWAVE / OUTRUN DESIGN SYSTEM TOKENS ─── */
+  --vapor-bg: #090014;           /* Cyber void background */
+  --vapor-fg: #E0E0E0;           /* Chrome text */
+  --vapor-card: rgba(26, 16, 60, 0.8); /* Semi-transparent glass card */
+  --vapor-card-solid: #1a103c;
+  
+  /* Neon Primaries */
+  --vapor-magenta: #FF00FF;      /* Hot Magenta (Primary Accent) */
+  --vapor-cyan: #00FFFF;         /* Electric Cyan (Secondary Accent) */
+  --vapor-orange: #FF9900;       /* Sunset Orange (Tertiary Accent) */
+  --vapor-border: #2D1B4E;       /* Inactive dark purple border */
+  --vapor-border-active: #00FFFF;
+  
+  /* Fonts */
+  --font-heading: 'Orbitron', var(--font-heading), sans-serif;
+  --font-body: 'Share Tech Mono', var(--font-body), monospace;
+  
+  /* Legacy compatibility */
+  --bg-canvas: #090014;
+  --bg-deep: #090014;
+  --bg-base: #1a103c;
   --bg-raised: #2D1B4E;
-  --foreground: #FFFFFF;
-  --accent: #FF3AF2;
-  --secondary: #00F5D4;
-  --text-primary: #FFFFFF;
-  --text-bright: #FFFFFF;
-  --text-secondary: #E2D4FF;
-  --text-muted: #A890D3;
-  --border: #FF3AF2;
-  --border-hover: #FFE600;
+  --foreground: #E0E0E0;
+  --accent: #FF00FF;
+  --secondary: #00FFFF;
+  --border: #FF00FF;
 }
 
 @theme inline {
-  --font-heading: var(--font-display), 'Outfit', sans-serif;
-  --font-body: var(--font-body), 'DM Sans', sans-serif;
-  --color-dopamine-bg: #0D0D1A;
-  --color-dopamine-magenta: #FF3AF2;
-  --color-dopamine-cyan: #00F5D4;
-  --color-dopamine-yellow: #FFE600;
-  --color-dopamine-orange: #FF6B35;
-  --color-dopamine-purple: #7B2FFF;
+  --font-heading: var(--font-heading), 'Orbitron', sans-serif;
+  --font-body: var(--font-body), 'Share Tech Mono', monospace;
+  --color-vapor-bg: #090014;
+  --color-vapor-card: #1a103c;
+  --color-vapor-magenta: #FF00FF;
+  --color-vapor-cyan: #00FFFF;
+  --color-vapor-orange: #FF9900;
+  --color-vapor-border: #2D1B4E;
 }
 
 /* ─── Base Reset & Typography ─── */
 html {
   scroll-behavior: smooth;
-  background-color: var(--dopamine-bg);
-  color: var(--dopamine-fg);
+  background-color: var(--vapor-bg);
+  color: var(--vapor-fg);
 }
 
 body {
-  background-color: var(--dopamine-bg);
-  color: var(--dopamine-fg);
-  font-family: var(--font-body), 'DM Sans', sans-serif;
+  background-color: var(--vapor-bg);
+  color: var(--vapor-fg);
+  font-family: var(--font-body), 'Share Tech Mono', monospace;
   overflow-x: hidden;
-  font-weight: 500;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), 'Outfit', sans-serif;
+  font-family: var(--font-heading), 'Orbitron', sans-serif;
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #FFFFFF;
 }
 
-/* ─── TEXT SHADOW SYSTEM ─── */
-.text-shadow-single {
-  text-shadow: 2px 2px 0px #7B2FFF;
+/* ─── GLOBAL CRT SCANLINES & CHROMATIC OVERLAY ─── */
+.crt-scanlines {
+  background: 
+    linear-gradient(rgba(18, 16, 20, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.04));
+  background-size: 100% 4px, 6px 100%;
 }
 
-.text-shadow-double {
-  text-shadow: 3px 3px 0px #7B2FFF, 6px 6px 0px #FF3AF2;
+/* ─── VAPORWAVE TEXT & GLOW SYSTEM ─── */
+.drop-shadow-neon-magenta {
+  filter: drop-shadow(0 0 10px #FF00FF) drop-shadow(0 0 25px rgba(255, 0, 255, 0.6));
 }
 
-.text-shadow-triple {
-  text-shadow: 3px 3px 0px #7B2FFF, 6px 6px 0px #FF3AF2, 9px 9px 0px #00F5D4;
+.drop-shadow-neon-cyan {
+  filter: drop-shadow(0 0 8px #00FFFF) drop-shadow(0 0 20px rgba(0, 255, 255, 0.6));
 }
 
-.text-shadow-mega {
-  text-shadow: 4px 4px 0px #7B2FFF, 8px 8px 0px #FF3AF2, 12px 12px 0px #00F5D4, 16px 16px 0px #FFE600;
+.drop-shadow-neon-orange {
+  filter: drop-shadow(0 0 10px #FF9900) drop-shadow(0 0 20px rgba(255, 153, 0, 0.5));
 }
 
-/* Animated Gradient Text */
-.gradient-text-dopamine {
-  background: linear-gradient(90deg, #FF3AF2, #00F5D4, #FFE600, #FF6B35, #7B2FFF, #FF3AF2);
-  background-size: 300% 300%;
+/* Sunset Multi-stop Gradient Text Fill */
+.gradient-text-sunset {
+  background: linear-gradient(90deg, #FF9900, #FF00FF, #00FFFF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradient-shift 4s ease infinite;
+  background-clip: text;
 }
 
-/* ─── MULTI-LAYERED SHADOW SYSTEM ─── */
-.dopamine-shadow-double {
-  box-shadow: 6px 6px 0 #FFE600, 12px 12px 0 #FF3AF2;
+.gradient-text-outrun {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FF00FF 50%, #00FFFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.dopamine-shadow-triple {
-  box-shadow: 8px 8px 0 #00F5D4, 16px 16px 0 #FF3AF2, 24px 24px 0 #FFE600;
+/* ─── VAPORWAVE CARDS & TERMINAL CONTAINERS ─── */
+.vapor-card {
+  background-color: rgba(26, 16, 60, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 0, 255, 0.3);
+  border-top: 2px solid #00FFFF;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+  border-radius: 0px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dopamine-glow {
-  box-shadow: 0 0 20px rgba(255, 58, 242, 0.6), 0 0 40px rgba(0, 245, 212, 0.4);
+.vapor-card:hover {
+  transform: translateY(-4px);
+  border-color: #00FFFF;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.4), 0 0 10px #FF00FF;
 }
 
-.dopamine-glow-mega {
-  box-shadow: 0 0 30px rgba(255, 58, 242, 0.7), 0 0 60px rgba(0, 245, 212, 0.5), 8px 8px 0 #FFE600;
+/* Terminal Window Container */
+.terminal-window {
+  border: 2px solid #00FFFF;
+  background-color: rgba(9, 0, 20, 0.92);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.25), inset 0 0 15px rgba(255, 0, 255, 0.1);
+  border-radius: 0px;
 }
 
-/* ─── PATTERN OVERLAYS ─── */
-.pattern-dots {
-  background-image: radial-gradient(circle, rgba(255, 58, 242, 0.25) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+.terminal-titlebar {
+  background-color: rgba(0, 255, 255, 0.12);
+  border-bottom: 1px solid #00FFFF;
+  padding: 8px 16px;
 }
 
-.pattern-stripes {
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(255, 230, 0, 0.08) 10px,
-    rgba(255, 230, 0, 0.08) 20px
-  );
+/* ─── SKEWED NEON BUTTON SYSTEM ─── */
+.vapor-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body), monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 2px solid #00FFFF;
+  background: transparent;
+  color: #00FFFF;
+  border-radius: 0px;
+  transform: skewX(-12deg);
+  transition: all 0.2s ease-linear;
+  cursor: pointer;
+  padding: 0 28px;
+  height: 48px;
 }
 
-.pattern-checker {
-  background-image: conic-gradient(
-    from 90deg at 1px 1px,
-    transparent 90deg,
-    rgba(0, 245, 212, 0.06) 0
-  );
-  background-size: 36px 36px;
+.vapor-btn-primary:hover {
+  transform: skewX(0deg) scale(1.03);
+  background-color: #00FFFF;
+  color: #090014;
+  box-shadow: 0 0 25px #00FFFF, 0 0 40px rgba(0, 255, 255, 0.6);
 }
 
-/* ─── DOPAMINE COMPONENTS ─── */
+.vapor-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body), monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 2px solid #FF00FF;
+  background-color: #FF00FF;
+  color: #FFFFFF;
+  border-radius: 0px;
+  transform: skewX(-12deg);
+  transition: all 0.2s ease-linear;
+  cursor: pointer;
+  padding: 0 28px;
+  height: 48px;
+}
+
+.vapor-btn-secondary:hover {
+  transform: skewX(0deg) scale(1.03);
+  background-color: transparent;
+  color: #FF00FF;
+  box-shadow: 0 0 25px #FF00FF;
+}
+
+.vapor-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body), monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 2px solid #FF00FF;
+  background: transparent;
+  color: #FF00FF;
+  border-radius: 0px;
+  transform: skewX(-12deg);
+  transition: all 0.2s ease-linear;
+  cursor: pointer;
+  padding: 0 24px;
+  height: 44px;
+}
+
+.vapor-btn-outline:hover {
+  transform: skewX(0deg);
+  background-color: #FF00FF;
+  color: #FFFFFF;
+  box-shadow: 0 0 20px #FF00FF;
+}
+
+/* Counter-skew wrapper for button text/icons */
+.unskew {
+  display: inline-block;
+  transform: skewX(12deg);
+}
+
+/* ─── TERMINAL INPUTS ─── */
+.vapor-input {
+  background-color: rgba(9, 0, 20, 0.95) !important;
+  border: none !important;
+  border-bottom: 2px solid #FF00FF !important;
+  border-radius: 0px !important;
+  color: #00FFFF !important;
+  font-family: var(--font-body), monospace !important;
+  font-size: 1rem !important;
+  padding: 12px 16px !important;
+  transition: all 0.2s ease-linear !important;
+}
+
+.vapor-input::placeholder {
+  color: rgba(255, 0, 255, 0.5) !important;
+}
+
+.vapor-input:focus {
+  outline: none !important;
+  border-bottom-color: #00FFFF !important;
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4) !important;
+}
+
+/* Legacy dopamine map classes to vaporwave */
 .dopamine-card {
-  background: rgba(45, 27, 78, 0.85);
+  background: rgba(26, 16, 60, 0.85);
   backdrop-filter: blur(8px);
-  border: 4px solid #FF3AF2;
-  border-radius: 24px;
-  box-shadow: 8px 8px 0 #FFE600, 16px 16px 0 #7B2FFF;
-  transition: all 0.3s ease-out;
-}
-.dopamine-card:hover {
-  transform: translateY(-4px) rotate(1deg);
-  box-shadow: 12px 12px 0 #00F5D4, 24px 24px 0 #FF3AF2;
-  border-color: #00F5D4;
+  border: 2px solid #FF00FF;
+  border-top: 2px solid #00FFFF;
+  border-radius: 0px;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
 }
 
 .dopamine-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-heading), 'Outfit', sans-serif;
-  font-weight: 900;
+  font-family: var(--font-body), monospace;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: 4px solid #FFE600;
-  border-radius: 9999px;
-  min-height: 56px;
-  padding: 0 32px;
-  background: linear-gradient(90deg, #FF3AF2, #7B2FFF, #00F5D4);
-  background-size: 200% 200%;
-  color: #FFFFFF;
-  box-shadow: 0 0 25px rgba(255, 58, 242, 0.6), 6px 6px 0 #FFE600;
-  transition: all 0.3s ease-out;
-  animation: gradient-shift 4s ease infinite;
+  letter-spacing: 0.1em;
+  border: 2px solid #00FFFF;
+  background: #00FFFF;
+  color: #090014;
+  border-radius: 0px;
+  min-height: 48px;
+  padding: 0 28px;
+  box-shadow: 0 0 20px #00FFFF;
+  transition: all 0.2s ease-linear;
   cursor: pointer;
 }
 .dopamine-btn-primary:hover {
-  transform: scale(1.08) rotate(-1deg);
-  box-shadow: 0 0 40px rgba(255, 58, 242, 0.9), 10px 10px 0 #00F5D4;
-  border-color: #00F5D4;
-}
-.dopamine-btn-primary:active {
-  transform: scale(0.95);
-  box-shadow: 2px 2px 0 #FFE600;
+  background: #FF00FF;
+  color: #FFFFFF;
+  border-color: #FF00FF;
+  box-shadow: 0 0 30px #FF00FF;
 }
 
-.dopamine-input {
-  background: rgba(45, 27, 78, 0.6) !important;
-  backdrop-filter: blur(6px) !important;
-  border: 4px solid #FF3AF2 !important;
-  border-radius: 9999px !important;
-  color: #FFFFFF !important;
-  font-weight: 700 !important;
-  padding: 14px 24px !important;
-  transition: all 0.3s ease-out !important;
-}
-.dopamine-input::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
-.dopamine-input:focus {
-  outline: none !important;
-  border-color: #00F5D4 !important;
-  box-shadow: 0 0 25px rgba(0, 245, 212, 0.6), 0 0 0 4px rgba(255, 58, 242, 0.4) !important;
-  background: rgba(45, 27, 78, 0.9) !important;
-}
-
-/* Glass panel mapping for dopamine */
 .glass-panel {
-  background: rgba(45, 27, 78, 0.85) !important;
-  border: 4px solid #FF3AF2 !important;
-  box-shadow: 8px 8px 0 #FFE600 !important;
-  border-radius: 24px !important;
-  backdrop-filter: blur(8px) !important;
+  background: rgba(26, 16, 60, 0.85) !important;
+  border: 1px solid rgba(0, 255, 255, 0.4) !important;
+  border-top: 2px solid #00FFFF !important;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.2) !important;
+  border-radius: 0px !important;
 }
 
-/* ─── KEYFRAME ANIMATIONS ─── */
+/* ─── BACKGROUND PATTERNS & PERSPECTIVE GRID ─── */
+.pattern-dots {
+  background-image: radial-gradient(#FF00FF 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.pattern-grid {
+  background-image: 
+    linear-gradient(rgba(255, 0, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── ANIMATIONS ─── */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-16px) rotate(4deg); }
-}
-
-@keyframes float-reverse {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(16px) rotate(-4deg); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(255, 58, 242, 0.5); }
-  50% { box-shadow: 0 0 40px rgba(255, 58, 242, 0.9), 0 0 60px rgba(0, 245, 212, 0.6); }
+  0%, 100% { filter: drop-shadow(0 0 10px #FF00FF); }
+  50% { filter: drop-shadow(0 0 25px #00FFFF); }
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
-}
-
-@keyframes bounce-subtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+@keyframes grid-move {
+  0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+  100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
 }
 
 .animate-float { animation: float 6s ease-in-out infinite; }
-.animate-float-reverse { animation: float-reverse 5s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-.animate-spin-slow { animation: spin-slow 20s linear infinite; }
-.animate-wiggle { animation: wiggle 1s ease-in-out infinite; }
-.animate-bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-grid-move { animation: grid-move 2s linear infinite; }
 
-/* Custom Electric Scrollbars */
+/* Custom Outrun Neon Scrollbars */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0D0D1A;
-  border-left: 2px solid #FF3AF2;
+  background: #090014;
+  border-left: 1px solid #2D1B4E;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #FF3AF2, #00F5D4);
-  border-radius: 9999px;
-  border: 2px solid #0D0D1A;
+  background: linear-gradient(180deg, #FF00FF, #00FFFF);
+  border-radius: 0px;
+  border: 1px solid #090014;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FFE600;
+  background: #FF9900;
+  box-shadow: 0 0 10px #FF9900;
 }
+

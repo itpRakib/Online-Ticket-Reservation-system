@@ -11,11 +11,10 @@ import { NumberTicker } from '@/components/NumberTicker';
 import { 
   Bus, Train, Plane, Search, ArrowLeftRight, CheckCircle2, 
   ShieldCheck, CreditCard, Sparkles, Flame, Percent, MapPin, 
-  Calendar, Clock, UserCheck, HelpCircle, ChevronDown, Check, ArrowRight, X, AlertCircle, SlidersHorizontal
+  Calendar, Clock, UserCheck, HelpCircle, ChevronDown, Check, ArrowRight, X, AlertCircle, SlidersHorizontal, Terminal, Activity
 } from 'lucide-react';
 import { FuturisticHUD } from '@/components/FuturisticHUD';
 import { TiltCard } from '@/components/TiltCard';
-import { GlowCard } from '@/components/GlowCard';
 import { RetroGrid } from '@/components/RetroGrid';
 
 export default function Home() {
@@ -47,7 +46,7 @@ export default function Home() {
   // Search Form State
   const [source, setSource] = useState('');
   const [destination, setDestination] = useState('');
-  const [date, setDate] = useState(''); // Managed dynamically in useEffect
+  const [date, setDate] = useState('');
   const [transportType, setTransportType] = useState('ALL'); // ALL, BUS, TRAIN, PLANE
   const [priority, setPriority] = useState('balanced');
   const [tripType, setTripType] = useState<'oneway' | 'round'>('oneway');
@@ -64,19 +63,18 @@ export default function Home() {
   const [validationError, setValidationError] = useState('');
   const [simMode, setSimMode] = useState<'balanced' | 'budget' | 'comfort' | 'speed'>('balanced');
 
-  // Refs for clicking outside dropdowns to close them
+  // Refs for clicking outside dropdowns
   const sourceRef = useRef<HTMLDivElement>(null);
   const destRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Generate current date string in BD timezone dynamically
     const today = new Date();
     const tzOffset = 6 * 60 * 60 * 1000; // BD UTC+6 offset
     const localDate = new Date(today.getTime() + tzOffset);
     const dateFormatted = localDate.toISOString().split('T')[0];
     
     setTodayStr(dateFormatted);
-    setDate(dateFormatted); // Default search date to today dynamically
+    setDate(dateFormatted);
 
     const fetchStations = async () => {
       try {
@@ -84,14 +82,14 @@ export default function Home() {
         setStations(data);
       } catch (err) {
         console.error("Failed to load stations:", err);
-      } finally {
+      } font-mono
+      finally {
         setLoading(false);
       }
     };
 
     fetchStations();
 
-    // Click outside dropdowns listener
     const handleClickOutside = (event: MouseEvent) => {
       if (sourceRef.current && !sourceRef.current.contains(event.target as Node)) {
         setSourceOpen(false);
@@ -107,7 +105,6 @@ export default function Home() {
     };
   }, []);
 
-  // Whenever transportType changes, validate and clip the date if it exceeds new limit
   useEffect(() => {
     if (!date || !todayStr) return;
     const maxDays = transportType === 'BUS' ? 20 : (transportType === 'TRAIN' ? 10 : 60);
@@ -148,11 +145,10 @@ export default function Home() {
       return;
     }
 
-    // Validate Max Date Constraints
     const maxDaysAllowed = transportType === 'BUS' ? 20 : (transportType === 'TRAIN' ? 10 : 60);
     const maxAllowedDate = getFutureDateString(maxDaysAllowed);
     if (date > maxAllowedDate) {
-      setValidationError(`For ${transportType === 'ALL' ? 'all' : transportType.toLowerCase()} journeys, tickets can only be booked up to ${maxDaysAllowed} days in advance (Max date allowed: ${maxAllowedDate}).`);
+      setValidationError(`For ${transportType === 'ALL' ? 'all' : transportType.toLowerCase()} journeys, tickets can only be booked up to ${maxDaysAllowed} days in advance.`);
       return;
     }
 
@@ -164,10 +160,9 @@ export default function Home() {
     setSource(fromCode);
     setDestination(toCode);
     setTransportType(type);
-    setDate(todayStr); // Ensure date is locked to current date (no past dates)
+    setDate(todayStr);
     setValidationError('');
     
-    // Auto-scroll to search form container smoothly
     const formElement = document.getElementById('search-form-container');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
@@ -186,7 +181,6 @@ export default function Home() {
     return s ? s.name : 'Choose location';
   };
 
-  // Group stations by type for dropdown rendering
   const filterAndGroupStations = (keyword: string, excludeCode?: string) => {
     const safeStations = Array.isArray(stations) && stations.length > 0 ? stations : ALL_BANGLADESH_STATIONS;
     const kw = (keyword || '').toLowerCase().trim();
@@ -210,62 +204,59 @@ export default function Home() {
   const sourceGroups = filterAndGroupStations(sourceSearch, destination);
   const destGroups = filterAndGroupStations(destSearch, source);
 
-  // Static Promotional Offers
   const promos = [
-    { code: 'BKASH200', desc: 'Save up to ৳200 on any bus ticket via bKash payment.', expiry: 'Exp: 30 June', badge: 'Popular' },
-    { code: 'FLIGHT10', desc: '10% flat discount on domestic flights (US-Bangla & Biman).', expiry: 'Exp: 15 July', badge: 'Hot Deal' },
-    { code: 'ECVERIFY', desc: 'Register with NID & get free service fee on your first booking.', expiry: 'University Demo Special', badge: 'New User' }
+    { code: 'BKASH200', desc: 'Save up to ৳200 on any bus ticket via bKash payment.', expiry: 'EXP: 30 JUNE', badge: 'POPULAR' },
+    { code: 'FLIGHT10', desc: '10% flat discount on domestic flights (US-Bangla & Biman).', expiry: 'EXP: 15 JULY', badge: 'HOT DEAL' },
+    { code: 'ECVERIFY', desc: 'Register with NID & get free service fee on your first booking.', expiry: 'SPECIAL OFFER', badge: 'NEW USER' }
   ];
 
-  // Visual Top Destinations in Bangladesh
   const topDestinations = [
     { 
-      name: 'Cox\'s Bazar', 
-      tagline: 'World\'s longest sandy beach', 
+      name: "COX'S BAZAR", 
+      tagline: "World's longest ocean beach", 
       basePrice: '৳700', 
       fromCode: 'DAC-BUS-G', 
       toCode: 'CXB-BUS-K', 
       type: 'BUS',
-      bgGradient: 'from-amber-600/40 to-yellow-600/40' 
     },
     { 
-      name: 'Sylhet', 
-      tagline: 'Land of two leaves and a bud', 
+      name: 'SYLHET', 
+      tagline: 'Land of tea gardens & hills', 
       basePrice: '৳350', 
       fromCode: 'DAC-RLY-K', 
       toCode: 'ZYL-RLY-S', 
       type: 'TRAIN',
-      bgGradient: 'from-emerald-700/40 to-teal-800/40' 
     },
     { 
-      name: 'Chittagong', 
-      tagline: 'Commercial port city of hills', 
+      name: 'CHITTAGONG', 
+      tagline: 'Port city transit hub', 
       basePrice: '৳4,500', 
       fromCode: 'DAC-AIR-S', 
       toCode: 'CGP-AIR-A', 
       type: 'PLANE',
-      bgGradient: 'from-blue-600/40 to-indigo-700/40' 
     }
   ];
 
-  // FAQ list
   const faqs = [
-    { q: 'Is Identity Matrix (NID) synchronization required?', a: 'Affirmative. To ensure node integrity and prevent unauthorized entity access, all pilot profiles are cross-referenced with the central Identity Matrix upon initialization.' },
-    { q: 'How does the Quantum Route Optimizer function?', a: 'By calibrating your telemetry parameters (Credit Efficiency, Velocity Index, Comfort Factor), the optimizer cross-references real-time transit databases to prioritize the most efficient routing nodes.' },
-    { q: 'What credit transfer protocols are accepted?', a: 'Our gateways seamlessly integrate with primary temporal credit networks including bKash, Nagad, Rocket, and standard orbital charge nodes (Visa/Mastercard).' }
+    { q: '> IS IDENTITY MATRIX (NID) SYNCHRONIZATION REQUIRED?', a: 'Affirmative. To ensure node integrity and prevent unauthorized ticket scalping, all passenger profiles are cross-referenced with the central National Identity Registry.' },
+    { q: '> HOW DOES THE ROUTE OPTIMIZER FUNCTION?', a: 'By calibrating your telemetry parameters (Credit Efficiency, Velocity Index, Comfort Factor), the engine cross-references real-time transit databases to prioritize optimal routing.' },
+    { q: '> WHAT PAYMENT PROTOCOLS ARE ACCEPTED?', a: 'Our gateways seamlessly integrate with primary temporal credit networks including bKash, Nagad, Rocket, and standard orbital card nodes (Visa/Mastercard).' }
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-[#090014] text-[#E0E0E0] font-mono">
       
-      {/* Decorative Grid Overlay */}
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
+      {/* Huge Background Sunset Orb (Vaporwave Signature) */}
+      <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-b from-[#FF9900] via-[#FF00FF] to-transparent blur-[120px] opacity-25 pointer-events-none -z-10" />
 
-      {/* Split Hero Section with Visual Attraction */}
-      <section className="mx-auto max-w-7xl px-4 pt-12 pb-8 sm:px-6 lg:px-8">
+      {/* Receding Perspective Grid Floor Background */}
+      <RetroGrid opacity={0.65} />
+
+      {/* Hero Section */}
+      <section className="mx-auto max-w-7xl px-4 pt-16 pb-12 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left Hero Column */}
+          {/* Left Hero Content */}
           <motion.div 
             initial="hidden" 
             animate="visible" 
@@ -277,124 +268,131 @@ export default function Home() {
           >
             {user ? (
               <>
-                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-purple-500/30 bg-purple-500/15 px-4 py-1.5 text-xs text-purple-300 font-bold shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                  <Sparkles className="h-3.5 w-3.5 text-purple-400" />
-                  <span>{t("Assalam-o-Alaikum, ", "আসসালামু আলাইকুম, ") + (user.first_name || user.username) + "!"}</span>
+                <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 border border-[#FF00FF] bg-[#1a103c] px-4 py-1.5 text-xs text-[#00FFFF] font-mono shadow-[0_0_15px_rgba(255,0,255,0.4)]">
+                  <Terminal className="h-3.5 w-3.5 text-[#FF9900]" />
+                  <span>{t("SYSTEM ONLINE: WELCOME, ", "সিস্টেম অনলাইন: স্বাগতম, ") + (user.first_name || user.username) + "!"}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-                  {t("PLAN YOUR NEXT ", "আপনার পরবর্তী ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                    {t("TRANSIT ROUTE", "ট্রানজিট রুট পরিকল্পনা")}
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-4xl font-black tracking-wider sm:text-6xl text-white leading-tight font-heading">
+                  {t("INITIALIZE ", "আপনার পরবর্তী ")} <br className="hidden sm:inline" />
+                  <span className="gradient-text-sunset drop-shadow-neon-magenta">
+                    {t("TRANSIT ROUTE", "ট্রানজিট রুট")}
                   </span>
                 </motion.h1>
                 
-                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-purple-200/80 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                  {t("Search, compare, and secure transport node passages instantly using your verified credentials.", "আপনাদের যাচাইকৃত প্রোফাইল ব্যবহার করে তাৎক্ষণিকভাবে ট্রান্সপোর্ট নোড প্যাসেজ অনুসন্ধান, তুলনা এবং সুরক্ষিত করুন।")}
+                <motion.p variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="text-[#E0E0E0]/80 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-mono">
+                  {t("Search, compare, and lock transport node passages across Bangladesh with Gmail OTP authentication.", "আপনার প্রোফাইল ব্যবহার করে তাৎক্ষণিকভাবে বাস, ট্রেন ও ফ্লাইটের টিকেট বুক করুন।")}
                 </motion.p>
               </>
             ) : (
               <>
-                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 rounded-full border border-purple-500/30 bg-purple-500/15 px-4 py-1.5 text-xs text-purple-300 font-bold shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                  <Sparkles className="h-3.5 w-3.5 text-purple-400" />
-                  <span>{t("Unified Transport Hub of Bangladesh", "বাংলাদেশের সমন্বিত যাতায়াত পোর্টাল")}</span>
+                <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center space-x-2 border border-[#00FFFF] bg-[#1a103c] px-4 py-1.5 text-xs text-[#00FFFF] font-mono shadow-[0_0_15px_rgba(0,255,255,0.3)]">
+                  <Sparkles className="h-3.5 w-3.5 text-[#FF9900]" />
+                  <span>{t("BANGLADESH SYNTHWAVE TRANSIT MATRIX", "বাংলাদেশের আউটরান যাতায়াত পোর্টাল")}</span>
                 </motion.div>
                 
-                <motion.h1 variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(6px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } }} className="text-4xl font-black tracking-tight sm:text-5xl text-white leading-tight" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-                  {t("ETHEREAL VELOCITY ", "ইথেরিয়াল ভেলোসিটি ")} <br className="hidden sm:inline" />
-                  <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                    {t("TRANSIT GATEWAY", "ট্রানজিট গেটওয়ে")}
+                <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-4xl font-black tracking-wider sm:text-6xl text-white leading-tight font-heading">
+                  {t("CYBERPUNK ", "সাইবারপাংক ")} <br className="hidden sm:inline" />
+                  <span className="gradient-text-sunset drop-shadow-neon-magenta">
+                    {t("TRANSIT MATRIX", "ট্রানজিট গেটওয়ে")}
                   </span>
                 </motion.h1>
                 
-                <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                  {t("Book bus, rail, and aero transits instantly across Bangladesh. Secured by NID identity verification and real-time checkout telemetry.", "বাস, রেল এবং অ্যারো ট্রানজিট বুক করুন তাৎক্ষণিকভাবে বাংলাদেশ জুড়ে। এনআইডি যাচাইকরণ এবং রিয়েল-টাইম চেকআউট টেলিমেট্রি দ্বারা সুরক্ষিত।")}
+                <motion.p variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="text-[#E0E0E0]/80 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-mono">
+                  {t("Book Bus, Railway, and Airline transits across Bangladesh. Secured with NID verification and instant Gmail OTP checkout.", "বাস, রেল এবং অ্যারো ট্রানজিট বুক করুন তাৎক্ষণিকভাবে বাংলাদেশ জুড়ে।")}
                 </motion.p>
               </>
             )}
 
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-xs font-semibold text-slate-600 dark:text-slate-300">
-              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> <span>{t("NID Verified", "এনআইডি যাচাইকৃত")}</span></span>
-              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> <span>{t("SIM SMS OTP", "সিম ওটিপি")}</span></span>
-              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> <span>{t("bKash/Nagad checkout", "বিকাশ/নগদ পেমেন্ট")}</span></span>
+            {/* Skewed Action Buttons */}
+            <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start pt-2">
+              <a href="#search-form-container" className="vapor-btn-primary">
+                <span className="unskew">&gt; EXPLORE MATRIX</span>
+              </a>
+              <Link href="/seat-selection" className="vapor-btn-secondary">
+                <span className="unskew">&gt; SEATS &amp; OTP</span>
+              </Link>
+            </motion.div>
+
+            {/* Trust Badges */}
+            <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4 items-center justify-center lg:justify-start text-xs font-mono text-[#00FFFF]">
+              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-[#FF00FF]" /> <span>{t("NID Verified", "এনআইডি যাচাইকৃত")}</span></span>
+              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-[#FF00FF]" /> <span>{t("Gmail OTP 2FA", "জিমেইল ওটিপি")}</span></span>
+              <span className="flex items-center space-x-1.5"><CheckCircle2 className="h-4 w-4 text-[#FF00FF]" /> <span>{t("bKash/Nagad Checkout", "বিকাশ/নগদ পেমেন্ট")}</span></span>
             </motion.div>
           </motion.div>
 
-          {/* Right Hero Column: Premium Interactive generated banner */}
+          {/* Right Hero Column: Terminal User Console or Futuristic HUD */}
           {user ? (
-            <div className="lg:col-span-5 relative group">
-              <div className="relative rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--bg-raised)]/60 backdrop-blur-md p-6 shadow-2xl flex flex-col space-y-6">
+            <div className="lg:col-span-5 relative">
+              <div className="terminal-window p-6 space-y-6">
+                <div className="terminal-titlebar flex items-center justify-between -mx-6 -mt-6 mb-4">
+                  <span className="text-xs font-mono text-[#00FFFF]">&gt; PASSENGER_NODE_PROFILE</span>
+                  <div className="flex gap-2">
+                    <div className="h-3 w-3 rounded-full bg-[#FF00FF]" />
+                    <div className="h-3 w-3 rounded-full bg-[#00FFFF]" />
+                    <div className="h-3 w-3 rounded-full bg-[#FF9900]" />
+                  </div>
+                </div>
+
                 <div className="flex items-center space-x-4">
-                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-slate-950 font-bold text-xl flex items-center justify-center uppercase shadow-md">
-                    {user.username.substring(0, 2)}
+                  <div className="h-12 w-12 border-2 border-[#FF00FF] bg-[#1a103c] text-[#00FFFF] font-mono text-xl flex items-center justify-center font-bold shadow-[0_0_15px_#FF00FF]">
+                    {user.username.substring(0, 2).toUpperCase()}
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-[var(--text-bright)] uppercase tracking-wide">{user.first_name || user.username}</h4>
-                    <p className="text-xs text-[var(--text-muted)] font-mono mt-0.5">{t("Account ID:", "অ্যাকাউন্ট আইডি:")} #00{user.id}00</p>
+                    <h4 className="text-base font-bold text-white font-heading">{user.first_name || user.username}</h4>
+                    <p className="text-xs text-[#00FFFF] font-mono mt-0.5">ID: #00{user.id}2088</p>
                   </div>
                 </div>
 
                 {/* Verified Badges */}
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-[var(--bg-deep)]/40 border border-[var(--border)] p-2.5 rounded-xl space-y-1">
-                    <span className="block text-xs uppercase tracking-wide text-[var(--text-muted)] font-bold">{t("NID Card", "এনআইডি")}</span>
-                    <span className="block text-xs font-bold text-emerald-400">{t("Verified ✅", "যাচাইকৃত ✅")}</span>
+                <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                  <div className="border border-[#2D1B4E] bg-[#090014] p-2 space-y-1">
+                    <span className="block text-[10px] text-[#E0E0E0]/60 uppercase">NID CARD</span>
+                    <span className="block font-bold text-[#00FFFF]">ACTIVE ✅</span>
                   </div>
-                  <div className="bg-[var(--bg-deep)]/40 border border-[var(--border)] p-2.5 rounded-xl space-y-1">
-                    <span className="block text-xs uppercase tracking-wide text-[var(--text-muted)] font-bold">{t("Mobile", "মোবাইল")}</span>
-                    <span className="block text-xs font-bold text-emerald-400">{t("Verified ✅", "যাচাইকৃত ✅")}</span>
+                  <div className="border border-[#2D1B4E] bg-[#090014] p-2 space-y-1">
+                    <span className="block text-[10px] text-[#E0E0E0]/60 uppercase">SIM PHONE</span>
+                    <span className="block font-bold text-[#00FFFF]">ACTIVE ✅</span>
                   </div>
-                  <div className="bg-[var(--bg-deep)]/40 border border-[var(--border)] p-2.5 rounded-xl space-y-1">
-                    <span className="block text-xs uppercase tracking-wide text-[var(--text-muted)] font-bold">{t("Gmail", "জিমেইল")}</span>
-                    <span className="block text-xs font-bold text-emerald-400">{t("Verified ✅", "যাচাইকৃত ✅")}</span>
+                  <div className="border border-[#2D1B4E] bg-[#090014] p-2 space-y-1">
+                    <span className="block text-[10px] text-[#E0E0E0]/60 uppercase">GMAIL OTP</span>
+                    <span className="block font-bold text-[#00FFFF]">ACTIVE ✅</span>
                   </div>
                 </div>
 
                 {/* Info Details */}
-                <div className="bg-[var(--bg-deep)]/30 border border-[var(--border)] rounded-2xl p-4 text-xs space-y-2">
+                <div className="border border-[#FF00FF]/40 bg-[#090014] p-3 text-xs space-y-2 font-mono">
                   <div className="flex justify-between">
-                    <span className="text-[var(--text-muted)] font-medium">{t("NID Name:", "এনআইডি নাম:")}</span>
-                    <span className="text-[var(--text-bright)] font-bold">{user.profile?.nid_name || user.first_name || 'Rakibul Islam'}</span>
+                    <span className="text-[#E0E0E0]/60">NID NAME:</span>
+                    <span className="text-white font-bold">{user.profile?.nid_name || user.first_name || 'Rakibul Islam'}</span>
                   </div>
-                  <div className="flex justify-between border-t border-[var(--border)] pt-2">
-                    <span className="text-[var(--text-muted)] font-medium">{t("NID Number:", "এনআইডি নম্বর:")}</span>
-                    <span className="text-[var(--text-primary)] font-mono font-bold">
+                  <div className="flex justify-between border-t border-[#2D1B4E] pt-2">
+                    <span className="text-[#E0E0E0]/60">NID NUMBER:</span>
+                    <span className="text-[#00FFFF] font-bold">
                       {user.profile?.nid ? `${user.profile.nid.substring(0, 4)}******` : '1234******'}
                     </span>
                   </div>
-                  <div className="flex justify-between border-t border-[var(--border)] pt-2">
-                    <span className="text-[var(--text-muted)] font-medium">{t("Mobile SIM:", "মোবাইল সিম:")}</span>
-                    <span className="text-[var(--text-primary)] font-mono font-bold">{user.profile?.phone || '01712******'}</span>
-                  </div>
                 </div>
 
-                {/* Quick Actions */}
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  <Link href="/dashboard" passHref legacyBehavior>
-                    <motion.a
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/60 hover:bg-[var(--bg-elevated)]/80 p-3 text-center text-xs font-bold text-[var(--text-primary)] transition-all duration-200 flex items-center justify-center space-x-1.5 cursor-pointer hover:-translate-y-0.5"
-                    >
-                      <span>{t("My Dashboard", "আমার ড্যাশবোর্ড")}</span>
-                      <ArrowRight className="h-3.5 w-3.5 text-emerald-400" />
-                    </motion.a>
+                {/* Quick Action Buttons */}
+                <div className="grid grid-cols-2 gap-3 pt-1">
+                  <Link href="/dashboard" className="vapor-btn-primary text-xs h-10 px-2 text-center">
+                    <span className="unskew">&gt; DASHBOARD</span>
                   </Link>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     type="button"
                     onClick={logout}
-                    className="rounded-xl border border-red-500/10 bg-red-500/5 hover:bg-red-500/10 p-3 text-center text-xs font-bold text-red-400 transition-all duration-200 cursor-pointer hover:-translate-y-0.5"
+                    className="vapor-btn-outline text-xs h-10 px-2 text-center"
                   >
-                    {t("Sign Out", "লগ আউট")}
-                  </motion.button>
+                    <span className="unskew">&gt; LOGOUT</span>
+                  </button>
                 </div>
 
               </div>
             </div>
           ) : (
-            <div className="lg:col-span-5 relative group">
+            <div className="lg:col-span-5 relative">
               <FuturisticHUD />
             </div>
           )}
@@ -402,93 +400,107 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Platform Statistics Live Metrics */}
+      {/* Platform Statistics Outrun Telemetry */}
       <ScrollReveal delay={0.1}>
-        <section className="mx-auto max-w-5xl px-4 pb-8 -mt-2">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-[var(--bg-raised)]/50 border border-white/[0.03] rounded-2xl p-6 backdrop-blur-sm">
+        <section className="mx-auto max-w-5xl px-4 pb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 terminal-window p-6">
             <div className="text-center space-y-1">
-              <span className="block text-2xl font-bold text-emerald-400 font-mono">
+              <span className="block text-2xl font-bold text-[#00FFFF] font-mono drop-shadow-[0_0_8px_#00FFFF]">
                 <NumberTicker value={2640} suffix="+" />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">DAILY TRANSITS</span>
+              <span className="block text-xs text-[#E0E0E0]/60 uppercase font-mono tracking-wider">DAILY TRANSITS</span>
             </div>
-            <div className="text-center space-y-1 sm:border-l sm:border-slate-800">
-              <span className="block text-2xl font-bold text-teal-400 font-mono">
+            <div className="text-center space-y-1 border-l border-[#2D1B4E]">
+              <span className="block text-2xl font-bold text-[#FF00FF] font-mono drop-shadow-[0_0_8px_#FF00FF]">
                 <NumberTicker value={26} />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide font-sans">ORBITAL NODES</span>
+              <span className="block text-xs text-[#E0E0E0]/60 uppercase font-mono tracking-wider">TRANSIT NODES</span>
             </div>
-            <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
-              <span className="block text-2xl font-bold text-indigo-400 font-mono">
+            <div className="text-center space-y-1 border-l border-[#2D1B4E]">
+              <span className="block text-2xl font-bold text-[#FF9900] font-mono drop-shadow-[0_0_8px_#FF9900]">
                 <NumberTicker value={15200} decimals={1} suffix="K" />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">ENROLLED PILOTS</span>
+              <span className="block text-xs text-[#E0E0E0]/60 uppercase font-mono tracking-wider">ENROLLED PILOTS</span>
             </div>
-            <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800 pt-4 sm:pt-0">
-              <span className="block text-2xl font-bold text-emerald-400 font-mono">
+            <div className="text-center space-y-1 border-l border-[#2D1B4E]">
+              <span className="block text-2xl font-bold text-[#00FFFF] font-mono drop-shadow-[0_0_8px_#00FFFF]">
                 <NumberTicker value={99.9} decimals={1} suffix="%" />
               </span>
-              <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide">TELEMETRY SYNC</span>
+              <span className="block text-xs text-[#E0E0E0]/60 uppercase font-mono tracking-wider">TELEMETRY SYNC</span>
             </div>
           </div>
         </section>
       </ScrollReveal>
 
-      {/* Professional Dopamine Search Widget Section */}
-      <section id="search-form-container" className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8 relative scroll-mt-24 z-20">
+      {/* Terminal Search Matrix Window */}
+      <section id="search-form-container" className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8 relative scroll-mt-24 z-20">
         
         {validationError && (
-          <div className="max-w-4xl mx-auto mb-4 rounded-2xl bg-[#0D0D1A] border-4 border-red-500 shadow-[4px_4px_0_#FF3AF2] p-3.5 text-xs text-red-400 flex items-center space-x-2 font-black">
-            <AlertCircle className="h-4.5 w-4.5 shrink-0" />
+          <div className="max-w-4xl mx-auto mb-4 border-2 border-red-500 bg-[#090014] p-3 text-xs text-red-400 flex items-center space-x-2 font-mono shadow-[0_0_15px_rgba(255,0,0,0.5)]">
+            <AlertCircle className="h-4 w-4 shrink-0 text-red-500" />
             <span className="uppercase tracking-wider">{validationError}</span>
           </div>
         )}
 
-        <div className="bg-[#2D1B4E]/90 border-4 border-[#FF3AF2] rounded-[32px] shadow-[10px_10px_0_#FFE600,20px_20px_0_#00F5D4] p-6 sm:p-8 relative pattern-dots">
+        <div className="terminal-window p-6 sm:p-8 relative">
+          
+          {/* Vintage Terminal Titlebar */}
+          <div className="terminal-titlebar flex items-center justify-between -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6">
+            <div className="flex items-center space-x-2">
+              <Terminal className="h-4 w-4 text-[#00FFFF]" />
+              <span className="text-xs font-mono text-[#00FFFF] tracking-wider uppercase">&gt; SEARCH_TRANSIT_MATRIX_ROUTER_V2088</span>
+            </div>
+            <div className="flex gap-2">
+              <div className="h-3 w-3 rounded-full bg-[#FF00FF]" />
+              <div className="h-3 w-3 rounded-full bg-[#00FFFF]" />
+              <div className="h-3 w-3 rounded-full bg-[#FF9900]" />
+            </div>
+          </div>
+
           <form onSubmit={handleSearch} className="space-y-6">
           
-          {/* Control Bar: Mode and type select */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-4 border-[#FF3AF2] pb-4">
-            
-            {/* Transport Tabs */}
-            <div className="flex bg-[#0D0D1A] p-1.5 rounded-full border-4 border-[#00F5D4] shadow-[4px_4px_0_#FF3AF2] max-w-fit">
-              {[
-                { id: 'ALL', label: 'All Modes', icon: Sparkles },
-                { id: 'BUS', label: 'Bus', icon: Bus },
-                { id: 'TRAIN', label: 'Train', icon: Train },
-                { id: 'PLANE', label: 'Plane', icon: Plane }
-              ].map((tab, tIdx) => {
-                const tabAccents = ['bg-[#FF3AF2]', 'bg-[#00F5D4] text-[#0D0D1A]', 'bg-[#FFE600] text-[#0D0D1A]', 'bg-[#7B2FFF]'];
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => { setTransportType(tab.id); setValidationError(''); }}
-                    className={`flex items-center space-x-1.5 px-3.5 py-2 text-xs font-black rounded-full uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                      transportType === tab.id
-                        ? `${tabAccents[tIdx % tabAccents.length]} shadow-[3px_3px_0_#FFE600] scale-105`
-                        : 'text-slate-300 hover:text-white hover:bg-[#FF3AF2]/30'
-                    }`}
-                  >
-                    <tab.icon className="h-3.5 w-3.5" />
-                    <span>{tab.label}</span>
-                  </button>
-                );
-              })}
-            </div>
+            {/* Control Bar: Mode & Type Select */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#00FFFF]/40 pb-4">
+              
+              {/* Transport Tabs */}
+              <div className="flex bg-[#090014] p-1 border border-[#FF00FF] space-x-1">
+                {[
+                  { id: 'ALL', label: '> ALL MODES', icon: Sparkles },
+                  { id: 'BUS', label: '> BUS', icon: Bus },
+                  { id: 'TRAIN', label: '> TRAIN', icon: Train },
+                  { id: 'PLANE', label: '> PLANE', icon: Plane }
+                ].map((tab) => {
+                  const active = transportType === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => { setTransportType(tab.id); setValidationError(''); }}
+                      className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                        active 
+                          ? 'bg-[#00FFFF] text-black font-bold shadow-[0_0_12px_#00FFFF]' 
+                          : 'text-[#E0E0E0]/70 hover:text-[#00FFFF] hover:bg-[#1a103c]'
+                      }`}
+                    >
+                      <tab.icon className="h-3.5 w-3.5" />
+                      <span>{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
 
-              {/* Trip type choice */}
-              <div className="flex space-x-4 text-xs font-black text-[#00F5D4]">
-                <label className="flex items-center space-x-1.5 cursor-pointer hover:opacity-90 transition-opacity">
+              {/* Trip Type Choice */}
+              <div className="flex space-x-4 text-xs font-mono text-[#00FFFF]">
+                <label className="flex items-center space-x-1.5 cursor-pointer">
                   <input 
                     type="radio" 
                     checked={tripType === 'oneway'} 
                     onChange={() => setTripType('oneway')}
-                    className="accent-[#FF3AF2] h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[#FF00FF] h-3.5 w-3.5 cursor-pointer" 
                   />
-                  <span className={tripType === 'oneway' ? 'text-[#FFE600] font-black' : ''}>One Way</span>
+                  <span className={tripType === 'oneway' ? 'text-[#FF9900] font-bold' : ''}>ONE-WAY</span>
                 </label>
-                <label className="flex items-center space-x-1.5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+                <label className="flex items-center space-x-1.5 cursor-pointer opacity-70 hover:opacity-100">
                   <input 
                     type="radio" 
                     checked={tripType === 'round'} 
@@ -496,115 +508,111 @@ export default function Home() {
                       setTripType('round');
                       alert('Round-trip return dates are mocked. You will search and book your outward journey first.');
                     }}
-                    className="accent-[#FF3AF2] h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[#FF00FF] h-3.5 w-3.5 cursor-pointer" 
                   />
-                  <span className={tripType === 'round' ? 'text-[#FFE600] font-black' : ''}>Round Trip</span>
+                  <span className={tripType === 'round' ? 'text-[#FF9900] font-bold' : ''}>ROUND-TRIP</span>
                 </label>
               </div>
 
             </div>
 
-            {/* Custom Location Selection Fields */}
+            {/* Location Selection Fields */}
             <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-center">
               
               {/* FROM Dropdown */}
               <div ref={sourceRef} className="md:col-span-3 space-y-1.5 relative">
-                <label className="text-xs font-black text-[#FFE600] uppercase tracking-wider block">Origin Station</label>
+                <label className="text-xs font-mono text-[#FF9900] uppercase tracking-wider block">&gt; ORIGIN NODE</label>
                 <button
                   type="button"
                   onClick={() => { setSourceOpen(!sourceOpen); setDestOpen(false); }}
-                  className="w-full rounded-full bg-[#0D0D1A] border-4 border-[#00F5D4] shadow-[4px_4px_0_#FF3AF2] p-4 text-left focus:outline-none transition-all duration-300 flex items-center justify-between cursor-pointer"
+                  className="w-full bg-[#090014] border-2 border-[#FF00FF] p-3 text-left focus:border-[#00FFFF] focus:shadow-[0_0_15px_#00FFFF] transition-all flex items-center justify-between cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
-                    <MapPin className={`h-5 w-5 ${source ? 'text-[#FFE600]' : 'text-[#FF3AF2]'}`} />
+                    <MapPin className={`h-5 w-5 ${source ? 'text-[#00FFFF]' : 'text-[#FF00FF]'}`} />
                     <div>
-                      <span className={`block font-black text-sm ${source ? 'text-white' : 'text-slate-300'}`}>
+                      <span className={`block font-bold text-sm ${source ? 'text-[#00FFFF]' : 'text-[#E0E0E0]/60'}`}>
                         {source ? getStationLabel(source) : 'Select Departure Location'}
                       </span>
-                      <span className="block text-xs text-[#00F5D4] leading-none mt-0.5 font-bold">
-                        {source ? getStationDetail(source) : 'Choose where you travel from'}
+                      <span className="block text-xs text-[#E0E0E0]/60 mt-0.5">
+                        {source ? getStationDetail(source) : 'Choose origin station'}
                       </span>
                     </div>
                   </div>
-                  <ChevronDown className="h-4 w-4 text-[#FFE600]" />
+                  <ChevronDown className="h-4 w-4 text-[#FF9900]" />
                 </button>
 
                 {sourceOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)] p-3.5 shadow-2xl flex flex-col space-y-3">
-                    {/* Search inside Dropdown */}
+                  <div className="absolute left-0 right-0 top-full mt-2 z-40 border-2 border-[#00FFFF] bg-[#090014] p-3 shadow-[0_0_25px_rgba(0,255,255,0.4)] flex flex-col space-y-3 font-mono">
                     <div className="relative">
                        <input
                         type="text"
-                        placeholder="Search stations, ports..."
+                        placeholder="Search station or code..."
                         value={sourceSearch}
                         onChange={(e) => setSourceSearch(e.target.value)}
-                        className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-deep)] px-3 py-2 text-xs text-[var(--text-bright)] focus:outline-none focus:border-[var(--accent)]"
+                        className="vapor-input w-full text-xs"
                         autoFocus
                       />
                       {sourceSearch && (
-                        <button type="button" onClick={() => setSourceSearch('')} className="absolute right-2.5 top-2 text-slate-500 hover:text-[var(--text-bright)] cursor-pointer">
+                        <button type="button" onClick={() => setSourceSearch('')} className="absolute right-2.5 top-2.5 text-[#FF00FF]">
                           <X className="h-3.5 w-3.5" />
                         </button>
                       )}
                     </div>
 
-                    <div className="max-h-48 overflow-y-auto space-y-3 scrollbar pr-1">
-                      {/* Bus Terminals Group */}
+                    <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
                       {sourceGroups.bus.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚌 Bus Terminals</span>
+                          <span className="text-xs font-bold text-[#FF9900] uppercase block px-1">🚌 BUS TERMINALS</span>
                           {sourceGroups.bus.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left p-1.5 text-xs text-[#E0E0E0] hover:bg-[#1a103c] hover:text-[#00FFFF] flex items-center justify-between cursor-pointer"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
+                              <span className="text-xs text-[#FF00FF] font-mono">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
-                      {/* Railway Stations Group */}
                       {sourceGroups.railway.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚆 Railway Stations</span>
+                          <span className="text-xs font-bold text-[#FF9900] uppercase block px-1">🚆 RAILWAY STATIONS</span>
                           {sourceGroups.railway.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left p-1.5 text-xs text-[#E0E0E0] hover:bg-[#1a103c] hover:text-[#00FFFF] flex items-center justify-between cursor-pointer"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
+                              <span className="text-xs text-[#FF00FF] font-mono">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
-                      {/* Airports Group */}
                       {sourceGroups.airport.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">✈️ Airports</span>
+                          <span className="text-xs font-bold text-[#FF9900] uppercase block px-1">✈️ AIRPORTS</span>
                           {sourceGroups.airport.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setSource(st.code); setSourceOpen(false); setSourceSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left p-1.5 text-xs text-[#E0E0E0] hover:bg-[#1a103c] hover:text-[#00FFFF] flex items-center justify-between cursor-pointer"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
+                              <span className="text-xs text-[#FF00FF] font-mono">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
                       {sourceGroups.bus.length === 0 && sourceGroups.railway.length === 0 && sourceGroups.airport.length === 0 && (
-                        <span className="text-xs text-[var(--text-muted)] block text-center py-4">No matching locations found.</span>
+                        <span className="text-xs text-[#E0E0E0]/50 block text-center py-3">NO MATCHING NODES FOUND</span>
                       )}
                     </div>
                   </div>
@@ -616,8 +624,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handleSwapStations}
-                  className="rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/80 p-3 hover:bg-[var(--bg-raised)] text-[var(--accent)] hover:text-[var(--text-bright)] transition-all duration-200 shadow-lg hover:-translate-y-0.5 cursor-pointer"
-                  title="Swap Locations"
+                  className="p-3 border border-[#00FFFF] bg-[#1a103c] text-[#00FFFF] hover:bg-[#00FFFF] hover:text-black shadow-[0_0_10px_#00FFFF] transition-all cursor-pointer"
+                  title="Swap Departure and Destination"
                 >
                   <ArrowLeftRight className="h-4 w-4 md:rotate-90" />
                 </button>
@@ -625,106 +633,98 @@ export default function Home() {
 
               {/* TO Dropdown */}
               <div ref={destRef} className="md:col-span-3 space-y-1.5 relative">
-                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block">Destination Node</label>
+                <label className="text-xs font-mono text-[#FF9900] uppercase tracking-wider block">&gt; DESTINATION NODE</label>
                 <button
                   type="button"
                   onClick={() => { setDestOpen(!destOpen); setSourceOpen(false); }}
-                  className={`w-full rounded-xl border p-4 text-left focus:border-[var(--accent)] transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                    destination 
-                      ? 'border-[var(--border)] bg-[var(--bg-raised)]/60 text-[var(--text-primary)]' 
-                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-[var(--border-hover)]'
-                  }`}
+                  className="w-full bg-[#090014] border-2 border-[#FF00FF] p-3 text-left focus:border-[#00FFFF] focus:shadow-[0_0_15px_#00FFFF] transition-all flex items-center justify-between cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
-                    <MapPin className={`h-5 w-5 ${destination ? 'text-[var(--accent)]' : 'text-slate-655'}`} />
+                    <MapPin className={`h-5 w-5 ${destination ? 'text-[#00FFFF]' : 'text-[#FF00FF]'}`} />
                     <div>
-                      <span className={`block font-bold text-sm ${destination ? 'text-[var(--text-bright)]' : 'text-[var(--text-muted)]'}`}>
+                      <span className={`block font-bold text-sm ${destination ? 'text-[#00FFFF]' : 'text-[#E0E0E0]/60'}`}>
                         {destination ? getStationLabel(destination) : 'Select Destination Location'}
                       </span>
-                      <span className="block text-xs text-slate-500 leading-none mt-0.5">
-                        {destination ? getStationDetail(destination) : 'Choose where you want to go'}
+                      <span className="block text-xs text-[#E0E0E0]/60 mt-0.5">
+                        {destination ? getStationDetail(destination) : 'Choose destination node'}
                       </span>
                     </div>
                   </div>
-                  <ChevronDown className="h-4 w-4 text-slate-500" />
+                  <ChevronDown className="h-4 w-4 text-[#FF9900]" />
                 </button>
 
                 {destOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-2 z-40 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)] p-3.5 shadow-2xl flex flex-col space-y-3">
-                    {/* Search inside Dropdown */}
+                  <div className="absolute left-0 right-0 top-full mt-2 z-40 border-2 border-[#00FFFF] bg-[#090014] p-3 shadow-[0_0_25px_rgba(0,255,255,0.4)] flex flex-col space-y-3 font-mono">
                     <div className="relative">
                       <input
                         type="text"
-                        placeholder="Search stations, ports..."
+                        placeholder="Search station or code..."
                         value={destSearch}
                         onChange={(e) => setDestSearch(e.target.value)}
-                        className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-deep)] px-3 py-2 text-xs text-[var(--text-bright)] focus:outline-none focus:border-[var(--accent)]"
+                        className="vapor-input w-full text-xs"
                         autoFocus
                       />
                       {destSearch && (
-                        <button type="button" onClick={() => setDestSearch('')} className="absolute right-2.5 top-2 text-slate-500 hover:text-[var(--text-bright)] cursor-pointer">
+                        <button type="button" onClick={() => setDestSearch('')} className="absolute right-2.5 top-2.5 text-[#FF00FF]">
                           <X className="h-3.5 w-3.5" />
                         </button>
                       )}
                     </div>
 
-                    <div className="max-h-48 overflow-y-auto space-y-3 scrollbar pr-1">
-                      {/* Bus Terminals Group */}
+                    <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
                       {destGroups.bus.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚌 Bus Terminals</span>
+                          <span className="text-xs font-bold text-[#FF9900] uppercase block px-1">🚌 BUS TERMINALS</span>
                           {destGroups.bus.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left p-1.5 text-xs text-[#E0E0E0] hover:bg-[#1a103c] hover:text-[#00FFFF] flex items-center justify-between cursor-pointer"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
+                              <span className="text-xs text-[#FF00FF] font-mono">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
-                      {/* Railway Stations Group */}
                       {destGroups.railway.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">🚆 Railway Stations</span>
+                          <span className="text-xs font-bold text-[#FF9900] uppercase block px-1">🚆 RAILWAY STATIONS</span>
                           {destGroups.railway.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left p-1.5 text-xs text-[#E0E0E0] hover:bg-[#1a103c] hover:text-[#00FFFF] flex items-center justify-between cursor-pointer"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
+                              <span className="text-xs text-[#FF00FF] font-mono">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
-                      {/* Airports Group */}
                       {destGroups.airport.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block px-1.5">✈️ Airports</span>
+                          <span className="text-xs font-bold text-[#FF9900] uppercase block px-1">✈️ AIRPORTS</span>
                           {destGroups.airport.map(st => (
                             <button
                               key={st.id}
                               type="button"
                               onClick={() => { setDestination(st.code); setDestOpen(false); setDestSearch(''); setValidationError(''); }}
-                              className="w-full text-left rounded-lg p-2 text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-deep)] hover:text-[var(--text-bright)] flex items-center justify-between cursor-pointer transition-colors"
+                              className="w-full text-left p-1.5 text-xs text-[#E0E0E0] hover:bg-[#1a103c] hover:text-[#00FFFF] flex items-center justify-between cursor-pointer"
                             >
                               <span>{st.name}</span>
-                              <span className="text-xs font-mono text-[var(--text-muted)] uppercase">{st.code}</span>
+                              <span className="text-xs text-[#FF00FF] font-mono">{st.code}</span>
                             </button>
                           ))}
                         </div>
                       )}
 
                       {destGroups.bus.length === 0 && destGroups.railway.length === 0 && destGroups.airport.length === 0 && (
-                        <span className="text-xs text-[var(--text-muted)] block text-center py-4">No matching locations found.</span>
+                        <span className="text-xs text-[#E0E0E0]/50 block text-center py-3">NO MATCHING NODES FOUND</span>
                       )}
                     </div>
                   </div>
@@ -733,13 +733,13 @@ export default function Home() {
 
             </div>
 
-            {/* Travel Date & Priority selection */}
+            {/* Travel Date & Smart Priority selection */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide flex items-center space-x-1">
-                  <Calendar className="h-3.5 w-3.5 text-[var(--accent)]" />
-                  <span>Journey Date (Locked to Present/Future)</span>
+                <label className="text-xs font-mono text-[#00FFFF] uppercase tracking-wider flex items-center space-x-1">
+                  <Calendar className="h-3.5 w-3.5 text-[#FF00FF]" />
+                  <span>&gt; JOURNEY DATE (PRESENT / FUTURE)</span>
                 </label>
                 <input
                   type="date"
@@ -747,24 +747,23 @@ export default function Home() {
                   min={todayStr}
                   max={getMaxDate()}
                   onChange={(e) => { setDate(e.target.value); setValidationError(''); }}
-                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/60 p-4 text-sm text-[var(--text-primary)] focus:border-[var(--accent)] focus:outline-none transition-colors cursor-pointer"
+                  className="vapor-input w-full cursor-pointer"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide flex items-center justify-between">
+                <label className="text-xs font-mono text-[#00FFFF] uppercase tracking-wider flex items-center justify-between">
                   <span className="flex items-center space-x-1">
-                    <Sparkles className="h-3.5 w-3.5 text-[var(--accent)]" />
-                    <span>Smart Ranking Preference</span>
+                    <Sparkles className="h-3.5 w-3.5 text-[#FF9900]" />
+                    <span>&gt; RANKING PREFERENCE</span>
                   </span>
-                  <span className="text-xs bg-[var(--bg-deep)] px-1.5 py-0.5 rounded text-[var(--accent)] font-bold uppercase leading-none">Dynamic Compare</span>
                 </label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
-                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]/60 p-4 text-sm text-[var(--text-primary)] focus:border-[var(--accent)] focus:outline-none transition-colors cursor-pointer"
+                  className="vapor-input w-full cursor-pointer"
                 >
-                  <option value="balanced">BALANCED</option>
+                  <option value="balanced">BALANCED MATRIX</option>
                   <option value="budget">BUDGET CONTROL</option>
                   <option value="speed">VELOCITY DRIVE</option>
                   <option value="comfort">MAX COMFORT</option>
@@ -773,13 +772,15 @@ export default function Home() {
 
             </div>
 
-            {/* Search Button */}
+            {/* Search Submit Button */}
             <button
               type="submit"
-              className="dopamine-btn-primary w-full py-4 text-xs font-black tracking-widest flex items-center justify-center space-x-2 cursor-pointer shadow-[6px_6px_0_#FFE600] mt-4"
+              className="vapor-btn-primary w-full py-4 text-sm font-bold tracking-widest mt-4"
             >
-              <Search className="h-5 w-5 text-[#FFE600]" />
-              <span>SEARCH TRANSIT MATRIX ROUTES 🚀</span>
+              <span className="unskew flex items-center space-x-2">
+                <Search className="h-5 w-5 text-[#00FFFF]" />
+                <span>EXECUTE MATRIX SEARCH 🚀</span>
+              </span>
             </button>
           </form>
         </div>
@@ -788,37 +789,39 @@ export default function Home() {
       {/* Promotional Offers Row */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-16">
-          <h2 className="text-2xl font-bold text-[var(--text-bright)] text-center mb-6 flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-            <Percent className="h-6 w-6 text-cyan-400" />
-            <span>QUANTUM TRAVEL PROTOCOLS</span>
+          <h2 className="text-xl sm:text-2xl font-bold text-white text-center mb-8 flex items-center justify-center space-x-2 font-heading drop-shadow-neon-cyan">
+            <Percent className="h-6 w-6 text-[#00FFFF]" />
+            <span>SPECIAL PROMOTIONAL PROTOCOLS</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {promos.map((promo, idx) => (
-              <TiltCard key={idx} className="glass-panel p-5 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)]/40 relative overflow-hidden">
-                <span className="absolute top-2 right-2 text-xs bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
-                  {promo.badge}
-                </span>
-                <div className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wide">Promo Code</div>
-                <div className="text-lg font-bold text-cyan-400 mt-1 flex items-center space-x-1.5">
-                  <span className="font-mono">{promo.code}</span>
+              <div key={idx} className="vapor-card p-5 relative overflow-hidden flex flex-col justify-between">
+                <div>
+                  <span className="absolute top-2 right-2 text-[10px] border border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF] px-2 py-0.5 font-mono uppercase font-bold">
+                    {promo.badge}
+                  </span>
+                  <div className="text-xs font-mono text-[#FF00FF] uppercase tracking-wider">&gt; PROMO CODE</div>
+                  <div className="text-xl font-bold font-mono text-[#00FFFF] mt-1 drop-shadow-[0_0_5px_#00FFFF]">
+                    {promo.code}
+                  </div>
+                  <p className="text-xs text-[#E0E0E0]/80 mt-2 leading-relaxed font-mono">{promo.desc}</p>
                 </div>
-                <p className="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">{promo.desc}</p>
-                <div className="text-xs text-[var(--text-muted)] mt-4 font-semibold">{promo.expiry}</div>
-              </TiltCard>
+                <div className="text-[11px] text-[#FF9900] mt-4 font-mono font-bold">{promo.expiry}</div>
+              </div>
             ))}
           </div>
         </section>
       </ScrollReveal>
 
-      {/* Premium Top Destinations Cards (Direct Links) */}
+      {/* Top Destinations Cards */}
       <ScrollReveal delay={0.1}>
         <section className="mx-auto max-w-5xl px-4 pb-20">
           <div className="text-center space-y-2 mb-10">
-            <h2 className="text-2xl font-bold text-[var(--text-bright)] flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-              <Flame className="h-6 w-6 text-cyan-500" />
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center justify-center space-x-2 font-heading drop-shadow-neon-magenta">
+              <Flame className="h-6 w-6 text-[#FF00FF]" />
               <span>POPULAR DESTINATION NODES</span>
             </h2>
-            <p className="text-xs text-[var(--text-secondary)]">Click any destination card below to immediately select that route in the booking form</p>
+            <p className="text-xs text-[#00FFFF] font-mono">&gt; Click card to load route telemetry into search matrix</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -826,29 +829,24 @@ export default function Home() {
               <TiltCard key={idx}>
                 <button
                   onClick={() => handleQuickBookSelect(dest.fromCode, dest.toCode, dest.type)}
-                  className="w-full text-left rounded-3xl overflow-hidden glass-panel border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all hover:-translate-y-0.5 duration-200 flex flex-col cursor-pointer relative group h-48"
+                  className="w-full text-left vapor-card p-5 flex flex-col justify-between cursor-pointer relative group h-48"
                 >
-                  {/* Background gradient design mimicking a scenic image container */}
-                  <div className={`absolute inset-0 bg-gradient-to-tr ${dest.bgGradient} -z-10 group-hover:scale-105 transition-transform duration-500`} />
-                  
-                  {/* Top status bar */}
-                  <div className="p-5 w-full flex justify-between items-start">
-                    <span className="text-xs bg-[var(--bg-deep)]/80 text-[var(--text-primary)] border border-[var(--border)] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
-                      {dest.type} Mode
+                  <div className="w-full flex justify-between items-start">
+                    <span className="text-xs border border-[#FF00FF] bg-[#FF00FF]/20 text-[#FF00FF] px-2 py-0.5 font-mono font-bold uppercase">
+                      {dest.type} MODE
                     </span>
                     <div className="text-right">
-                      <span className="text-xs text-[var(--text-secondary)] uppercase tracking-wide block font-bold">Fare From</span>
-                      <span className="text-sm font-bold text-emerald-400">{dest.basePrice}</span>
+                      <span className="text-[10px] text-[#E0E0E0]/60 uppercase tracking-wide block font-mono">FARE FROM</span>
+                      <span className="text-sm font-bold text-[#00FFFF] font-mono drop-shadow-[0_0_5px_#00FFFF]">{dest.basePrice}</span>
                     </div>
                   </div>
 
-                  {/* Bottom Details */}
-                  <div className="mt-auto p-5 w-full bg-gradient-to-t from-[var(--bg-deep)] via-[var(--bg-deep)]/70 to-transparent">
-                    <h4 className="text-lg font-bold text-[var(--text-bright)] flex items-center space-x-1.5">
+                  <div className="mt-auto">
+                    <h4 className="text-lg font-bold font-heading text-white flex items-center space-x-1.5 group-hover:text-[#00FFFF] transition-colors">
                       <span>{dest.name}</span>
-                      <ArrowRight className="h-4 w-4 text-emerald-400 transform translate-x-0 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-4 w-4 text-[#FF00FF] transform translate-x-0 group-hover:translate-x-1 transition-transform" />
                     </h4>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">{dest.tagline}</p>
+                    <p className="text-xs text-[#E0E0E0]/70 font-mono mt-1">{dest.tagline}</p>
                   </div>
                 </button>
               </TiltCard>
@@ -859,66 +857,67 @@ export default function Home() {
 
       {/* Interactive Match Score Engine Simulator */}
       <section className="mx-auto max-w-5xl px-4 pb-20">
-        <div className="glass-panel border border-[var(--border)] rounded-3xl p-8 relative overflow-hidden bg-[var(--bg-raised)]/40">
-          <div className="text-center md:text-left md:flex justify-between items-center mb-8 border-b border-[var(--border)] pb-6">
-            <div className="space-y-1">
-              <h2 className="text-2xl font-bold text-[var(--text-bright)] flex items-center justify-center md:justify-start space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-                <SlidersHorizontal className="h-6 w-6 text-cyan-400" />
-                <span>ROUTE MATRIX OPTIMIZER</span>
-              </h2>
+        <div className="terminal-window p-6 sm:p-8">
+          <div className="terminal-titlebar flex items-center justify-between -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6">
+            <div className="flex items-center space-x-2">
+              <SlidersHorizontal className="h-4 w-4 text-[#00FFFF]" />
+              <span className="text-xs font-mono text-[#00FFFF] tracking-wider uppercase">&gt; ROUTE_MATRIX_OPTIMIZER_SIMULATOR</span>
             </div>
-            
-            {/* Simulator priority triggers */}
-            <div className="flex flex-wrap gap-2.5 mt-4 md:mt-0 justify-center">
-              {(['balanced', 'budget', 'comfort', 'speed'] as const).map(mode => (
-                <button
-                  key={mode}
-                  type="button"
-                  onClick={() => {
-                    setSimMode(mode);
-                    setPriority(mode);
-                  }}
-                  className={`px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all duration-300 border cursor-pointer ${
-                    simMode === mode
-                      ? 'bg-gradient-to-r from-cyan-500 to-indigo-600 text-white border-cyan-400 shadow-md scale-105'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-cyan-500 hover:text-cyan-500 shadow-xs'
-                  }`}
-                >
-                  {mode}
-                </button>
-              ))}
+            <div className="flex gap-2">
+              <div className="h-3 w-3 rounded-full bg-[#FF00FF]" />
+              <div className="h-3 w-3 rounded-full bg-[#00FFFF]" />
+              <div className="h-3 w-3 rounded-full bg-[#FF9900]" />
             </div>
           </div>
 
-          {/* Interactive display of scoring progress bars */}
+          <div className="flex flex-wrap gap-2 mb-6 justify-center">
+            {(['balanced', 'budget', 'comfort', 'speed'] as const).map(mode => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => {
+                  setSimMode(mode);
+                  setPriority(mode);
+                }}
+                className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border cursor-pointer transition-all ${
+                  simMode === mode
+                    ? 'border-[#00FFFF] bg-[#00FFFF] text-black font-bold shadow-[0_0_10px_#00FFFF]'
+                    : 'border-[#2D1B4E] bg-[#090014] text-[#E0E0E0]/70 hover:border-[#FF00FF]'
+                }`}
+              >
+                &gt; {mode}
+              </button>
+            ))}
+          </div>
+
+          {/* Scoring Progress Bars */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                type: 'Green Line Bus (Economy)',
+                type: 'Green Line Bus (AC)',
                 mode: 'BUS',
                 budget: 8.5,
                 comfort: 4.5,
                 speed: 4.0,
-                description: 'Balanced cost, standard land highway travel times.'
+                description: 'Economical highway land transit.'
               },
               {
-                type: 'Subarna Express Train (AC cabin)',
+                type: 'Subarna Express Train',
                 mode: 'TRAIN',
                 budget: 7.2,
                 comfort: 9.0,
                 speed: 5.5,
-                description: 'Premium cabin comfort, bypasses highway traffic completely.'
+                description: 'Cabin comfort, bypasses road traffic.'
               },
               {
-                type: 'US-Bangla Flight (VIP class)',
+                type: 'US-Bangla Flight',
                 mode: 'PLANE',
                 budget: 1.5,
                 comfort: 9.8,
                 speed: 9.8,
-                description: 'Ultra-fast travel speeds, premium air amenities, high ticket fare.'
+                description: 'Ultra-fast aero transit speed.'
               }
             ].map(item => {
-              // Calculate dynamic match rate based on simulated weights
               const weights = {
                 balanced: { b: 0.33, c: 0.33, s: 0.33 },
                 budget: { b: 0.70, c: 0.15, s: 0.15 },
@@ -937,53 +936,46 @@ export default function Home() {
                     const el = document.getElementById('search-form-container');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="bg-[var(--bg-deep)]/80 border border-[var(--border)] hover:border-cyan-400/60 rounded-2xl p-5 space-y-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 cursor-pointer group shadow-xl hover:shadow-cyan-500/10"
+                  className="border border-[#FF00FF]/40 bg-[#090014] hover:border-[#00FFFF] p-4 flex flex-col justify-between transition-all cursor-pointer group"
                 >
                   <div className="space-y-2">
                     <div className="flex justify-between items-start">
-                      <span className="text-xs font-bold text-[var(--text-bright)] leading-tight pr-2 group-hover:text-cyan-400 transition-colors">{item.type}</span>
-                      <span className="text-xs font-extrabold text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-lg border border-cyan-500/30 font-mono shrink-0 shadow-sm">
-                        {match}% Match
+                      <span className="text-xs font-bold text-white group-hover:text-[#00FFFF] font-heading">{item.type}</span>
+                      <span className="text-xs font-mono text-[#00FFFF] border border-[#00FFFF] px-2 py-0.5">
+                        {match}% MATCH
                       </span>
                     </div>
-                    <p className="text-xs text-[var(--text-muted)] leading-relaxed">{item.description}</p>
+                    <p className="text-xs text-[#E0E0E0]/60 font-mono">{item.description}</p>
                   </div>
 
-                  <div className="space-y-2.5 pt-2 border-t border-[var(--border)]">
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
-                        <span>Credit Efficiency</span>
-                        <span className="font-mono text-cyan-400">{item.budget}/10</span>
+                  <div className="space-y-2 pt-3 border-t border-[#2D1B4E] mt-3 font-mono text-xs">
+                    <div>
+                      <div className="flex justify-between text-[#E0E0E0]/70 text-[11px]">
+                        <span>CREDIT EFFICIENCY</span>
+                        <span className="text-[#00FFFF]">{item.budget}/10</span>
                       </div>
-                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden border border-white/5">
-                        <div className="h-full bg-gradient-to-r from-cyan-500 to-teal-400 transition-all duration-500" style={{ width: `${item.budget * 10}%` }} />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
-                        <span>Comfort Factor</span>
-                        <span className="font-mono text-pink-400">{item.comfort}/10</span>
-                      </div>
-                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden border border-white/5">
-                        <div className="h-full bg-gradient-to-r from-pink-500 to-fuchsia-400 transition-all duration-500" style={{ width: `${item.comfort * 10}%` }} />
+                      <div className="h-1.5 bg-[#1a103c] mt-0.5">
+                        <div className="h-full bg-[#00FFFF]" style={{ width: `${item.budget * 10}%` }} />
                       </div>
                     </div>
 
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-[var(--text-secondary)]">
-                        <span>Velocity Index</span>
-                        <span className="font-mono text-purple-400">{item.speed}/10</span>
+                    <div>
+                      <div className="flex justify-between text-[#E0E0E0]/70 text-[11px]">
+                        <span>COMFORT FACTOR</span>
+                        <span className="text-[#FF00FF]">{item.comfort}/10</span>
                       </div>
-                      <div className="h-1.5 bg-[var(--bg-deep)] rounded-full overflow-hidden border border-white/5">
-                        <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-400 transition-all duration-500" style={{ width: `${item.speed * 10}%` }} />
+                      <div className="h-1.5 bg-[#1a103c] mt-0.5">
+                        <div className="h-full bg-[#FF00FF]" style={{ width: `${item.comfort * 10}%` }} />
                       </div>
                     </div>
 
-                    <div className="pt-3">
-                      <div className="w-full py-2.5 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-400 text-cyan-400 group-hover:text-slate-950 border border-cyan-500/30 group-hover:border-cyan-400 text-xs font-bold flex items-center justify-center space-x-2 transition-all duration-300 shadow-md group-hover:shadow-cyan-500/20">
-                        <span>Apply {item.mode} Route Filter</span>
-                        <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" />
+                    <div>
+                      <div className="flex justify-between text-[#E0E0E0]/70 text-[11px]">
+                        <span>VELOCITY INDEX</span>
+                        <span className="text-[#FF9900]">{item.speed}/10</span>
+                      </div>
+                      <div className="h-1.5 bg-[#1a103c] mt-0.5">
+                        <div className="h-full bg-[#FF9900]" style={{ width: `${item.speed * 10}%` }} />
                       </div>
                     </div>
                   </div>
@@ -994,37 +986,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Security trust badges and details */}
-      <section className="bg-slate-950/40 border-y border-slate-800 py-16">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      {/* Security & System Features */}
+      <section className="bg-[#090014] border-y border-[#FF00FF]/40 py-16">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 font-mono">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 shrink-0 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <div className="h-10 w-10 shrink-0 border border-[#FF00FF] bg-[#1a103c] flex items-center justify-center text-[#FF00FF]">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-bold text-[var(--text-bright)] text-sm">Anti-Scalper Verification</h4>
-                <p className="text-xs text-[var(--text-secondary)] mt-1">Requires official National ID (NID) and Bangladeshi SIM verification during signup to prevent fake ticket bookings.</p>
+                <h4 className="font-bold text-white text-sm font-heading">&gt; ANTI-SCALPER PROTOCOL</h4>
+                <p className="text-xs text-[#E0E0E0]/70 mt-1">Requires National ID (NID) &amp; Bangladeshi SIM verification to eliminate fake seat reservations.</p>
               </div>
             </div>
 
             <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 shrink-0 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+              <div className="h-10 w-10 shrink-0 border border-[#00FFFF] bg-[#1a103c] flex items-center justify-center text-[#00FFFF]">
                 <UserCheck className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-bold text-[var(--text-bright)] text-sm">Real-life BD Station Registry</h4>
-                <p className="text-xs text-[var(--text-secondary)] mt-1">Includes accurate station registries for railways, buses, and airports covering Dhaka, Chittagong, Sylhet, Cox's Bazar, and Rajshahi.</p>
+                <h4 className="font-bold text-white text-sm font-heading">&gt; REAL-TIME BD STATIONS</h4>
+                <p className="text-xs text-[#E0E0E0]/70 mt-1">Accurate station registries covering Dhaka, Chittagong, Sylhet, Cox's Bazar, and Rajshahi.</p>
               </div>
             </div>
 
             <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 shrink-0 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+              <div className="h-10 w-10 shrink-0 border border-[#FF9900] bg-[#1a103c] flex items-center justify-center text-[#FF9900]">
                 <CreditCard className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-bold text-[var(--text-bright)] text-sm">Interactive Banking checkout</h4>
-                <p className="text-xs text-[var(--text-secondary)] mt-1">Simulates complete bKash/Nagad overlays, requiring verification OTP codes and mobile banking PINs to authorize bookings.</p>
+                <h4 className="font-bold text-white text-sm font-heading">&gt; MOBILE BANKING OTP</h4>
+                <p className="text-xs text-[#E0E0E0]/70 mt-1">Simulates complete bKash/Nagad overlays with instant Gmail OTP authorization.</p>
               </div>
             </div>
           </div>
@@ -1033,24 +1025,23 @@ export default function Home() {
 
       {/* Frequently Asked Questions */}
       <ScrollReveal delay={0.1}>
-        <section className="mx-auto max-w-3xl px-4 py-20 space-y-10">
-          <h2 className="text-2xl font-bold text-[var(--text-bright)] text-center flex items-center justify-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
-            <HelpCircle className="h-6 w-6 text-[var(--text-muted)]" />
-            <span>Frequently Asked Questions</span>
+        <section className="mx-auto max-w-3xl px-4 py-20 space-y-8 font-mono">
+          <h2 className="text-xl sm:text-2xl font-bold text-white text-center flex items-center justify-center space-x-2 font-heading drop-shadow-neon-cyan">
+            <HelpCircle className="h-6 w-6 text-[#00FFFF]" />
+            <span>FREQUENTLY ASKED QUESTIONS</span>
           </h2>
           
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="glass-panel p-5 rounded-2xl border border-[var(--border)] bg-[var(--bg-raised)]/40 space-y-2 hover:border-[var(--border-hover)] transition-colors">
-                <h4 className="font-bold text-[var(--text-bright)] text-sm">{faq.q}</h4>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{faq.a}</p>
+              <div key={idx} className="vapor-card p-5 space-y-2">
+                <h4 className="font-bold text-[#00FFFF] text-sm">{faq.q}</h4>
+                <p className="text-xs text-[#E0E0E0]/80 leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
         </section>
       </ScrollReveal>
 
-      <RetroGrid />
     </div>
   );
 }

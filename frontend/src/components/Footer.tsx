@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Ticket, ShieldCheck, Sparkles, Flame } from 'lucide-react';
+import { Terminal, ShieldCheck, Cpu, Zap, Activity } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-[#0D0D1A] text-white relative z-10 pt-16 pb-12 border-t-8 border-[#FF3AF2] shadow-[0_-8px_30px_rgba(255,58,242,0.4)] pattern-dots">
+    <footer className="w-full bg-[#090014] text-[#E0E0E0] relative z-10 pt-16 pb-12 border-t-2 border-t-[#FF00FF] border-b border-b-[#00FFFF] shadow-[0_-5px_30px_rgba(255,0,255,0.25)] font-mono">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Main Footer Grid */}
@@ -15,48 +15,48 @@ export const Footer: React.FC = () => {
           {/* Brand Column (Spans 2 cols on lg) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-[#FF3AF2] border-4 border-[#FFE600] shadow-[4px_4px_0_#00F5D4] text-white">
-                <Ticket className="h-6 w-6" />
+              <div className="flex items-center justify-center h-10 w-10 border-2 border-[#FF00FF] bg-[#1a103c] text-[#00FFFF] shadow-[0_0_15px_#FF00FF]">
+                <Terminal className="h-5 w-5 text-[#00FFFF]" />
               </div>
-              <span className="text-2xl font-black uppercase tracking-tighter gradient-text-dopamine text-shadow-triple" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-                BD GOTICKET 🔥
+              <span className="text-xl font-black uppercase tracking-wider font-heading gradient-text-sunset drop-shadow-neon-magenta">
+                &gt; BD GOTICKET_
               </span>
             </div>
 
-            <p className="text-xs text-slate-300 max-w-sm leading-relaxed font-bold tracking-wide">
-              Maximalist & Dopamine multi-modal transit matrix reservation hub. Book your Bus, Train, and Flight tickets seamlessly with instant mobile banking and Gmail OTP verification.
+            <p className="text-xs text-[#E0E0E0]/70 max-w-sm leading-relaxed tracking-wide">
+              Synthwave &amp; Outrun multi-modal transit matrix reservation hub for Bangladesh. Book Bus, Train, and Flight tickets seamlessly with instant Gmail OTP verification.
             </p>
 
-            <div className="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full bg-[#FF3AF2] border-4 border-[#FFE600] shadow-[4px_4px_0_#00F5D4] text-xs font-black text-white">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#FFE600] animate-ping" />
-              <span>DOPAMINE VERIFIED PLATFORM ⚡</span>
+            <div className="inline-flex items-center space-x-2.5 px-3 py-1.5 border border-[#00FFFF] bg-[#1a103c] text-xs font-mono text-[#00FFFF] shadow-[0_0_10px_rgba(0,255,255,0.3)]">
+              <Activity className="h-3.5 w-3.5 text-[#FF9900] animate-pulse" />
+              <span>MATRIX STATUS: ALL NODES ONLINE [2088]</span>
             </div>
           </div>
 
           {/* Column I: Transit Modes */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-[#FFE600] uppercase tracking-wider text-shadow-single font-display border-b-4 border-[#FF3AF2] pb-2">
-              Transit Modes
+            <h4 className="text-xs font-bold text-[#00FFFF] uppercase tracking-wider font-heading drop-shadow-[0_0_5px_#00FFFF] border-b border-[#FF00FF]/40 pb-2">
+              // TRANSIT MODES
             </h4>
-            <ul className="space-y-2 text-xs font-bold text-slate-200">
+            <ul className="space-y-2 text-xs text-[#E0E0E0]/80">
               <li>
-                <Link href="/search?transport_type=BUS" className="hover:text-[#00F5D4] transition-colors flex items-center space-x-1">
-                  <span>🚌 Luxury Bus Coaches</span>
+                <Link href="/search?transport_type=BUS" className="hover:text-[#00FFFF] hover:drop-shadow-[0_0_5px_#00FFFF] transition-all flex items-center space-x-1">
+                  <span>&gt; LUXURY BUS COACHES</span>
                 </Link>
               </li>
               <li>
-                <Link href="/search?transport_type=TRAIN" className="hover:text-[#FFE600] transition-colors flex items-center space-x-1">
-                  <span>🚆 Bangladesh Railway</span>
+                <Link href="/search?transport_type=TRAIN" className="hover:text-[#FF9900] hover:drop-shadow-[0_0_5px_#FF9900] transition-all flex items-center space-x-1">
+                  <span>&gt; BANGLADESH RAILWAY</span>
                 </Link>
               </li>
               <li>
-                <Link href="/search?transport_type=PLANE" className="hover:text-[#FF3AF2] transition-colors flex items-center space-x-1">
-                  <span>✈️ Air Lines</span>
+                <Link href="/search?transport_type=PLANE" className="hover:text-[#FF00FF] hover:drop-shadow-[0_0_5px_#FF00FF] transition-all flex items-center space-x-1">
+                  <span>&gt; AIRLINES MATRIX</span>
                 </Link>
               </li>
               <li>
-                <Link href="/seat-selection" className="hover:text-[#FF6B35] transition-colors flex items-center space-x-1">
-                  <span>📐 Interactive Seat Layouts</span>
+                <Link href="/seat-selection" className="hover:text-[#00FFFF] hover:drop-shadow-[0_0_5px_#00FFFF] transition-all flex items-center space-x-1">
+                  <span>&gt; SEAT MATRIX &amp; OTP</span>
                 </Link>
               </li>
             </ul>
@@ -64,28 +64,28 @@ export const Footer: React.FC = () => {
 
           {/* Column II: Quick Portals */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-[#00F5D4] uppercase tracking-wider text-shadow-single font-display border-b-4 border-[#00F5D4] pb-2">
-              Quick Portals
+            <h4 className="text-xs font-bold text-[#FF00FF] uppercase tracking-wider font-heading drop-shadow-[0_0_5px_#FF00FF] border-b border-[#00FFFF]/40 pb-2">
+              // PORTAL ACCESS
             </h4>
-            <ul className="space-y-2 text-xs font-bold text-slate-200">
+            <ul className="space-y-2 text-xs text-[#E0E0E0]/80">
               <li>
-                <Link href="/search" className="hover:text-[#FF3AF2] transition-colors">
-                  Search Matrix
+                <Link href="/search" className="hover:text-[#00FFFF] transition-colors">
+                  &gt; SEARCH MATRIX
                 </Link>
               </li>
               <li>
-                <Link href="/seat-selection" className="hover:text-[#FFE600] transition-colors">
-                  Gmail OTP Verification
+                <Link href="/seat-selection" className="hover:text-[#FF00FF] transition-colors">
+                  &gt; GMAIL OTP VERIFY
                 </Link>
               </li>
               <li>
-                <Link href="/auth/login" className="hover:text-[#00F5D4] transition-colors">
-                  Passenger Sign In
+                <Link href="/auth/login" className="hover:text-[#FF9900] transition-colors">
+                  &gt; PASSENGER LOGIN
                 </Link>
               </li>
               <li>
-                <Link href="/auth/register" className="hover:text-[#FF6B35] transition-colors">
-                  Register Account
+                <Link href="/auth/register" className="hover:text-[#00FFFF] transition-colors">
+                  &gt; REGISTER TERMINAL
                 </Link>
               </li>
             </ul>
@@ -93,32 +93,32 @@ export const Footer: React.FC = () => {
 
           {/* Column III: Security */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-[#FF3AF2] uppercase tracking-wider text-shadow-single font-display border-b-4 border-[#7B2FFF] pb-2">
-              Security & Trust
+            <h4 className="text-xs font-bold text-[#FF9900] uppercase tracking-wider font-heading drop-shadow-[0_0_5px_#FF9900] border-b border-[#FF00FF]/40 pb-2">
+              // SECURITY PROTOCOL
             </h4>
-            <div className="space-y-2 text-xs font-bold text-slate-200">
-              <div className="flex items-center space-x-2 text-[#FFE600]">
-                <ShieldCheck className="h-4 w-4 shrink-0 text-[#FFE600]" />
-                <span className="font-black">Gmail OTP Protocol</span>
+            <div className="space-y-2 text-xs text-[#E0E0E0]/80">
+              <div className="flex items-center space-x-2 text-[#00FFFF]">
+                <ShieldCheck className="h-4 w-4 shrink-0 text-[#00FFFF]" />
+                <span className="font-bold">&gt; GMAIL OTP 2FA</span>
               </div>
-              <p className="text-[11px] leading-relaxed text-slate-400">
-                Frictionless seat verification across all Bangladeshi transport routes with multi-factor authentication.
+              <p className="text-[11px] leading-relaxed text-[#E0E0E0]/60">
+                Encrypted multi-factor seat allocation verified across all Bangladesh transport routes.
               </p>
             </div>
           </div>
 
         </div>
 
-        {/* Thick Clashing Border Divider */}
-        <div className="border-t-4 border-dashed border-[#00F5D4]" />
+        {/* Outrun Laser Divider */}
+        <div className="h-[2px] w-full bg-gradient-to-r from-[#FF9900] via-[#FF00FF] to-[#00FFFF]" />
 
-        {/* Bottom Copyright & Terms */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-black text-slate-300 tracking-wider uppercase">
-          <p>© {new Date().getFullYear()} BD GOTICKET. MAXIMALIST DOPAMINE SYSTEM.</p>
+        {/* Bottom Copyright & Status */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#E0E0E0]/60 uppercase tracking-widest">
+          <p>© {new Date().getFullYear()} BD GOTICKET // VAPORWAVE MATRIX 2088</p>
           <div className="flex items-center space-x-6">
-            <Link href="/privacy" className="hover:text-[#FFE600] transition-colors">PRIVACY POLICY</Link>
-            <Link href="/terms" className="hover:text-[#FF3AF2] transition-colors">TERMS OF SERVICE</Link>
-            <span className="text-[#00F5D4] font-black">BANGLADESH 🇧🇩</span>
+            <Link href="/privacy" className="hover:text-[#00FFFF] transition-colors">&gt; PRIVACY</Link>
+            <Link href="/terms" className="hover:text-[#FF00FF] transition-colors">&gt; TERMS</Link>
+            <span className="text-[#FF9900] font-bold">BANGLADESH 🇧🇩</span>
           </div>
         </div>
 
@@ -126,5 +126,6 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
 
 
