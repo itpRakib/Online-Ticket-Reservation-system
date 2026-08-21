@@ -3,7 +3,8 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Bus, Train, Plane, Armchair, ShieldAlert, CheckCircle2, 
-  UserCheck, ShoppingBag, Sparkles, ArrowRight, Mail, KeyRound, Check, RefreshCw
+  UserCheck, ShoppingBag, Sparkles, ArrowRight, Mail, KeyRound, Check, RefreshCw,
+  User, Calendar
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api, isValidGmail } from '@/utils/api';
@@ -789,18 +790,26 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
             <div className="space-y-6">
 
               {/* Passenger Info Form */}
-              <div className="bg-[#2D1B4E]/90 border-4 border-[#FF3AF2] rounded-[32px] shadow-[8px_8px_0_#FFE600,16px_16px_0_#00F5D4] p-6 space-y-5 pattern-stripes">
-                <div className="flex items-center justify-between border-b-4 border-[#FF3AF2] pb-3">
-                  <div className="flex items-center space-x-2">
-                    <UserCheck className="h-5 w-5 text-[#FFE600]" />
-                    <h3 className="font-black text-[#FFE600] text-xs uppercase tracking-widest text-shadow-single" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-                      Passenger Information
-                    </h3>
+              <div className="bg-[#2D1B4E] border-4 border-[#FF3AF2] rounded-[32px] shadow-[8px_8px_0_#FFE600,16px_16px_0_#00F5D4] p-6 space-y-5 pattern-stripes relative overflow-hidden">
+                <div className="flex items-center justify-between border-b-4 border-[#FF3AF2] pb-3.5">
+                  <div className="flex items-center space-x-2.5">
+                    <div className="p-2 rounded-xl bg-[#0D0D1A] border-2 border-[#FFE600] text-[#FFE600] shadow-[2px_2px_0_#FF3AF2]">
+                      <UserCheck className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="font-black text-[#FFE600] text-sm uppercase tracking-widest text-shadow-single font-mono">
+                        Passenger Information
+                      </h3>
+                      <span className="text-[10px] text-[#00F5D4] font-bold tracking-wide uppercase">
+                        {passengers.length} {passengers.length === 1 ? 'Passenger' : 'Passengers'} Selected
+                      </span>
+                    </div>
                   </div>
+
                   <button
                     type="button"
                     onClick={handleQuickFill}
-                    className="text-[10px] bg-[#FF3AF2] text-white border-2 border-[#FFE600] px-3.5 py-1.5 rounded-full font-black uppercase tracking-wider flex items-center space-x-1 cursor-pointer transition-all shadow-[3px_3px_0_#00F5D4] hover:scale-105"
+                    className="text-[10px] bg-[#FF3AF2] hover:bg-[#FFE600] hover:text-[#0D0D1A] text-white border-2 border-[#FFE600] px-3.5 py-1.5 rounded-full font-black uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer transition-all shadow-[3px_3px_0_#00F5D4] hover:scale-105"
                   >
                     <Sparkles className="h-3.5 w-3.5 text-[#FFE600]" />
                     <span>Quick Fill</span>
@@ -808,121 +817,166 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 </div>
 
                 {/* Passenger Inputs */}
-                <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
-                  {passengers.map((p, idx) => (
-                    <div key={p.seat_number} className="rounded-2xl bg-[#0D0D1A] border-4 border-[#00F5D4] p-4 space-y-3 shadow-[4px_4px_0_#FF3AF2]">
-                      <div className="flex justify-between items-center border-b-2 border-[#00F5D4] pb-2">
-                        <span className="text-xs font-black text-[#00F5D4] uppercase">Passenger {idx + 1}</span>
-                        <div className="flex items-center space-x-2">
-                          {p.isVerified ? (
-                            <span className="text-[10px] bg-[#00F5D4] text-[#0D0D1A] border-2 border-[#FF3AF2] px-2.5 py-0.5 rounded-full font-black flex items-center space-x-1">
-                              <CheckCircle2 className="h-3 w-3" />
-                              <span>Verified</span>
+                <div className="space-y-4 max-h-[420px] overflow-y-auto pr-1.5 custom-scrollbar">
+                  {passengers.map((p, idx) => {
+                    const cardAccents = [
+                      { border: 'border-[#00F5D4]', shadow: 'shadow-[4px_4px_0_#FF3AF2]', badgeBg: 'bg-[#00F5D4]', badgeText: 'text-[#0D0D1A]' },
+                      { border: 'border-[#FFE600]', shadow: 'shadow-[4px_4px_0_#7B2FFF]', badgeBg: 'bg-[#FFE600]', badgeText: 'text-[#0D0D1A]' },
+                      { border: 'border-[#FF3AF2]', shadow: 'shadow-[4px_4px_0_#00F5D4]', badgeBg: 'bg-[#FF3AF2]', badgeText: 'text-white' }
+                    ];
+                    const acc = cardAccents[idx % cardAccents.length];
+
+                    return (
+                      <div key={p.seat_number} className={`rounded-2xl bg-[#0D0D1A] border-4 ${acc.border} p-4 space-y-3.5 ${acc.shadow} transition-all hover:scale-[1.01]`}>
+                        {/* Passenger Card Header */}
+                        <div className="flex justify-between items-center border-b-2 border-dashed border-[#00F5D4]/40 pb-2.5">
+                          <div className="flex items-center space-x-2">
+                            <span className="h-2.5 w-2.5 rounded-full bg-[#00F5D4] animate-pulse" />
+                            <span className="text-xs font-black text-white uppercase font-mono tracking-wider">Passenger {idx + 1}</span>
+                          </div>
+
+                          <div className="flex items-center space-x-2">
+                            {p.isVerified ? (
+                              <span className="text-[10px] bg-[#00F5D4] text-[#0D0D1A] border-2 border-[#FF3AF2] px-2.5 py-0.5 rounded-full font-black flex items-center space-x-1 shadow-[2px_2px_0_#FFE600]">
+                                <CheckCircle2 className="h-3 w-3" />
+                                <span>Verified</span>
+                              </span>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => handleOpenGmailVerification(p.seat_number)}
+                                className="text-[10px] bg-[#FF3AF2] hover:bg-[#FFE600] hover:text-[#0D0D1A] text-white border-2 border-[#FFE600] px-2.5 py-1 rounded-full font-black flex items-center space-x-1 cursor-pointer transition-all uppercase tracking-wider shadow-[2px_2px_0_#00F5D4] hover:scale-105"
+                              >
+                                <Mail className="h-3 w-3" />
+                                <span>Verify Gmail</span>
+                              </button>
+                            )}
+
+                            <span className="text-[11px] bg-[#7B2FFF] text-white border-2 border-[#FFE600] px-2.5 py-0.5 rounded-full font-mono font-black shadow-[2px_2px_0_#FF3AF2]">
+                              Seat {p.seat_number}
                             </span>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => handleOpenGmailVerification(p.seat_number)}
-                              className="text-[10px] bg-[#FF3AF2] text-white border-2 border-[#FFE600] px-2.5 py-1 rounded-full font-black flex items-center space-x-1 cursor-pointer transition-all uppercase tracking-wider shadow-[2px_2px_0_#00F5D4] hover:scale-105"
+                          </div>
+                        </div>
+
+                        {/* Name & Age Inputs */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          {/* Name */}
+                          <div className="sm:col-span-2 space-y-1">
+                            <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider flex items-center space-x-1">
+                              <User className="h-3 w-3 text-[#00F5D4]" />
+                              <span>Full Name *</span>
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={p.name}
+                              onChange={(e) => handlePassengerChange(p.seat_number, 'name', e.target.value)}
+                              className="w-full text-xs font-bold p-3 bg-[#18182C] text-white border-2 border-[#00F5D4] rounded-xl focus:outline-none focus:border-[#FFE600] focus:ring-2 focus:ring-[#FFE600]/40 placeholder-slate-400 transition-all shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]"
+                              placeholder="E.g., Tanvir Hossain"
+                            />
+                          </div>
+
+                          {/* Age */}
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider flex items-center space-x-1">
+                              <Calendar className="h-3 w-3 text-[#FF3AF2]" />
+                              <span>Age *</span>
+                            </label>
+                            <input
+                              type="number"
+                              required
+                              min={1}
+                              value={p.age}
+                              onChange={(e) => handlePassengerChange(p.seat_number, 'age', e.target.value)}
+                              className="w-full text-xs font-bold p-3 bg-[#18182C] text-white border-2 border-[#00F5D4] rounded-xl focus:outline-none focus:border-[#FFE600] focus:ring-2 focus:ring-[#FFE600]/40 placeholder-slate-400 transition-all shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]"
+                              placeholder="26"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Gender & Gmail Verification Address Inputs */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {/* Gender */}
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider flex items-center space-x-1">
+                              <UserCheck className="h-3 w-3 text-[#FFE600]" />
+                              <span>Gender</span>
+                            </label>
+                            <select
+                              value={p.gender}
+                              onChange={(e) => handlePassengerChange(p.seat_number, 'gender', e.target.value)}
+                              className="w-full text-xs font-bold p-3 bg-[#18182C] text-white border-2 border-[#00F5D4] rounded-xl focus:outline-none focus:border-[#FFE600] cursor-pointer transition-all shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]"
                             >
-                              <Mail className="h-3 w-3" />
-                              <span>Verify Gmail</span>
-                            </button>
-                          )}
-                          <span className="text-[11px] bg-[#7B2FFF] text-white border-2 border-[#FFE600] px-2.5 py-0.5 rounded-full font-mono font-black shadow-[2px_2px_0_#FF3AF2]">
-                            Seat: {p.seat_number}
-                          </span>
+                              <option value="MALE">Male</option>
+                              <option value="FEMALE">Female</option>
+                              <option value="OTHER">Other</option>
+                            </select>
+                          </div>
+
+                          {/* Gmail Address */}
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider flex justify-between items-center">
+                              <div className="flex items-center space-x-1">
+                                <Mail className="h-3 w-3 text-[#FF3AF2]" />
+                                <span>Gmail Address *</span>
+                              </div>
+                              {p.isVerified ? (
+                                <span className="text-[#00F5D4] text-[9px] font-black uppercase font-mono">✓ Verified</span>
+                              ) : (
+                                <span className="text-[#FF3AF2] text-[9px] font-black uppercase font-mono">OTP Required</span>
+                              )}
+                            </label>
+                            <input
+                              type="email"
+                              required
+                              value={p.gmail}
+                              onChange={(e) => handlePassengerChange(p.seat_number, 'gmail', e.target.value)}
+                              className="w-full text-xs font-bold font-mono p-3 bg-[#18182C] text-white border-2 border-[#00F5D4] rounded-xl focus:outline-none focus:border-[#FFE600] focus:ring-2 focus:ring-[#FFE600]/40 placeholder-slate-400 transition-all shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]"
+                              placeholder="user@gmail.com"
+                            />
+                          </div>
                         </div>
                       </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {/* Name */}
-                        <div className="sm:col-span-2 space-y-1">
-                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider">Full Name</label>
-                          <input
-                            type="text"
-                            required
-                            value={p.name}
-                            onChange={(e) => handlePassengerChange(p.seat_number, 'name', e.target.value)}
-                            className="dopamine-input w-full text-xs p-3"
-                            placeholder="E.g., Tanvir Hossain"
-                          />
-                        </div>
-
-                        {/* Age */}
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider">Age</label>
-                          <input
-                            type="number"
-                            required
-                            min={1}
-                            value={p.age}
-                            onChange={(e) => handlePassengerChange(p.seat_number, 'age', e.target.value)}
-                            className="dopamine-input w-full text-xs p-3"
-                            placeholder="26"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {/* Gender */}
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider">Gender</label>
-                          <select
-                            value={p.gender}
-                            onChange={(e) => handlePassengerChange(p.seat_number, 'gender', e.target.value)}
-                            className="dopamine-input w-full text-xs p-3 cursor-pointer"
-                          >
-                            <option value="MALE">Male</option>
-                            <option value="FEMALE">Female</option>
-                            <option value="OTHER">Other</option>
-                          </select>
-                        </div>
-
-                        {/* Gmail Verification Address */}
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider flex justify-between">
-                            <span>Gmail Address</span>
-                            {p.isVerified && <span className="text-[#00F5D4] text-[9px] font-black">Verified</span>}
-                          </label>
-                          <input
-                            type="email"
-                            required
-                            value={p.gmail}
-                            onChange={(e) => handlePassengerChange(p.seat_number, 'gmail', e.target.value)}
-                            className="dopamine-input w-full text-xs p-3"
-                            placeholder="user@gmail.com"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
               {/* Price Calculation Card */}
-              <div className="bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-6 space-y-4">
-                <h3 className="font-bold text-[#3D4852] text-xs uppercase tracking-wider border-b border-[#C4CBD6]/50 pb-3 flex items-center space-x-2 font-display">
-                  <ShoppingBag className="h-4 w-4 text-[#6C63FF]" />
-                  <span>Ticket Price Summary</span>
-                </h3>
+              <div className="bg-[#2D1B4E] border-4 border-[#FFE600] rounded-[32px] shadow-[8px_8px_0_#00F5D4,16px_16px_0_#FF3AF2] p-6 space-y-5 pattern-stripes relative overflow-hidden">
+                <div className="flex items-center justify-between border-b-4 border-[#FFE600] pb-3">
+                  <div className="flex items-center space-x-2">
+                    <ShoppingBag className="h-5 w-5 text-[#00F5D4]" />
+                    <h3 className="font-black text-[#FFE600] text-xs uppercase tracking-widest font-mono">
+                      Fare Breakdown & Confirmation
+                    </h3>
+                  </div>
+                  <span className="text-[10px] font-black bg-[#FF3AF2] text-white px-2.5 py-0.5 rounded-full border-2 border-[#FFE600] shadow-[2px_2px_0_#121212]">
+                    LIVE FARE
+                  </span>
+                </div>
 
-                <div className="space-y-2 text-xs font-bold">
-                  <div className="flex justify-between">
-                    <span className="text-[#6B7280]">Selected Seats ({selectedSeats.length}):</span>
-                    <span className="text-[#6C63FF] font-mono font-bold">{selectedSeats.join(', ')}</span>
+                <div className="space-y-2.5 text-xs font-bold">
+                  <div className="flex justify-between items-center bg-[#0D0D1A] p-3 rounded-xl border-2 border-[#FF3AF2] shadow-[2px_2px_0_#00F5D4]">
+                    <span className="text-slate-300">Selected Seats ({selectedSeats.length}):</span>
+                    <span className="text-[#00F5D4] font-mono font-black text-sm bg-[#7B2FFF] px-2.5 py-0.5 rounded-md border border-[#FFE600]">
+                      {selectedSeats.join(', ')}
+                    </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#6B7280]">Rate per Ticket ({classType}):</span>
-                    <span className="text-[#3D4852] font-bold">৳{currentSeatFare.toLocaleString()}</span>
+
+                  <div className="flex justify-between items-center bg-[#0D0D1A] p-3 rounded-xl border-2 border-[#00F5D4] shadow-[2px_2px_0_#FFE600]">
+                    <span className="text-slate-300">Rate per Ticket ({classType}):</span>
+                    <span className="text-[#FFE600] font-mono font-black text-sm">৳{currentSeatFare.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-[11px] text-[#38B2AC]">
-                    <span>Identity Verification:</span>
-                    <span className="font-bold">📧 Gmail OTP Secured</span>
+
+                  <div className="flex justify-between items-center bg-[#0D0D1A] p-3 rounded-xl border-2 border-[#FFE600] shadow-[2px_2px_0_#FF3AF2] text-[11px]">
+                    <span className="text-slate-300">Identity Verification:</span>
+                    <span className="text-[#00F5D4] font-black font-mono">📧 Gmail OTP Secured</span>
                   </div>
-                  <div className="border-t border-[#C4CBD6]/50 pt-3 mt-3 flex justify-between items-center">
-                    <span className="font-bold text-[#3D4852] text-sm uppercase tracking-wider">Total Payable:</span>
-                    <span className="font-extrabold text-[#6C63FF] text-2xl font-display">৳{totalFare.toLocaleString()}</span>
+
+                  <div className="border-t-4 border-dashed border-[#FFE600]/50 pt-4 mt-2 flex justify-between items-center">
+                    <span className="font-black text-white text-sm uppercase tracking-wider font-mono">Total Payable:</span>
+                    <span className="font-black text-[#00F5D4] text-3xl font-mono tracking-tight text-shadow-single">৳{totalFare.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -947,10 +1001,10 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       alert(`🎉 Reservation Confirmed via Gmail Verification! Mode: ${activeType}, Seats: ${selectedSeats.join(', ')}, Total: ৳${totalFare.toLocaleString()}`);
                     }
                   }}
-                  className="neu-btn-primary w-full py-4 text-xs tracking-wider flex items-center justify-center space-x-2 font-bold cursor-pointer"
+                  className="w-full py-4 text-xs font-black uppercase tracking-widest bg-[#FFE600] hover:bg-[#00F5D4] text-[#0D0D1A] border-4 border-[#FF3AF2] rounded-2xl shadow-[4px_4px_0_#7B2FFF,8px_8px_0_#00F5D4] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center space-x-2"
                 >
                   <span>CONFIRM VIA GMAIL VERIFICATION</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 text-[#0D0D1A]" />
                 </button>
               </div>
 
