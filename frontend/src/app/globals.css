@@ -1,224 +1,240 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── BAUHAUS DESIGN SYSTEM TOKENS ─── */
-  --bg-canvas: #F0F0F0;        /* Off-White Canvas */
-  --foreground: #121212;       /* Stark Black */
-  --primary-red: #D02020;      /* Bauhaus Red */
-  --primary-blue: #1040C0;     /* Bauhaus Blue */
-  --primary-yellow: #F0C020;   /* Bauhaus Yellow */
-  --border-stark: #121212;     /* Thick Black Border */
-  --muted: #E0E0E0;
+  /* ─── NEUMORPHISM (SOFT UI) DESIGN SYSTEM TOKENS ─── */
+  --neu-bg: #E0E5EC;
+  --neu-fg: #3D4852;
+  --neu-muted: #6B7280;
+  --neu-accent: #6C63FF;
+  --neu-accent-light: #8B84FF;
+  --neu-accent-secondary: #38B2AC;
 
-  /* Legacy variable compatibility */
-  --bg-deep: #F0F0F0;
-  --bg-base: #FFFFFF;
-  --bg-raised: #FFFFFF;
-  --accent: #D02020;
-  --secondary: #1040C0;
-  --text-primary: #121212;
-  --text-muted: #666666;
-  --border: #121212;
+  /* Neumorphic Dual RGBA Shadows */
+  --neu-shadow-light: rgba(255, 255, 255, 0.55);
+  --neu-shadow-light-deep: rgba(255, 255, 255, 0.65);
+  --neu-shadow-dark: rgba(163, 177, 198, 0.6);
+  --neu-shadow-dark-deep: rgba(163, 177, 198, 0.75);
+
+  --neu-shadow-extruded: 9px 9px 16px var(--neu-shadow-dark), -9px -9px 16px var(--neu-shadow-light);
+  --neu-shadow-extruded-hover: 12px 12px 20px var(--neu-shadow-dark-deep), -12px -12px 20px var(--neu-shadow-light-deep);
+  --neu-shadow-extruded-sm: 5px 5px 10px var(--neu-shadow-dark), -5px -5px 10px var(--neu-shadow-light);
+  --neu-shadow-inset: inset 6px 6px 10px var(--neu-shadow-dark), inset -6px -6px 10px var(--neu-shadow-light);
+  --neu-shadow-inset-deep: inset 10px 10px 20px var(--neu-shadow-dark-deep), inset -10px -10px 20px var(--neu-shadow-light-deep);
+  --neu-shadow-inset-sm: inset 3px 3px 6px var(--neu-shadow-dark), inset -3px -3px 6px var(--neu-shadow-light);
+
+  /* Legacy variable compatibility mapping to Neumorphic Surface */
+  --bg-canvas: #E0E5EC;
+  --bg-deep: #E0E5EC;
+  --bg-base: #E0E5EC;
+  --bg-raised: #E0E5EC;
+  --foreground: #3D4852;
+  --accent: #6C63FF;
+  --secondary: #38B2AC;
+  --text-primary: #3D4852;
+  --text-bright: #2B343B;
+  --text-secondary: #6B7280;
+  --text-muted: #6B7280;
+  --border: transparent;
+  --border-hover: transparent;
 }
 
 @theme inline {
-  --font-heading: var(--font-outfit), 'Outfit', sans-serif;
-  --font-body: var(--font-outfit), 'Outfit', sans-serif;
-  --color-bauhaus-red: #D02020;
-  --color-bauhaus-blue: #1040C0;
-  --color-bauhaus-yellow: #F0C020;
-  --color-stark-black: #121212;
-  --color-off-white: #F0F0F0;
+  --font-heading: var(--font-display), 'Plus Jakarta Sans', sans-serif;
+  --font-body: var(--font-body), 'DM Sans', sans-serif;
+  --color-neu-bg: #E0E5EC;
+  --color-neu-fg: #3D4852;
+  --color-neu-muted: #6B7280;
+  --color-neu-accent: #6C63FF;
 }
 
-/* ─── Base Reset & Bauhaus Typography ─── */
+/* ─── Base Reset & Typography ─── */
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg-canvas);
-  color: var(--foreground);
+  background-color: var(--neu-bg);
+  color: var(--neu-fg);
 }
 
 body {
-  background-color: var(--bg-canvas);
-  color: var(--foreground);
-  font-family: var(--font-outfit), 'Outfit', sans-serif;
+  background-color: var(--neu-bg);
+  color: var(--neu-fg);
+  font-family: var(--font-body), 'DM Sans', sans-serif;
   overflow-x: hidden;
   font-weight: 500;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-outfit), 'Outfit', sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.04em;
-  color: #121212;
+  font-family: var(--font-heading), 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--neu-fg);
 }
 
-/* ─── BAUHAUS UTILITY CLASSES ─── */
-.bauhaus-card {
-  background: #FFFFFF;
-  border: 4px solid #121212;
-  box-shadow: 8px 8px 0px 0px #121212;
-  border-radius: 0px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* ─── NEUMORPHIC UTILITY CLASSES ─── */
+
+.neu-surface {
+  background-color: var(--neu-bg);
 }
 
-.bauhaus-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 12px 12px 0px 0px #121212;
+.neu-card {
+  background-color: var(--neu-bg);
+  box-shadow: var(--neu-shadow-extruded);
+  border-radius: 32px;
+  border: none !important;
+  transition: all 0.3s ease-out;
 }
 
-.bauhaus-card-red {
-  background: #D02020;
-  color: #FFFFFF;
-  border: 4px solid #121212;
-  box-shadow: 8px 8px 0px 0px #121212;
-  border-radius: 0px;
+.neu-card:hover {
+  box-shadow: var(--neu-shadow-extruded-hover);
+  transform: translateY(-2px);
 }
 
-.bauhaus-card-blue {
-  background: #1040C0;
-  color: #FFFFFF;
-  border: 4px solid #121212;
-  box-shadow: 8px 8px 0px 0px #121212;
-  border-radius: 0px;
+.neu-extruded {
+  background-color: var(--neu-bg);
+  box-shadow: var(--neu-shadow-extruded);
+  border: none !important;
+  transition: all 0.3s ease-out;
 }
 
-.bauhaus-card-yellow {
-  background: #F0C020;
-  color: #121212;
-  border: 4px solid #121212;
-  box-shadow: 8px 8px 0px 0px #121212;
-  border-radius: 0px;
+.neu-extruded-sm {
+  background-color: var(--neu-bg);
+  box-shadow: var(--neu-shadow-extruded-sm);
+  border: none !important;
+  transition: all 0.3s ease-out;
 }
 
-/* ─── BAUHAUS BUTTONS ─── */
-.bauhaus-button {
+.neu-inset {
+  background-color: var(--neu-bg);
+  box-shadow: var(--neu-shadow-inset);
+  border: none !important;
+  transition: all 0.3s ease-out;
+}
+
+.neu-inset-deep {
+  background-color: var(--neu-bg);
+  box-shadow: var(--neu-shadow-inset-deep);
+  border: none !important;
+  transition: all 0.3s ease-out;
+}
+
+.neu-inset-sm {
+  background-color: var(--neu-bg);
+  box-shadow: var(--neu-shadow-inset-sm);
+  border: none !important;
+  transition: all 0.3s ease-out;
+}
+
+/* ─── NEUMORPHIC BUTTONS ─── */
+.neu-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-outfit), 'Outfit', sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 3px solid #121212;
-  border-radius: 0px;
-  min-height: 48px;
-  padding: 0 24px;
-  background: #FFFFFF;
-  color: #121212;
-  box-shadow: 4px 4px 0px 0px #121212;
-  transition: all 0.15s ease-out;
+  font-family: var(--font-body), 'DM Sans', sans-serif;
+  font-weight: 700;
+  border: none !important;
+  border-radius: 16px;
+  min-height: 44px;
+  padding: 0 20px;
+  background-color: var(--neu-bg);
+  color: var(--neu-fg);
+  box-shadow: var(--neu-shadow-extruded-sm);
+  transition: all 0.3s ease-out;
   cursor: pointer;
 }
 
-.bauhaus-button:hover {
-  background: #F0C020;
-  color: #121212;
-  box-shadow: 6px 6px 0px 0px #121212;
+.neu-btn:hover {
+  box-shadow: var(--neu-shadow-extruded-hover);
+  transform: translateY(-1px);
 }
 
-.bauhaus-button:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #121212;
+.neu-btn:active {
+  box-shadow: var(--neu-shadow-inset-sm);
+  transform: translateY(0.5px);
 }
 
-.bauhaus-button-red {
-  background: #D02020;
+.neu-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body), 'DM Sans', sans-serif;
+  font-weight: 700;
+  border: none !important;
+  border-radius: 16px;
+  min-height: 48px;
+  padding: 0 24px;
+  background-color: var(--neu-accent);
   color: #FFFFFF;
-  border: 3px solid #121212;
-  box-shadow: 4px 4px 0px 0px #121212;
+  box-shadow: 6px 6px 14px rgba(108, 99, 255, 0.4), -6px -6px 14px rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease-out;
+  cursor: pointer;
 }
 
-.bauhaus-button-red:hover {
-  background: #B01818;
-  color: #FFFFFF;
-  box-shadow: 6px 6px 0px 0px #121212;
+.neu-btn-primary:hover {
+  background-color: var(--neu-accent-light);
+  box-shadow: 8px 8px 18px rgba(108, 99, 255, 0.5), -8px -8px 18px rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
 }
 
-.bauhaus-button-red:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #121212;
+.neu-btn-primary:active {
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.2);
+  transform: translateY(0.5px);
 }
 
-.bauhaus-button-blue {
-  background: #1040C0;
-  color: #FFFFFF;
-  border: 3px solid #121212;
-  box-shadow: 4px 4px 0px 0px #121212;
+/* ─── NEUMORPHIC INPUTS & WELLS ─── */
+.neu-input {
+  background-color: var(--neu-bg) !important;
+  box-shadow: var(--neu-shadow-inset) !important;
+  border-radius: 16px !important;
+  color: var(--neu-fg) !important;
+  border: none !important;
+  transition: all 0.3s ease-out !important;
 }
 
-.bauhaus-button-blue:hover {
-  background: #0D3399;
-  color: #FFFFFF;
-  box-shadow: 6px 6px 0px 0px #121212;
+.neu-input::placeholder {
+  color: var(--neu-muted) !important;
+  opacity: 0.8;
 }
 
-.bauhaus-button-blue:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #121212;
-}
-
-.bauhaus-button-yellow {
-  background: #F0C020;
-  color: #121212;
-  border: 3px solid #121212;
-  box-shadow: 4px 4px 0px 0px #121212;
-}
-
-.bauhaus-button-yellow:hover {
-  background: #D8A818;
-  box-shadow: 6px 6px 0px 0px #121212;
-}
-
-.bauhaus-button-yellow:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #121212;
-}
-
-/* ─── BAUHAUS INPUTS ─── */
-.bauhaus-input {
-  background: #FFFFFF !important;
-  border: 3px solid #121212 !important;
-  box-shadow: 4px 4px 0px 0px #121212 !important;
-  color: #121212 !important;
-  font-family: var(--font-outfit), 'Outfit', sans-serif !important;
-  font-weight: 700 !important;
-  padding: 10px 16px !important;
-  border-radius: 0px !important;
-  transition: all 0.15s ease !important;
-}
-
-.bauhaus-input:focus {
+.neu-input:focus {
   outline: none !important;
-  background: #FFFDF0 !important;
-  box-shadow: 6px 6px 0px 0px #D02020 !important;
+  box-shadow: var(--neu-shadow-inset-deep) !important;
+  ring: 2px solid var(--neu-accent) !important;
 }
 
-/* ─── GLASS PANEL OVERRIDE FOR BAUHAUS ─── */
+/* Glass panel compatibility mapping */
 .glass-panel {
-  background: #FFFFFF !important;
-  border: 4px solid #121212 !important;
-  box-shadow: 8px 8px 0px 0px #121212 !important;
-  border-radius: 0px !important;
+  background: var(--neu-bg) !important;
+  box-shadow: var(--neu-shadow-extruded) !important;
+  border-radius: 32px !important;
+  border: none !important;
   backdrop-filter: none !important;
 }
 
-/* Custom Scrollbars */
+/* Ambient Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Custom Soft Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F0F0F0;
-  border-left: 2px solid #121212;
+  background: var(--neu-bg);
+  box-shadow: var(--neu-shadow-inset-sm);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #121212;
+  background: #C4CBD6;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #D02020;
+  background: var(--neu-accent);
 }

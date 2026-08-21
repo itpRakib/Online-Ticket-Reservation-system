@@ -255,75 +255,75 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
   return (
     <div className="w-full space-y-8">
       
-      {/* ─── 1. BAUHAUS MODE SWITCHER TABS ─── */}
+      {/* ─── 1. NEUMORPHIC MODE SWITCHER TABS ─── */}
       {allowModeSwitching && (
-        <div className="bg-white border-4 border-[#121212] shadow-[8px_8px_0px_0px_#121212] p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-3 w-full sm:w-auto">
-            <span className="text-xs font-black uppercase tracking-wider text-[#121212] px-3 py-1.5 bg-[#F0C020] border-2 border-[#121212] hidden md:inline-block">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#6C63FF] px-3.5 py-1.5 rounded-2xl bg-[#E0E5EC] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] hidden md:inline-block">
               MODE SELECTOR
             </span>
 
-            <div className="grid grid-cols-3 gap-2.5 w-full sm:w-auto">
+            <div className="grid grid-cols-3 gap-3 w-full sm:w-auto">
               {/* BUS TAB */}
               <button
                 type="button"
                 onClick={() => handleTypeSwitch('BUS')}
-                className={`relative px-4 py-2.5 font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all cursor-pointer border-3 border-[#121212] ${
+                className={`relative px-4 py-2.5 font-bold text-xs rounded-2xl flex items-center justify-center space-x-2 transition-all cursor-pointer ${
                   activeType === 'BUS'
-                    ? 'bg-[#D02020] text-white shadow-[4px_4px_0px_0px_#121212] scale-[1.02]'
-                    : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[2px_2px_0px_0px_#121212]'
+                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]'
+                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)]'
                 }`}
               >
                 <Bus className="h-4 w-4" />
-                <span>I. Bus Coach</span>
+                <span>Bus Coach</span>
               </button>
 
               {/* TRAIN TAB */}
               <button
                 type="button"
                 onClick={() => handleTypeSwitch('TRAIN')}
-                className={`relative px-4 py-2.5 font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all cursor-pointer border-3 border-[#121212] ${
+                className={`relative px-4 py-2.5 font-bold text-xs rounded-2xl flex items-center justify-center space-x-2 transition-all cursor-pointer ${
                   activeType === 'TRAIN'
-                    ? 'bg-[#1040C0] text-white shadow-[4px_4px_0px_0px_#121212] scale-[1.02]'
-                    : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[2px_2px_0px_0px_#121212]'
+                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]'
+                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)]'
                 }`}
               >
                 <Train className="h-4 w-4" />
-                <span>II. Railway</span>
+                <span>Railway</span>
               </button>
 
               {/* PLANE TAB */}
               <button
                 type="button"
                 onClick={() => handleTypeSwitch('PLANE')}
-                className={`relative px-4 py-2.5 font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all cursor-pointer border-3 border-[#121212] ${
+                className={`relative px-4 py-2.5 font-bold text-xs rounded-2xl flex items-center justify-center space-x-2 transition-all cursor-pointer ${
                   activeType === 'PLANE'
-                    ? 'bg-[#F0C020] text-[#121212] shadow-[4px_4px_0px_0px_#121212] scale-[1.02]'
-                    : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[2px_2px_0px_0px_#121212]'
+                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]'
+                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)]'
                 }`}
               >
                 <Plane className="h-4 w-4" />
-                <span>III. Flight</span>
+                <span>Flight</span>
               </button>
             </div>
           </div>
 
           {/* Class Selector per Transport */}
           <div className="flex items-center space-x-2 w-full sm:w-auto justify-end">
-            <span className="text-xs text-[#121212] uppercase font-black">Class:</span>
+            <span className="text-xs text-[#3D4852] font-bold">Class:</span>
             {activeType === 'BUS' && (
-              <div className="flex bg-[#F0F0F0] p-1 border-2 border-[#121212] text-xs">
+              <div className="flex bg-[#E0E5EC] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] text-xs">
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('ECONOMY')}
-                  className={`px-3 py-1 font-black uppercase tracking-wider transition-all border-2 border-[#121212] ${classType === 'ECONOMY' ? 'bg-[#D02020] text-white shadow-[2px_2px_0px_0px_#121212]' : 'bg-white text-[#121212]'}`}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'ECONOMY' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
                 >
                   2+2 Luxury
                 </button>
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('BUSINESS')}
-                  className={`px-3 py-1 font-black uppercase tracking-wider transition-all border-2 border-[#121212] ${classType === 'BUSINESS' ? 'bg-[#D02020] text-white shadow-[2px_2px_0px_0px_#121212]' : 'bg-white text-[#121212]'}`}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'BUSINESS' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
                 >
                   2+1 VIP Sleeper
                 </button>
@@ -334,7 +334,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               <select
                 value={classType}
                 onChange={(e) => handleClassSwitch(e.target.value)}
-                className="bg-white text-[#121212] border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212] px-3 py-1.5 text-xs font-black uppercase tracking-wider focus:outline-none cursor-pointer"
+                className="bg-[#E0E5EC] text-[#3D4852] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] px-4 py-2 text-xs font-bold rounded-2xl focus:outline-none cursor-pointer border-none"
               >
                 <option value="ECONOMY">Shovon Chair (2+2)</option>
                 <option value="SNIGDHA">Snigdha AC Chair (2+2)</option>
@@ -344,18 +344,18 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
             )}
 
             {activeType === 'PLANE' && (
-              <div className="flex bg-[#F0F0F0] p-1 border-2 border-[#121212] text-xs">
+              <div className="flex bg-[#E0E5EC] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] text-xs">
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('ECONOMY')}
-                  className={`px-3 py-1 font-black uppercase tracking-wider transition-all border-2 border-[#121212] ${classType === 'ECONOMY' ? 'bg-[#1040C0] text-white shadow-[2px_2px_0px_0px_#121212]' : 'bg-white text-[#121212]'}`}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'ECONOMY' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
                 >
                   Economy (3+3)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('BUSINESS')}
-                  className={`px-3 py-1 font-black uppercase tracking-wider transition-all border-2 border-[#121212] ${classType === 'BUSINESS' ? 'bg-[#1040C0] text-white shadow-[2px_2px_0px_0px_#121212]' : 'bg-white text-[#121212]'}`}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'BUSINESS' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
                 >
                   Business (2+2)
                 </button>
@@ -386,27 +386,27 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
       {/* ─── 2. MAIN RESPONSIVE TWO-COLUMN LAYOUT ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-        {/* ─── LEFT COLUMN: BAUHAUS VEHICLE CHASSIS (7 COLS) ─── */}
-        <div className="lg:col-span-7 bg-white border-4 border-[#121212] shadow-[8px_8px_0px_0px_#121212] p-5 sm:p-8 flex flex-col items-center relative overflow-hidden">
+        {/* ─── LEFT COLUMN: NEUMORPHIC VEHICLE CHASSIS (7 COLS) ─── */}
+        <div className="lg:col-span-7 bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-5 sm:p-8 flex flex-col items-center relative overflow-hidden border-none">
           
           {/* Header Title Banner */}
-          <div className="w-full pb-4 mb-4 border-b-4 border-[#121212] flex flex-wrap items-center justify-between gap-3">
+          <div className="w-full pb-4 mb-4 border-b border-[#C4CBD6]/50 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 border-3 border-[#121212] bg-[#F0C020] shadow-[3px_3px_0px_0px_#121212] flex items-center justify-center">
-                {activeType === 'BUS' && <Bus className="h-5 w-5 text-[#121212]" />}
-                {activeType === 'TRAIN' && <Train className="h-5 w-5 text-[#121212]" />}
-                {activeType === 'PLANE' && <Plane className="h-5 w-5 text-[#121212]" />}
+              <div className="h-10 w-10 rounded-2xl bg-[#E0E5EC] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] text-[#6C63FF] flex items-center justify-center">
+                {activeType === 'BUS' && <Bus className="h-5 w-5" />}
+                {activeType === 'TRAIN' && <Train className="h-5 w-5" />}
+                {activeType === 'PLANE' && <Plane className="h-5 w-5" />}
               </div>
               <div>
-                <h3 className="font-black text-[#121212] text-base tracking-tighter uppercase flex items-center space-x-2">
+                <h3 className="font-extrabold text-[#3D4852] text-base tracking-tight uppercase flex items-center space-x-2 font-display">
                   <span>
                     {activeType === 'BUS' ? 'Recliner Coach Chassis' : activeType === 'TRAIN' ? 'Bangladesh Railway Bogie' : 'Aircraft Fuselage Cabin'}
                   </span>
-                  <span className="text-[10px] bg-[#1040C0] text-white font-mono px-2 py-0.5 border-2 border-[#121212] uppercase font-bold">
+                  <span className="text-[10px] bg-[#6C63FF] text-white font-mono px-2 py-0.5 rounded-lg uppercase font-bold">
                     {classType}
                   </span>
                 </h3>
-                <p className="text-[11px] text-[#666666] font-bold tracking-wider uppercase">
+                <p className="text-[11px] text-[#6B7280] font-medium tracking-wider">
                   {activeType === 'BUS' 
                     ? (classType === 'BUSINESS' ? 'VIP 2+1 Recliner • RHD Driver Cockpit' : 'Standard 2+2 Luxury Coach • Front Entrance')
                     : activeType === 'TRAIN'
@@ -417,8 +417,8 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
             </div>
 
             <div className="text-right">
-              <span className="text-[10px] text-[#666666] uppercase tracking-widest font-black block">Fare / Seat</span>
-              <span className="text-2xl font-black text-[#D02020]">৳{currentSeatFare.toLocaleString()}</span>
+              <span className="text-[10px] text-[#6B7280] uppercase tracking-widest font-bold block">Fare / Seat</span>
+              <span className="text-2xl font-extrabold text-[#6C63FF]">৳{currentSeatFare.toLocaleString()}</span>
             </div>
           </div>
 
@@ -435,29 +435,29 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               >
                 {/* 🚌 1. BUS SEAT LAYOUT CHASSIS */}
                 {activeType === 'BUS' && (
-                  <div className="relative w-full max-w-[340px] sm:max-w-[380px] bg-[#F0F0F0] border-4 border-[#121212] p-4 sm:p-5 shadow-[6px_6px_0px_0px_#121212] flex flex-col space-y-4">
+                  <div className="relative w-full max-w-[340px] sm:max-w-[380px] bg-[#E0E5EC] rounded-[28px] shadow-[inset_8px_8px_16px_rgba(163,177,198,0.7),inset_-8px_-8px_16px_rgba(255,255,255,0.6)] p-5 flex flex-col space-y-4">
                     
                     {/* Windshield & Driver Cockpit */}
-                    <div className="relative border-b-4 border-[#121212] pb-4">
-                      <div className="h-7 w-4/5 mx-auto border-3 border-[#121212] bg-[#D02020] text-white text-[9px] font-black flex items-center justify-center tracking-widest uppercase shadow-[2px_2px_0px_0px_#121212]">
-                        🚌 CONSTRUCTIVIST BUS WINDSHIELD
+                    <div className="relative border-b border-[#C4CBD6]/50 pb-4">
+                      <div className="h-8 w-4/5 mx-auto rounded-2xl bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] text-[#6C63FF] text-[10px] font-bold flex items-center justify-center tracking-widest uppercase">
+                        🚌 BUS WINDSHIELD & COCKPIT
                       </div>
 
-                      <div className="flex items-center justify-between px-2 text-xs font-bold text-[#121212] mt-3">
-                        <div className="flex items-center space-x-1.5 bg-white border-2 border-[#121212] px-2.5 py-1 shadow-[2px_2px_0px_0px_#121212]">
-                          <span className="h-2 w-2 rounded-full bg-[#1040C0] animate-pulse" />
-                          <span className="text-[10px] text-[#121212] font-black uppercase tracking-wider">Passenger Door</span>
+                      <div className="flex items-center justify-between px-2 text-xs font-bold text-[#3D4852] mt-3">
+                        <div className="flex items-center space-x-1.5 bg-[#E0E5EC] px-3 py-1 rounded-xl shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,0.5)]">
+                          <span className="h-2 w-2 rounded-full bg-[#38B2AC] animate-pulse" />
+                          <span className="text-[10px] text-[#3D4852] font-bold uppercase">Door</span>
                         </div>
 
-                        <div className="flex items-center space-x-2 bg-[#F0C020] border-2 border-[#121212] px-3 py-1 shadow-[2px_2px_0px_0px_#121212]">
-                          <span className="text-[10px] text-[#121212] font-black uppercase tracking-wider">Driver Cockpit (RHD)</span>
-                          <div className="h-4 w-4 rounded-full border-2 border-dashed border-[#121212] animate-spin" style={{ animationDuration: '20s' }} />
+                        <div className="flex items-center space-x-2 bg-[#E0E5EC] px-3 py-1 rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]">
+                          <span className="text-[10px] text-[#3D4852] font-bold uppercase">Driver Cockpit</span>
+                          <div className="h-3.5 w-3.5 rounded-full border-2 border-dashed border-[#6C63FF] animate-spin" style={{ animationDuration: '20s' }} />
                         </div>
                       </div>
                     </div>
 
                     {/* Column Indicators */}
-                    <div className="flex justify-between text-[10px] font-black text-[#121212] px-2 border-b-2 border-[#121212] pb-2">
+                    <div className="flex justify-between text-[10px] font-bold text-[#6B7280] px-2 border-b border-[#C4CBD6]/50 pb-2">
                       <span>🪟 WIN</span>
                       {classType === 'BUSINESS' ? (
                         <>
@@ -467,7 +467,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       ) : (
                         <>
                           <span>🚶 AISLE</span>
-                          <span className="text-[#D02020] font-black">◄ CENTRAL AISLE ►</span>
+                          <span className="text-[#6C63FF] font-bold">◄ CENTRAL AISLE ►</span>
                           <span>🚶 AISLE</span>
                           <span>🪟 WIN</span>
                         </>
@@ -475,7 +475,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     </div>
 
                     {/* Bus Seats Grid */}
-                    <div className={`grid gap-2.5 ${classType === 'BUSINESS' ? 'grid-cols-3' : 'grid-cols-4'}`}>
+                    <div className={`grid gap-3 ${classType === 'BUSINESS' ? 'grid-cols-3' : 'grid-cols-4'}`}>
                       {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map(row => {
                         const cols = classType === 'BUSINESS' ? ['1', '2', '3'] : ['1', '2', '3', '4'];
                         return cols.map(col => {
@@ -491,19 +491,19 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                                 type="button"
                                 onClick={() => handleSeatClick(seatId, isAvail)}
                                 disabled={!isAvail}
-                                className={`h-10 border-2 border-[#121212] transition-all relative cursor-pointer flex flex-col items-center justify-center font-black ${
+                                className={`h-11 rounded-2xl transition-all relative cursor-pointer flex flex-col items-center justify-center font-bold ${
                                   !isAvail 
-                                    ? 'bg-slate-300 border-[#121212] text-slate-500 cursor-not-allowed opacity-50'
+                                    ? 'bg-[#E0E5EC] text-[#6B7280] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.7),inset_-4px_-4px_8px_rgba(255,255,255,0.6)] cursor-not-allowed opacity-60'
                                     : isSel
-                                    ? 'bg-[#F0C020] text-[#121212] shadow-[3px_3px_0px_0px_#121212] scale-105 z-10'
-                                    : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[2px_2px_0px_0px_#121212]'
+                                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)] scale-105 z-10 font-extrabold'
+                                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] hover:-translate-y-0.5'
                                 }`}
                               >
-                                <Armchair className={`h-3.5 w-3.5 absolute opacity-15 ${isSel ? 'text-[#121212]' : 'text-[#D02020]'}`} />
+                                <Armchair className={`h-3.5 w-3.5 absolute opacity-20 ${isSel ? 'text-white' : 'text-[#6C63FF]'}`} />
                                 <span className="z-10 text-[11px] font-mono font-bold">{seatId}</span>
-                                {isWindow && <span className="text-[7px] text-[#1040C0] font-mono leading-none -mt-0.5">WIN</span>}
+                                {isWindow && <span className={`text-[7px] font-mono leading-none -mt-0.5 ${isSel ? 'text-white/80' : 'text-[#38B2AC]'}`}>WIN</span>}
                               </button>
-                              {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-[#121212] font-black select-none">│</div>}
+                              {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-[#6B7280] font-bold select-none">│</div>}
                             </React.Fragment>
                           );
                         });

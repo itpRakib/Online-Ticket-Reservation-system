@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -8,16 +8,23 @@ import { Footer } from "@/components/Footer";
 import { InitialPreloader } from "@/components/InitialPreloader";
 import { ChatbotWidget } from "@/components/ChatbotWidget";
 
-const outfit = Outfit({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
-  variable: "--font-outfit",
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "BD GoTicket — Bauhaus Transit Reservation System",
-  description: "Form follows function: Constructivist geometric ticket reservation for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
+  title: "BD GoTicket — Soft UI Transit Reservation System",
+  description: "Tactile Neumorphic ticket reservation for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
 };
 
 export default function RootLayout({
@@ -26,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} h-full antialiased`}>
-      <body className="font-sans min-h-full flex flex-col bg-[#F0F0F0] text-[#121212] relative overflow-x-hidden selection:bg-[#F0C020] selection:text-[#121212]">
+    <html lang="en" className={`${plusJakarta.variable} ${dmSans.variable} h-full antialiased`}>
+      <body className="font-body min-h-full flex flex-col bg-[#E0E5EC] text-[#3D4852] relative overflow-x-hidden selection:bg-[#6C63FF] selection:text-white">
         <ThemeProvider>
           <AuthProvider>
             <InitialPreloader />
