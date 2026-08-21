@@ -416,18 +416,26 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
             </div>
           </div>
 
-          {/* ─── VEHICLE CHASSIS SEATING GRAPHICS ─── */}
-          <div className="w-full flex justify-center py-2 overflow-x-auto">
-
-            {/* 🚌 1. BUS SEAT LAYOUT CHASSIS */}
-            {activeType === 'BUS' && (
-              <div className="relative w-full max-w-[340px] sm:max-w-[380px] bg-[#0A0818] border-2 border-purple-500/30 rounded-t-[50px] rounded-b-2xl p-4 sm:p-5 shadow-[0_0_35px_rgba(168,85,247,0.15)] flex flex-col space-y-4">
-                
-                {/* Windshield & Driver Cockpit */}
-                <div className="relative border-b border-purple-500/20 pb-4">
-                  <div className="h-5 w-4/5 mx-auto rounded-t-full border-t-2 border-x-2 border-cyan-400/50 bg-gradient-to-b from-cyan-500/20 to-transparent mb-3 text-[9px] text-cyan-300 font-mono flex items-center justify-center tracking-widest uppercase shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-                    🚌 BUS FRONT WINDSHIELD
-                  </div>
+          {/* ─── VEHICLE CHASSIS SEATING GRAPHICS (DYNAMIC TRANSITION MODE) ─── */}
+          <div className="w-full flex justify-center py-2 overflow-x-auto min-h-[500px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${activeType}-${classType}`}
+                initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: -10 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
+                className="w-full flex justify-center"
+              >
+                {/* 🚌 1. BUS SEAT LAYOUT CHASSIS */}
+                {activeType === 'BUS' && (
+                  <div className="relative w-full max-w-[340px] sm:max-w-[380px] bg-[#0A0818] border-2 border-purple-500/30 rounded-t-[50px] rounded-b-2xl p-4 sm:p-5 shadow-[0_0_35px_rgba(168,85,247,0.15)] flex flex-col space-y-4">
+                    
+                    {/* Windshield & Driver Cockpit */}
+                    <div className="relative border-b border-purple-500/20 pb-4">
+                      <div className="h-5 w-4/5 mx-auto rounded-t-full border-t-2 border-x-2 border-cyan-400/50 bg-gradient-to-b from-cyan-500/20 to-transparent mb-3 text-[9px] text-cyan-300 font-mono flex items-center justify-center tracking-widest uppercase shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                        🚌 BUS FRONT WINDSHIELD
+                      </div>
 
                   <div className="flex items-center justify-between px-2 text-xs font-bold text-slate-400">
                     <div className="flex items-center space-x-1.5 bg-slate-900/90 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
@@ -715,8 +723,9 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 </div>
               </div>
             )}
-
-          </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
           {/* ─── REAL-TIME SEATING LEGEND ─── */}
           <div className="flex flex-wrap items-center justify-center gap-4 mt-6 text-xs font-semibold text-purple-200/80 bg-[#0E0C1E] p-3.5 rounded-2xl border border-purple-500/20 w-full">
