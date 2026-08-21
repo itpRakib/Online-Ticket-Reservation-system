@@ -25,6 +25,9 @@ const patrickHand = Patrick_Hand({
 export const metadata: Metadata = {
   title: "✏️ BD GoTicket — Hand-Drawn Transit Sketchbook",
   description: "Playful hand-drawn multi-modal ticket reservation platform for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
+  verification: {
+    google: "zQvv6qAEdvYYRS7TzMpBjC7mcFEfDAap2NvvAiBkMa0",
+  },
 };
 
 export default function RootLayout({
