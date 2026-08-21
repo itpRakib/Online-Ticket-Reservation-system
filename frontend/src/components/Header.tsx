@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { LogOut, Menu, X, Ticket, Sparkles, Globe } from 'lucide-react';
+import { LogOut, Menu, X, Ticket, Sparkles, Flame, Zap } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 
 export const Header: React.FC = () => {
@@ -25,6 +25,15 @@ export const Header: React.FC = () => {
 
   const isActive = (path: string) => pathname === path;
 
+  // 5-Accent Color Rotation Tokens
+  const accentColors = [
+    { bg: 'bg-[#FF3AF2]', border: 'border-[#FFE600]', text: 'text-white', shadow: 'shadow-[4px_4px_0_#FFE600]' }, // 1. Magenta
+    { bg: 'bg-[#00F5D4]', border: 'border-[#FF3AF2]', text: 'text-[#0D0D1A]', shadow: 'shadow-[4px_4px_0_#FF3AF2]' }, // 2. Cyan
+    { bg: 'bg-[#FFE600]', border: 'border-[#7B2FFF]', text: 'text-[#0D0D1A]', shadow: 'shadow-[4px_4px_0_#7B2FFF]' }, // 3. Yellow
+    { bg: 'bg-[#FF6B35]', border: 'border-[#00F5D4]', text: 'text-white', shadow: 'shadow-[4px_4px_0_#00F5D4]' }, // 4. Orange
+    { bg: 'bg-[#7B2FFF]', border: 'border-[#FFE600]', text: 'text-white', shadow: 'shadow-[4px_4px_0_#FFE600]' }  // 5. Purple
+  ];
+
   return (
     <motion.header
       variants={{
@@ -33,65 +42,61 @@ export const Header: React.FC = () => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      className="sticky top-0 z-50 w-full bg-[#E0E5EC] border-none shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)]"
+      className="sticky top-0 z-50 w-full bg-[#0D0D1A]/90 backdrop-blur-md border-b-4 border-[#FF3AF2] shadow-[0_6px_20px_rgba(255,58,242,0.4)]"
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-22 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 relative">
         
-        {/* Soft UI Brand Logo */}
+        {/* Floating Decorative Elements */}
+        <div className="absolute -top-1 left-12 animate-bounce-subtle pointer-events-none select-none text-xl">✨</div>
+        <div className="absolute top-2 right-1/3 animate-wiggle pointer-events-none select-none text-xl">⚡</div>
+
+        {/* Hyperpop Brand Logo */}
         <Link href="/" className="flex items-center space-x-3 group cursor-pointer">
-          <div className="flex items-center justify-center h-11 w-11 rounded-2xl bg-[#E0E5EC] shadow-[inset_6px_6px_10px_rgba(163,177,198,0.6),inset_-6px_-6px_10px_rgba(255,255,255,0.5)] text-[#6C63FF] group-hover:scale-105 transition-transform duration-300">
-            <Ticket className="h-6 w-6" />
+          <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-gradient-to-tr from-[#FF3AF2] via-[#7B2FFF] to-[#00F5D4] border-4 border-[#FFE600] shadow-[4px_4px_0_#FF3AF2] group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+            <Ticket className="h-6 w-6 text-white animate-pulse" />
           </div>
 
           <div className="flex flex-col">
-            <span className="text-xl font-extrabold tracking-tight text-[#3D4852]" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-              BD GOTICKET
+            <span className="text-2xl font-black uppercase tracking-tighter gradient-text-dopamine text-shadow-triple" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+              BD GOTICKET 🔥
             </span>
-            <span className="text-[10px] uppercase tracking-wider font-semibold text-[#6C63FF] -mt-0.5">
-              SOFT UI TRANSIT HUB
+            <span className="text-[10px] uppercase tracking-widest font-extrabold text-[#00F5D4] -mt-1 font-mono">
+              ⚡ MAXIMALIST DOPAMINE MATRIX
             </span>
           </div>
         </Link>
 
-        {/* Desktop Neumorphic Navigation */}
+        {/* Desktop 5-Accent Navigation */}
         <nav className="hidden md:flex items-center space-x-3">
-          <Link
-            href="/"
-            className={`px-5 py-2.5 text-xs font-bold rounded-2xl transition-all duration-300 ${
-              isActive('/') 
-                ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]' 
-                : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] hover:-translate-y-0.5'
-            }`}
-          >
-            Home
-          </Link>
-          <Link
-            href="/search"
-            className={`px-5 py-2.5 text-xs font-bold rounded-2xl transition-all duration-300 ${
-              isActive('/search') 
-                ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]' 
-                : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] hover:-translate-y-0.5'
-            }`}
-          >
-            Search Routes
-          </Link>
-          <Link
-            href="/seat-selection"
-            className={`px-5 py-2.5 text-xs font-bold rounded-2xl transition-all duration-300 ${
-              isActive('/seat-selection') 
-                ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]' 
-                : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] hover:-translate-y-0.5'
-            }`}
-          >
-            Seat Selector
-          </Link>
+          {[
+            { path: '/', label: 'Home', idx: 0 },
+            { path: '/search', label: 'Search Matrix', idx: 1 },
+            { path: '/seat-selection', label: 'Seat Layouts', idx: 2 },
+          ].map(nav => {
+            const acc = accentColors[nav.idx % accentColors.length];
+            const active = isActive(nav.path);
+            return (
+              <Link
+                key={nav.path}
+                href={nav.path}
+                className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider rounded-full border-4 transition-all duration-300 ${acc.border} ${
+                  active 
+                    ? `${acc.bg} ${acc.text} ${acc.shadow} scale-105 rotate-1` 
+                    : 'bg-[#2D1B4E]/80 text-white hover:scale-105 hover:-rotate-1 hover:bg-[#FF3AF2] hover:text-white shadow-[3px_3px_0_#00F5D4]'
+                }`}
+              >
+                {nav.label}
+              </Link>
+            );
+          })}
+
           {user && (
             <Link
               href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-              className={`px-5 py-2.5 text-xs font-bold rounded-2xl transition-all duration-300 ${
+              className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider rounded-full border-4 border-[#FF6B35] transition-all duration-300 ${
                 isActive(user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard')
-                  ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]'
-                  : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] hover:-translate-y-0.5'
+                  ? 'bg-[#FF6B35] text-white shadow-[4px_4px_0_#FFE600] scale-105'
+                  : 'bg-[#2D1B4E]/80 text-white hover:bg-[#FF6B35] hover:scale-105 shadow-[3px_3px_0_#00F5D4]'
               }`}
             >
               {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? 'Admin Dashboard' : 'My Dashboard'}
@@ -105,28 +110,28 @@ export const Header: React.FC = () => {
           {/* Language Toggle Button */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-2xl bg-[#E0E5EC] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] text-xs font-bold text-[#3D4852] cursor-pointer hover:opacity-90 transition-opacity"
+            className="flex items-center space-x-1.5 border-4 border-[#FFE600] bg-[#FF3AF2] px-3.5 py-2 rounded-full text-xs font-black text-white shadow-[4px_4px_0_#00F5D4] hover:scale-105 hover:rotate-2 cursor-pointer transition-all"
           >
-            <Globe className="h-3.5 w-3.5 text-[#6C63FF]" />
-            <span className={language === 'en' ? 'text-[#6C63FF] font-extrabold' : 'text-[#6B7280]'}>EN</span>
-            <span className="text-[#6B7280]">|</span>
-            <span className={language === 'bn' ? 'text-[#6C63FF] font-extrabold' : 'text-[#6B7280]'}>বাংলা</span>
+            <Sparkles className="h-3.5 w-3.5 text-[#FFE600]" />
+            <span className={language === 'en' ? 'text-[#FFE600] font-black' : 'text-white/80'}>EN</span>
+            <span>|</span>
+            <span className={language === 'bn' ? 'text-[#00F5D4] font-black' : 'text-white/80'}>বাংলা</span>
           </button>
 
           {user ? (
             <div className="flex items-center space-x-3">
               <Link
                 href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-                className="flex items-center space-x-2.5 px-3.5 py-2 rounded-2xl bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] text-xs text-[#3D4852] font-bold transition-all duration-300"
+                className="flex items-center space-x-2 border-4 border-[#00F5D4] bg-[#7B2FFF] py-1.5 px-3.5 rounded-full text-xs text-white font-black uppercase tracking-wider shadow-[4px_4px_0_#FF3AF2] hover:scale-105"
               >
-                <div className="h-7 w-7 rounded-xl bg-[#6C63FF] text-white flex items-center justify-center font-extrabold text-[11px] shadow-sm">
+                <div className="h-6 w-6 rounded-full bg-[#FFE600] text-[#0D0D1A] flex items-center justify-center font-black text-[10px]">
                   {user.username.substring(0, 2).toUpperCase()}
                 </div>
                 <span className="hidden sm:inline max-w-[100px] truncate">{user.first_name || user.username}</span>
               </Link>
               <button
                 onClick={logout}
-                className="p-2.5 rounded-2xl bg-[#E0E5EC] text-red-500 shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] transition-all cursor-pointer"
+                className="p-2.5 border-4 border-[#FFE600] bg-[#FF6B35] text-white rounded-full hover:bg-red-600 shadow-[4px_4px_0_#FF3AF2] hover:scale-110 transition-all cursor-pointer"
                 title="Logout"
               >
                 <LogOut className="h-4 w-4" />
@@ -136,13 +141,13 @@ export const Header: React.FC = () => {
             <div className="hidden sm:flex items-center space-x-3">
               <Link
                 href="/auth/login"
-                className="px-4 py-2.5 text-xs font-bold text-[#3D4852] rounded-2xl bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] transition-all duration-300"
+                className="px-4 py-2.5 text-xs font-black uppercase tracking-wider text-white hover:text-[#00F5D4]"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/register"
-                className="px-4 py-2.5 text-xs font-bold text-white rounded-2xl bg-[#6C63FF] shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)] hover:bg-[#8B84FF] transition-all duration-300"
+                className="dopamine-btn-primary text-xs py-2.5 px-5 shadow-[4px_4px_0_#FFE600]"
               >
                 Register
               </Link>
@@ -153,9 +158,9 @@ export const Header: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2.5 rounded-2xl bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] active:shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] cursor-pointer"
+            className="md:hidden p-2.5 bg-[#FF3AF2] border-4 border-[#FFE600] rounded-2xl shadow-[4px_4px_0_#00F5D4] cursor-pointer"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5 text-[#3D4852]" /> : <Menu className="h-5 w-5 text-[#3D4852]" />}
+            {mobileMenuOpen ? <X className="h-5 w-5 text-white" /> : <Menu className="h-5 w-5 text-white" />}
           </button>
 
         </div>
@@ -168,28 +173,28 @@ export const Header: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#E0E5EC] px-4 pt-3 pb-6 space-y-3 shadow-[inset_6px_6px_10px_rgba(163,177,198,0.6),inset_-6px_-6px_10px_rgba(255,255,255,0.5)]"
+            className="md:hidden border-t-4 border-[#FF3AF2] bg-[#0D0D1A] px-4 pt-3 pb-6 space-y-3 pattern-stripes"
           >
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-2xl font-bold text-xs text-[#3D4852] bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]"
+              className="block px-4 py-3 font-black text-xs uppercase tracking-wider text-white bg-[#FF3AF2] border-4 border-[#FFE600] rounded-2xl shadow-[4px_4px_0_#00F5D4]"
             >
               Home
             </Link>
             <Link
               href="/search"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-2xl font-bold text-xs text-[#3D4852] bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]"
+              className="block px-4 py-3 font-black text-xs uppercase tracking-wider text-[#0D0D1A] bg-[#00F5D4] border-4 border-[#FF3AF2] rounded-2xl shadow-[4px_4px_0_#FFE600]"
             >
-              Search Routes
+              Search Matrix
             </Link>
             <Link
               href="/seat-selection"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-2xl font-bold text-xs text-[#3D4852] bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]"
+              className="block px-4 py-3 font-black text-xs uppercase tracking-wider text-[#0D0D1A] bg-[#FFE600] border-4 border-[#7B2FFF] rounded-2xl shadow-[4px_4px_0_#FF3AF2]"
             >
-              Seat Layouts & OTP Verification
+              Seat Layouts & Gmail OTP
             </Link>
 
             {!user && (
@@ -197,14 +202,14 @@ export const Header: React.FC = () => {
                 <Link
                   href="/auth/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-3 rounded-2xl bg-[#E0E5EC] text-[#3D4852] font-bold text-xs shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]"
+                  className="w-full text-center py-3 border-4 border-[#00F5D4] bg-[#2D1B4E] text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-[4px_4px_0_#FF3AF2]"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/auth/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-3 rounded-2xl bg-[#6C63FF] text-white font-bold text-xs shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]"
+                  className="w-full text-center py-3 dopamine-btn-primary text-xs uppercase tracking-wider shadow-[4px_4px_0_#FFE600]"
                 >
                   Register Account
                 </Link>
@@ -216,4 +221,5 @@ export const Header: React.FC = () => {
     </motion.header>
   );
 };
+
 

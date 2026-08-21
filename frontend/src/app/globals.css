@@ -1,240 +1,271 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── NEUMORPHISM (SOFT UI) DESIGN SYSTEM TOKENS ─── */
-  --neu-bg: #E0E5EC;
-  --neu-fg: #3D4852;
-  --neu-muted: #6B7280;
-  --neu-accent: #6C63FF;
-  --neu-accent-light: #8B84FF;
-  --neu-accent-secondary: #38B2AC;
+  /* ─── MAXIMALISM / DOPAMINE DESIGN SYSTEM TOKENS ─── */
+  --dopamine-bg: #0D0D1A;       /* Cosmic void */
+  --dopamine-fg: #FFFFFF;       /* Pure white */
+  --dopamine-muted: #2D1B4E;    /* Dark purple container */
 
-  /* Neumorphic Dual RGBA Shadows */
-  --neu-shadow-light: rgba(255, 255, 255, 0.55);
-  --neu-shadow-light-deep: rgba(255, 255, 255, 0.65);
-  --neu-shadow-dark: rgba(163, 177, 198, 0.6);
-  --neu-shadow-dark-deep: rgba(163, 177, 198, 0.75);
+  /* 5 Accent Colors */
+  --dopamine-magenta: #FF3AF2;  /* Accent 1 */
+  --dopamine-cyan: #00F5D4;     /* Accent 2 */
+  --dopamine-yellow: #FFE600;   /* Accent 3 */
+  --dopamine-orange: #FF6B35;   /* Accent 4 */
+  --dopamine-purple: #7B2FFF;   /* Accent 5 */
 
-  --neu-shadow-extruded: 9px 9px 16px var(--neu-shadow-dark), -9px -9px 16px var(--neu-shadow-light);
-  --neu-shadow-extruded-hover: 12px 12px 20px var(--neu-shadow-dark-deep), -12px -12px 20px var(--neu-shadow-light-deep);
-  --neu-shadow-extruded-sm: 5px 5px 10px var(--neu-shadow-dark), -5px -5px 10px var(--neu-shadow-light);
-  --neu-shadow-inset: inset 6px 6px 10px var(--neu-shadow-dark), inset -6px -6px 10px var(--neu-shadow-light);
-  --neu-shadow-inset-deep: inset 10px 10px 20px var(--neu-shadow-dark-deep), inset -10px -10px 20px var(--neu-shadow-light-deep);
-  --neu-shadow-inset-sm: inset 3px 3px 6px var(--neu-shadow-dark), inset -3px -3px 6px var(--neu-shadow-light);
-
-  /* Legacy variable compatibility mapping to Neumorphic Surface */
-  --bg-canvas: #E0E5EC;
-  --bg-deep: #E0E5EC;
-  --bg-base: #E0E5EC;
-  --bg-raised: #E0E5EC;
-  --foreground: #3D4852;
-  --accent: #6C63FF;
-  --secondary: #38B2AC;
-  --text-primary: #3D4852;
-  --text-bright: #2B343B;
-  --text-secondary: #6B7280;
-  --text-muted: #6B7280;
-  --border: transparent;
-  --border-hover: transparent;
+  /* Legacy variable compatibility */
+  --bg-canvas: #0D0D1A;
+  --bg-deep: #0D0D1A;
+  --bg-base: #18122B;
+  --bg-raised: #2D1B4E;
+  --foreground: #FFFFFF;
+  --accent: #FF3AF2;
+  --secondary: #00F5D4;
+  --text-primary: #FFFFFF;
+  --text-bright: #FFFFFF;
+  --text-secondary: #E2D4FF;
+  --text-muted: #A890D3;
+  --border: #FF3AF2;
+  --border-hover: #FFE600;
 }
 
 @theme inline {
-  --font-heading: var(--font-display), 'Plus Jakarta Sans', sans-serif;
+  --font-heading: var(--font-display), 'Outfit', sans-serif;
   --font-body: var(--font-body), 'DM Sans', sans-serif;
-  --color-neu-bg: #E0E5EC;
-  --color-neu-fg: #3D4852;
-  --color-neu-muted: #6B7280;
-  --color-neu-accent: #6C63FF;
+  --color-dopamine-bg: #0D0D1A;
+  --color-dopamine-magenta: #FF3AF2;
+  --color-dopamine-cyan: #00F5D4;
+  --color-dopamine-yellow: #FFE600;
+  --color-dopamine-orange: #FF6B35;
+  --color-dopamine-purple: #7B2FFF;
 }
 
 /* ─── Base Reset & Typography ─── */
 html {
   scroll-behavior: smooth;
-  background-color: var(--neu-bg);
-  color: var(--neu-fg);
+  background-color: var(--dopamine-bg);
+  color: var(--dopamine-fg);
 }
 
 body {
-  background-color: var(--neu-bg);
-  color: var(--neu-fg);
+  background-color: var(--dopamine-bg);
+  color: var(--dopamine-fg);
   font-family: var(--font-body), 'DM Sans', sans-serif;
   overflow-x: hidden;
   font-weight: 500;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--neu-fg);
-}
-
-/* ─── NEUMORPHIC UTILITY CLASSES ─── */
-
-.neu-surface {
-  background-color: var(--neu-bg);
-}
-
-.neu-card {
-  background-color: var(--neu-bg);
-  box-shadow: var(--neu-shadow-extruded);
-  border-radius: 32px;
-  border: none !important;
-  transition: all 0.3s ease-out;
-}
-
-.neu-card:hover {
-  box-shadow: var(--neu-shadow-extruded-hover);
-  transform: translateY(-2px);
-}
-
-.neu-extruded {
-  background-color: var(--neu-bg);
-  box-shadow: var(--neu-shadow-extruded);
-  border: none !important;
-  transition: all 0.3s ease-out;
-}
-
-.neu-extruded-sm {
-  background-color: var(--neu-bg);
-  box-shadow: var(--neu-shadow-extruded-sm);
-  border: none !important;
-  transition: all 0.3s ease-out;
-}
-
-.neu-inset {
-  background-color: var(--neu-bg);
-  box-shadow: var(--neu-shadow-inset);
-  border: none !important;
-  transition: all 0.3s ease-out;
-}
-
-.neu-inset-deep {
-  background-color: var(--neu-bg);
-  box-shadow: var(--neu-shadow-inset-deep);
-  border: none !important;
-  transition: all 0.3s ease-out;
-}
-
-.neu-inset-sm {
-  background-color: var(--neu-bg);
-  box-shadow: var(--neu-shadow-inset-sm);
-  border: none !important;
-  transition: all 0.3s ease-out;
-}
-
-/* ─── NEUMORPHIC BUTTONS ─── */
-.neu-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-body), 'DM Sans', sans-serif;
-  font-weight: 700;
-  border: none !important;
-  border-radius: 16px;
-  min-height: 44px;
-  padding: 0 20px;
-  background-color: var(--neu-bg);
-  color: var(--neu-fg);
-  box-shadow: var(--neu-shadow-extruded-sm);
-  transition: all 0.3s ease-out;
-  cursor: pointer;
-}
-
-.neu-btn:hover {
-  box-shadow: var(--neu-shadow-extruded-hover);
-  transform: translateY(-1px);
-}
-
-.neu-btn:active {
-  box-shadow: var(--neu-shadow-inset-sm);
-  transform: translateY(0.5px);
-}
-
-.neu-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-body), 'DM Sans', sans-serif;
-  font-weight: 700;
-  border: none !important;
-  border-radius: 16px;
-  min-height: 48px;
-  padding: 0 24px;
-  background-color: var(--neu-accent);
+  font-family: var(--font-heading), 'Outfit', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
   color: #FFFFFF;
-  box-shadow: 6px 6px 14px rgba(108, 99, 255, 0.4), -6px -6px 14px rgba(255, 255, 255, 0.4);
+}
+
+/* ─── TEXT SHADOW SYSTEM ─── */
+.text-shadow-single {
+  text-shadow: 2px 2px 0px #7B2FFF;
+}
+
+.text-shadow-double {
+  text-shadow: 3px 3px 0px #7B2FFF, 6px 6px 0px #FF3AF2;
+}
+
+.text-shadow-triple {
+  text-shadow: 3px 3px 0px #7B2FFF, 6px 6px 0px #FF3AF2, 9px 9px 0px #00F5D4;
+}
+
+.text-shadow-mega {
+  text-shadow: 4px 4px 0px #7B2FFF, 8px 8px 0px #FF3AF2, 12px 12px 0px #00F5D4, 16px 16px 0px #FFE600;
+}
+
+/* Animated Gradient Text */
+.gradient-text-dopamine {
+  background: linear-gradient(90deg, #FF3AF2, #00F5D4, #FFE600, #FF6B35, #7B2FFF, #FF3AF2);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* ─── MULTI-LAYERED SHADOW SYSTEM ─── */
+.dopamine-shadow-double {
+  box-shadow: 6px 6px 0 #FFE600, 12px 12px 0 #FF3AF2;
+}
+
+.dopamine-shadow-triple {
+  box-shadow: 8px 8px 0 #00F5D4, 16px 16px 0 #FF3AF2, 24px 24px 0 #FFE600;
+}
+
+.dopamine-glow {
+  box-shadow: 0 0 20px rgba(255, 58, 242, 0.6), 0 0 40px rgba(0, 245, 212, 0.4);
+}
+
+.dopamine-glow-mega {
+  box-shadow: 0 0 30px rgba(255, 58, 242, 0.7), 0 0 60px rgba(0, 245, 212, 0.5), 8px 8px 0 #FFE600;
+}
+
+/* ─── PATTERN OVERLAYS ─── */
+.pattern-dots {
+  background-image: radial-gradient(circle, rgba(255, 58, 242, 0.25) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.pattern-stripes {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 230, 0, 0.08) 10px,
+    rgba(255, 230, 0, 0.08) 20px
+  );
+}
+
+.pattern-checker {
+  background-image: conic-gradient(
+    from 90deg at 1px 1px,
+    transparent 90deg,
+    rgba(0, 245, 212, 0.06) 0
+  );
+  background-size: 36px 36px;
+}
+
+/* ─── DOPAMINE COMPONENTS ─── */
+.dopamine-card {
+  background: rgba(45, 27, 78, 0.85);
+  backdrop-filter: blur(8px);
+  border: 4px solid #FF3AF2;
+  border-radius: 24px;
+  box-shadow: 8px 8px 0 #FFE600, 16px 16px 0 #7B2FFF;
   transition: all 0.3s ease-out;
+}
+.dopamine-card:hover {
+  transform: translateY(-4px) rotate(1deg);
+  box-shadow: 12px 12px 0 #00F5D4, 24px 24px 0 #FF3AF2;
+  border-color: #00F5D4;
+}
+
+.dopamine-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading), 'Outfit', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 4px solid #FFE600;
+  border-radius: 9999px;
+  min-height: 56px;
+  padding: 0 32px;
+  background: linear-gradient(90deg, #FF3AF2, #7B2FFF, #00F5D4);
+  background-size: 200% 200%;
+  color: #FFFFFF;
+  box-shadow: 0 0 25px rgba(255, 58, 242, 0.6), 6px 6px 0 #FFE600;
+  transition: all 0.3s ease-out;
+  animation: gradient-shift 4s ease infinite;
   cursor: pointer;
 }
-
-.neu-btn-primary:hover {
-  background-color: var(--neu-accent-light);
-  box-shadow: 8px 8px 18px rgba(108, 99, 255, 0.5), -8px -8px 18px rgba(255, 255, 255, 0.5);
-  transform: translateY(-1px);
+.dopamine-btn-primary:hover {
+  transform: scale(1.08) rotate(-1deg);
+  box-shadow: 0 0 40px rgba(255, 58, 242, 0.9), 10px 10px 0 #00F5D4;
+  border-color: #00F5D4;
+}
+.dopamine-btn-primary:active {
+  transform: scale(0.95);
+  box-shadow: 2px 2px 0 #FFE600;
 }
 
-.neu-btn-primary:active {
-  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.2);
-  transform: translateY(0.5px);
-}
-
-/* ─── NEUMORPHIC INPUTS & WELLS ─── */
-.neu-input {
-  background-color: var(--neu-bg) !important;
-  box-shadow: var(--neu-shadow-inset) !important;
-  border-radius: 16px !important;
-  color: var(--neu-fg) !important;
-  border: none !important;
+.dopamine-input {
+  background: rgba(45, 27, 78, 0.6) !important;
+  backdrop-filter: blur(6px) !important;
+  border: 4px solid #FF3AF2 !important;
+  border-radius: 9999px !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  padding: 14px 24px !important;
   transition: all 0.3s ease-out !important;
 }
-
-.neu-input::placeholder {
-  color: var(--neu-muted) !important;
-  opacity: 0.8;
+.dopamine-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
-
-.neu-input:focus {
+.dopamine-input:focus {
   outline: none !important;
-  box-shadow: var(--neu-shadow-inset-deep) !important;
-  ring: 2px solid var(--neu-accent) !important;
+  border-color: #00F5D4 !important;
+  box-shadow: 0 0 25px rgba(0, 245, 212, 0.6), 0 0 0 4px rgba(255, 58, 242, 0.4) !important;
+  background: rgba(45, 27, 78, 0.9) !important;
 }
 
-/* Glass panel compatibility mapping */
+/* Glass panel mapping for dopamine */
 .glass-panel {
-  background: var(--neu-bg) !important;
-  box-shadow: var(--neu-shadow-extruded) !important;
-  border-radius: 32px !important;
-  border: none !important;
-  backdrop-filter: none !important;
+  background: rgba(45, 27, 78, 0.85) !important;
+  border: 4px solid #FF3AF2 !important;
+  box-shadow: 8px 8px 0 #FFE600 !important;
+  border-radius: 24px !important;
+  backdrop-filter: blur(8px) !important;
 }
 
-/* Ambient Floating Animation */
+/* ─── KEYFRAME ANIMATIONS ─── */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(4deg); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(16px) rotate(-4deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 58, 242, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(255, 58, 242, 0.9), 0 0 60px rgba(0, 245, 212, 0.6); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-float-reverse { animation: float-reverse 5s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 20s linear infinite; }
+.animate-wiggle { animation: wiggle 1s ease-in-out infinite; }
+.animate-bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
 
-/* Custom Soft Scrollbars */
+/* Custom Electric Scrollbars */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--neu-bg);
-  box-shadow: var(--neu-shadow-inset-sm);
+  background: #0D0D1A;
+  border-left: 2px solid #FF3AF2;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C4CBD6;
+  background: linear-gradient(180deg, #FF3AF2, #00F5D4);
   border-radius: 9999px;
+  border: 2px solid #0D0D1A;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--neu-accent);
+  background: #FFE600;
 }

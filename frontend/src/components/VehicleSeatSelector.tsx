@@ -255,12 +255,12 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
   return (
     <div className="w-full space-y-8">
       
-      {/* ─── 1. NEUMORPHIC MODE SWITCHER TABS ─── */}
+      {/* ─── 1. MAXIMALIST DOPAMINE MODE SWITCHER TABS ─── */}
       {allowModeSwitching && (
-        <div className="bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-[#2D1B4E]/90 border-4 border-[#FF3AF2] rounded-[32px] shadow-[8px_8px_0_#FFE600,16px_16px_0_#7B2FFF] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 pattern-dots">
           <div className="flex items-center space-x-3 w-full sm:w-auto">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#6C63FF] px-3.5 py-1.5 rounded-2xl bg-[#E0E5EC] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] hidden md:inline-block">
-              MODE SELECTOR
+            <span className="text-xs font-black uppercase tracking-widest text-[#00F5D4] px-4 py-2 rounded-full bg-[#0D0D1A] border-4 border-[#FF3AF2] shadow-[3px_3px_0_#FFE600] hidden md:inline-block">
+              MODE MATRIX ⚡
             </span>
 
             <div className="grid grid-cols-3 gap-3 w-full sm:w-auto">
@@ -268,10 +268,10 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               <button
                 type="button"
                 onClick={() => handleTypeSwitch('BUS')}
-                className={`relative px-4 py-2.5 font-bold text-xs rounded-2xl flex items-center justify-center space-x-2 transition-all cursor-pointer ${
+                className={`relative px-4 py-2.5 font-black text-xs uppercase tracking-wider rounded-full border-4 flex items-center justify-center space-x-2 transition-all cursor-pointer ${
                   activeType === 'BUS'
-                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]'
-                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)]'
+                    ? 'bg-[#FF3AF2] text-white border-[#FFE600] shadow-[4px_4px_0_#00F5D4] scale-105 rotate-1'
+                    : 'bg-[#0D0D1A] text-white border-[#00F5D4] hover:scale-105 hover:bg-[#FF3AF2] shadow-[3px_3px_0_#FFE600]'
                 }`}
               >
                 <Bus className="h-4 w-4" />
@@ -282,10 +282,10 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               <button
                 type="button"
                 onClick={() => handleTypeSwitch('TRAIN')}
-                className={`relative px-4 py-2.5 font-bold text-xs rounded-2xl flex items-center justify-center space-x-2 transition-all cursor-pointer ${
+                className={`relative px-4 py-2.5 font-black text-xs uppercase tracking-wider rounded-full border-4 flex items-center justify-center space-x-2 transition-all cursor-pointer ${
                   activeType === 'TRAIN'
-                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]'
-                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)]'
+                    ? 'bg-[#00F5D4] text-[#0D0D1A] border-[#FF3AF2] shadow-[4px_4px_0_#FFE600] scale-105 -rotate-1'
+                    : 'bg-[#0D0D1A] text-white border-[#FFE600] hover:scale-105 hover:bg-[#00F5D4] hover:text-[#0D0D1A] shadow-[3px_3px_0_#FF3AF2]'
                 }`}
               >
                 <Train className="h-4 w-4" />
@@ -296,10 +296,10 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               <button
                 type="button"
                 onClick={() => handleTypeSwitch('PLANE')}
-                className={`relative px-4 py-2.5 font-bold text-xs rounded-2xl flex items-center justify-center space-x-2 transition-all cursor-pointer ${
+                className={`relative px-4 py-2.5 font-black text-xs uppercase tracking-wider rounded-full border-4 flex items-center justify-center space-x-2 transition-all cursor-pointer ${
                   activeType === 'PLANE'
-                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]'
-                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)]'
+                    ? 'bg-[#FFE600] text-[#0D0D1A] border-[#7B2FFF] shadow-[4px_4px_0_#FF3AF2] scale-105 rotate-1'
+                    : 'bg-[#0D0D1A] text-white border-[#7B2FFF] hover:scale-105 hover:bg-[#FFE600] hover:text-[#0D0D1A] shadow-[3px_3px_0_#00F5D4]'
                 }`}
               >
                 <Plane className="h-4 w-4" />
@@ -310,20 +310,20 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
           {/* Class Selector per Transport */}
           <div className="flex items-center space-x-2 w-full sm:w-auto justify-end">
-            <span className="text-xs text-[#3D4852] font-bold">Class:</span>
+            <span className="text-xs text-[#FFE600] font-black uppercase">Class:</span>
             {activeType === 'BUS' && (
-              <div className="flex bg-[#E0E5EC] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] text-xs">
+              <div className="flex bg-[#0D0D1A] p-1.5 rounded-full border-4 border-[#00F5D4] shadow-[3px_3px_0_#FF3AF2] text-xs">
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('ECONOMY')}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'ECONOMY' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
+                  className={`px-3 py-1.5 rounded-full font-black uppercase transition-all ${classType === 'ECONOMY' ? 'bg-[#FF3AF2] text-white shadow-sm' : 'text-slate-300'}`}
                 >
                   2+2 Luxury
                 </button>
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('BUSINESS')}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'BUSINESS' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
+                  className={`px-3 py-1.5 rounded-full font-black uppercase transition-all ${classType === 'BUSINESS' ? 'bg-[#FF3AF2] text-white shadow-sm' : 'text-slate-300'}`}
                 >
                   2+1 VIP Sleeper
                 </button>
@@ -334,7 +334,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               <select
                 value={classType}
                 onChange={(e) => handleClassSwitch(e.target.value)}
-                className="bg-[#E0E5EC] text-[#3D4852] shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] px-4 py-2 text-xs font-bold rounded-2xl focus:outline-none cursor-pointer border-none"
+                className="bg-[#0D0D1A] text-white border-4 border-[#FFE600] shadow-[3px_3px_0_#FF3AF2] px-4 py-2 text-xs font-black rounded-full focus:outline-none cursor-pointer"
               >
                 <option value="ECONOMY">Shovon Chair (2+2)</option>
                 <option value="SNIGDHA">Snigdha AC Chair (2+2)</option>
@@ -344,18 +344,18 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
             )}
 
             {activeType === 'PLANE' && (
-              <div className="flex bg-[#E0E5EC] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] text-xs">
+              <div className="flex bg-[#0D0D1A] p-1.5 rounded-full border-4 border-[#7B2FFF] shadow-[3px_3px_0_#00F5D4] text-xs">
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('ECONOMY')}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'ECONOMY' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
+                  className={`px-3 py-1.5 rounded-full font-black uppercase transition-all ${classType === 'ECONOMY' ? 'bg-[#FFE600] text-[#0D0D1A] shadow-sm' : 'text-slate-300'}`}
                 >
                   Economy (3+3)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleClassSwitch('BUSINESS')}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${classType === 'BUSINESS' ? 'bg-[#6C63FF] text-white shadow-sm' : 'text-[#3D4852]'}`}
+                  className={`px-3 py-1.5 rounded-full font-black uppercase transition-all ${classType === 'BUSINESS' ? 'bg-[#FFE600] text-[#0D0D1A] shadow-sm' : 'text-slate-300'}`}
                 >
                   Business (2+2)
                 </button>
@@ -435,29 +435,29 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               >
                 {/* 🚌 1. BUS SEAT LAYOUT CHASSIS */}
                 {activeType === 'BUS' && (
-                  <div className="relative w-full max-w-[340px] sm:max-w-[380px] bg-[#E0E5EC] rounded-[28px] shadow-[inset_8px_8px_16px_rgba(163,177,198,0.7),inset_-8px_-8px_16px_rgba(255,255,255,0.6)] p-5 flex flex-col space-y-4">
+                  <div className="relative w-full max-w-[340px] sm:max-w-[380px] bg-[#2D1B4E] border-4 border-[#FF3AF2] rounded-[32px] p-5 shadow-[8px_8px_0_#FFE600,16px_16px_0_#00F5D4] flex flex-col space-y-4 pattern-stripes">
                     
                     {/* Windshield & Driver Cockpit */}
-                    <div className="relative border-b border-[#C4CBD6]/50 pb-4">
-                      <div className="h-8 w-4/5 mx-auto rounded-2xl bg-[#E0E5EC] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] text-[#6C63FF] text-[10px] font-bold flex items-center justify-center tracking-widest uppercase">
-                        🚌 BUS WINDSHIELD & COCKPIT
+                    <div className="relative border-b-4 border-[#FF3AF2] pb-4">
+                      <div className="h-9 w-4/5 mx-auto rounded-full bg-[#FF3AF2] border-4 border-[#FFE600] shadow-[4px_4px_0_#00F5D4] text-white text-[10px] font-black flex items-center justify-center tracking-widest uppercase">
+                        🚌 BUS WINDSHIELD & COCKPIT 🔥
                       </div>
 
-                      <div className="flex items-center justify-between px-2 text-xs font-bold text-[#3D4852] mt-3">
-                        <div className="flex items-center space-x-1.5 bg-[#E0E5EC] px-3 py-1 rounded-xl shadow-[inset_2px_2px_4px_rgba(163,177,198,0.6),inset_-2px_-2px_4px_rgba(255,255,255,0.5)]">
-                          <span className="h-2 w-2 rounded-full bg-[#38B2AC] animate-pulse" />
-                          <span className="text-[10px] text-[#3D4852] font-bold uppercase">Door</span>
+                      <div className="flex items-center justify-between px-2 text-xs font-black text-white mt-3">
+                        <div className="flex items-center space-x-1.5 bg-[#0D0D1A] border-4 border-[#00F5D4] px-3 py-1 rounded-full shadow-[3px_3px_0_#FFE600]">
+                          <span className="h-2.5 w-2.5 rounded-full bg-[#00F5D4] animate-ping" />
+                          <span className="text-[10px] text-[#00F5D4] font-black uppercase">Door</span>
                         </div>
 
-                        <div className="flex items-center space-x-2 bg-[#E0E5EC] px-3 py-1 rounded-xl shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]">
-                          <span className="text-[10px] text-[#3D4852] font-bold uppercase">Driver Cockpit</span>
-                          <div className="h-3.5 w-3.5 rounded-full border-2 border-dashed border-[#6C63FF] animate-spin" style={{ animationDuration: '20s' }} />
+                        <div className="flex items-center space-x-2 bg-[#0D0D1A] border-4 border-[#FFE600] px-3 py-1 rounded-full shadow-[3px_3px_0_#FF3AF2]">
+                          <span className="text-[10px] text-[#FFE600] font-black uppercase">Driver Cockpit</span>
+                          <div className="h-3.5 w-3.5 rounded-full border-2 border-dashed border-[#FF3AF2] animate-spin" style={{ animationDuration: '20s' }} />
                         </div>
                       </div>
                     </div>
 
                     {/* Column Indicators */}
-                    <div className="flex justify-between text-[10px] font-bold text-[#6B7280] px-2 border-b border-[#C4CBD6]/50 pb-2">
+                    <div className="flex justify-between text-[10px] font-black text-[#FFE600] px-2 border-b-4 border-dashed border-[#00F5D4] pb-2 uppercase tracking-widest">
                       <span>🪟 WIN</span>
                       {classType === 'BUSINESS' ? (
                         <>
@@ -467,7 +467,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       ) : (
                         <>
                           <span>🚶 AISLE</span>
-                          <span className="text-[#6C63FF] font-bold">◄ CENTRAL AISLE ►</span>
+                          <span className="text-[#FF3AF2] font-black">◄ CENTRAL AISLE ►</span>
                           <span>🚶 AISLE</span>
                           <span>🪟 WIN</span>
                         </>
@@ -476,14 +476,24 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
                     {/* Bus Seats Grid */}
                     <div className={`grid gap-3 ${classType === 'BUSINESS' ? 'grid-cols-3' : 'grid-cols-4'}`}>
-                      {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map(row => {
+                      {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map((row, rIdx) => {
                         const cols = classType === 'BUSINESS' ? ['1', '2', '3'] : ['1', '2', '3', '4'];
-                        return cols.map(col => {
+                        return cols.map((col, cIdx) => {
                           const seatId = `${row}${col}`;
                           const isAvail = !bookedSet.has(seatId);
                           const isSel = selectedSeats.includes(seatId);
                           const isAisleRight = classType === 'BUSINESS' ? col === '1' : col === '2';
                           const isWindow = classType === 'BUSINESS' ? (col === '1' || col === '3') : (col === '1' || col === '4');
+
+                          // Accent rotation based on row + column index
+                          const seatAccents = [
+                            { border: 'border-[#FF3AF2]', shadow: 'shadow-[3px_3px_0_#FFE600]' },
+                            { border: 'border-[#00F5D4]', shadow: 'shadow-[3px_3px_0_#FF3AF2]' },
+                            { border: 'border-[#FFE600]', shadow: 'shadow-[3px_3px_0_#7B2FFF]' },
+                            { border: 'border-[#FF6B35]', shadow: 'shadow-[3px_3px_0_#00F5D4]' },
+                            { border: 'border-[#7B2FFF]', shadow: 'shadow-[3px_3px_0_#FFE600]' }
+                          ];
+                          const acc = seatAccents[(rIdx + cIdx) % seatAccents.length];
 
                           return (
                             <React.Fragment key={seatId}>
@@ -491,19 +501,19 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                                 type="button"
                                 onClick={() => handleSeatClick(seatId, isAvail)}
                                 disabled={!isAvail}
-                                className={`h-11 rounded-2xl transition-all relative cursor-pointer flex flex-col items-center justify-center font-bold ${
+                                className={`h-11 rounded-2xl border-4 transition-all relative cursor-pointer flex flex-col items-center justify-center font-black ${
                                   !isAvail 
-                                    ? 'bg-[#E0E5EC] text-[#6B7280] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.7),inset_-4px_-4px_8px_rgba(255,255,255,0.6)] cursor-not-allowed opacity-60'
+                                    ? 'bg-[#0D0D1A] text-white/30 border-dashed border-[#FF3AF2]/40 opacity-40 cursor-not-allowed'
                                     : isSel
-                                    ? 'bg-[#6C63FF] text-white shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)] scale-105 z-10 font-extrabold'
-                                    : 'bg-[#E0E5EC] text-[#3D4852] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)] hover:shadow-[12px_12px_20px_rgba(163,177,198,0.7),-12px_-12px_20px_rgba(255,255,255,0.6)] hover:-translate-y-0.5'
+                                    ? 'bg-[#FFE600] text-[#0D0D1A] border-[#FF3AF2] shadow-[4px_4px_0_#FF3AF2,8px_8px_0_#00F5D4] scale-110 z-10 font-black rotate-1'
+                                    : `bg-[#0D0D1A] text-white ${acc.border} ${acc.shadow} hover:scale-110 hover:bg-[#FF3AF2] hover:text-white hover:-rotate-1`
                                 }`}
                               >
-                                <Armchair className={`h-3.5 w-3.5 absolute opacity-20 ${isSel ? 'text-white' : 'text-[#6C63FF]'}`} />
-                                <span className="z-10 text-[11px] font-mono font-bold">{seatId}</span>
-                                {isWindow && <span className={`text-[7px] font-mono leading-none -mt-0.5 ${isSel ? 'text-white/80' : 'text-[#38B2AC]'}`}>WIN</span>}
+                                <Armchair className={`h-3.5 w-3.5 absolute opacity-25 ${isSel ? 'text-[#0D0D1A]' : 'text-[#00F5D4]'}`} />
+                                <span className="z-10 text-[11px] font-mono font-black">{seatId}</span>
+                                {isWindow && <span className={`text-[7px] font-mono leading-none -mt-0.5 ${isSel ? 'text-[#0D0D1A] font-black' : 'text-[#FFE600]'}`}>WIN</span>}
                               </button>
-                              {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-[#6B7280] font-bold select-none">│</div>}
+                              {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-[#00F5D4] font-black select-none">│</div>}
                             </React.Fragment>
                           );
                         });
@@ -511,9 +521,9 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     </div>
 
                     {/* Rear Engine & Emergency Exit */}
-                    <div className="mt-4 pt-3 border-t-2 border-[#121212] text-center text-[10px] font-black text-[#121212] uppercase tracking-widest flex items-center justify-between px-2">
-                      <span>⚙️ REAR ENGINE BAY</span>
-                      <span className="text-[#D02020] font-black">🚨 EMERGENCY EXIT</span>
+                    <div className="mt-4 pt-3 border-t-4 border-[#FF3AF2] text-center text-[10px] font-black uppercase tracking-widest flex items-center justify-between px-2">
+                      <span className="text-[#00F5D4]">⚙️ REAR ENGINE BAY</span>
+                      <span className="text-[#FFE600] font-black">🚨 EMERGENCY EXIT</span>
                     </div>
                   </div>
                 )}
@@ -759,33 +769,33 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
           {/* No Seats Selected Placeholder */}
           {selectedSeats.length === 0 ? (
-            <div className="bg-[#E0E5EC] rounded-[32px] shadow-[inset_6px_6px_10px_rgba(163,177,198,0.6),inset_-6px_-6px_10px_rgba(255,255,255,0.5)] p-8 text-center space-y-4 border-none flex flex-col items-center justify-center min-h-[340px]">
-              <div className="p-4 rounded-2xl bg-[#E0E5EC] text-[#6C63FF] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]">
-                <Armchair className="h-10 w-10" />
+            <div className="bg-[#2D1B4E]/80 border-4 border-[#FF3AF2] rounded-[32px] shadow-[8px_8px_0_#FFE600,16px_16px_0_#00F5D4] p-8 text-center space-y-4 border-none flex flex-col items-center justify-center min-h-[340px] pattern-dots">
+              <div className="p-4 rounded-2xl bg-[#FF3AF2] border-4 border-[#FFE600] text-white shadow-[4px_4px_0_#00F5D4]">
+                <Armchair className="h-10 w-10 animate-bounce-subtle" />
               </div>
-              <h4 className="text-[#3D4852] font-bold text-base tracking-tight font-display">No Seats Selected</h4>
-              <p className="text-[#6B7280] text-xs font-medium max-w-xs leading-relaxed">
-                Click on any available seat on the vehicle chart to reserve it. Confirmations use <span className="text-[#6C63FF] font-bold">Gmail OTP Verification</span>.
+              <h4 className="text-white font-black text-xl tracking-tight text-shadow-double uppercase" style={{ fontFamily: 'var(--font-display), sans-serif' }}>No Seats Selected</h4>
+              <p className="text-slate-300 text-xs font-bold max-w-xs leading-relaxed">
+                Click on any available seat on the vehicle chart to reserve it. Confirmations use <span className="text-[#FFE600] font-black">Gmail OTP Verification</span>.
               </p>
             </div>
           ) : (
             <div className="space-y-6">
 
               {/* Passenger Info Form */}
-              <div className="bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-6 space-y-5">
-                <div className="flex items-center justify-between border-b border-[#C4CBD6]/50 pb-3">
+              <div className="bg-[#2D1B4E]/90 border-4 border-[#FF3AF2] rounded-[32px] shadow-[8px_8px_0_#FFE600,16px_16px_0_#00F5D4] p-6 space-y-5 pattern-stripes">
+                <div className="flex items-center justify-between border-b-4 border-[#FF3AF2] pb-3">
                   <div className="flex items-center space-x-2">
-                    <UserCheck className="h-5 w-5 text-[#6C63FF]" />
-                    <h3 className="font-bold text-[#3D4852] text-xs uppercase tracking-wider font-display">
+                    <UserCheck className="h-5 w-5 text-[#FFE600]" />
+                    <h3 className="font-black text-[#FFE600] text-xs uppercase tracking-widest text-shadow-single" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
                       Passenger Information
                     </h3>
                   </div>
                   <button
                     type="button"
                     onClick={handleQuickFill}
-                    className="text-[10px] bg-[#6C63FF] text-white px-3 py-1.5 rounded-xl font-bold uppercase tracking-wider flex items-center space-x-1 cursor-pointer transition-all shadow-[4px_4px_10px_rgba(108,99,255,0.3)] hover:bg-[#8B84FF]"
+                    className="text-[10px] bg-[#FF3AF2] text-white border-2 border-[#FFE600] px-3.5 py-1.5 rounded-full font-black uppercase tracking-wider flex items-center space-x-1 cursor-pointer transition-all shadow-[3px_3px_0_#00F5D4] hover:scale-105"
                   >
-                    <Sparkles className="h-3 w-3" />
+                    <Sparkles className="h-3.5 w-3.5 text-[#FFE600]" />
                     <span>Quick Fill</span>
                   </button>
                 </div>
@@ -793,12 +803,12 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 {/* Passenger Inputs */}
                 <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
                   {passengers.map((p, idx) => (
-                    <div key={p.seat_number} className="rounded-2xl bg-[#E0E5EC] p-4 space-y-3 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,0.5)]">
-                      <div className="flex justify-between items-center border-b border-[#C4CBD6]/50 pb-2">
-                        <span className="text-xs font-bold text-[#3D4852]">Passenger {idx + 1}</span>
+                    <div key={p.seat_number} className="rounded-2xl bg-[#0D0D1A] border-4 border-[#00F5D4] p-4 space-y-3 shadow-[4px_4px_0_#FF3AF2]">
+                      <div className="flex justify-between items-center border-b-2 border-[#00F5D4] pb-2">
+                        <span className="text-xs font-black text-[#00F5D4] uppercase">Passenger {idx + 1}</span>
                         <div className="flex items-center space-x-2">
                           {p.isVerified ? (
-                            <span className="text-[10px] bg-[#38B2AC] text-white px-2.5 py-0.5 rounded-lg font-bold flex items-center space-x-1">
+                            <span className="text-[10px] bg-[#00F5D4] text-[#0D0D1A] border-2 border-[#FF3AF2] px-2.5 py-0.5 rounded-full font-black flex items-center space-x-1">
                               <CheckCircle2 className="h-3 w-3" />
                               <span>Verified</span>
                             </span>
@@ -806,13 +816,13 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                             <button
                               type="button"
                               onClick={() => handleOpenGmailVerification(p.seat_number)}
-                              className="text-[10px] bg-[#6C63FF] text-white px-2.5 py-1 rounded-lg font-bold flex items-center space-x-1 cursor-pointer transition-all uppercase tracking-wider shadow-sm hover:bg-[#8B84FF]"
+                              className="text-[10px] bg-[#FF3AF2] text-white border-2 border-[#FFE600] px-2.5 py-1 rounded-full font-black flex items-center space-x-1 cursor-pointer transition-all uppercase tracking-wider shadow-[2px_2px_0_#00F5D4] hover:scale-105"
                             >
                               <Mail className="h-3 w-3" />
                               <span>Verify Gmail</span>
                             </button>
                           )}
-                          <span className="text-[11px] bg-[#E0E5EC] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,0.5)] text-[#6C63FF] px-2.5 py-0.5 rounded-lg font-mono font-bold">
+                          <span className="text-[11px] bg-[#7B2FFF] text-white border-2 border-[#FFE600] px-2.5 py-0.5 rounded-full font-mono font-black shadow-[2px_2px_0_#FF3AF2]">
                             Seat: {p.seat_number}
                           </span>
                         </div>
@@ -821,27 +831,27 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {/* Name */}
                         <div className="sm:col-span-2 space-y-1">
-                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">Full Name</label>
+                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider">Full Name</label>
                           <input
                             type="text"
                             required
                             value={p.name}
                             onChange={(e) => handlePassengerChange(p.seat_number, 'name', e.target.value)}
-                            className="neu-input w-full text-xs p-3"
+                            className="dopamine-input w-full text-xs p-3"
                             placeholder="E.g., Tanvir Hossain"
                           />
                         </div>
 
                         {/* Age */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">Age</label>
+                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider">Age</label>
                           <input
                             type="number"
                             required
                             min={1}
                             value={p.age}
                             onChange={(e) => handlePassengerChange(p.seat_number, 'age', e.target.value)}
-                            className="neu-input w-full text-xs p-3"
+                            className="dopamine-input w-full text-xs p-3"
                             placeholder="26"
                           />
                         </div>
@@ -850,11 +860,11 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {/* Gender */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">Gender</label>
+                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider">Gender</label>
                           <select
                             value={p.gender}
                             onChange={(e) => handlePassengerChange(p.seat_number, 'gender', e.target.value)}
-                            className="neu-input w-full text-xs p-3 cursor-pointer"
+                            className="dopamine-input w-full text-xs p-3 cursor-pointer"
                           >
                             <option value="MALE">Male</option>
                             <option value="FEMALE">Female</option>
@@ -864,28 +874,18 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
                         {/* Gmail Verification Address */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider flex justify-between">
+                          <label className="text-[10px] font-black text-[#FFE600] uppercase tracking-wider flex justify-between">
                             <span>Gmail Address</span>
-                            {p.isVerified && <span className="text-[#38B2AC] text-[9px] font-bold">Verified</span>}
+                            {p.isVerified && <span className="text-[#00F5D4] text-[9px] font-black">Verified</span>}
                           </label>
-                          <div className="relative">
-                            <input
-                              type="email"
-                              value={p.gmail}
-                              onChange={(e) => handlePassengerChange(p.seat_number, 'gmail', e.target.value)}
-                              className="neu-input w-full text-xs p-3 pr-20"
-                              placeholder="user@gmail.com"
-                            />
-                            {!p.isVerified && (
-                              <button
-                                type="button"
-                                onClick={() => handleOpenGmailVerification(p.seat_number)}
-                                className="absolute right-1.5 top-1.5 text-[9px] font-bold text-white bg-[#6C63FF] hover:bg-[#8B84FF] px-2.5 py-1 rounded-xl cursor-pointer uppercase tracking-wider transition-all shadow-sm"
-                              >
-                                OTP Verify
-                              </button>
-                            )}
-                          </div>
+                          <input
+                            type="email"
+                            required
+                            value={p.gmail}
+                            onChange={(e) => handlePassengerChange(p.seat_number, 'gmail', e.target.value)}
+                            className="dopamine-input w-full text-xs p-3"
+                            placeholder="user@gmail.com"
+                          />
                         </div>
                       </div>
                     </div>
