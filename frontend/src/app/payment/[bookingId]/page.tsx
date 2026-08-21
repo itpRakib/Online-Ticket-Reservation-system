@@ -241,7 +241,7 @@ export default function PaymentPage() {
                         {user?.profile?.phone && (
                           <button
                             type="button"
-                            onClick={() => setSimPhoneNumber(user.profile.phone)}
+                            onClick={() => setSimPhoneNumber(user.profile?.phone || '')}
                             className="text-[10px] underline text-pink-200 hover:text-white cursor-pointer"
                           >
                             Use my number ({user.profile.phone})
@@ -342,7 +342,7 @@ export default function PaymentPage() {
                         {user?.profile?.phone && (
                           <button
                             type="button"
-                            onClick={() => setSimPhoneNumber(user.profile.phone)}
+                            onClick={() => setSimPhoneNumber(user.profile?.phone || '')}
                             className="text-[10px] underline text-red-200 hover:text-white cursor-pointer"
                           >
                             Use my number ({user.profile.phone})
@@ -443,7 +443,7 @@ export default function PaymentPage() {
                         {user?.profile?.phone && (
                           <button
                             type="button"
-                            onClick={() => setSimPhoneNumber(user.profile.phone)}
+                            onClick={() => setSimPhoneNumber(user.profile?.phone || '')}
                             className="text-[10px] underline text-purple-200 hover:text-white cursor-pointer"
                           >
                             Use my number ({user.profile.phone})

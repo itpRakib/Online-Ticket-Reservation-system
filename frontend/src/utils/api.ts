@@ -14,6 +14,8 @@ export function isValidGmail(email: string): boolean {
   return GMAIL_REGEX.test(email.trim());
 }
 
+export type TransportType = 'BUS' | 'TRAIN' | 'PLANE' | 'ALL';
+
 export interface User {
   id: number;
   username: string;

@@ -787,7 +787,6 @@ export default function Home() {
             </motion.button>
           </form>
         </div>
-        </GlowCard>
       </section>
 
       {/* Promotional Offers Row */}
