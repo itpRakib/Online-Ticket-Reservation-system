@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-sm text-slate-600 dark:text-slate-400 max-w-sm leading-relaxed">
-              Bangladesh's next-gen multi-modal transit matrix reservation hub. Book your Bus, Train, and Plane tickets seamlessly with instant Bangladeshi mobile banking and NID verification.
+              Bangladesh&apos;s next-gen multi-modal transit matrix reservation hub. Book your Bus, Train, and Plane tickets seamlessly with instant mobile banking and Gmail OTP verification.
             </p>
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
