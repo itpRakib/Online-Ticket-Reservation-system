@@ -56,9 +56,9 @@ function BookTripContent() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4 text-[#F2F0E4]">
-        <RefreshCw className="h-10 w-10 text-[#D4AF37] animate-spin" />
-        <span className="text-[#888888] font-medium uppercase tracking-widest text-xs" style={{ fontFamily: 'var(--font-heading), serif' }}>Loading Imperial Seat Matrix & Vehicle Details...</span>
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4 text-[#121212]">
+        <RefreshCw className="h-10 w-10 text-[#D02020] animate-spin" />
+        <span className="text-[#121212] font-black uppercase tracking-wider text-xs">Loading Bauhaus Seat Matrix & Vehicle Details...</span>
       </div>
     );
   }
@@ -66,9 +66,9 @@ function BookTripContent() {
   if (error && !trip) {
     return (
       <div className="mx-auto max-w-xl px-4 py-20 text-center space-y-4">
-        <AlertCircle className="h-12 w-12 text-red-400 mx-auto" />
-        <h2 className="text-xl font-bold text-[#F2F0E4] uppercase tracking-widest" style={{ fontFamily: 'var(--font-heading), serif' }}>Error Loading Seating Plan</h2>
-        <p className="text-[#888888] text-xs">{error}</p>
+        <AlertCircle className="h-12 w-12 text-[#D02020] mx-auto" />
+        <h2 className="text-xl font-black text-[#121212] uppercase tracking-wider">Error Loading Seating Plan</h2>
+        <p className="text-[#666666] text-xs font-bold">{error}</p>
       </div>
     );
   }
@@ -188,13 +188,12 @@ function BookTripContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-[#F2F0E4] art-deco-crosshatch py-8 px-4 sm:px-6 lg:px-8 space-y-8 relative">
+    <div className="min-h-screen bg-[#F0F0F0] text-[#121212] py-8 px-4 sm:px-6 lg:px-8 space-y-8 relative">
       {/* Back button */}
       <div>
         <button 
           onClick={() => router.back()}
-          className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.2em] text-[#D4AF37] hover:text-[#F2E8C4] transition-colors border border-[#D4AF37]/30 bg-[#141414] px-4 py-2 cursor-pointer"
-          style={{ fontFamily: 'var(--font-heading), serif' }}
+          className="inline-flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-[#121212] bg-white border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212] px-4 py-2 hover:bg-[#F0C020] transition-colors cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Return to Transit Matrix</span>
@@ -202,34 +201,34 @@ function BookTripContent() {
       </div>
 
       {/* Trip Brief Details Panel */}
-      <div className="art-deco-panel art-deco-corner-brackets p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#0A0A0A] border-2 border-[#D4AF37]/50 shadow-2xl">
+      <div className="bg-white border-4 border-[#121212] shadow-[8px_8px_0px_0px_#121212] p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] font-bold px-3 py-0.5 uppercase tracking-widest" style={{ fontFamily: 'var(--font-heading), serif' }}>{tType}</span>
-            <span className="text-xs bg-[#141414] border border-[#D4AF37]/30 text-emerald-400 font-bold px-3 py-0.5 flex items-center space-x-1 uppercase tracking-wider">
-              <Mail className="h-3 w-3 text-emerald-400" />
+            <span className="text-xs bg-[#D02020] text-white font-black px-3 py-0.5 border-2 border-[#121212] uppercase tracking-wider">{tType}</span>
+            <span className="text-xs bg-[#F0C020] text-[#121212] border-2 border-[#121212] font-black px-3 py-0.5 flex items-center space-x-1 uppercase tracking-wider">
+              <Mail className="h-3 w-3 text-[#121212]" />
               <span>Gmail Verification Required</span>
             </span>
           </div>
-          <h2 className="text-2xl font-black text-[#F2F0E4] mt-2 flex items-center space-x-3 uppercase tracking-[0.2em]" style={{ fontFamily: 'var(--font-heading), serif' }}>
+          <h2 className="text-2xl font-black text-[#121212] mt-2 flex items-center space-x-3 uppercase tracking-tighter">
             <span>{trip.source?.name || 'Dhaka'}</span>
-            <ArrowRight className="h-5 w-5 text-[#D4AF37]" />
+            <ArrowRight className="h-5 w-5 text-[#D02020]" />
             <span>{trip.destination?.name || 'Chittagong'}</span>
           </h2>
-          <p className="text-xs text-[#888888] mt-1 tracking-wide uppercase font-mono">
-            Operator: <span className="text-[#F2F0E4] font-semibold">{trip.operator_name} ({trip.transport_identifier})</span> • Date: <span className="text-[#D4AF37] font-semibold">{travelDate}</span>
+          <p className="text-xs text-[#666666] mt-1 font-bold tracking-wide uppercase font-mono">
+            Operator: <span className="text-[#121212] font-black">{trip.operator_name} ({trip.transport_identifier})</span> • Date: <span className="text-[#1040C0] font-black">{travelDate}</span>
           </p>
         </div>
 
         <div className="text-right">
-          <span className="block text-[10px] text-[#888888] uppercase tracking-widest font-mono">Economy Base Fare</span>
-          <span className="text-3xl font-extrabold text-[#D4AF37]" style={{ fontFamily: 'var(--font-heading), serif' }}>৳{parseFloat(trip.fare_economy || 850).toLocaleString()}</span>
+          <span className="block text-[10px] text-[#666666] uppercase tracking-widest font-black">Economy Base Fare</span>
+          <span className="text-3xl font-black text-[#D02020]">৳{parseFloat(trip.fare_economy || 850).toLocaleString()}</span>
         </div>
       </div>
 
       {error && (
-        <div className="border-2 border-red-500/40 bg-[#141414] p-4 text-xs font-bold text-red-400 flex items-center space-x-2 shadow-lg">
-          <AlertCircle className="h-4 w-4 shrink-0 text-red-400" />
+        <div className="border-4 border-[#121212] bg-[#D02020] text-white p-4 text-xs font-black flex items-center space-x-2 shadow-[4px_4px_0px_0px_#121212]">
+          <AlertCircle className="h-4 w-4 shrink-0 text-white" />
           <span className="uppercase tracking-wider">{error}</span>
         </div>
       )}
@@ -250,9 +249,9 @@ function BookTripContent() {
 export default function BookTrip() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4 bg-[#0A0A0A] text-[#F2F0E4]">
-        <RefreshCw className="h-10 w-10 text-[#D4AF37] animate-spin" />
-        <span className="text-[#888888] font-bold text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-heading), serif' }}>Loading Trip Details...</span>
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4 bg-[#F0F0F0] text-[#121212]">
+        <RefreshCw className="h-10 w-10 text-[#D02020] animate-spin" />
+        <span className="text-[#121212] font-black text-xs uppercase tracking-wider">Loading Trip Details...</span>
       </div>
     }>
       <BookTripContent />

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { LogOut, Menu, X, Sparkles, Ticket } from 'lucide-react';
+import { LogOut, Menu, X, Ticket } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 
 export const Header: React.FC = () => {
@@ -32,109 +32,107 @@ export const Header: React.FC = () => {
         hidden: { y: "-100%" }
       }}
       animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="sticky top-0 z-50 w-full border-b-2 border-[#D4AF37]/40 bg-[#0A0A0A]/95 backdrop-blur-2xl shadow-[0_4px_25px_rgba(0,0,0,0.9)]"
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      className="sticky top-0 z-50 w-full border-b-4 border-[#121212] bg-[#F0F0F0] shadow-[0_4px_0px_0px_#121212]"
     >
-      {/* Top Metallic Gold Accent Bar */}
-      <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-80" />
-
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
-        {/* Art Deco Brand Logo */}
+        {/* Bauhaus Geometric Brand Logo (Circle 🔴, Square 🟦, Triangle 🔺) */}
         <Link href="/" className="flex items-center space-x-3.5 group cursor-pointer">
-          {/* Rotated 45-Degree Gold Diamond Emblem */}
-          <div className="h-9 w-9 art-deco-diamond border-2 border-[#D4AF37] bg-[#141414] shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-transform duration-500 group-hover:rotate-[225deg]">
-            <Ticket className="h-4 w-4 text-[#D4AF37]" />
+          {/* Constructivist Geometric Emblem */}
+          <div className="flex items-center space-x-1 p-1.5 bg-[#FFFFFF] border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212] group-hover:translate-x-[1px] group-hover:translate-y-[1px] transition-transform">
+            {/* Red Circle */}
+            <div className="h-4 w-4 rounded-full bg-[#D02020] border-2 border-[#121212]" />
+            {/* Blue Square */}
+            <div className="h-4 w-4 bg-[#1040C0] border-2 border-[#121212]" />
+            {/* Yellow Triangle */}
+            <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[14px] border-b-[#F0C020]" />
           </div>
 
           <div className="flex flex-col">
-            <span className="text-xl font-black uppercase tracking-[0.25em] text-[#D4AF37] drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]" style={{ fontFamily: 'var(--font-heading), serif' }}>
+            <span className="text-2xl font-black uppercase tracking-tighter text-[#121212]" style={{ fontFamily: 'var(--font-outfit), sans-serif' }}>
               BD GOTICKET
             </span>
-            <span className="text-[9px] uppercase tracking-[0.3em] text-[#888888] font-mono -mt-1">
-              EST. 1925 • IMPERIAL TRANSIT MATRIX
+            <span className="text-[9px] uppercase tracking-widest font-black text-[#D02020] -mt-1">
+              CONSTRUCTIVIST TRANSIT MATRIX
             </span>
           </div>
         </Link>
 
-        {/* Desktop Art Deco Navigation */}
-        <nav className="hidden md:flex items-center space-x-2">
+        {/* Desktop Bauhaus Navigation */}
+        <nav className="hidden md:flex items-center space-x-3">
           <Link
             href="/"
-            className={`px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold transition-all border-b-2 ${
+            className={`px-4 py-2 text-xs uppercase tracking-wider font-black transition-all border-3 border-[#121212] ${
               isActive('/') 
-                ? 'text-[#D4AF37] border-[#D4AF37] bg-[#D4AF37]/10 shadow-[0_0_15px_rgba(212,175,55,0.2)]' 
-                : 'text-[#F2F0E4]/80 border-transparent hover:text-[#D4AF37] hover:border-[#D4AF37]/50'
+                ? 'bg-[#D02020] text-white shadow-[4px_4px_0px_0px_#121212]' 
+                : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[3px_3px_0px_0px_#121212]'
             }`}
-            style={{ fontFamily: 'var(--font-heading), serif' }}
           >
             I. Home
           </Link>
           <Link
             href="/search"
-            className={`px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold transition-all border-b-2 ${
+            className={`px-4 py-2 text-xs uppercase tracking-wider font-black transition-all border-3 border-[#121212] ${
               isActive('/search') 
-                ? 'text-[#D4AF37] border-[#D4AF37] bg-[#D4AF37]/10 shadow-[0_0_15px_rgba(212,175,55,0.2)]' 
-                : 'text-[#F2F0E4]/80 border-transparent hover:text-[#D4AF37] hover:border-[#D4AF37]/50'
+                ? 'bg-[#1040C0] text-white shadow-[4px_4px_0px_0px_#121212]' 
+                : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[3px_3px_0px_0px_#121212]'
             }`}
-            style={{ fontFamily: 'var(--font-heading), serif' }}
           >
-            II. Transit Matrix
+            II. Search Matrix
           </Link>
           <Link
             href="/seat-selection"
-            className={`px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold transition-all border-b-2 ${
+            className={`px-4 py-2 text-xs uppercase tracking-wider font-black transition-all border-3 border-[#121212] ${
               isActive('/seat-selection') 
-                ? 'text-[#D4AF37] border-[#D4AF37] bg-[#D4AF37]/10 shadow-[0_0_15px_rgba(212,175,55,0.2)]' 
-                : 'text-[#F2F0E4]/80 border-transparent hover:text-[#D4AF37] hover:border-[#D4AF37]/50'
+                ? 'bg-[#F0C020] text-[#121212] shadow-[4px_4px_0px_0px_#121212]' 
+                : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[3px_3px_0px_0px_#121212]'
             }`}
-            style={{ fontFamily: 'var(--font-heading), serif' }}
           >
             III. Seat Layouts
           </Link>
           {user && (
             <Link
               href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-              className={`px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold transition-all border-b-2 ${
+              className={`px-4 py-2 text-xs uppercase tracking-wider font-black transition-all border-3 border-[#121212] ${
                 isActive(user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard')
-                  ? 'text-[#F2E8C4] border-[#D4AF37] bg-[#D4AF37]/20 shadow-[0_0_20px_rgba(212,175,55,0.3)]'
-                  : 'text-[#F2F0E4]/80 border-transparent hover:text-[#D4AF37]'
+                  ? 'bg-[#D02020] text-white shadow-[4px_4px_0px_0px_#121212]'
+                  : 'bg-white text-[#121212] hover:bg-[#F0C020] shadow-[3px_3px_0px_0px_#121212]'
               }`}
-              style={{ fontFamily: 'var(--font-heading), serif' }}
             >
-              {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? 'IV. 🛡️ Admin Terminal' : 'IV. My Terminal'}
+              {user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? 'IV. Admin' : 'IV. Terminal'}
             </Link>
           )}
         </nav>
 
         {/* Right Actions & Language Toggle */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           
           {/* Language Toggle Button */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center space-x-1.5 border border-[#D4AF37]/40 bg-[#141414] px-3 py-1.5 text-xs font-bold transition-all text-[#F2F0E4] hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 cursor-pointer shadow-sm"
+            className="flex items-center space-x-1.5 border-3 border-[#121212] bg-[#FFFFFF] px-3 py-1.5 text-xs font-black transition-all text-[#121212] shadow-[3px_3px_0px_0px_#121212] hover:bg-[#F0C020] cursor-pointer"
           >
-            <span className="text-[#D4AF37]">🌐</span>
-            <span className={language === 'en' ? 'text-[#D4AF37] font-black' : 'text-[#888888]'}>EN</span>
-            <span className="text-[#D4AF37]/40">|</span>
-            <span className={language === 'bn' ? 'text-[#D4AF37] font-black' : 'text-[#888888]'}>বাংলা</span>
+            <span>🌐</span>
+            <span className={language === 'en' ? 'text-[#D02020] font-black' : 'text-[#666666]'}>EN</span>
+            <span className="text-[#121212]">|</span>
+            <span className={language === 'bn' ? 'text-[#1040C0] font-black' : 'text-[#666666]'}>বাংলা</span>
           </button>
 
           {user ? (
             <div className="flex items-center space-x-3">
               <Link
                 href={user && (user.profile?.role === 'admin' || user.username.toLowerCase().includes('admin')) ? '/admin/dashboard' : '/dashboard'}
-                className="flex items-center space-x-2 border border-[#D4AF37]/50 bg-[#141414] py-1.5 px-3 text-xs text-[#F2F0E4] hover:border-[#D4AF37] transition-all shadow-[0_0_10px_rgba(212,175,55,0.15)]"
+                className="flex items-center space-x-2 border-3 border-[#121212] bg-white py-1.5 px-3 text-xs text-[#121212] font-black uppercase tracking-wider shadow-[3px_3px_0px_0px_#121212] hover:bg-[#F0C020]"
               >
-                <div className="h-6 w-6 border border-[#D4AF37] bg-[#0A0A0A] flex items-center justify-center font-black text-[10px] uppercase text-[#D4AF37]">
-                  {user.username.substring(0, 2)}
+                <div className="h-6 w-6 rounded-full border-2 border-[#121212] bg-[#D02020] text-white flex items-center justify-center font-black text-[10px]">
+                  {user.username.substring(0, 2).toUpperCase()}
                 </div>
-                <span className="hidden sm:inline font-bold uppercase tracking-wider max-w-[110px] truncate">{user.first_name || user.username}</span>
+                <span className="hidden sm:inline max-w-[100px] truncate">{user.first_name || user.username}</span>
               </Link>
               <button
                 onClick={logout}
-                className="p-2 border border-red-500/30 text-slate-400 hover:text-red-400 hover:border-red-500/60 hover:bg-red-500/10 transition-all cursor-pointer"
+                className="p-2 border-3 border-[#121212] bg-[#D02020] text-white hover:bg-[#B01818] shadow-[3px_3px_0px_0px_#121212] transition-all cursor-pointer"
                 title="Logout"
               >
                 <LogOut className="h-4 w-4" />
@@ -144,27 +142,26 @@ export const Header: React.FC = () => {
             <div className="hidden sm:flex items-center space-x-3">
               <Link
                 href="/auth/login"
-                className="px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-[#F2F0E4] hover:text-[#D4AF37] transition-colors"
-                style={{ fontFamily: 'var(--font-heading), serif' }}
+                className="px-4 py-2 text-xs font-black uppercase tracking-wider text-[#121212] hover:text-[#D02020]"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/register"
-                className="art-deco-button-solid text-xs py-2 px-4 shadow-lg"
+                className="bauhaus-button-yellow text-xs py-2 px-4 shadow-[4px_4px_0px_0px_#121212]"
               >
                 Register
               </Link>
             </div>
           )}
 
-          {/* Mobile Menu Hamburger Toggle */}
+          {/* Mobile Menu Toggle */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-[#D4AF37] bg-[#141414] border border-[#D4AF37]/40 cursor-pointer"
+            className="md:hidden p-2 bg-[#FFFFFF] border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212] cursor-pointer"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <X className="h-5 w-5 text-[#121212]" /> : <Menu className="h-5 w-5 text-[#121212]" />}
           </button>
 
         </div>
@@ -177,26 +174,26 @@ export const Header: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-[#D4AF37]/30 bg-[#0A0A0A] px-4 pt-3 pb-6 space-y-3"
+            className="md:hidden border-t-4 border-[#121212] bg-[#F0F0F0] px-4 pt-3 pb-6 space-y-3"
           >
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-2.5 font-bold text-xs uppercase tracking-[0.2em] text-[#F2F0E4] hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] border-l-2 border-transparent hover:border-[#D4AF37]"
+              className="block px-4 py-2.5 font-black text-xs uppercase tracking-wider text-[#121212] bg-white border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212]"
             >
               I. Home
             </Link>
             <Link
               href="/search"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-2.5 font-bold text-xs uppercase tracking-[0.2em] text-[#F2F0E4] hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] border-l-2 border-transparent hover:border-[#D4AF37]"
+              className="block px-4 py-2.5 font-black text-xs uppercase tracking-wider text-[#121212] bg-white border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212]"
             >
-              II. Transit Matrix
+              II. Search Matrix
             </Link>
             <Link
               href="/seat-selection"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-2.5 font-bold text-xs uppercase tracking-[0.2em] text-[#F2F0E4] hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] border-l-2 border-transparent hover:border-[#D4AF37]"
+              className="block px-4 py-2.5 font-black text-xs uppercase tracking-wider text-[#121212] bg-white border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212]"
             >
               III. Seat Layouts & Gmail OTP
             </Link>
@@ -206,14 +203,14 @@ export const Header: React.FC = () => {
                 <Link
                   href="/auth/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-2.5 border border-[#D4AF37]/40 text-[#F2F0E4] font-bold text-xs uppercase tracking-[0.2em]"
+                  className="w-full text-center py-2.5 border-3 border-[#121212] bg-white text-[#121212] font-black text-xs uppercase tracking-wider shadow-[3px_3px_0px_0px_#121212]"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/auth/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-2.5 art-deco-button-solid text-xs uppercase tracking-[0.2em]"
+                  className="w-full text-center py-2.5 bauhaus-button-yellow text-xs uppercase tracking-wider shadow-[3px_3px_0px_0px_#121212]"
                 >
                   Register Account
                 </Link>

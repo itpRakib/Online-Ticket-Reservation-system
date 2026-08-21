@@ -1,275 +1,224 @@
 @import "tailwindcss";
 
-:root, .dark {
-  /* ─── ART DECO ("GATSBY" AESTHETIC) DESIGN SYSTEM TOKENS ─── */
-  --bg-obsidian: #0A0A0A;      /* Obsidian Black - The Deep Void */
-  --bg-charcoal: #141414;      /* Rich Charcoal - Card & Panel Surface */
-  --bg-elevated: #1F1F1F;      /* Elevated Surface */
-  
-  --gold-primary: #D4AF37;     /* Metallic Gold - Core Luxury Accent */
-  --gold-light: #F2E8C4;       /* Lighter Sheen Gold */
-  --gold-dark: #A38424;        /* Deep Bronze Gold */
-  --gold-glow: rgba(212, 175, 55, 0.25);
-  --gold-subtle: rgba(212, 175, 55, 0.12);
-  --gold-border: rgba(212, 175, 55, 0.35);
+:root {
+  /* ─── BAUHAUS DESIGN SYSTEM TOKENS ─── */
+  --bg-canvas: #F0F0F0;        /* Off-White Canvas */
+  --foreground: #121212;       /* Stark Black */
+  --primary-red: #D02020;      /* Bauhaus Red */
+  --primary-blue: #1040C0;     /* Bauhaus Blue */
+  --primary-yellow: #F0C020;   /* Bauhaus Yellow */
+  --border-stark: #121212;     /* Thick Black Border */
+  --muted: #E0E0E0;
 
-  --midnight-blue: #1E3D59;    /* Midnight Blue - Deep Secondary Accent */
-  --cream-foreground: #F2F0E4; /* Champagne Cream - Primary Readable Text */
-  --pewter-muted: #888888;     /* Pewter Gray - Muted Secondary Text */
-
-  /* Legacy variable mapping for compatibility */
-  --bg-deep: #0A0A0A;
-  --bg-base: #141414;
-  --bg-raised: #1A1A1A;
-  --foreground: #F2F0E4;
-  --accent: #D4AF37;
-  --accent-glow: rgba(212, 175, 55, 0.25);
-  --secondary: #1E3D59;
-  --text-primary: #F2F0E4;
-  --text-muted: #888888;
-  --border: rgba(212, 175, 55, 0.35);
+  /* Legacy variable compatibility */
+  --bg-deep: #F0F0F0;
+  --bg-base: #FFFFFF;
+  --bg-raised: #FFFFFF;
+  --accent: #D02020;
+  --secondary: #1040C0;
+  --text-primary: #121212;
+  --text-muted: #666666;
+  --border: #121212;
 }
 
 @theme inline {
-  --font-heading: var(--font-heading), 'Marcellus', 'Italiana', serif;
-  --font-body: var(--font-body), 'Josefin Sans', 'Inter', sans-serif;
-  --color-gold: #D4AF37;
-  --color-obsidian: #0A0A0A;
-  --color-charcoal: #141414;
-  --color-cream: #F2F0E4;
+  --font-heading: var(--font-outfit), 'Outfit', sans-serif;
+  --font-body: var(--font-outfit), 'Outfit', sans-serif;
+  --color-bauhaus-red: #D02020;
+  --color-bauhaus-blue: #1040C0;
+  --color-bauhaus-yellow: #F0C020;
+  --color-stark-black: #121212;
+  --color-off-white: #F0F0F0;
 }
 
-/* ─── Base Reset & Art Deco Typography Defaults ─── */
+/* ─── Base Reset & Bauhaus Typography ─── */
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg-obsidian);
-  color: var(--cream-foreground);
+  background-color: var(--bg-canvas);
+  color: var(--foreground);
 }
 
 body {
-  background-color: var(--bg-obsidian);
-  color: var(--cream-foreground);
-  font-family: var(--font-body), 'Josefin Sans', sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--foreground);
+  font-family: var(--font-outfit), 'Outfit', sans-serif;
   overflow-x: hidden;
-  letter-spacing: 0.02em;
+  font-weight: 500;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), 'Marcellus', serif;
-  letter-spacing: 0.15em;
+  font-family: var(--font-outfit), 'Outfit', sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
+  letter-spacing: -0.04em;
+  color: #121212;
 }
 
-/* ─── ART DECO BACKGROUND TEXTURES ─── */
-.art-deco-crosshatch {
-  background-color: #0A0A0A;
-  background-image: 
-    repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.03) 0, rgba(212, 175, 55, 0.03) 1px, transparent 0, transparent 50px),
-    repeating-linear-gradient(-45deg, rgba(212, 175, 55, 0.03) 0, rgba(212, 175, 55, 0.03) 1px, transparent 0, transparent 50px);
-}
-
-.art-deco-sunburst {
-  background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.15) 0%, rgba(30, 61, 89, 0.1) 40%, rgba(10, 10, 10, 0.95) 100%);
-}
-
-/* ─── ART DECO CONTAINERS & PANELS ─── */
-.art-deco-panel {
-  position: relative;
-  background: #141414;
-  border: 1px solid var(--gold-border);
-  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.1), 0 0 20px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold-glow);
+/* ─── BAUHAUS UTILITY CLASSES ─── */
+.bauhaus-card {
+  background: #FFFFFF;
+  border: 4px solid #121212;
+  box-shadow: 8px 8px 0px 0px #121212;
   border-radius: 0px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Corner L-Bracket Embellishments */
-.art-deco-corner-brackets {
-  position: relative;
-}
-
-.art-deco-corner-brackets::before {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 12px;
-  height: 12px;
-  border-top: 2px solid #D4AF37;
-  border-left: 2px solid #D4AF37;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.art-deco-corner-brackets::after {
-  content: "";
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 12px;
-  height: 12px;
-  border-bottom: 2px solid #D4AF37;
-  border-right: 2px solid #D4AF37;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.art-deco-card {
-  position: relative;
-  background: rgba(20, 20, 20, 0.9);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  transition: all 0.4s ease-in-out;
-  border-radius: 0px;
-}
-
-.art-deco-card:hover {
-  border-color: #D4AF37;
+.bauhaus-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.35), inset 0 0 15px rgba(212, 175, 55, 0.1);
+  box-shadow: 12px 12px 0px 0px #121212;
 }
 
-/* ─── ART DECO BUTTONS (PRECISION INSTRUMENTS) ─── */
-.art-deco-button {
-  position: relative;
-  background: transparent;
-  border: 2px solid #D4AF37;
-  color: #D4AF37;
-  font-family: var(--font-heading), 'Marcellus', serif;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-weight: 700;
+.bauhaus-card-red {
+  background: #D02020;
+  color: #FFFFFF;
+  border: 4px solid #121212;
+  box-shadow: 8px 8px 0px 0px #121212;
   border-radius: 0px;
-  min-height: 48px;
-  padding: 0 24px;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+}
+
+.bauhaus-card-blue {
+  background: #1040C0;
+  color: #FFFFFF;
+  border: 4px solid #121212;
+  box-shadow: 8px 8px 0px 0px #121212;
+  border-radius: 0px;
+}
+
+.bauhaus-card-yellow {
+  background: #F0C020;
+  color: #121212;
+  border: 4px solid #121212;
+  box-shadow: 8px 8px 0px 0px #121212;
+  border-radius: 0px;
+}
+
+/* ─── BAUHAUS BUTTONS ─── */
+.bauhaus-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-.art-deco-button:hover {
-  background: #D4AF37;
-  color: #0A0A0A;
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.5), 0 0 10px rgba(242, 232, 196, 0.8);
-  transform: scale(1.02);
-}
-
-.art-deco-button-solid {
-  background: linear-gradient(135deg, #D4AF37 0%, #F2E8C4 50%, #A38424 100%);
-  border: 1px solid #F2E8C4;
-  color: #0A0A0A;
-  font-family: var(--font-heading), 'Marcellus', serif;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
+  font-family: var(--font-outfit), 'Outfit', sans-serif;
   font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 3px solid #121212;
   border-radius: 0px;
   min-height: 48px;
   padding: 0 24px;
-  transition: all 0.35s ease;
+  background: #FFFFFF;
+  color: #121212;
+  box-shadow: 4px 4px 0px 0px #121212;
+  transition: all 0.15s ease-out;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
-.art-deco-button-solid:hover {
-  background: linear-gradient(135deg, #F2E8C4 0%, #FFFFFF 50%, #D4AF37 100%);
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.7);
-  transform: translateY(-2px);
+.bauhaus-button:hover {
+  background: #F0C020;
+  color: #121212;
+  box-shadow: 6px 6px 0px 0px #121212;
 }
 
-/* ─── ART DECO UNDERLINED ELEGANCE INPUTS ─── */
-.art-deco-input {
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.4) !important;
+.bauhaus-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #121212;
+}
+
+.bauhaus-button-red {
+  background: #D02020;
+  color: #FFFFFF;
+  border: 3px solid #121212;
+  box-shadow: 4px 4px 0px 0px #121212;
+}
+
+.bauhaus-button-red:hover {
+  background: #B01818;
+  color: #FFFFFF;
+  box-shadow: 6px 6px 0px 0px #121212;
+}
+
+.bauhaus-button-red:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #121212;
+}
+
+.bauhaus-button-blue {
+  background: #1040C0;
+  color: #FFFFFF;
+  border: 3px solid #121212;
+  box-shadow: 4px 4px 0px 0px #121212;
+}
+
+.bauhaus-button-blue:hover {
+  background: #0D3399;
+  color: #FFFFFF;
+  box-shadow: 6px 6px 0px 0px #121212;
+}
+
+.bauhaus-button-blue:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #121212;
+}
+
+.bauhaus-button-yellow {
+  background: #F0C020;
+  color: #121212;
+  border: 3px solid #121212;
+  box-shadow: 4px 4px 0px 0px #121212;
+}
+
+.bauhaus-button-yellow:hover {
+  background: #D8A818;
+  box-shadow: 6px 6px 0px 0px #121212;
+}
+
+.bauhaus-button-yellow:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #121212;
+}
+
+/* ─── BAUHAUS INPUTS ─── */
+.bauhaus-input {
+  background: #FFFFFF !important;
+  border: 3px solid #121212 !important;
+  box-shadow: 4px 4px 0px 0px #121212 !important;
+  color: #121212 !important;
+  font-family: var(--font-outfit), 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  padding: 10px 16px !important;
   border-radius: 0px !important;
-  color: #F2F0E4 !important;
-  font-family: var(--font-body), sans-serif;
-  padding: 10px 12px !important;
-  transition: all 0.3s ease !important;
+  transition: all 0.15s ease !important;
 }
 
-.art-deco-input:focus {
-  border-bottom-color: #D4AF37 !important;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25) !important;
+.bauhaus-input:focus {
   outline: none !important;
+  background: #FFFDF0 !important;
+  box-shadow: 6px 6px 0px 0px #D02020 !important;
 }
 
-/* ─── ROTATED DIAMOND CONTAINERS ─── */
-.art-deco-diamond {
-  transform: rotate(45deg);
-  border: 1px solid #D4AF37;
-  background: #141414;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* ─── GLASS PANEL OVERRIDE FOR BAUHAUS ─── */
+.glass-panel {
+  background: #FFFFFF !important;
+  border: 4px solid #121212 !important;
+  box-shadow: 8px 8px 0px 0px #121212 !important;
+  border-radius: 0px !important;
+  backdrop-filter: none !important;
 }
 
-.art-deco-diamond > * {
-  transform: rotate(-45deg);
-}
-
-/* ─── GEOMETRIC DIVIDERS ─── */
-.art-deco-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 24px 0;
-}
-
-.art-deco-divider::before, .art-deco-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(to right, transparent, #D4AF37, transparent);
-}
-
-.art-deco-divider-diamond {
-  width: 10px;
-  height: 10px;
-  background: #D4AF37;
-  transform: rotate(45deg);
-  margin: 0 16px;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
-/* ─── KEYFRAME ANIMATIONS ─── */
-@keyframes gold-pulse {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3), inset 0 0 10px rgba(212, 175, 55, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(212, 175, 55, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.3);
-  }
-}
-
-.animate-gold-pulse {
-  animation: gold-pulse 2.5s infinite ease-in-out;
-}
-
-/* ─── CUSTOM SCROLLBARS ─── */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #F0F0F0;
+  border-left: 2px solid #121212;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #A38424;
-  border-radius: 0px;
+  background: #121212;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4AF37;
-}
-
-/* Legacy glass-panel override for complete Art Deco consistency */
-.glass-panel {
-  background: rgba(20, 20, 20, 0.92) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(212, 175, 55, 0.35) !important;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.15) !important;
-  border-radius: 0px !important;
+  background: #D02020;
 }

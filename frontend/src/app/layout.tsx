@@ -1,30 +1,23 @@
 import type { Metadata } from "next";
-import { Marcellus, Josefin_Sans } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
-import { ThemeProvider } from "@/context/ThemeContext";
+import { ThemeProvider } from "@/context/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PlexusBackground } from "@/components/PlexusBackground";
-import { ChatbotWidget } from "@/components/ChatbotWidget";
 import { InitialPreloader } from "@/components/InitialPreloader";
+import { ChatbotWidget } from "@/components/ChatbotWidget";
 
-const marcellus = Marcellus({
-  weight: "400",
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
+  weight: ["400", "500", "700", "900"],
+  variable: "--font-outfit",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "BD GoTicket — Art Deco Transit Matrix Bangladesh",
-  description: "Experience the Gatsby aesthetic transport ticket reservation system for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
+  title: "BD GoTicket — Bauhaus Transit Reservation System",
+  description: "Form follows function: Constructivist geometric ticket reservation for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
 };
 
 export default function RootLayout({
@@ -33,12 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased dark">
-      <body className={`${marcellus.variable} ${josefinSans.variable} font-sans min-h-full flex flex-col bg-[#0A0A0A] text-[#F2F0E4] relative overflow-x-hidden`}>
+    <html lang="en" className={`${outfit.variable} h-full antialiased`}>
+      <body className="font-sans min-h-full flex flex-col bg-[#F0F0F0] text-[#121212] relative overflow-x-hidden selection:bg-[#F0C020] selection:text-[#121212]">
         <ThemeProvider>
           <AuthProvider>
             <InitialPreloader />
-            <PlexusBackground />
             <Header />
             <main className="flex-grow flex flex-col relative z-10">
               {children}
