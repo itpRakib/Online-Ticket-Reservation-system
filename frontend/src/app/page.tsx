@@ -82,8 +82,7 @@ export default function Home() {
         setStations(data);
       } catch (err) {
         console.error("Failed to load stations:", err);
-      } font-mono
-      finally {
+      } finally {
         setLoading(false);
       }
     };
