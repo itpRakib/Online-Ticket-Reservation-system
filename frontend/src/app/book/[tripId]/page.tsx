@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { api } from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
-import { RefreshCw, AlertCircle, ArrowRight, ShieldCheck, Mail } from 'lucide-react';
+import { RefreshCw, AlertCircle, ArrowRight, ShieldCheck, Mail, ArrowLeft } from 'lucide-react';
 import { VehicleSeatSelector, TransportType, Passenger } from '@/components/VehicleSeatSelector';
 
 function BookTripContent() {
@@ -56,9 +56,9 @@ function BookTripContent() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
-        <RefreshCw className="h-10 w-10 text-cyan-400 animate-spin" />
-        <span className="text-slate-400 font-medium">Loading seat layout & vehicle details...</span>
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4 text-[#F2F0E4]">
+        <RefreshCw className="h-10 w-10 text-[#D4AF37] animate-spin" />
+        <span className="text-[#888888] font-medium uppercase tracking-widest text-xs" style={{ fontFamily: 'var(--font-heading), serif' }}>Loading Imperial Seat Matrix & Vehicle Details...</span>
       </div>
     );
   }
@@ -67,25 +67,22 @@ function BookTripContent() {
     return (
       <div className="mx-auto max-w-xl px-4 py-20 text-center space-y-4">
         <AlertCircle className="h-12 w-12 text-red-400 mx-auto" />
-        <h2 className="text-xl font-bold text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>Error Loading Seating Plan</h2>
-        <p className="text-slate-400">{error}</p>
+        <h2 className="text-xl font-bold text-[#F2F0E4] uppercase tracking-widest" style={{ fontFamily: 'var(--font-heading), serif' }}>Error Loading Seating Plan</h2>
+        <p className="text-[#888888] text-xs">{error}</p>
       </div>
     );
   }
 
-  const rawLayout = trip?.seat_layout || {};
   const tType = getNormalizedTransportType(trip);
+  const rawLayout = trip.seat_layout || {};
 
-  // Aggregate all booked seats across API and local storage
   const getBookedSeatsList = (): string[] => {
     const booked = new Set<string>();
     
-    // Check API seat_layout
     Object.entries(rawLayout).forEach(([seatKey, val]) => {
       if (val === false) booked.add(seatKey);
     });
 
-    // Check persistent global booked seats in localStorage
     if (typeof window !== 'undefined') {
       try {
         const key = `all_system_booked_seats_${tripId}_${travelDate}`;
@@ -191,45 +188,49 @@ function BookTripContent() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#F2F0E4] art-deco-crosshatch py-8 px-4 sm:px-6 lg:px-8 space-y-8 relative">
       {/* Back button */}
-      <button 
-        onClick={() => router.back()}
-        className="text-xs font-bold text-slate-400 hover:text-white flex items-center space-x-1 cursor-pointer"
-      >
-        <span>← Back to Search Results</span>
-      </button>
+      <div>
+        <button 
+          onClick={() => router.back()}
+          className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.2em] text-[#D4AF37] hover:text-[#F2E8C4] transition-colors border border-[#D4AF37]/30 bg-[#141414] px-4 py-2 cursor-pointer"
+          style={{ fontFamily: 'var(--font-heading), serif' }}
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Return to Transit Matrix</span>
+        </button>
+      </div>
 
-      {/* Trip Brief Details */}
-      <div className="glass-panel rounded-3xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#090717]/90 border border-purple-500/20 shadow-xl">
+      {/* Trip Brief Details Panel */}
+      <div className="art-deco-panel art-deco-corner-brackets p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#0A0A0A] border-2 border-[#D4AF37]/50 shadow-2xl">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">{tType}</span>
-            <span className="text-xs bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-bold px-2.5 py-0.5 rounded-full flex items-center space-x-1">
-              <Mail className="h-3 w-3 text-cyan-400" />
+            <span className="text-xs bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] font-bold px-3 py-0.5 uppercase tracking-widest" style={{ fontFamily: 'var(--font-heading), serif' }}>{tType}</span>
+            <span className="text-xs bg-[#141414] border border-[#D4AF37]/30 text-emerald-400 font-bold px-3 py-0.5 flex items-center space-x-1 uppercase tracking-wider">
+              <Mail className="h-3 w-3 text-emerald-400" />
               <span>Gmail Verification Required</span>
             </span>
           </div>
-          <h2 className="text-xl font-extrabold text-white mt-2 flex items-center space-x-2" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <h2 className="text-2xl font-black text-[#F2F0E4] mt-2 flex items-center space-x-3 uppercase tracking-[0.2em]" style={{ fontFamily: 'var(--font-heading), serif' }}>
             <span>{trip.source?.name || 'Dhaka'}</span>
-            <ArrowRight className="h-4 w-4 text-slate-500" />
+            <ArrowRight className="h-5 w-5 text-[#D4AF37]" />
             <span>{trip.destination?.name || 'Chittagong'}</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Operator: <span className="text-slate-200 font-semibold">{trip.operator_name} ({trip.transport_identifier})</span> • Date: <span className="text-slate-200 font-semibold">{travelDate}</span>
+          <p className="text-xs text-[#888888] mt-1 tracking-wide uppercase font-mono">
+            Operator: <span className="text-[#F2F0E4] font-semibold">{trip.operator_name} ({trip.transport_identifier})</span> • Date: <span className="text-[#D4AF37] font-semibold">{travelDate}</span>
           </p>
         </div>
 
         <div className="text-right">
-          <span className="block text-xs text-slate-400 uppercase tracking-widest font-mono">Economy Base Fare</span>
-          <span className="text-2xl font-extrabold text-emerald-400">৳{parseFloat(trip.fare_economy || 850).toLocaleString()}</span>
+          <span className="block text-[10px] text-[#888888] uppercase tracking-widest font-mono">Economy Base Fare</span>
+          <span className="text-3xl font-extrabold text-[#D4AF37]" style={{ fontFamily: 'var(--font-heading), serif' }}>৳{parseFloat(trip.fare_economy || 850).toLocaleString()}</span>
         </div>
       </div>
 
       {error && (
-        <div className="rounded-2xl bg-red-500/10 border border-red-500/20 p-4 text-xs font-semibold text-red-400 flex items-center space-x-2">
+        <div className="border-2 border-red-500/40 bg-[#141414] p-4 text-xs font-bold text-red-400 flex items-center space-x-2 shadow-lg">
           <AlertCircle className="h-4 w-4 shrink-0 text-red-400" />
-          <span>{error}</span>
+          <span className="uppercase tracking-wider">{error}</span>
         </div>
       )}
 
@@ -238,7 +239,7 @@ function BookTripContent() {
         initialType={tType}
         allowModeSwitching={true}
         bookedSeats={bookedSeatsList}
- baseFareEconomy={parseFloat(trip.fare_economy || 850)}
+        baseFareEconomy={parseFloat(trip.fare_economy || 850)}
         baseFareBusiness={parseFloat(trip.fare_business || 1450)}
         onBookingConfirm={handleBookingConfirm}
       />
@@ -249,9 +250,9 @@ function BookTripContent() {
 export default function BookTrip() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
-        <div className="h-10 w-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-        <span className="text-slate-400 font-medium">Loading trip details...</span>
+      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4 bg-[#0A0A0A] text-[#F2F0E4]">
+        <RefreshCw className="h-10 w-10 text-[#D4AF37] animate-spin" />
+        <span className="text-[#888888] font-bold text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-heading), serif' }}>Loading Trip Details...</span>
       </div>
     }>
       <BookTripContent />

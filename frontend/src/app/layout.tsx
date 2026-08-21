@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Marcellus, Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -7,25 +7,25 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PlexusBackground } from "@/components/PlexusBackground";
 import { ChatbotWidget } from "@/components/ChatbotWidget";
+import { InitialPreloader } from "@/components/InitialPreloader";
 
-const spaceGrotesk = Space_Grotesk({
+const marcellus = Marcellus({
+  weight: "400",
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
 });
 
-const inter = Inter({
+const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "BD GoTicket — Bus, Train & Flight Tickets Bangladesh",
-  description: "Compare and book transport tickets across Bangladesh with verified identity. Bus, train, and flight — all in one platform.",
+  title: "BD GoTicket — Art Deco Transit Matrix Bangladesh",
+  description: "Experience the Gatsby aesthetic transport ticket reservation system for Bangladesh. Bus, Train, and Flight tickets with Gmail OTP verification.",
 };
-
-import { InitialPreloader } from "@/components/InitialPreloader";
 
 export default function RootLayout({
   children,
@@ -33,14 +33,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans min-h-full flex flex-col bg-[var(--bg-deep)] text-[var(--text-primary)] relative overflow-x-hidden`}>
+    <html lang="en" className="h-full antialiased dark">
+      <body className={`${marcellus.variable} ${josefinSans.variable} font-sans min-h-full flex flex-col bg-[#0A0A0A] text-[#F2F0E4] relative overflow-x-hidden`}>
         <ThemeProvider>
           <AuthProvider>
             <InitialPreloader />
             <PlexusBackground />
             <Header />
-            <main className="flex-grow flex flex-col">
+            <main className="flex-grow flex flex-col relative z-10">
               {children}
             </main>
             <ChatbotWidget />

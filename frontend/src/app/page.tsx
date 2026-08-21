@@ -435,46 +435,45 @@ export default function Home() {
       </ScrollReveal>
 
       {/* Professional Search Widget Section */}
-      <section id="search-form-container" className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8 relative scroll-mt-24">
+      <section id="search-form-container" className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8 relative scroll-mt-24 z-20">
         
         {validationError && (
-          <div className="max-w-4xl mx-auto mb-4 rounded-xl bg-red-500/15 border border-red-500/30 p-3.5 text-xs text-red-400 flex items-center space-x-2 shadow-lg animate-pulse">
+          <div className="max-w-4xl mx-auto mb-4 border-2 border-red-500/40 bg-[#141414] p-3 text-xs text-red-400 flex items-center space-x-2 shadow-lg">
             <AlertCircle className="h-4.5 w-4.5 shrink-0" />
-            <span className="font-bold">{validationError}</span>
+            <span className="font-bold uppercase tracking-wider">{validationError}</span>
           </div>
         )}
 
-        <GlowCard glowColor="emerald" intensity="low">
-          <div className="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-[var(--border)] bg-[var(--bg-raised)]/40 backdrop-blur-md">
+        <div className="art-deco-panel art-deco-corner-brackets p-6 sm:p-8 shadow-2xl relative border-2 border-[#D4AF37]/50 bg-[#0A0A0A]">
+          <form onSubmit={handleSearch} className="space-y-6">
+          
+          {/* Control Bar: Mode and type select */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#D4AF37]/30 pb-4">
             
-            <form onSubmit={handleSearch} className="space-y-6">
-            
-            {/* Control Bar: Mode and type select */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
-              
-              {/* Transport Tabs */}
-              <div className="flex bg-[var(--bg-deep)] p-1 rounded-xl border border-[var(--border)] max-w-fit">
-                {[
-                  { id: 'ALL', label: 'All Nodes', icon: Sparkles },
-                  { id: 'BUS', label: 'Ground', icon: Bus },
-                  { id: 'TRAIN', label: 'Rail', icon: Train },
-                  { id: 'PLANE', label: 'Aero', icon: Plane }
-                ].map(tab => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => { setTransportType(tab.id); setValidationError(''); }}
-                    className={`flex items-center space-x-1.5 px-3 py-2 text-xs font-bold rounded-lg transition-all duration-200 cursor-pointer ${
-                      transportType === tab.id
-                        ? 'bg-[var(--bg-raised)] text-[var(--accent)] shadow-md'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-bright)] hover:bg-[var(--bg-deep)]/50'
-                    }`}
-                  >
-                    <tab.icon className="h-3.5 w-3.5" />
-                    <span>{tab.label}</span>
-                  </button>
-                ))}
-              </div>
+            {/* Transport Tabs */}
+            <div className="flex bg-[#141414] p-1 border border-[#D4AF37]/30 max-w-fit">
+              {[
+                { id: 'ALL', label: 'I. All Nodes', icon: Sparkles },
+                { id: 'BUS', label: 'II. Bus', icon: Bus },
+                { id: 'TRAIN', label: 'III. Train', icon: Train },
+                { id: 'PLANE', label: 'IV. Plane', icon: Plane }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => { setTransportType(tab.id); setValidationError(''); }}
+                  className={`flex items-center space-x-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                    transportType === tab.id
+                      ? 'bg-[#D4AF37] text-[#0A0A0A] shadow-md font-black'
+                      : 'text-[#888888] hover:text-[#F2F0E4] hover:bg-[#D4AF37]/10'
+                  }`}
+                  style={{ fontFamily: 'var(--font-heading), serif' }}
+                >
+                  <tab.icon className="h-3.5 w-3.5" />
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
 
               {/* Trip type choice */}
               <div className="flex space-x-4 text-xs font-semibold text-[var(--text-secondary)]">
