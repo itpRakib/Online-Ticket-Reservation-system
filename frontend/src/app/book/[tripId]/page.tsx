@@ -63,18 +63,24 @@ function BookTripContent() {
     );
   }
 
-  if (error && !trip) {
+  if (!loading && !trip) {
     return (
       <div className="mx-auto max-w-xl px-4 py-20 text-center space-y-4">
         <AlertCircle className="h-12 w-12 text-[#D02020] mx-auto" />
-        <h2 className="text-xl font-black text-[#121212] uppercase tracking-wider">Error Loading Seating Plan</h2>
-        <p className="text-[#666666] text-xs font-bold">{error}</p>
+        <h2 className="text-xl font-black text-[#121212] uppercase tracking-wider">Trip Details Unavailable</h2>
+        <p className="text-[#666666] text-xs font-bold">{error || 'The requested trip could not be loaded.'}</p>
+        <button
+          onClick={() => router.push('/search')}
+          className="bauhaus-button-yellow text-xs py-2 px-4 shadow-[4px_4px_0px_0px_#121212]"
+        >
+          Return to Transit Matrix
+        </button>
       </div>
     );
   }
 
   const tType = getNormalizedTransportType(trip);
-  const rawLayout = trip.seat_layout || {};
+  const rawLayout = (trip && trip.seat_layout) ? trip.seat_layout : {};
 
   const getBookedSeatsList = (): string[] => {
     const booked = new Set<string>();
@@ -211,9 +217,9 @@ function BookTripContent() {
             </span>
           </div>
           <h2 className="text-2xl font-black text-[#121212] mt-2 flex items-center space-x-3 uppercase tracking-tighter">
-            <span>{trip.source?.name || 'Dhaka'}</span>
+            <span>{typeof trip.source === 'object' ? (trip.source?.name || 'Dhaka') : (trip.source || 'Dhaka')}</span>
             <ArrowRight className="h-5 w-5 text-[#D02020]" />
-            <span>{trip.destination?.name || 'Chittagong'}</span>
+            <span>{typeof trip.destination === 'object' ? (trip.destination?.name || 'Chittagong') : (trip.destination || 'Chittagong')}</span>
           </h2>
           <p className="text-xs text-[#666666] mt-1 font-bold tracking-wide uppercase font-mono">
             Operator: <span className="text-[#121212] font-black">{trip.operator_name} ({trip.transport_identifier})</span> • Date: <span className="text-[#1040C0] font-black">{travelDate}</span>

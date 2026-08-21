@@ -1098,27 +1098,32 @@ function generateDynamicTrips(params: { source: string; destination: string; dat
 
 function generateSingleTripDetail(tripId: string | number) {
   const idNum = Number(tripId) || 101;
+  const isPlane = idNum % 3 === 0;
+  const isTrain = !isPlane && idNum % 2 === 0;
+  const tType: TransportType = isPlane ? 'PLANE' : (isTrain ? 'TRAIN' : 'BUS');
+
   return {
     id: idNum,
-    transport_type: idNum % 3 === 0 ? 'PLANE' : (idNum % 2 === 0 ? 'TRAIN' : 'BUS'),
-    operator_name: idNum % 3 === 0 ? 'US-Bangla Airlines (BS-105)' : (idNum % 2 === 0 ? 'Subarna Express Train (701)' : 'Green Line Paribahan (Scania AC)'),
-    company_name: 'Bangladesh Transport Transit',
+    transport_type: tType,
+    operator_name: isPlane ? 'US-Bangla Airlines (BS-105)' : (isTrain ? 'Subarna Express Train (701)' : 'Green Line Paribahan (Scania AC)'),
+    company_name: isPlane ? 'US-Bangla Airlines' : (isTrain ? 'Bangladesh Railway' : 'Green Line Paribahan'),
     transport_identifier: `TRIP-${idNum}`,
-    source: 'DHK',
+    source: { id: 'DHK', name: 'Dhaka', code: 'DHK' },
     source_name: 'Dhaka Terminal Junction',
-    destination: 'CTG',
+    destination: { id: 'CTG', name: 'Chittagong', code: 'CTG' },
     destination_name: 'Chittagong Central Hub',
     departure_time: '08:30 AM',
     arrival_time: '02:30 PM',
     duration_hours: 6.0,
     fare_economy: '1200',
+    fare_business: '2200',
     fare: 1200,
     price: 1200,
     available_seats: 28,
     total_seats: 40,
     class_type: 'VIP AC Premier',
     rating: 4.9,
-    amenities: ['Wi-Fi 5G', 'AC Comfort', 'Reclining Seats', 'NID Seat Security', 'Water Bottle'],
+    amenities: ['Wi-Fi 5G', 'AC Comfort', 'Reclining Seats', 'Gmail Verified Security', 'Water Bottle'],
   };
 }
 
