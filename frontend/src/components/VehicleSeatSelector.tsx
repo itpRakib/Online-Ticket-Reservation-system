@@ -759,33 +759,33 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
           {/* No Seats Selected Placeholder */}
           {selectedSeats.length === 0 ? (
-            <div className="bg-white border-4 border-[#121212] shadow-[8px_8px_0px_0px_#121212] p-8 text-center space-y-4 border-dashed flex flex-col items-center justify-center min-h-[340px]">
-              <div className="p-4 border-3 border-[#121212] bg-[#F0C020] text-[#121212] shadow-[4px_4px_0px_0px_#121212]">
+            <div className="bg-[#E0E5EC] rounded-[32px] shadow-[inset_6px_6px_10px_rgba(163,177,198,0.6),inset_-6px_-6px_10px_rgba(255,255,255,0.5)] p-8 text-center space-y-4 border-none flex flex-col items-center justify-center min-h-[340px]">
+              <div className="p-4 rounded-2xl bg-[#E0E5EC] text-[#6C63FF] shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]">
                 <Armchair className="h-10 w-10" />
               </div>
-              <h4 className="text-[#121212] font-black text-base tracking-wider uppercase">No Seats Selected</h4>
-              <p className="text-[#666666] text-xs font-bold max-w-xs leading-relaxed">
-                Click on any available seat on the geometric vehicle chart to reserve it. Confirmations use <span className="text-[#D02020] font-black">Gmail OTP Verification</span>.
+              <h4 className="text-[#3D4852] font-bold text-base tracking-tight font-display">No Seats Selected</h4>
+              <p className="text-[#6B7280] text-xs font-medium max-w-xs leading-relaxed">
+                Click on any available seat on the vehicle chart to reserve it. Confirmations use <span className="text-[#6C63FF] font-bold">Gmail OTP Verification</span>.
               </p>
             </div>
           ) : (
             <div className="space-y-6">
 
               {/* Passenger Info Form */}
-              <div className="bg-white border-4 border-[#121212] shadow-[8px_8px_0px_0px_#121212] p-6 space-y-5">
-                <div className="flex items-center justify-between border-b-4 border-[#121212] pb-3">
+              <div className="bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-6 space-y-5">
+                <div className="flex items-center justify-between border-b border-[#C4CBD6]/50 pb-3">
                   <div className="flex items-center space-x-2">
-                    <UserCheck className="h-5 w-5 text-[#1040C0]" />
-                    <h3 className="font-black text-[#121212] text-xs uppercase tracking-wider">
+                    <UserCheck className="h-5 w-5 text-[#6C63FF]" />
+                    <h3 className="font-bold text-[#3D4852] text-xs uppercase tracking-wider font-display">
                       Passenger Information
                     </h3>
                   </div>
                   <button
                     type="button"
                     onClick={handleQuickFill}
-                    className="text-[10px] bg-[#F0C020] hover:bg-[#D8A818] border-2 border-[#121212] text-[#121212] px-2.5 py-1 font-black uppercase tracking-wider flex items-center space-x-1 cursor-pointer transition-all shadow-[2px_2px_0px_0px_#121212]"
+                    className="text-[10px] bg-[#6C63FF] text-white px-3 py-1.5 rounded-xl font-bold uppercase tracking-wider flex items-center space-x-1 cursor-pointer transition-all shadow-[4px_4px_10px_rgba(108,99,255,0.3)] hover:bg-[#8B84FF]"
                   >
-                    <Sparkles className="h-3 w-3 text-[#121212]" />
+                    <Sparkles className="h-3 w-3" />
                     <span>Quick Fill</span>
                   </button>
                 </div>
@@ -793,26 +793,26 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 {/* Passenger Inputs */}
                 <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
                   {passengers.map((p, idx) => (
-                    <div key={p.seat_number} className="border-3 border-[#121212] bg-[#F0F0F0] p-4 space-y-3 shadow-[3px_3px_0px_0px_#121212]">
-                      <div className="flex justify-between items-center border-b-2 border-[#121212] pb-2">
-                        <span className="text-xs font-black text-[#121212] uppercase tracking-wider">Passenger {idx + 1}</span>
+                    <div key={p.seat_number} className="rounded-2xl bg-[#E0E5EC] p-4 space-y-3 shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,0.5)]">
+                      <div className="flex justify-between items-center border-b border-[#C4CBD6]/50 pb-2">
+                        <span className="text-xs font-bold text-[#3D4852]">Passenger {idx + 1}</span>
                         <div className="flex items-center space-x-2">
                           {p.isVerified ? (
-                            <span className="text-[10px] bg-[#D02020] text-white border-2 border-[#121212] px-2.5 py-0.5 font-black flex items-center space-x-1">
+                            <span className="text-[10px] bg-[#38B2AC] text-white px-2.5 py-0.5 rounded-lg font-bold flex items-center space-x-1">
                               <CheckCircle2 className="h-3 w-3" />
-                              <span>Gmail Verified</span>
+                              <span>Verified</span>
                             </span>
                           ) : (
                             <button
                               type="button"
                               onClick={() => handleOpenGmailVerification(p.seat_number)}
-                              className="text-[10px] bg-[#1040C0] text-white border-2 border-[#121212] px-2.5 py-0.5 font-black flex items-center space-x-1 cursor-pointer transition-all uppercase tracking-wider shadow-[2px_2px_0px_0px_#121212]"
+                              className="text-[10px] bg-[#6C63FF] text-white px-2.5 py-1 rounded-lg font-bold flex items-center space-x-1 cursor-pointer transition-all uppercase tracking-wider shadow-sm hover:bg-[#8B84FF]"
                             >
                               <Mail className="h-3 w-3" />
                               <span>Verify Gmail</span>
                             </button>
                           )}
-                          <span className="text-[11px] bg-[#F0C020] border-2 border-[#121212] text-[#121212] px-2.5 py-0.5 font-mono font-black">
+                          <span className="text-[11px] bg-[#E0E5EC] shadow-[3px_3px_6px_rgba(163,177,198,0.6),-3px_-3px_6px_rgba(255,255,255,0.5)] text-[#6C63FF] px-2.5 py-0.5 rounded-lg font-mono font-bold">
                             Seat: {p.seat_number}
                           </span>
                         </div>
@@ -821,27 +821,27 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {/* Name */}
                         <div className="sm:col-span-2 space-y-1">
-                          <label className="text-[10px] font-black text-[#121212] uppercase tracking-wider">Full Name</label>
+                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">Full Name</label>
                           <input
                             type="text"
                             required
                             value={p.name}
                             onChange={(e) => handlePassengerChange(p.seat_number, 'name', e.target.value)}
-                            className="bauhaus-input w-full text-xs"
+                            className="neu-input w-full text-xs p-3"
                             placeholder="E.g., Tanvir Hossain"
                           />
                         </div>
 
                         {/* Age */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-black text-[#121212] uppercase tracking-wider">Age</label>
+                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">Age</label>
                           <input
                             type="number"
                             required
                             min={1}
                             value={p.age}
                             onChange={(e) => handlePassengerChange(p.seat_number, 'age', e.target.value)}
-                            className="bauhaus-input w-full text-xs"
+                            className="neu-input w-full text-xs p-3"
                             placeholder="26"
                           />
                         </div>
@@ -850,11 +850,11 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {/* Gender */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-black text-[#121212] uppercase tracking-wider">Gender</label>
+                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">Gender</label>
                           <select
                             value={p.gender}
                             onChange={(e) => handlePassengerChange(p.seat_number, 'gender', e.target.value)}
-                            className="bauhaus-input w-full text-xs bg-white text-[#121212] cursor-pointer"
+                            className="neu-input w-full text-xs p-3 cursor-pointer"
                           >
                             <option value="MALE">Male</option>
                             <option value="FEMALE">Female</option>
@@ -864,23 +864,23 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
                         {/* Gmail Verification Address */}
                         <div className="space-y-1">
-                          <label className="text-[10px] font-black text-[#121212] uppercase tracking-wider flex justify-between">
+                          <label className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider flex justify-between">
                             <span>Gmail Address</span>
-                            {p.isVerified && <span className="text-[#D02020] text-[9px] font-black">Verified</span>}
+                            {p.isVerified && <span className="text-[#38B2AC] text-[9px] font-bold">Verified</span>}
                           </label>
                           <div className="relative">
                             <input
                               type="email"
                               value={p.gmail}
                               onChange={(e) => handlePassengerChange(p.seat_number, 'gmail', e.target.value)}
-                              className="bauhaus-input w-full text-xs"
+                              className="neu-input w-full text-xs p-3 pr-20"
                               placeholder="user@gmail.com"
                             />
                             {!p.isVerified && (
                               <button
                                 type="button"
                                 onClick={() => handleOpenGmailVerification(p.seat_number)}
-                                className="absolute right-1.5 top-1.5 text-[9px] font-black text-white bg-[#1040C0] hover:bg-[#0D3399] border-2 border-[#121212] px-2 py-0.5 cursor-pointer uppercase tracking-wider shadow-[2px_2px_0px_0px_#121212]"
+                                className="absolute right-1.5 top-1.5 text-[9px] font-bold text-white bg-[#6C63FF] hover:bg-[#8B84FF] px-2.5 py-1 rounded-xl cursor-pointer uppercase tracking-wider transition-all shadow-sm"
                               >
                                 OTP Verify
                               </button>
@@ -894,28 +894,28 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
               </div>
 
               {/* Price Calculation Card */}
-              <div className="bg-white border-4 border-[#121212] shadow-[8px_8px_0px_0px_#121212] p-6 space-y-4">
-                <h3 className="font-black text-[#121212] text-xs uppercase tracking-wider border-b-4 border-[#121212] pb-3 flex items-center space-x-2">
-                  <ShoppingBag className="h-4 w-4 text-[#D02020]" />
+              <div className="bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-6 space-y-4">
+                <h3 className="font-bold text-[#3D4852] text-xs uppercase tracking-wider border-b border-[#C4CBD6]/50 pb-3 flex items-center space-x-2 font-display">
+                  <ShoppingBag className="h-4 w-4 text-[#6C63FF]" />
                   <span>Ticket Price Summary</span>
                 </h3>
 
                 <div className="space-y-2 text-xs font-bold">
                   <div className="flex justify-between">
-                    <span className="text-[#666666]">Selected Seats ({selectedSeats.length}):</span>
-                    <span className="text-[#1040C0] font-mono font-black">{selectedSeats.join(', ')}</span>
+                    <span className="text-[#6B7280]">Selected Seats ({selectedSeats.length}):</span>
+                    <span className="text-[#6C63FF] font-mono font-bold">{selectedSeats.join(', ')}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#666666]">Rate per Ticket ({classType}):</span>
-                    <span className="text-[#121212] font-black">৳{currentSeatFare.toLocaleString()}</span>
+                    <span className="text-[#6B7280]">Rate per Ticket ({classType}):</span>
+                    <span className="text-[#3D4852] font-bold">৳{currentSeatFare.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-[11px] text-[#D02020]">
+                  <div className="flex justify-between text-[11px] text-[#38B2AC]">
                     <span>Identity Verification:</span>
-                    <span className="font-black">📧 Gmail Verified</span>
+                    <span className="font-bold">📧 Gmail OTP Secured</span>
                   </div>
-                  <div className="border-t-4 border-[#121212] pt-3 mt-3 flex justify-between items-center">
-                    <span className="font-black text-[#121212] text-sm uppercase tracking-wider">Total Payable:</span>
-                    <span className="font-black text-[#D02020] text-2xl">৳{totalFare.toLocaleString()}</span>
+                  <div className="border-t border-[#C4CBD6]/50 pt-3 mt-3 flex justify-between items-center">
+                    <span className="font-bold text-[#3D4852] text-sm uppercase tracking-wider">Total Payable:</span>
+                    <span className="font-extrabold text-[#6C63FF] text-2xl font-display">৳{totalFare.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -940,7 +940,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                       alert(`🎉 Reservation Confirmed via Gmail Verification! Mode: ${activeType}, Seats: ${selectedSeats.join(', ')}, Total: ৳${totalFare.toLocaleString()}`);
                     }
                   }}
-                  className="bauhaus-button-red w-full py-4 text-xs tracking-wider flex items-center justify-center space-x-2 shadow-[4px_4px_0px_0px_#121212]"
+                  className="neu-btn-primary w-full py-4 text-xs tracking-wider flex items-center justify-center space-x-2 font-bold cursor-pointer"
                 >
                   <span>CONFIRM VIA GMAIL VERIFICATION</span>
                   <ArrowRight className="h-4 w-4" />
@@ -957,50 +957,50 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
       {/* ─── 3. GMAIL OTP VERIFICATION MODAL ─── */}
       <AnimatePresence>
         {verifyingSeat && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-none">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#3D4852]/40 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white border-4 border-[#121212] shadow-[12px_12px_0px_0px_#121212] w-full max-w-md p-6 space-y-5 relative"
+              className="bg-[#E0E5EC] rounded-[32px] shadow-[12px_12px_24px_rgba(163,177,198,0.8),-12px_-12px_24px_rgba(255,255,255,0.7)] w-full max-w-md p-6 space-y-5 relative border-none"
             >
-              <div className="flex items-center justify-between border-b-4 border-[#121212] pb-3">
+              <div className="flex items-center justify-between border-b border-[#C4CBD6]/50 pb-3">
                 <div className="flex items-center space-x-2">
-                  <Mail className="h-5 w-5 text-[#D02020]" />
-                  <h3 className="font-black text-[#121212] text-base uppercase tracking-wider">Gmail OTP Verification</h3>
+                  <Mail className="h-5 w-5 text-[#6C63FF]" />
+                  <h3 className="font-extrabold text-[#3D4852] text-base font-display">Gmail OTP Verification</h3>
                 </div>
                 <button
                   onClick={() => setVerifyingSeat(null)}
-                  className="text-[#121212] hover:text-[#D02020] text-lg font-black cursor-pointer"
+                  className="text-[#6B7280] hover:text-[#3D4852] text-lg font-bold cursor-pointer"
                 >
                   ×
                 </button>
               </div>
 
-              <p className="text-xs text-[#666666] font-bold leading-relaxed">
-                Confirm your seat reservation for <span className="text-[#1040C0] font-black font-mono">Seat {verifyingSeat}</span> by verifying your Gmail address. No NID required.
+              <p className="text-xs text-[#6B7280] font-medium leading-relaxed">
+                Confirm your seat reservation for <span className="text-[#6C63FF] font-bold font-mono">Seat {verifyingSeat}</span> by verifying your Gmail address. No NID required.
               </p>
 
               {!otpSent ? (
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-black text-[#121212] uppercase tracking-wider">Enter Gmail Address</label>
+                    <label className="text-xs font-bold text-[#3D4852]">Enter Gmail Address</label>
                     <input
                       type="email"
                       value={verifyingGmail}
                       onChange={(e) => setVerifyingGmail(e.target.value)}
-                      className="bauhaus-input w-full text-xs font-mono"
+                      className="neu-input w-full text-xs font-mono p-3.5"
                       placeholder="e.g. user@gmail.com"
                     />
                   </div>
 
-                  {otpError && <p className="text-xs text-[#D02020] font-black">{otpError}</p>}
+                  {otpError && <p className="text-xs text-red-500 font-bold">{otpError}</p>}
 
                   <button
                     type="button"
                     disabled={sendingOtp}
                     onClick={handleSendGmailOTP}
-                    className="bauhaus-button-blue w-full py-3 text-xs tracking-wider flex items-center justify-center space-x-2 disabled:opacity-50"
+                    className="neu-btn-primary w-full py-3.5 text-xs tracking-wider flex items-center justify-center space-x-2 disabled:opacity-50"
                   >
                     {sendingOtp ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
                     <span>SEND VERIFICATION CODE</span>
@@ -1008,43 +1008,43 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                 </div>
               ) : (
                 <form onSubmit={handleVerifyOTPCode} className="space-y-4">
-                  <div className="bg-[#FFFDF0] border-3 border-[#121212] p-3 text-xs text-[#121212] space-y-1 shadow-[3px_3px_0px_0px_#121212]">
-                    <div className="flex items-center space-x-1.5 font-black">
-                      <Check className="h-4 w-4 text-[#D02020]" />
+                  <div className="bg-[#E0E5EC] rounded-2xl p-3.5 text-xs text-[#3D4852] space-y-1 shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)]">
+                    <div className="flex items-center space-x-1.5 font-bold">
+                      <Check className="h-4 w-4 text-[#38B2AC]" />
                       <span>OTP Code Sent to {verifyingGmail}</span>
                     </div>
                     {simulatedOtp && (
-                      <div className="font-mono text-[11px] text-[#1040C0] font-black">
-                        🔑 Verification Code: <span className="font-black text-white bg-[#121212] px-2 py-0.5">{simulatedOtp}</span>
+                      <div className="font-mono text-[11px] text-[#6C63FF] font-bold">
+                        🔑 Test Verification Code: <span className="font-extrabold text-white bg-[#6C63FF] px-2 py-0.5 rounded-md">{simulatedOtp}</span>
                       </div>
                     )}
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-black text-[#121212] uppercase tracking-wider">Enter 6-Digit OTP</label>
+                    <label className="text-xs font-bold text-[#3D4852]">Enter 6-Digit OTP</label>
                     <input
                       type="text"
                       maxLength={6}
                       value={inputOtp}
                       onChange={(e) => setInputOtp(e.target.value)}
-                      className="bauhaus-input w-full text-center text-xl font-mono font-black tracking-widest text-[#D02020]"
+                      className="neu-input w-full text-center text-xl font-mono font-bold tracking-widest text-[#6C63FF] p-3.5"
                       placeholder="123456"
                     />
                   </div>
 
-                  {otpError && <p className="text-xs text-[#D02020] font-black">{otpError}</p>}
+                  {otpError && <p className="text-xs text-red-500 font-bold">{otpError}</p>}
 
                   <div className="flex items-center space-x-3 pt-2">
                     <button
                       type="button"
                       onClick={() => setOtpSent(false)}
-                      className="w-1/3 py-2.5 bg-white text-[#121212] text-xs font-black border-3 border-[#121212] shadow-[3px_3px_0px_0px_#121212] uppercase tracking-wider"
+                      className="w-1/3 py-3 rounded-2xl bg-[#E0E5EC] text-[#3D4852] text-xs font-bold shadow-[5px_5px_10px_rgba(163,177,198,0.6),-5px_-5px_10px_rgba(255,255,255,0.5)]"
                     >
                       Resend
                     </button>
                     <button
                       type="submit"
-                      className="w-2/3 bauhaus-button-yellow py-2.5 text-xs tracking-wider flex items-center justify-center space-x-1 cursor-pointer"
+                      className="w-2/3 neu-btn-primary py-3 text-xs tracking-wider flex items-center justify-center space-x-1 cursor-pointer"
                     >
                       <CheckCircle2 className="h-4 w-4" />
                       <span>VERIFY & CONFIRM</span>
@@ -1060,3 +1060,4 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
     </div>
   );
 };
+

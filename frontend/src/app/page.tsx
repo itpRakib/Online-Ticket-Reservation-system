@@ -434,40 +434,39 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* Professional Search Widget Section */}
+      {/* Professional Soft UI Search Widget Section */}
       <section id="search-form-container" className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8 relative scroll-mt-24 z-20">
         
         {validationError && (
-          <div className="max-w-4xl mx-auto mb-4 border-2 border-red-500/40 bg-[#141414] p-3 text-xs text-red-400 flex items-center space-x-2 shadow-lg">
+          <div className="max-w-4xl mx-auto mb-4 rounded-2xl bg-[#E0E5EC] shadow-[inset_4px_4px_8px_rgba(163,177,198,0.6),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] p-3.5 text-xs text-red-500 flex items-center space-x-2 font-bold">
             <AlertCircle className="h-4.5 w-4.5 shrink-0" />
-            <span className="font-bold uppercase tracking-wider">{validationError}</span>
+            <span className="uppercase tracking-wider">{validationError}</span>
           </div>
         )}
 
-        <div className="art-deco-panel art-deco-corner-brackets p-6 sm:p-8 shadow-2xl relative border-2 border-[#D4AF37]/50 bg-[#0A0A0A]">
+        <div className="bg-[#E0E5EC] rounded-[32px] shadow-[9px_9px_16px_rgba(163,177,198,0.6),-9px_-9px_16px_rgba(255,255,255,0.5)] p-6 sm:p-8 relative border-none">
           <form onSubmit={handleSearch} className="space-y-6">
           
           {/* Control Bar: Mode and type select */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#D4AF37]/30 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#C4CBD6]/50 pb-4">
             
             {/* Transport Tabs */}
-            <div className="flex bg-[#141414] p-1 border border-[#D4AF37]/30 max-w-fit">
+            <div className="flex bg-[#E0E5EC] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_rgba(163,177,198,0.6),inset_-3px_-3px_6px_rgba(255,255,255,0.5)] max-w-fit">
               {[
-                { id: 'ALL', label: 'I. All Nodes', icon: Sparkles },
-                { id: 'BUS', label: 'II. Bus', icon: Bus },
-                { id: 'TRAIN', label: 'III. Train', icon: Train },
-                { id: 'PLANE', label: 'IV. Plane', icon: Plane }
+                { id: 'ALL', label: 'All Modes', icon: Sparkles },
+                { id: 'BUS', label: 'Bus', icon: Bus },
+                { id: 'TRAIN', label: 'Train', icon: Train },
+                { id: 'PLANE', label: 'Plane', icon: Plane }
               ].map(tab => (
                 <button
                   key={tab.id}
                   type="button"
                   onClick={() => { setTransportType(tab.id); setValidationError(''); }}
-                  className={`flex items-center space-x-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center space-x-1.5 px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 cursor-pointer ${
                     transportType === tab.id
-                      ? 'bg-[#D4AF37] text-[#0A0A0A] shadow-md font-black'
-                      : 'text-[#888888] hover:text-[#F2F0E4] hover:bg-[#D4AF37]/10'
+                      ? 'bg-[#6C63FF] text-white shadow-sm font-extrabold'
+                      : 'text-[#6B7280] hover:text-[#3D4852]'
                   }`}
-                  style={{ fontFamily: 'var(--font-heading), serif' }}
                 >
                   <tab.icon className="h-3.5 w-3.5" />
                   <span>{tab.label}</span>
@@ -476,17 +475,17 @@ export default function Home() {
             </div>
 
               {/* Trip type choice */}
-              <div className="flex space-x-4 text-xs font-semibold text-[var(--text-secondary)]">
-                <label className="flex items-center space-x-1.5 cursor-pointer hover:opacity-80 transition-opacity">
+              <div className="flex space-x-4 text-xs font-bold text-[#6B7280]">
+                <label className="flex items-center space-x-1.5 cursor-pointer hover:opacity-90 transition-opacity">
                   <input 
                     type="radio" 
                     checked={tripType === 'oneway'} 
                     onChange={() => setTripType('oneway')}
-                    className="accent-[var(--accent)] h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[#6C63FF] h-3.5 w-3.5 cursor-pointer" 
                   />
-                  <span className={tripType === 'oneway' ? 'text-[var(--accent)] font-bold' : ''}>One Way</span>
+                  <span className={tripType === 'oneway' ? 'text-[#6C63FF] font-extrabold' : ''}>One Way</span>
                 </label>
-                <label className="flex items-center space-x-1.5 cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+                <label className="flex items-center space-x-1.5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
                   <input 
                     type="radio" 
                     checked={tripType === 'round'} 
@@ -494,9 +493,9 @@ export default function Home() {
                       setTripType('round');
                       alert('Round-trip return dates are mocked. You will search and book your outward journey first.');
                     }}
-                    className="accent-[var(--accent)] h-3.5 w-3.5 cursor-pointer" 
+                    className="accent-[#6C63FF] h-3.5 w-3.5 cursor-pointer" 
                   />
-                  <span className={tripType === 'round' ? 'text-[var(--accent)] font-bold' : ''}>Round Trip</span>
+                  <span className={tripType === 'round' ? 'text-[#6C63FF] font-extrabold' : ''}>Round Trip</span>
                 </label>
               </div>
 
@@ -507,28 +506,24 @@ export default function Home() {
               
               {/* FROM Dropdown */}
               <div ref={sourceRef} className="md:col-span-3 space-y-1.5 relative">
-                <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide block">Origin Node</label>
+                <label className="text-xs font-bold text-[#6B7280] uppercase tracking-wide block">Origin Station</label>
                 <button
                   type="button"
                   onClick={() => { setSourceOpen(!sourceOpen); setDestOpen(false); }}
-                  className={`w-full rounded-xl border p-4 text-left focus:border-[var(--accent)] transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                    source 
-                      ? 'border-[var(--border)] bg-[var(--bg-raised)]/60 text-[var(--text-primary)]' 
-                      : 'border-[var(--border)] bg-[var(--bg-deep)]/20 text-[var(--text-muted)] hover:border-[var(--border-hover)]'
-                  }`}
+                  className="w-full rounded-2xl bg-[#E0E5EC] shadow-[inset_6px_6px_10px_rgba(163,177,198,0.6),inset_-6px_-6px_10px_rgba(255,255,255,0.5)] p-4 text-left focus:outline-none transition-all duration-300 flex items-center justify-between cursor-pointer border-none"
                 >
                   <div className="flex items-center space-x-3">
-                    <MapPin className={`h-5 w-5 ${source ? 'text-[var(--accent)]' : 'text-slate-655'}`} />
+                    <MapPin className={`h-5 w-5 ${source ? 'text-[#6C63FF]' : 'text-[#6B7280]'}`} />
                     <div>
-                      <span className={`block font-bold text-sm ${source ? 'text-[var(--text-bright)]' : 'text-[var(--text-muted)]'}`}>
+                      <span className={`block font-bold text-sm ${source ? 'text-[#3D4852]' : 'text-[#6B7280]'}`}>
                         {source ? getStationLabel(source) : 'Select Departure Location'}
                       </span>
-                      <span className="block text-xs text-slate-500 leading-none mt-0.5">
+                      <span className="block text-xs text-[#6B7280] leading-none mt-0.5">
                         {source ? getStationDetail(source) : 'Choose where you travel from'}
                       </span>
                     </div>
                   </div>
-                  <ChevronDown className="h-4 w-4 text-slate-500" />
+                  <ChevronDown className="h-4 w-4 text-[#6B7280]" />
                 </button>
 
                 {sourceOpen && (
@@ -776,15 +771,13 @@ export default function Home() {
             </div>
 
             {/* Search Button */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               type="submit"
-              className="w-full rounded-xl p-4 font-black text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:opacity-95 flex items-center justify-center space-x-2 cursor-pointer shadow-[0_0_25px_rgba(168,85,247,0.4)] transition-all duration-300 border border-purple-400/30"
+              className="neu-btn-primary w-full py-4 text-xs font-bold tracking-wider flex items-center justify-center space-x-2 cursor-pointer shadow-[6px_6px_14px_rgba(108,99,255,0.4),-6px_-6px_14px_rgba(255,255,255,0.4)]"
             >
               <Search className="h-5 w-5" />
               <span>SEARCH TRANSIT ROUTES</span>
-            </motion.button>
+            </button>
           </form>
         </div>
       </section>
