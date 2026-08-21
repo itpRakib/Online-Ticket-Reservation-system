@@ -1,337 +1,256 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── VAPORWAVE / OUTRUN DESIGN SYSTEM TOKENS ─── */
-  --vapor-bg: #090014;           /* Cyber void background */
-  --vapor-fg: #E0E0E0;           /* Chrome text */
-  --vapor-card: rgba(26, 16, 60, 0.8); /* Semi-transparent glass card */
-  --vapor-card-solid: #1a103c;
+  /* ─── TERMINAL CLI DESIGN SYSTEM TOKENS ─── */
+  --cli-bg: #0a0a0a;             /* Deep Mainframe Black */
+  --cli-fg: #33ff00;             /* Phosphor Neon Green */
+  --cli-secondary: #ffb000;      /* Amber / Warning Accent */
+  --cli-muted: #1f521f;          /* Dimmed Phosphor Green */
+  --cli-border: #1f521f;         /* 1px Solid Dim Green Border */
+  --cli-error: #ff3333;          /* Bright Terminal Red */
   
-  /* Neon Primaries */
-  --vapor-magenta: #FF00FF;      /* Hot Magenta (Primary Accent) */
-  --vapor-cyan: #00FFFF;         /* Electric Cyan (Secondary Accent) */
-  --vapor-orange: #FF9900;       /* Sunset Orange (Tertiary Accent) */
-  --vapor-border: #2D1B4E;       /* Inactive dark purple border */
-  --vapor-border-active: #00FFFF;
+  /* Monospace Supremacy Font */
+  --font-mono: 'JetBrains Mono', monospace;
   
-  /* Fonts */
-  --font-heading: 'Orbitron', var(--font-heading), sans-serif;
-  --font-body: 'Share Tech Mono', var(--font-body), monospace;
-  
-  /* Legacy compatibility */
-  --bg-canvas: #090014;
-  --bg-deep: #090014;
-  --bg-base: #1a103c;
-  --bg-raised: #2D1B4E;
-  --foreground: #E0E0E0;
-  --accent: #FF00FF;
-  --secondary: #00FFFF;
-  --border: #FF00FF;
+  /* Legacy mapping compatibility */
+  --bg-canvas: #0a0a0a;
+  --bg-deep: #0a0a0a;
+  --bg-base: #0a0a0a;
+  --bg-raised: #1f521f;
+  --foreground: #33ff00;
+  --accent: #33ff00;
+  --secondary: #ffb000;
+  --border: #1f521f;
 }
 
 @theme inline {
-  --font-heading: var(--font-heading), 'Orbitron', sans-serif;
-  --font-body: var(--font-body), 'Share Tech Mono', monospace;
-  --color-vapor-bg: #090014;
-  --color-vapor-card: #1a103c;
-  --color-vapor-magenta: #FF00FF;
-  --color-vapor-cyan: #00FFFF;
-  --color-vapor-orange: #FF9900;
-  --color-vapor-border: #2D1B4E;
+  --font-mono: var(--font-mono), 'JetBrains Mono', monospace;
+  --font-heading: var(--font-mono), 'JetBrains Mono', monospace;
+  --font-body: var(--font-mono), 'JetBrains Mono', monospace;
+  --color-cli-bg: #0a0a0a;
+  --color-cli-fg: #33ff00;
+  --color-cli-secondary: #ffb000;
+  --color-cli-muted: #1f521f;
+  --color-cli-border: #1f521f;
 }
 
 /* ─── Base Reset & Typography ─── */
 html {
   scroll-behavior: smooth;
-  background-color: var(--vapor-bg);
-  color: var(--vapor-fg);
+  background-color: var(--cli-bg);
+  color: var(--cli-fg);
 }
 
 body {
-  background-color: var(--vapor-bg);
-  color: var(--vapor-fg);
-  font-family: var(--font-body), 'Share Tech Mono', monospace;
+  background-color: var(--cli-bg);
+  color: var(--cli-fg);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
   overflow-x: hidden;
+  border-radius: 0px !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), 'Orbitron', sans-serif;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-weight: 800;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: #33ff00;
 }
 
-/* ─── GLOBAL CRT SCANLINES & CHROMATIC OVERLAY ─── */
+* {
+  border-radius: 0px !important; /* Strict Zero Radius Policy */
+}
+
+/* ─── CRT SCANLINES OVERLAY ─── */
 .crt-scanlines {
   background: 
-    linear-gradient(rgba(18, 16, 20, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.04));
-  background-size: 100% 4px, 6px 100%;
+    linear-gradient(rgba(10, 10, 10, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
+    linear-gradient(90deg, rgba(51, 255, 0, 0.02), rgba(0, 0, 0, 0), rgba(255, 176, 0, 0.02));
+  background-size: 100% 3px, 6px 100%;
 }
 
-/* ─── VAPORWAVE TEXT & GLOW SYSTEM ─── */
-.drop-shadow-neon-magenta {
-  filter: drop-shadow(0 0 10px #FF00FF) drop-shadow(0 0 25px rgba(255, 0, 255, 0.6));
+/* ─── PHOSPHOR GLOW & TEXT UTILITIES ─── */
+.text-phosphor-green {
+  color: #33ff00;
+  text-shadow: 0 0 6px rgba(51, 255, 0, 0.6), 0 0 12px rgba(51, 255, 0, 0.3);
 }
 
-.drop-shadow-neon-cyan {
-  filter: drop-shadow(0 0 8px #00FFFF) drop-shadow(0 0 20px rgba(0, 255, 255, 0.6));
+.text-phosphor-amber {
+  color: #ffb000;
+  text-shadow: 0 0 6px rgba(255, 176, 0, 0.6), 0 0 12px rgba(255, 176, 0, 0.3);
 }
 
-.drop-shadow-neon-orange {
-  filter: drop-shadow(0 0 10px #FF9900) drop-shadow(0 0 20px rgba(255, 153, 0, 0.5));
+.drop-shadow-cli-green {
+  filter: drop-shadow(0 0 5px rgba(51, 255, 0, 0.5));
 }
 
-/* Sunset Multi-stop Gradient Text Fill */
-.gradient-text-sunset {
-  background: linear-gradient(90deg, #FF9900, #FF00FF, #00FFFF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-text-outrun {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FF00FF 50%, #00FFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ─── VAPORWAVE CARDS & TERMINAL CONTAINERS ─── */
-.vapor-card {
-  background-color: rgba(26, 16, 60, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 0, 255, 0.3);
-  border-top: 2px solid #00FFFF;
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
-  border-radius: 0px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.vapor-card:hover {
-  transform: translateY(-4px);
-  border-color: #00FFFF;
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.4), 0 0 10px #FF00FF;
-}
-
-/* Terminal Window Container */
-.terminal-window {
-  border: 2px solid #00FFFF;
-  background-color: rgba(9, 0, 20, 0.92);
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.25), inset 0 0 15px rgba(255, 0, 255, 0.1);
-  border-radius: 0px;
-}
-
-.terminal-titlebar {
-  background-color: rgba(0, 255, 255, 0.12);
-  border-bottom: 1px solid #00FFFF;
-  padding: 8px 16px;
-}
-
-/* ─── SKEWED NEON BUTTON SYSTEM ─── */
-.vapor-btn-primary {
+/* ─── TERMINAL CLI BUTTON SYSTEM ─── */
+.cli-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-body), monospace;
+  font-family: var(--font-mono), monospace;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 2px solid #00FFFF;
-  background: transparent;
-  color: #00FFFF;
-  border-radius: 0px;
-  transform: skewX(-12deg);
-  transition: all 0.2s ease-linear;
+  letter-spacing: 0.08em;
+  border: 1px solid #33ff00;
+  background-color: #0a0a0a;
+  color: #33ff00;
+  border-radius: 0px !important;
+  transition: all 0.15s ease-in-out;
   cursor: pointer;
-  padding: 0 28px;
-  height: 48px;
-}
-
-.vapor-btn-primary:hover {
-  transform: skewX(0deg) scale(1.03);
-  background-color: #00FFFF;
-  color: #090014;
-  box-shadow: 0 0 25px #00FFFF, 0 0 40px rgba(0, 255, 255, 0.6);
-}
-
-.vapor-btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-body), monospace;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 2px solid #FF00FF;
-  background-color: #FF00FF;
-  color: #FFFFFF;
-  border-radius: 0px;
-  transform: skewX(-12deg);
-  transition: all 0.2s ease-linear;
-  cursor: pointer;
-  padding: 0 28px;
-  height: 48px;
-}
-
-.vapor-btn-secondary:hover {
-  transform: skewX(0deg) scale(1.03);
-  background-color: transparent;
-  color: #FF00FF;
-  box-shadow: 0 0 25px #FF00FF;
-}
-
-.vapor-btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-body), monospace;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 2px solid #FF00FF;
-  background: transparent;
-  color: #FF00FF;
-  border-radius: 0px;
-  transform: skewX(-12deg);
-  transition: all 0.2s ease-linear;
-  cursor: pointer;
-  padding: 0 24px;
+  padding: 0 20px;
   height: 44px;
 }
 
-.vapor-btn-outline:hover {
-  transform: skewX(0deg);
-  background-color: #FF00FF;
-  color: #FFFFFF;
-  box-shadow: 0 0 20px #FF00FF;
+.cli-btn-primary:hover {
+  background-color: #33ff00;
+  color: #0a0a0a;
+  box-shadow: 0 0 15px rgba(51, 255, 0, 0.6);
 }
 
-/* Counter-skew wrapper for button text/icons */
-.unskew {
-  display: inline-block;
-  transform: skewX(12deg);
-}
-
-/* ─── TERMINAL INPUTS ─── */
-.vapor-input {
-  background-color: rgba(9, 0, 20, 0.95) !important;
-  border: none !important;
-  border-bottom: 2px solid #FF00FF !important;
-  border-radius: 0px !important;
-  color: #00FFFF !important;
-  font-family: var(--font-body), monospace !important;
-  font-size: 1rem !important;
-  padding: 12px 16px !important;
-  transition: all 0.2s ease-linear !important;
-}
-
-.vapor-input::placeholder {
-  color: rgba(255, 0, 255, 0.5) !important;
-}
-
-.vapor-input:focus {
-  outline: none !important;
-  border-bottom-color: #00FFFF !important;
-  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4) !important;
-}
-
-/* Legacy dopamine map classes to vaporwave */
-.dopamine-card {
-  background: rgba(26, 16, 60, 0.85);
-  backdrop-filter: blur(8px);
-  border: 2px solid #FF00FF;
-  border-top: 2px solid #00FFFF;
-  border-radius: 0px;
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
-}
-
-.dopamine-btn-primary {
+.cli-btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-body), monospace;
+  font-family: var(--font-mono), monospace;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 2px solid #00FFFF;
-  background: #00FFFF;
-  color: #090014;
-  border-radius: 0px;
-  min-height: 48px;
-  padding: 0 28px;
-  box-shadow: 0 0 20px #00FFFF;
-  transition: all 0.2s ease-linear;
+  letter-spacing: 0.08em;
+  border: 1px solid #ffb000;
+  background-color: #0a0a0a;
+  color: #ffb000;
+  border-radius: 0px !important;
+  transition: all 0.15s ease-in-out;
   cursor: pointer;
-}
-.dopamine-btn-primary:hover {
-  background: #FF00FF;
-  color: #FFFFFF;
-  border-color: #FF00FF;
-  box-shadow: 0 0 30px #FF00FF;
+  padding: 0 20px;
+  height: 44px;
 }
 
-.glass-panel {
-  background: rgba(26, 16, 60, 0.85) !important;
-  border: 1px solid rgba(0, 255, 255, 0.4) !important;
-  border-top: 2px solid #00FFFF !important;
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.2) !important;
+.cli-btn-secondary:hover {
+  background-color: #ffb000;
+  color: #0a0a0a;
+  box-shadow: 0 0 15px rgba(255, 176, 0, 0.6);
+}
+
+.cli-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid #1f521f;
+  background-color: transparent;
+  color: #33ff00;
+  border-radius: 0px !important;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  padding: 0 16px;
+  height: 40px;
+}
+
+.cli-btn-outline:hover {
+  border-color: #33ff00;
+  background-color: rgba(51, 255, 0, 0.1);
+}
+
+/* ─── TERMINAL WINDOW PANES ─── */
+.cli-window {
+  border: 1px solid #1f521f;
+  background-color: #0a0a0a;
+  border-radius: 0px !important;
+  box-shadow: inset 0 0 10px rgba(31, 82, 31, 0.2);
+}
+
+.cli-window:hover {
+  border-color: #33ff00;
+}
+
+.cli-titlebar {
+  background-color: #1f521f;
+  color: #33ff00;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── TERMINAL INPUT FIELDS ─── */
+.cli-input {
+  background-color: #0a0a0a !important;
+  border: 1px solid #1f521f !important;
+  border-radius: 0px !important;
+  color: #33ff00 !important;
+  font-family: var(--font-mono), monospace !important;
+  font-size: 0.875rem !important;
+  padding: 10px 14px !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.cli-input::placeholder {
+  color: #1f521f !important;
+}
+
+.cli-input:focus {
+  outline: none !important;
+  border-color: #33ff00 !important;
+  box-shadow: 0 0 10px rgba(51, 255, 0, 0.3) !important;
+}
+
+/* ─── BLINKING CURSOR ANIMATION ─── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-caret-blink {
+  animation: blink 1s step-start infinite;
+}
+
+/* Legacy mapping compatibility */
+.dopamine-card, .vapor-card, .glass-panel {
+  background-color: #0a0a0a !important;
+  border: 1px solid #1f521f !important;
   border-radius: 0px !important;
 }
 
-/* ─── BACKGROUND PATTERNS & PERSPECTIVE GRID ─── */
-.pattern-dots {
-  background-image: radial-gradient(#FF00FF 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+.dopamine-card:hover, .vapor-card:hover, .glass-panel:hover {
+  border-color: #33ff00 !important;
+  box-shadow: 0 0 15px rgba(51, 255, 0, 0.3) !important;
 }
 
-.pattern-grid {
-  background-image: 
-    linear-gradient(rgba(255, 0, 255, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 0, 255, 0.15) 1px, transparent 1px);
-  background-size: 40px 40px;
+.dopamine-btn-primary, .vapor-btn-primary {
+  border: 1px solid #33ff00 !important;
+  background-color: #0a0a0a !important;
+  color: #33ff00 !important;
+  border-radius: 0px !important;
+  transform: none !important;
+}
+.dopamine-btn-primary:hover, .vapor-btn-primary:hover {
+  background-color: #33ff00 !important;
+  color: #0a0a0a !important;
 }
 
-/* ─── ANIMATIONS ─── */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { filter: drop-shadow(0 0 10px #FF00FF); }
-  50% { filter: drop-shadow(0 0 25px #00FFFF); }
-}
-
-@keyframes grid-move {
-  0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-  100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
-}
-
-.animate-float { animation: float 6s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
-.animate-grid-move { animation: grid-move 2s linear infinite; }
-
-/* Custom Outrun Neon Scrollbars */
+/* Terminal Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090014;
-  border-left: 1px solid #2D1B4E;
+  background: #0a0a0a;
+  border-left: 1px solid #1f521f;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #FF00FF, #00FFFF);
+  background: #1f521f;
   border-radius: 0px;
-  border: 1px solid #090014;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF9900;
-  box-shadow: 0 0 10px #FF9900;
+  background: #33ff00;
 }
+
 

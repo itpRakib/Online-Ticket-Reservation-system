@@ -68,7 +68,7 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw background glow horizon line (synthwave sun styling)
+      // Draw background horizon glow
       const gradientSun = ctx.createRadialGradient(
         width / 2,
         horizonY,
@@ -77,9 +77,8 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
         horizonY,
         width * 0.45
       );
-      gradientSun.addColorStop(0, 'rgba(255, 0, 255, 0.25)');
-      gradientSun.addColorStop(0.4, 'rgba(255, 153, 0, 0.12)');
-      gradientSun.addColorStop(0.8, 'rgba(0, 255, 255, 0.05)');
+      gradientSun.addColorStop(0, 'rgba(51, 255, 0, 0.15)');
+      gradientSun.addColorStop(0.5, 'rgba(255, 176, 0, 0.05)');
       gradientSun.addColorStop(1, 'transparent');
 
       ctx.fillStyle = gradientSun;
@@ -87,36 +86,36 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
       ctx.arc(width / 2, horizonY, width * 0.45, 0, Math.PI, true);
       ctx.fill();
 
-      // Draw stars
+      // Draw phosphor dots
       stars.forEach((star) => {
         star.alpha += star.speed * 0.04;
         if (star.alpha > 1) {
           star.alpha = 0;
           star.x = Math.random() * width;
         }
-        ctx.fillStyle = `rgba(0, 255, 255, ${Math.sin(star.alpha) * 0.85})`;
+        ctx.fillStyle = `rgba(51, 255, 0, ${Math.sin(star.alpha) * 0.75})`;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // Draw horizon boundary line
-      ctx.strokeStyle = 'rgba(0, 255, 255, 0.6)';
-      ctx.lineWidth = 1.5;
+      // Draw horizon line
+      ctx.strokeStyle = 'rgba(51, 255, 0, 0.5)';
+      ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(0, horizonY);
       ctx.lineTo(width, horizonY);
       ctx.stroke();
 
-      // Draw the receding perspective grid lines
+      // Draw receding grid lines
       const gridY = horizonY;
       const viewHeight = height - gridY;
 
       offset = (offset + speed) % 1;
 
-      const colorCyan = 'rgba(0, 255, 255, 0.55)';
+      const colorGreen = 'rgba(51, 255, 0, 0.35)';
 
-      // Vertical Lines spreading outwards
+      // Vertical Lines
       const verticalLineCount = 36;
       const spacingX = width / (verticalLineCount - 8);
       for (let i = 0; i < verticalLineCount; i++) {
@@ -124,23 +123,23 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
         const startX = width / 2 + xOffset * 0.03;
         const endX = width / 2 + xOffset * 1.7;
 
-        ctx.strokeStyle = colorCyan;
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = colorGreen;
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(startX, gridY);
         ctx.lineTo(endX, height);
         ctx.stroke();
       }
 
-      // Horizontal Lines scaling exponentially
+      // Horizontal Lines
       const horizontalLineCount = 14;
       for (let i = 0; i < horizontalLineCount; i++) {
         const progress = (i + offset) / horizontalLineCount;
         const y = gridY + Math.pow(progress, 2.5) * viewHeight;
-        const lineOpacity = Math.min(0.9, progress * 1.5);
+        const lineOpacity = Math.min(0.8, progress * 1.3);
 
-        ctx.strokeStyle = `rgba(255, 0, 255, ${lineOpacity * 0.7})`;
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = `rgba(31, 82, 31, ${lineOpacity * 0.8})`;
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(width, y);
@@ -149,6 +148,7 @@ export const RetroGrid: React.FC<RetroGridProps> = ({
 
       animationFrameId = requestAnimationFrame(draw);
     };
+
 
 
     draw();

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Orbitron, Share_Tech_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -8,23 +8,16 @@ import { Footer } from "@/components/Footer";
 import { InitialPreloader } from "@/components/InitialPreloader";
 import { ChatbotWidget } from "@/components/ChatbotWidget";
 
-const orbitron = Orbitron({
+const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const shareTechMono = Share_Tech_Mono({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-body",
+  weight: ["400", "500", "700", "800"],
+  variable: "--font-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "BD GOTICKET // VAPORWAVE TRANSIT MATRIX",
-  description: "80s Retro-Futuristic Outrun ticket reservation platform for Bangladesh. Bus, Train, and Air travel with Gmail OTP verification.",
+  title: "root@bdgoticket:~# ./init_matrix",
+  description: "Terminal CLI Cyber-Industrial Multi-Modal Transit Reservation Mainframe for Bangladesh. Bus, Train, and Flight Node booking with Gmail OTP authorization.",
 };
 
 export default function RootLayout({
@@ -33,9 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${orbitron.variable} ${shareTechMono.variable} h-full antialiased dark`}>
-      <body className="font-body min-h-full flex flex-col bg-[#090014] text-[#E0E0E0] relative overflow-x-hidden selection:bg-[#FF00FF] selection:text-black">
-        {/* Global CRT Scanlines & Chromatic Overlay */}
+    <html lang="en" className={`${jetBrainsMono.variable} h-full antialiased dark`}>
+      <body className="font-mono min-h-full flex flex-col bg-[#0a0a0a] text-[#33ff00] relative overflow-x-hidden selection:bg-[#33ff00] selection:text-[#0a0a0a]">
+        {/* CRT Scanline Overlay */}
         <div className="crt-scanlines pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true" />
         
         <ThemeProvider>
@@ -53,4 +46,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 
