@@ -60,11 +60,15 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
   // Preset Booked Seats per Vehicle Type
   const defaultBookedSeats = useMemo(() => {
-    const customProps = new Set(propBookedSeats);
-    
-    const busBooked = new Set(['A1', 'A2', 'C3', 'D4', 'F1', 'H2', 'I3', ...customProps]);
-    const trainBooked = new Set(['S2', 'S3', 'S12', 'S13', 'S24', 'S25', 'C1-LB1', 'C3-UB1', ...customProps]);
-    const planeBooked = new Set(['1A', '1B', '3C', '4F', '5A', '7D', '8E', ...customProps]);
+    const busBooked = new Set(['A1', 'A2', 'C3', 'D4', 'F1', 'H2', 'I3']);
+    const trainBooked = new Set(['S2', 'S3', 'S12', 'S13', 'S24', 'S25', 'C1-LB1', 'C3-UB1']);
+    const planeBooked = new Set(['1A', '1B', '3C', '4F', '5A', '7D', '8E']);
+
+    propBookedSeats.forEach(s => {
+      if (/^[A-J][1-4]$/.test(s)) busBooked.add(s);
+      if (/^S\d+$/.test(s) || /^C\d+-/.test(s)) trainBooked.add(s);
+      if (/^\d+[A-F]$/.test(s)) planeBooked.add(s);
+    });
 
     return {
       BUS: busBooked,
@@ -457,17 +461,18 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     </div>
 
                     {/* Column Indicators */}
-                    <div className="flex justify-between text-[10px] font-black text-[#FFE600] px-2 border-b-4 border-dashed border-[#00F5D4] pb-2 uppercase tracking-widest">
+                    <div className={`grid text-center text-[10px] font-black text-[#FFE600] border-b-4 border-dashed border-[#00F5D4] pb-2 uppercase tracking-widest ${classType === 'BUSINESS' ? 'grid-cols-[1fr_1fr_24px_1fr]' : 'grid-cols-[1fr_1fr_24px_1fr_1fr]'}`}>
                       <span>🪟 WIN</span>
                       {classType === 'BUSINESS' ? (
                         <>
-                          <span>🚶 AISLE</span>
+                          <span>🪟 WIN</span>
+                          <span className="text-[#FF3AF2] font-black">◄ AISLE ►</span>
                           <span>🪟 WIN</span>
                         </>
                       ) : (
                         <>
                           <span>🚶 AISLE</span>
-                          <span className="text-[#FF3AF2] font-black">◄ CENTRAL AISLE ►</span>
+                          <span className="text-[#FF3AF2] font-black">◄ AISLE ►</span>
                           <span>🚶 AISLE</span>
                           <span>🪟 WIN</span>
                         </>
@@ -475,14 +480,14 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     </div>
 
                     {/* Bus Seats Grid */}
-                    <div className={`grid gap-3 ${classType === 'BUSINESS' ? 'grid-cols-3' : 'grid-cols-4'}`}>
+                    <div className={`grid gap-y-3 gap-x-2 ${classType === 'BUSINESS' ? 'grid-cols-[1fr_1fr_24px_1fr]' : 'grid-cols-[1fr_1fr_24px_1fr_1fr]'}`}>
                       {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map((row, rIdx) => {
                         const cols = classType === 'BUSINESS' ? ['1', '2', '3'] : ['1', '2', '3', '4'];
                         return cols.map((col, cIdx) => {
                           const seatId = `${row}${col}`;
                           const isAvail = !bookedSet.has(seatId);
                           const isSel = selectedSeats.includes(seatId);
-                          const isAisleRight = classType === 'BUSINESS' ? col === '1' : col === '2';
+                          const isAisleRight = classType === 'BUSINESS' ? col === '2' : col === '2';
                           const isWindow = classType === 'BUSINESS' ? (col === '1' || col === '3') : (col === '1' || col === '4');
 
                           // Accent rotation based on row + column index
@@ -513,7 +518,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                                 <span className="z-10 text-[11px] font-mono font-black">{seatId}</span>
                                 {isWindow && <span className={`text-[7px] font-mono leading-none -mt-0.5 ${isSel ? 'text-[#0D0D1A] font-black' : 'text-[#FFE600]'}`}>WIN</span>}
                               </button>
-                              {isAisleRight && <div className="w-3 flex items-center justify-center text-[9px] text-[#00F5D4] font-black select-none">│</div>}
+                              {isAisleRight && <div className="flex items-center justify-center text-[9px] text-[#00F5D4] font-black select-none">│</div>}
                             </React.Fragment>
                           );
                         });
@@ -602,15 +607,15 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     ) : (
                       /* Standard Chair Coach Grid */
                       <>
-                        <div className="flex justify-between text-[10px] font-black text-[#121212] border-b-2 border-[#121212] pb-2">
+                        <div className="grid grid-cols-[1fr_1fr_20px_1fr_1fr] text-center text-[10px] font-black text-[#121212] border-b-2 border-[#121212] pb-2">
                           <span>🪟 WINDOW</span>
                           <span>CORRIDOR</span>
-                          <span className="text-[#1040C0] font-black">🚶 CENTRAL CORRIDOR</span>
+                          <span className="text-[#1040C0] font-black">🚶 AISLE</span>
                           <span>CORRIDOR</span>
                           <span>🪟 WINDOW</span>
                         </div>
 
-                        <div className="grid grid-cols-4 gap-2.5 max-h-[440px] overflow-y-auto pr-1">
+                        <div className="grid grid-cols-[1fr_1fr_20px_1fr_1fr] gap-y-2.5 gap-x-2 max-h-[440px] overflow-y-auto pr-1">
                           {Array.from({ length: 14 }).map((_, rIdx) => {
                             return ['1', '2', '3', '4'].map(col => {
                               const seatNum = `S${rIdx * 4 + parseInt(col)}`;
@@ -636,7 +641,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                                     <span className="z-10 text-[10px] font-mono font-bold">{seatNum}</span>
                                     {isWindow && <span className="text-[7px] text-[#1040C0] font-mono leading-none -mt-0.5">WIN</span>}
                                   </button>
-                                  {isAisleRight && <div className="w-2 flex items-center justify-center text-[9px] text-[#121212] font-black select-none">║</div>}
+                                  {isAisleRight && <div className="flex items-center justify-center text-[9px] text-[#121212] font-black select-none">║</div>}
                                 </React.Fragment>
                               );
                             });
@@ -672,17 +677,19 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
 
                     {/* Seat Position Column Labels */}
                     {classType === 'BUSINESS' ? (
-                      <div className="grid grid-cols-4 gap-1 text-center text-[9px] font-black text-[#121212] border-b-2 border-[#121212] pb-2">
+                      <div className="grid grid-cols-[1fr_1fr_20px_1fr_1fr] gap-1 text-center text-[9px] font-black text-[#121212] border-b-2 border-[#121212] pb-2">
                         <span>A (Win)</span>
                         <span>B (Aisle)</span>
+                        <span className="text-[#1040C0]">║ AISLE ║</span>
                         <span>C (Aisle)</span>
                         <span>D (Win)</span>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-6 gap-1 text-center text-[9px] font-black text-[#121212] border-b-2 border-[#121212] pb-2">
+                      <div className="grid grid-cols-[1fr_1fr_1fr_20px_1fr_1fr_1fr] gap-1 text-center text-[9px] font-black text-[#121212] border-b-2 border-[#121212] pb-2">
                         <span>A (Win)</span>
                         <span>B (Mid)</span>
                         <span>C (Aisle)</span>
+                        <span className="text-[#1040C0]">║ AISLE ║</span>
                         <span>D (Aisle)</span>
                         <span>E (Mid)</span>
                         <span>F (Win)</span>
@@ -690,7 +697,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                     )}
 
                     {/* Plane Seating Grid */}
-                    <div className={`grid gap-2 max-h-[440px] overflow-y-auto pr-1 ${classType === 'BUSINESS' ? 'grid-cols-4' : 'grid-cols-6'}`}>
+                    <div className={`grid gap-y-2 gap-x-1.5 max-h-[440px] overflow-y-auto pr-1 ${classType === 'BUSINESS' ? 'grid-cols-[1fr_1fr_20px_1fr_1fr]' : 'grid-cols-[1fr_1fr_1fr_20px_1fr_1fr_1fr]'}`}>
                       {Array.from({ length: classType === 'BUSINESS' ? 6 : 10 }).map((_, rowNum) => {
                         const r = rowNum + 1;
                         const cols = classType === 'BUSINESS' ? ['A', 'B', 'C', 'D'] : ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -717,7 +724,7 @@ export const VehicleSeatSelector: React.FC<VehicleSeatSelectorProps> = ({
                               >
                                 <span className="z-10 font-mono font-bold">{seatId}</span>
                               </button>
-                              {isAisleRight && <div className="w-2 flex items-center justify-center text-[8px] text-[#121212] font-black select-none">│</div>}
+                              {isAisleRight && <div className="flex items-center justify-center text-[8px] text-[#121212] font-black select-none">│</div>}
                             </React.Fragment>
                           );
                         });
