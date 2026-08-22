@@ -42,7 +42,18 @@ export const RetroGrid: React.FC<RetroGridProps> = ({ opacity = 0.5 }) => {
       rotation: Math.random() * Math.PI * 2,
     }));
 
-    const draw = () => {
+    let lastTime = 0;
+    const fpsInterval = 1000 / 30; // Throttle to 30 FPS for smooth performance & minimal CPU usage
+
+    const draw = (time: number) => {
+      animationFrameId = requestAnimationFrame(draw);
+
+      if (document.hidden) return;
+
+      const elapsed = time - lastTime;
+      if (elapsed < fpsInterval) return;
+      lastTime = time - (elapsed % fpsInterval);
+
       ctx.clearRect(0, 0, width, height);
 
       // Draw hand-drawn floating sketch doodles
@@ -79,11 +90,9 @@ export const RetroGrid: React.FC<RetroGridProps> = ({ opacity = 0.5 }) => {
           ctx.stroke();
         }
       });
-
-      animationFrameId = requestAnimationFrame(draw);
     };
 
-    draw();
+    animationFrameId = requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener('resize', handleResize);

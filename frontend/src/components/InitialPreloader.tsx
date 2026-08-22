@@ -5,33 +5,40 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Ticket, Sparkles } from 'lucide-react';
 
 export const InitialPreloader: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState('Initializing Transit Matrix...');
 
   useEffect(() => {
-    // Smooth progress counter simulation
+    // Only show preloader on first session load
+    if (typeof window !== 'undefined' && sessionStorage.getItem('preloader_shown')) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
+    // Fast progress counter simulation
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev < 35) {
-          setStatusText('Loading Bangladesh Station Registries...');
-          return prev + 4;
-        } else if (prev < 70) {
-          setStatusText('Syncing Telemetry & Security Protocols...');
-          return prev + 6;
-        } else if (prev < 95) {
-          setStatusText('Calibrating Route Matrix...');
-          return prev + 3;
+        if (prev < 50) {
+          setStatusText('Loading Bangladesh Transit Matrix...');
+          return prev + 15;
+        } else if (prev < 90) {
+          setStatusText('Ready');
+          return prev + 20;
         } else {
-          setStatusText('Matrix Ready');
           return 100;
         }
       });
-    }, 40);
+    }, 30);
 
     const timer = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('preloader_shown', 'true');
+      }
       setLoading(false);
-    }, 1100);
+    }, 280);
 
     return () => {
       clearInterval(interval);

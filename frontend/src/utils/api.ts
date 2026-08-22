@@ -160,37 +160,50 @@ export const api = {
 
   async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${BASE_URL}${endpoint}`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+
     const mergedOptions = {
       ...options,
+      signal: options.signal || controller.signal,
       headers: {
         ...this.getHeaders(),
         ...(options.headers || {}),
       },
     };
 
-    const response = await fetch(url, mergedOptions);
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      
-      let message = errorData.error || errorData.detail || errorData.message;
-      if (!message) {
-        const fieldErrors = [];
-        for (const [key, value] of Object.entries(errorData)) {
-          if (Array.isArray(value)) {
-            fieldErrors.push(`${key}: ${value.join(' ')}`);
-          } else if (typeof value === 'string') {
-            fieldErrors.push(`${key}: ${value}`);
+    try {
+      const response = await fetch(url, mergedOptions);
+      clearTimeout(timeoutId);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        
+        let message = errorData.error || errorData.detail || errorData.message;
+        if (!message) {
+          const fieldErrors = [];
+          for (const [key, value] of Object.entries(errorData)) {
+            if (Array.isArray(value)) {
+              fieldErrors.push(`${key}: ${value.join(' ')}`);
+            } else if (typeof value === 'string') {
+              fieldErrors.push(`${key}: ${value}`);
+            }
+          }
+          if (fieldErrors.length > 0) {
+            message = fieldErrors.join(' | ');
           }
         }
-        if (fieldErrors.length > 0) {
-          message = fieldErrors.join(' | ');
-        }
+        
+        throw new Error(message || 'Something went wrong');
       }
-      
-      throw new Error(message || 'Something went wrong');
-    }
 
-    return response.json() as Promise<T>;
+      return response.json() as Promise<T>;
+    } catch (err: any) {
+      clearTimeout(timeoutId);
+      if (err.name === 'AbortError') {
+        throw new Error('Failed to fetch');
+      }
+      throw err;
+    }
   },
 
   // Attempt to refresh the access token using the stored refresh token
@@ -198,12 +211,17 @@ export const api = {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) return null;
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+
     try {
       const response = await fetch(`${BASE_URL}/auth/token/refresh/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refresh: refreshToken }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         this.clearAuthToken();
@@ -214,6 +232,7 @@ export const api = {
       this.setAuthToken(data.access);
       return data.access;
     } catch {
+      clearTimeout(timeoutId);
       this.clearAuthToken();
       return null;
     }
