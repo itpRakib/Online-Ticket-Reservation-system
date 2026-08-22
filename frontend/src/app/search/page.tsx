@@ -223,26 +223,25 @@ function SearchResultsContent() {
   const queryType = searchParams.get('transport_type') || 'ALL';
   const queryPriority = searchParams.get('priority') || 'balanced';
 
-  // State Variables
-  const [trips, setTrips] = useState<any[]>([]);
+  // State Variables initialized with default trips for zero perceived loading delay
+  const [trips, setTrips] = useState<any[]>(defaultFallbackTrips);
   const [stations, setStations] = useState<any[]>([]);
   const [priority, setPriority] = useState(queryPriority);
   const [transportType, setTransportType] = useState(queryType);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   // Local filters
   const [selectedOperator, setSelectedOperator] = useState<string>('ALL');
   const [maxPrice, setMaxPrice] = useState<number>(15000);
 
-  // Fetch stations and search trips
+  // Fetch stations and update trips in background
   useEffect(() => {
+    let isMounted = true;
     const fetchInitialData = async () => {
-      setLoading(true);
-      setError('');
       try {
         const stationsData = await api.getStations().catch(() => []);
-        setStations(stationsData);
+        if (isMounted) setStations(stationsData);
 
         const res = await api.searchTrips({
           source: querySource,
@@ -253,15 +252,16 @@ function SearchResultsContent() {
         }).catch(() => null);
 
         let tripResults = res?.trips || (Array.isArray(res) ? res : []);
-        setTrips(tripResults);
+        if (isMounted && Array.isArray(tripResults) && tripResults.length > 0) {
+          setTrips(tripResults);
+        }
       } catch (err: any) {
-        setTrips(defaultFallbackTrips);
-      } finally {
-        setLoading(false);
+        if (isMounted) setTrips(defaultFallbackTrips);
       }
     };
 
     fetchInitialData();
+    return () => { isMounted = false; };
   }, [querySource, queryDest, queryDate, transportType, priority]);
 
   const handlePriorityChange = (newPriority: string) => {
@@ -286,14 +286,7 @@ function SearchResultsContent() {
     return matchesOperator && matchesType && matchesPrice;
   });
 
-  if (authLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
-        <div className="h-10 w-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-        <span className="text-[var(--text-secondary)] font-medium">{t("Verifying travel credentials...", "ভ্রমণ বিবরণী যাচাই করা হচ্ছে...")}</span>
-      </div>
-    );
-  }
+
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">

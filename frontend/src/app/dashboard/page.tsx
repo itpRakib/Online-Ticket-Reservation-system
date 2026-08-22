@@ -20,12 +20,31 @@ function DashboardContent() {
   const showConfirm = searchParams.get('confirm') === 'true';
   const confirmPnr = searchParams.get('pnr') || '';
 
-  // State
-  const [bookings, setBookings] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  // State initialized with local storage cache for instant confirmation rendering
+  const [bookings, setBookings] = useState<any[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('local_user_bookings');
+      if (saved) {
+        try {
+          const list = JSON.parse(saved);
+          if (Array.isArray(list) && list.length > 0) return list.map(b => normalizeBooking(b));
+        } catch (e) {}
+      }
+    }
+    return [];
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const [selectedTicket, setSelectedTicket] = useState<any | null>(null);
+  const [selectedTicket, setSelectedTicket] = useState<any | null>(() => {
+    if (typeof window !== 'undefined') {
+      const latest = localStorage.getItem('latest_booking');
+      if (latest) {
+        try { return normalizeBooking(JSON.parse(latest)); } catch (e) {}
+      }
+    }
+    return null;
+  });
 
   // Cancellation / Refund Modal State
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -43,11 +62,10 @@ function DashboardContent() {
     }
   }, []);
 
-  // Fetch travel history
+  // Fetch travel history in background
   useEffect(() => {
+    let isMounted = true;
     const fetchHistory = async () => {
-      setLoading(true);
-      setError('');
       try {
         const data = await api.getMyBookings();
         
@@ -64,7 +82,6 @@ function DashboardContent() {
                 return false;
               }
             } else {
-              // If there's no stored time, track it starting from now
               cancelTimeMap[b.pnr_number] = new Date().toISOString();
               cancelTimeMapUpdated = true;
             }
@@ -76,30 +93,24 @@ function DashboardContent() {
           localStorage.setItem('cancelled_tickets_timestamps', JSON.stringify(cancelTimeMap));
         }
 
-        setBookings(visibleBookings);
-        
-        if (visibleBookings.length > 0) {
-          // If redirected after payment, highlight the newly paid booking
+        if (isMounted && visibleBookings.length > 0) {
+          setBookings(visibleBookings);
           if (confirmPnr) {
             const newlyPaid = visibleBookings.find(b => b.pnr_number === confirmPnr);
             if (newlyPaid) setSelectedTicket(newlyPaid);
-          } else {
-            // Default to first booking
+          } else if (!selectedTicket) {
             setSelectedTicket(visibleBookings[0]);
           }
         }
       } catch (err: any) {
-        setError(err.message || 'Failed to fetch bookings.');
-      } finally {
-        setLoading(false);
+        if (isMounted) setError(err.message || 'Failed to fetch bookings.');
       }
     };
 
     if (user) {
       fetchHistory();
-    } else {
-      setLoading(false);
     }
+    return () => { isMounted = false; };
   }, [user, confirmPnr]);
 
   const handleCancelSubmit = async (e: React.FormEvent) => {
